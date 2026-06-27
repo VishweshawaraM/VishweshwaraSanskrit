@@ -4,7 +4,7 @@ const path = require('path');
 const files = [
   'acharya-photo.jpeg',
   'favicon-logo.png',
-  'horizontal-logo.png',
+  'horizontal-logo.PNG',
   'primary-logo.PNG',
   'qr-code.jpeg',
   'symbol-only.PNG'
