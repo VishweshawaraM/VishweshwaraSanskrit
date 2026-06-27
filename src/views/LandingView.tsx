@@ -1,76 +1,41 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ShieldCheck, MessageSquareCode, Users, Star, ArrowRight, BookOpen, AlertTriangle, CheckCircle } from 'lucide-react';
 import { Logo } from '../components/Logo';
 import { PageView } from '../types';
 import { FadeInSection } from '../components/FadeInSection';
 import { Button } from '../components/Button';
-import { saveLead } from '../lib/firebase';
+import { InlineWidget } from 'react-calendly';
+import { Motif, DecorativeBorder } from '../components/Motif';
+import { STATS_ITEMS } from '../data';
 
 interface LandingViewProps {
   onViewChange: (view: PageView) => void;
 }
 
 export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [subject, setSubject] = useState('Samskrita Language');
-  const [timezone, setTimezone] = useState('India (IST)');
-  const [background, setBackground] = useState('Zero prior knowledge');
-  const [message, setMessage] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [counters, setCounters] = React.useState<number[]>([0, 0, 0, 0]);
 
-  const subjects = [
-    'Samskrita Language',
-    'Bhagavad Gita',
-    'Veda Mantra Chanting',
-    'Advaita Vedanta',
-    'Puja Vidhi & Rituals',
-    'Stotras & Suktams'
-  ];
+  // Handle counter animations on load
+  React.useEffect(() => {
+    const targets = [7, 6, 500, 6];
+    const intervals = targets.map((target, idx) => {
+      const step = Math.ceil(target / 40) || 1;
+      return setInterval(() => {
+        setCounters((prev) => {
+          const next = [...prev];
+          if (next[idx] < target) {
+            next[idx] = Math.min(target, next[idx] + step);
+          }
+          return next;
+        });
+      }, 30);
+    });
 
-  const timezones = [
-    'India (IST)',
-    'North America Eastern (EST)',
-    'North America Pacific (PST)',
-    'Europe Central (CET)',
-    'Southeast Asia (SGT)',
-    'Australia Eastern (AEST)'
-  ];
+    return () => intervals.forEach(clearInterval);
+  }, []);
 
   const scrollToForm = () => {
     document.getElementById('booking-form')?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  const handleFormSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    try {
-      await saveLead({
-        name,
-        email,
-        subject,
-        timezone,
-        background,
-        message
-      });
-      
-      setSubmitted(true);
-      
-      // Still open whatsapp as a fallback
-      const text = `Hari Om Acharyaji,%0A%0AMy name is *${name}*. I am interested in learning *${subject}*.%0A%0A*My details:*%0A• *Timezone:* ${timezone}%0A• *Prior Background:* ${background}%0A• *Message:* ${message || 'I would like to schedule a free 15-minute diagnostic assessment.'}%0A%0APlease let me know the upcoming batch availability. Dhanyavadah!`;
-      const url = `https://wa.me/919482698612?text=${text}`;
-      setTimeout(() => {
-        window.open(url, '_blank');
-      }, 1500);
-      
-    } catch (err) {
-      console.error(err);
-      alert('Failed to submit form. Please try again or use WhatsApp directly.');
-    } finally {
-      setIsSubmitting(false);
-    }
   };
 
   const painPoints = [
@@ -81,6 +46,8 @@ export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
 
   return (
     <div className="bg-ground min-h-screen text-text-primary flex flex-col relative pb-20 md:pb-0">
+      {/* Background ambient gradient */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gold-base/10 via-transparent to-transparent pointer-events-none -z-10" />
       
       {/* 1. MINIMAL HEADER (No navigation to prevent leaks) */}
       <header className="sticky top-0 z-50 bg-ground/90 backdrop-blur-md border-b border-gold-dim py-4 px-6 md:px-12 flex items-center justify-between">
@@ -97,13 +64,20 @@ export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
       {/* 2. HERO SECTION */}
       <section className="relative pt-12 pb-20 px-6 md:px-12 overflow-hidden flex-1 flex flex-col items-center text-center justify-center min-h-[70vh]">
         
-        <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
-          <div className="w-[800px] h-[800px] rounded-full border border-gold-base absolute"></div>
-          <div className="w-[600px] h-[600px] rounded-full border border-gold-base absolute"></div>
+        <div className="absolute inset-0 flex items-center justify-center opacity-[0.05] pointer-events-none">
+          <div className="w-[800px] h-[800px] rounded-full border border-gold-base absolute animate-[spin_120s_linear_infinite]"></div>
+          <div className="w-[600px] h-[600px] rounded-full border border-gold-base absolute animate-[spin_90s_linear_infinite_reverse] border-dashed"></div>
+        </div>
+
+        <div className="absolute top-20 left-10 hidden lg:block opacity-20">
+          <Motif size={80} color="#C8860A" />
+        </div>
+        <div className="absolute bottom-20 right-10 hidden lg:block opacity-20">
+          <Motif size={120} color="#C8860A" />
         </div>
 
         <div className="max-w-4xl mx-auto space-y-8 relative z-10 mt-8">
-          <FadeInSection delay={100}>
+          <FadeInSection delay={100} direction="down">
             <div className="inline-flex items-center space-x-2 bg-surface-2 border border-gold-dim px-4 py-1.5 rounded-full mb-6">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -111,27 +85,35 @@ export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
               </span>
               <span className="font-mono text-[10px] text-text-gold tracking-widest uppercase font-medium">Accepting New Students for 2026</span>
             </div>
-            
-            <h1 className="font-serif text-4xl md:text-6xl text-text-primary leading-[1.1] font-medium tracking-tight">
-              Master <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-base to-gold-bright">Sanskrit & Shastras</span> with a Traditional Acharya
+          </FadeInSection>
+          
+          <FadeInSection delay={200}>
+            <h1 className="font-serif text-5xl md:text-7xl text-text-primary leading-[1.1] font-medium tracking-tight">
+              Master <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-base to-gold-bright">Sanskrit & Shastras</span>
             </h1>
+            <p className="font-serif text-2xl md:text-4xl text-text-secondary mt-4 italic">with a Traditional Acharya</p>
           </FadeInSection>
 
-          <FadeInSection delay={200}>
+          <FadeInSection delay={300}>
+            <DecorativeBorder className="my-8 text-gold-base" />
+          </FadeInSection>
+
+          <FadeInSection delay={400}>
             <p className="font-sans text-base md:text-lg text-text-secondary leading-relaxed max-w-2xl mx-auto">
               Stop guessing pronunciation with apps. Learn directly from Acharya Vishweshwara through interactive live sessions. Structured curriculum from grammar to Advaita Vedanta.
             </p>
           </FadeInSection>
 
-          <FadeInSection delay={300}>
+          <FadeInSection delay={500}>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
               <Button
                 onClick={scrollToForm}
                 variant="primary"
-                className="w-full sm:w-auto group"
+                className="w-full sm:w-auto group relative overflow-hidden"
               >
-                <span>Request Free Assessment</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <span className="relative z-10">Request Free Assessment</span>
+                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform relative z-10" />
+                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
               </Button>
             </div>
             <p className="font-mono text-[10px] text-text-tertiary mt-4 tracking-wider uppercase">
@@ -140,6 +122,28 @@ export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
           </FadeInSection>
         </div>
       </section>
+
+      {/* STATS STRIP */}
+      <FadeInSection>
+        <section className="max-w-[1200px] mx-auto px-6 md:px-12 pb-20">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            {STATS_ITEMS.map((stat, idx) => (
+              <div
+                key={stat.id}
+                className="bg-[#120F0C] border border-[#C8860A]/20 p-8 md:p-10 rounded-[10px] text-center flex flex-col justify-center items-center"
+              >
+                <p className="font-[Times_New_Roman] text-[75px] leading-[75px] font-bold text-[#C8860A] text-center bg-black rounded-xl border-none">
+                  {counters[idx]}
+                  {stat.value.includes('+') ? '+' : stat.value.includes('%') ? '%' : ''}
+                </p>
+                <p className="font-mono text-[10px] md:text-[11px] font-bold tracking-[0.2em] text-[#8B867D] uppercase mt-4 whitespace-pre-line leading-relaxed">
+                  {stat.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+      </FadeInSection>
 
       {/* 3. AGITATION & SOLUTION */}
       <section className="bg-surface-1 py-16 px-6 md:px-12 border-y border-gold-dim">
@@ -213,112 +217,21 @@ export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
           </div>
 
           <FadeInSection delay={200}>
-            <div className="bg-surface-1 border border-gold-mid rounded-xl p-8 shadow-xl space-y-8 text-left max-w-3xl mx-auto">
-              <form onSubmit={handleFormSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div className="space-y-2">
-                    <label className="font-mono text-xs tracking-wider text-text-primary uppercase font-medium">Your Name</label>
-                    <input
-                      required
-                      type="text"
-                      placeholder="e.g. Ramesh Nair"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      disabled={isSubmitting || submitted}
-                      className="w-full bg-[#0E0B07] border border-gold-dim hover:border-gold-mid rounded p-3.5 font-sans text-sm text-text-primary focus:border-text-gold focus:ring-1 focus:ring-text-gold outline-none transition-all disabled:opacity-50"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="font-mono text-xs tracking-wider text-text-primary uppercase font-medium">Email Address</label>
-                    <input
-                      required
-                      type="email"
-                      placeholder="ramesh@example.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      disabled={isSubmitting || submitted}
-                      className="w-full bg-[#0E0B07] border border-gold-dim hover:border-gold-mid rounded p-3.5 font-sans text-sm text-text-primary focus:border-text-gold focus:ring-1 focus:ring-text-gold outline-none transition-all disabled:opacity-50"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div className="space-y-2">
-                    <label className="font-mono text-xs tracking-wider text-text-primary uppercase font-medium">Subject Interest</label>
-                    <select
-                      value={subject}
-                      onChange={(e) => setSubject(e.target.value)}
-                      disabled={isSubmitting || submitted}
-                      className="w-full bg-[#0E0B07] border border-gold-dim hover:border-gold-mid rounded p-3.5 font-sans text-sm text-text-primary focus:border-text-gold focus:ring-1 focus:ring-text-gold outline-none transition-all appearance-none disabled:opacity-50"
-                    >
-                      {subjects.map((sub, index) => (
-                        <option key={index} value={sub}>{sub}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="font-mono text-xs tracking-wider text-text-primary uppercase font-medium">Your Timezone</label>
-                    <select
-                      value={timezone}
-                      onChange={(e) => setTimezone(e.target.value)}
-                      disabled={isSubmitting || submitted}
-                      className="w-full bg-[#0E0B07] border border-gold-dim hover:border-gold-mid rounded p-3.5 font-sans text-sm text-text-primary focus:border-text-gold focus:ring-1 focus:ring-text-gold outline-none transition-all appearance-none disabled:opacity-50"
-                    >
-                      {timezones.map((tz, index) => (
-                        <option key={index} value={tz}>{tz}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="font-mono text-xs tracking-wider text-text-primary uppercase font-medium">Prior Background</label>
-                  <select
-                    value={background}
-                    onChange={(e) => setBackground(e.target.value)}
-                    disabled={isSubmitting || submitted}
-                    className="w-full bg-[#0E0B07] border border-gold-dim hover:border-gold-mid rounded p-3.5 font-sans text-sm text-text-primary focus:border-text-gold focus:ring-1 focus:ring-text-gold outline-none transition-all appearance-none disabled:opacity-50"
-                  >
-                    <option value="Zero prior knowledge">Zero prior knowledge</option>
-                    <option value="Basic reading literacy">Basic reading literacy</option>
-                    <option value="Intermediate studies">Intermediate studies</option>
-                    <option value="Advanced shastra student">Advanced student</option>
-                  </select>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="font-mono text-xs tracking-wider text-text-primary uppercase font-medium">Personal Message (Optional)</label>
-                  <textarea
-                    rows={4}
-                    placeholder="Tell Acharya about your learning aspirations, preferred days, or specific questions..."
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    disabled={isSubmitting || submitted}
-                    className="w-full bg-[#0E0B07] border border-gold-dim hover:border-gold-mid rounded p-3.5 font-sans text-sm text-text-primary focus:border-text-gold focus:ring-1 focus:ring-text-gold outline-none transition-all resize-none disabled:opacity-50"
-                  ></textarea>
-                </div>
-
-                <div className="pt-2">
-                  <Button
-                    type="submit"
-                    variant="emerald"
-                    className="w-full group"
-                    disabled={isSubmitting || submitted}
-                  >
-                    {/* Added WhatsApp Icon here! */}
-                    <MessageSquareCode className="w-5 h-5 mr-2" />
-                    <span>{isSubmitting ? 'Saving...' : submitted ? 'Request Received' : 'Chat with Acharya on WhatsApp'}</span>
-                    {!isSubmitting && !submitted && <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />}
-                    {submitted && <CheckCircle className="w-4 h-4 ml-2" />}
-                  </Button>
-                  <p className="font-sans text-[10px] text-text-tertiary text-center mt-3 flex items-center justify-center space-x-1">
-                    <ShieldCheck className="w-3 h-3" />
-                    <span>Your request will be securely saved and routed to WhatsApp.</span>
-                  </p>
-                </div>
-              </form>
+            <div className="bg-surface-1 border border-gold-mid rounded-xl p-8 shadow-xl space-y-8 text-left max-w-4xl mx-auto">
+              <div className="w-full bg-[#0E0B07] rounded-lg overflow-hidden border border-gold-dim">
+                <InlineWidget 
+                  url="https://calendly.com/visanskrit-solopreneur/30min" 
+                  styles={{ height: '700px', width: '100%', minWidth: '320px' }}
+                  pageSettings={{
+                    backgroundColor: '0E0B07',
+                    hideEventTypeDetails: true,
+                    hideLandingPageDetails: true,
+                    hideGdprBanner: true,
+                    primaryColor: 'C8860A',
+                    textColor: 'FAF6EE'
+                  }}
+                />
+              </div>
             </div>
           </FadeInSection>
         </div>

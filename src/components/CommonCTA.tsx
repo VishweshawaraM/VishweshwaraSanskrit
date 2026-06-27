@@ -4,9 +4,10 @@
  */
 
 import React from 'react';
-import { ArrowRight, Sparkles, PhoneCall } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 import { PageView } from '../types';
 import { Button } from './Button';
+import { WhatsAppIcon } from './WhatsAppIcon';
 
 interface CommonCTAProps {
   onViewChange: (view: PageView) => void;
@@ -72,7 +73,7 @@ export const CommonCTA: React.FC<CommonCTAProps> = ({
             variant="secondary"
             className="w-full sm:w-auto"
           >
-            <PhoneCall className="w-4 h-4 text-text-gold" />
+            <WhatsAppIcon className="w-4 h-4 text-[#25D366]" />
             <span>Connect on WhatsApp</span>
           </Button>
         </div>

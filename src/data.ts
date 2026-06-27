@@ -6,10 +6,10 @@
 import { StatItem, CredentialItem, SubjectItem, TestimonialItem, TimelineItem, FAQItem } from './types';
 
 export const STATS_ITEMS: StatItem[] = [
-  { id: '1', value: '7+', label: 'Years Gurukula Training', subtext: 'Continuous traditional lineage study' },
-  { id: '2', value: '20+', label: 'Regular Active Students', subtext: 'Immersive, personalized mentoring' },
-  { id: '3', value: '5+', label: 'Levels of Curriculum', subtext: 'From alphabet to advanced shastras' },
-  { id: '4', value: '100%', label: 'Oral & Analytical Focus', subtext: 'Vibrational purity & philosophical depth' }
+  { id: '1', value: '7', label: 'Years Gurukula\nFormation', subtext: '' },
+  { id: '2', value: '6+', label: 'Countries •\nStudents Worldwide', subtext: '' },
+  { id: '3', value: '500', label: 'Sessions\nDelivered', subtext: '' },
+  { id: '4', value: '6', label: 'Sacred Subjects\nTaught', subtext: '' }
 ];
 
 export const CREDENTIALS_ITEMS: CredentialItem[] = [
@@ -136,33 +136,6 @@ export const TESTIMONIALS_ITEMS: TestimonialItem[] = [
     content: 'Myself and my 8-year-old son Avyukta are taking Mantra & Shloka classes from Guruji. I was able to understand in-depth about the Mantras and Sookthas with meaning. This is not only a new learning but also a great value addition coming out of corporate life pressure, especially with the personal attention given to each person by Guruji.',
     subject: 'Stotra',
     featured: true
-  },
-  {
-    id: '4',
-    name: 'Ananya Sharma',
-    role: 'Software Engineer',
-    location: 'California, USA',
-    flag: '🇺🇸',
-    content: 'As someone living in the Silicon Valley, I was looking for authentic Sanskrit grammar classes that were deep, logical, and structured. Vishweshwara explains Vyakarana like an elegant computer program. I highly recommend him!',
-    subject: 'Samskrita'
-  },
-  {
-    id: '5',
-    name: 'Dr. Ramesh Nair',
-    role: 'Retired Professor of Indology',
-    location: 'Kerala, India',
-    flag: '🇮🇳',
-    content: 'Studying the Bhagavad Gita under Vishweshwara has changed my approach entirely. His strict adherence to traditional Shankaracharya commentary, combined with his clarity and humility, represents the true spirit of a Gurukula Acharya.',
-    subject: 'Gita'
-  },
-  {
-    id: '6',
-    name: 'Elena Rostova',
-    role: 'Yoga Teacher & Scholar',
-    location: 'St. Petersburg, Russia',
-    flag: '🇷🇺',
-    content: 'Learning the Stotras and Patanjali Yoga Sutras with Vishweshwara has enriched my yoga practices immensely. He teaches not only the words, but the vibration and philosophy behind each sutra.',
-    subject: 'Vedanta'
   }
 ];
 

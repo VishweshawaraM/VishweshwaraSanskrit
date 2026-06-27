@@ -9,6 +9,7 @@ import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { MobileBottomBar } from './components/MobileBottomBar';
 import { CommonCTA } from './components/CommonCTA';
+import { WhatsAppWidget } from './components/WhatsAppWidget';
 import { HomeView } from './views/HomeView';
 import { AboutView } from './views/AboutView';
 import { TeachingsView } from './views/TeachingsView';
@@ -94,6 +95,9 @@ export default function App() {
       {!isLandingView && !isAdminView && (
         <MobileBottomBar onViewChange={setCurrentView} />
       )}
+
+      {/* 6. Global WhatsApp Floating Widget */}
+      <WhatsAppWidget />
     </div>
   );
 }

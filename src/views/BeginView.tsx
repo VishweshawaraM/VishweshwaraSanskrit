@@ -8,75 +8,16 @@ import { ArrowLeft, MessageSquareCode, Mail, ArrowRight, Clock, ShieldCheck, Che
 import { PageView } from '../types';
 import { FadeInSection } from '../components/FadeInSection';
 import { Button } from '../components/Button';
-
-import { saveLead } from '../lib/firebase';
+import { InlineWidget } from 'react-calendly';
 
 interface BeginViewProps {
   onViewChange: (view: PageView) => void;
 }
 
 export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [subject, setSubject] = useState('Samskrita Language');
-  const [timezone, setTimezone] = useState('India (IST)');
-  const [background, setBackground] = useState('Zero prior knowledge');
-  const [message, setMessage] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-
-  const subjects = [
-    'Samskrita Language',
-    'Bhagavad Gita',
-    'Veda Mantra Chanting',
-    'Advaita Vedanta',
-    'Puja Vidhi & Rituals',
-    'Stotras & Suktams'
-  ];
-
-  const timezones = [
-    'India (IST)',
-    'North America Eastern (EST)',
-    'North America Pacific (PST)',
-    'Europe Central (CET)',
-    'Southeast Asia (SGT)',
-    'Australia Eastern (AEST)'
-  ];
-
   const handleBackClick = () => {
     onViewChange('home');
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleFormSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    try {
-      await saveLead({
-        name,
-        email,
-        subject,
-        timezone,
-        background,
-        message
-      });
-      
-      setSubmitted(true);
-      
-      // Still open whatsapp as a fallback
-      const text = `Hari Om Acharyaji,%0A%0AMy name is *${name}*. I am interested in learning *${subject}*.%0A%0A*My details:*%0A• *Timezone:* ${timezone}%0A• *Prior Background:* ${background}%0A• *Message:* ${message || 'I would like to schedule a free 15-minute diagnostic assessment.'}%0A%0APlease let me know the upcoming batch availability. Dhanyavadah!`;
-      const url = `https://wa.me/919482698612?text=${text}`;
-      setTimeout(() => {
-        window.open(url, '_blank');
-      }, 1500);
-      
-    } catch (err) {
-      console.error(err);
-      alert('Failed to submit form. Please try again or use WhatsApp directly.');
-    } finally {
-      setIsSubmitting(false);
-    }
   };
 
   const steps = [
@@ -191,118 +132,29 @@ export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
             <div className="bg-surface-2 border border-gold-mid rounded-xl p-8 shadow-xl space-y-8">
               <div className="space-y-3">
                 <div className="inline-flex items-center space-x-2 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1.5 rounded-full text-[10px] font-mono text-emerald-400 uppercase tracking-widest">
-                  <MessageSquareCode className="w-3 h-3" />
-                  <span>Instant WhatsApp Routing</span>
+                  <Clock className="w-3 h-3" />
+                  <span>Direct Calendly Booking</span>
                 </div>
-                <h3 className="font-serif text-3xl text-text-primary font-semibold">Syllabus Request & Booking</h3>
+                <h3 className="font-serif text-3xl text-text-primary font-semibold">Diagnostic Call Booking</h3>
                 <p className="font-sans text-sm text-text-secondary leading-relaxed">
-                  Fill out your parameters below. This securely formats your details for WhatsApp dispatch, ensuring the Acharya reads your request with full context.
+                  Select a convenient time below to lock in your 15-minute diagnostic call with the Acharya. 
                 </p>
               </div>
 
-              <form onSubmit={handleFormSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div className="space-y-2">
-                    <label className="font-mono text-xs tracking-wider text-text-primary uppercase font-medium">Your Name</label>
-                    <input
-                      required
-                      type="text"
-                      placeholder="e.g. Ramesh Nair"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      disabled={isSubmitting || submitted}
-                      className="w-full bg-[#0E0B07] border border-gold-dim hover:border-gold-mid rounded p-3.5 font-sans text-sm text-text-primary focus:border-text-gold focus:ring-1 focus:ring-text-gold outline-none transition-all disabled:opacity-50"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="font-mono text-xs tracking-wider text-text-primary uppercase font-medium">Email Address</label>
-                    <input
-                      required
-                      type="email"
-                      placeholder="ramesh@example.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      disabled={isSubmitting || submitted}
-                      className="w-full bg-[#0E0B07] border border-gold-dim hover:border-gold-mid rounded p-3.5 font-sans text-sm text-text-primary focus:border-text-gold focus:ring-1 focus:ring-text-gold outline-none transition-all disabled:opacity-50"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div className="space-y-2">
-                    <label className="font-mono text-xs tracking-wider text-text-primary uppercase font-medium">Subject Interest</label>
-                    <select
-                      value={subject}
-                      onChange={(e) => setSubject(e.target.value)}
-                      disabled={isSubmitting || submitted}
-                      className="w-full bg-[#0E0B07] border border-gold-dim hover:border-gold-mid rounded p-3.5 font-sans text-sm text-text-primary focus:border-text-gold focus:ring-1 focus:ring-text-gold outline-none transition-all appearance-none disabled:opacity-50"
-                    >
-                      {subjects.map((sub, index) => (
-                        <option key={index} value={sub}>{sub}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="font-mono text-xs tracking-wider text-text-primary uppercase font-medium">Your Timezone</label>
-                    <select
-                      value={timezone}
-                      onChange={(e) => setTimezone(e.target.value)}
-                      disabled={isSubmitting || submitted}
-                      className="w-full bg-[#0E0B07] border border-gold-dim hover:border-gold-mid rounded p-3.5 font-sans text-sm text-text-primary focus:border-text-gold focus:ring-1 focus:ring-text-gold outline-none transition-all appearance-none disabled:opacity-50"
-                    >
-                      {timezones.map((tz, index) => (
-                        <option key={index} value={tz}>{tz}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="font-mono text-xs tracking-wider text-text-primary uppercase font-medium">Prior Background</label>
-                  <select
-                    value={background}
-                    onChange={(e) => setBackground(e.target.value)}
-                    disabled={isSubmitting || submitted}
-                    className="w-full bg-[#0E0B07] border border-gold-dim hover:border-gold-mid rounded p-3.5 font-sans text-sm text-text-primary focus:border-text-gold focus:ring-1 focus:ring-text-gold outline-none transition-all appearance-none disabled:opacity-50"
-                  >
-                    <option value="Zero prior knowledge">Zero prior knowledge</option>
-                    <option value="Basic reading literacy">Basic reading literacy</option>
-                    <option value="Intermediate studies">Intermediate studies</option>
-                    <option value="Advanced shastra student">Advanced student</option>
-                  </select>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="font-mono text-xs tracking-wider text-text-primary uppercase font-medium">Personal Message (Optional)</label>
-                  <textarea
-                    rows={4}
-                    placeholder="Tell Acharya about your learning aspirations, preferred days, or specific questions..."
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    disabled={isSubmitting || submitted}
-                    className="w-full bg-[#0E0B07] border border-gold-dim hover:border-gold-mid rounded p-3.5 font-sans text-sm text-text-primary focus:border-text-gold focus:ring-1 focus:ring-text-gold outline-none transition-all resize-none disabled:opacity-50"
-                  ></textarea>
-                </div>
-
-                <div className="pt-2">
-                  <Button
-                    type="submit"
-                    variant="emerald"
-                    className="w-full group"
-                    disabled={isSubmitting || submitted}
-                  >
-                    <span>{isSubmitting ? 'Saving...' : submitted ? 'Request Received' : 'Compile & Chat with Acharya'}</span>
-                    {!isSubmitting && !submitted && <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
-                    {submitted && <CheckCircle className="w-4 h-4 ml-2" />}
-                  </Button>
-                  <p className="font-sans text-[10px] text-text-tertiary text-center mt-3 flex items-center justify-center space-x-1">
-                    <ShieldCheck className="w-3 h-3" />
-                    <span>Your request will be securely saved and routed to WhatsApp.</span>
-                  </p>
-                </div>
-              </form>
+              <div className="w-full bg-[#0E0B07] rounded-lg overflow-hidden border border-gold-dim">
+                <InlineWidget 
+                  url="https://calendly.com/visanskrit-solopreneur/30min" 
+                  styles={{ height: '700px', width: '100%', minWidth: '320px' }}
+                  pageSettings={{
+                    backgroundColor: '0E0B07',
+                    hideEventTypeDetails: true,
+                    hideLandingPageDetails: true,
+                    hideGdprBanner: true,
+                    primaryColor: 'C8860A',
+                    textColor: 'FAF6EE'
+                  }}
+                />
+              </div>
             </div>
           </FadeInSection>
         </div>

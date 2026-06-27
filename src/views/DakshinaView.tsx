@@ -233,21 +233,11 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
             <div className="flex flex-col sm:flex-row gap-4 items-center">
               {/* Styled QR container representing the actual payments */}
               <div className="p-3 bg-white rounded-lg flex items-center justify-center shrink-0 border border-gold-mid">
-                {/* Visual representation of a black and white QR code using standard nested containers */}
-                <div className="w-32 h-32 bg-slate-900 flex items-center justify-center relative overflow-hidden p-2 rounded">
-                  <div className="grid grid-cols-5 grid-rows-5 gap-1 w-full h-full text-white opacity-90">
-                    {[...Array(25)].map((_, i) => (
-                      <div
-                        key={i}
-                        className={`rounded-sm ${(i % 3 === 0 || i % 7 === 0 || i === 0 || i === 4 || i === 20 || i === 24) ? 'bg-white' : 'bg-transparent'}`}
-                      ></div>
-                    ))}
-                  </div>
-                  {/* Glowing OM inside QR center */}
-                  <div className="absolute inset-0 m-auto w-8 h-8 rounded-full bg-surface-1 border border-gold-mid flex items-center justify-center">
-                    <span className="font-devanagari text-xs text-text-gold font-bold">ॐ</span>
-                  </div>
-                </div>
+                <img 
+                  src="/qr-code.jpeg" 
+                  alt="UPI QR Code" 
+                  className="w-32 h-32 object-contain"
+                />
               </div>
 
               <div className="space-y-3 w-full text-center sm:text-left">
@@ -263,6 +253,36 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
                   >
                     {copiedUpi ? <span className="text-[10px] uppercase font-mono font-bold text-emerald-500">Copied</span> : <Copy className="w-4 h-4" />}
                   </button>
+                </div>
+                
+                <div className="mt-4 space-y-2">
+                  <p className="font-mono text-[9px] tracking-widest text-text-tertiary uppercase text-center">Open with specific app</p>
+                  <div className="grid grid-cols-2 gap-2">
+                    <a 
+                      href={`upi://pay?pa=${upiId}&pn=Vishweshwara%20N%20M&cu=INR`}
+                      className="w-full flex items-center justify-center space-x-1.5 bg-surface-3 hover:bg-surface-4 border border-gold-dim text-text-secondary py-2 rounded transition-colors font-mono text-[10px] uppercase tracking-wider"
+                    >
+                      <span>GPay</span>
+                    </a>
+                    <a 
+                      href={`phonepe://pay?pa=${upiId}&pn=Vishweshwara%20N%20M&cu=INR`}
+                      className="w-full flex items-center justify-center space-x-1.5 bg-surface-3 hover:bg-surface-4 border border-gold-dim text-text-secondary py-2 rounded transition-colors font-mono text-[10px] uppercase tracking-wider"
+                    >
+                      <span>PhonePe</span>
+                    </a>
+                    <a 
+                      href={`paytmmp://pay?pa=${upiId}&pn=Vishweshwara%20N%20M&cu=INR`}
+                      className="w-full flex items-center justify-center space-x-1.5 bg-surface-3 hover:bg-surface-4 border border-gold-dim text-text-secondary py-2 rounded transition-colors font-mono text-[10px] uppercase tracking-wider"
+                    >
+                      <span>Paytm</span>
+                    </a>
+                    <a 
+                      href={`upi://pay?pa=${upiId}&pn=Vishweshwara%20N%20M&cu=INR`}
+                      className="w-full flex items-center justify-center space-x-1.5 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 py-2 rounded transition-colors font-mono text-[10px] uppercase tracking-wider"
+                    >
+                      <span>Other App</span>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>

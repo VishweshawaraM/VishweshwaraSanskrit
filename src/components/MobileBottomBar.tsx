@@ -5,9 +5,10 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowRight, MessageSquareCode } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { PageView } from '../types';
 import { Button } from './Button';
+import { WhatsAppIcon } from './WhatsAppIcon';
 
 interface MobileBottomBarProps {
   onViewChange: (view: PageView) => void;
@@ -51,7 +52,7 @@ export const MobileBottomBar: React.FC<MobileBottomBarProps> = ({ onViewChange }
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 80, opacity: 0 }}
           transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
-          className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-[#0E0B07]/90 backdrop-blur-md border-t border-gold-mid px-4 py-3 pb-safe shadow-2xl flex items-center justify-between gap-3 h-[76px]"
+          className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-[#0E0B07]/90 backdrop-blur-md border-t border-gold-mid px-4 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] shadow-2xl flex items-center justify-between gap-3 min-h-[76px]"
         >
           {/* Ghost WhatsApp CTA Button */}
           <Button
@@ -61,7 +62,7 @@ export const MobileBottomBar: React.FC<MobileBottomBarProps> = ({ onViewChange }
             variant="secondary"
             className="flex-1 !px-2"
           >
-            <MessageSquareCode className="w-4 h-4 text-text-gold shrink-0" />
+            <WhatsAppIcon className="w-4 h-4 text-[#25D366] shrink-0" />
             <span>Write</span>
           </Button>
 

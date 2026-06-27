@@ -5,10 +5,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, CheckCircle2, Award, Sparkles, BookOpen, Quote, Shield, Globe } from 'lucide-react';
-import { STATS_ITEMS, CREDENTIALS_ITEMS, SUBJECTS_ITEMS } from '../data';
+import { STATS_ITEMS, CREDENTIALS_ITEMS, SUBJECTS_ITEMS, TESTIMONIALS_ITEMS } from '../data';
 import { PageView } from '../types';
 import { FadeInSection } from '../components/FadeInSection';
 import { Button } from '../components/Button';
+import { Motif, DecorativeBorder } from '../components/Motif';
 
 interface HomeViewProps {
   onViewChange: (view: PageView) => void;
@@ -20,7 +21,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
 
   // Handle counter animations on load
   useEffect(() => {
-    const targets = [7, 20, 5, 100];
+    const targets = [7, 6, 500, 6];
     const intervals = targets.map((target, idx) => {
       const step = Math.ceil(target / 40) || 1;
       return setInterval(() => {
@@ -54,7 +55,10 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
   ];
 
   return (
-    <div className="space-y-24 md:space-y-32">
+    <div className="space-y-24 md:space-y-32 relative">
+      {/* Background ambient gradient */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gold-base/10 via-surface-1 to-surface-1 pointer-events-none -z-10" />
+      
       {/* SECTION 1 - Cinematic Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center pt-24 pb-16 overflow-hidden px-6 md:px-12 select-none">
         {/* Background glow stack */}
@@ -64,152 +68,92 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
         {/* Outer Grid lines for a modern architectural look */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#161008_1px,transparent_1px),linear-gradient(to_bottom,#161008_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-30 pointer-events-none"></div>
 
-        <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center z-10">
-          
-          {/* Left Text Column */}
-          <div className="lg:col-span-7 space-y-8 text-left">
-            <FadeInSection delay={100}>
-              <div className="space-y-3">
-                <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5" /> A LIVING GURUKULA • DIGITAL ERA
+        <div className="absolute top-10 left-10 opacity-10">
+          <Motif size={160} color="#C8860A" />
+        </div>
+        <div className="absolute bottom-10 right-10 opacity-10">
+          <Motif size={200} color="#C8860A" />
+        </div>
+
+        <div className="max-w-4xl mx-auto w-full flex flex-col items-center justify-center text-center z-10 space-y-8">
+          {/* Main Content Column */}
+          <FadeInSection delay={100} direction="down">
+            <div className="space-y-3 flex flex-col items-center">
+              <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase flex items-center justify-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5" /> A LIVING GURUKULA • DIGITAL ERA
+              </span>
+              <h1 className="font-display text-4xl sm:text-5xl md:text-7xl font-light text-text-primary tracking-tight leading-none text-center">
+                Ancient Wisdom. <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-base via-gold-bright to-gold-glow font-medium relative">
+                  Live. Personal.
+                  <span className="absolute -bottom-2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gold-base to-transparent opacity-50"></span>
                 </span>
-                <h1 className="font-display text-4xl sm:text-5xl md:text-7xl font-light text-text-primary tracking-tight leading-none">
-                  Ancient Wisdom. <br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-base via-gold-bright to-gold-glow font-medium">
-                    Live. Personal.
-                  </span>
-                </h1>
-              </div>
-            </FadeInSection>
+              </h1>
+            </div>
+          </FadeInSection>
 
-            {/* Strategic Placement of Sanskrit Verse */}
-            <FadeInSection delay={200}>
-              <div className="border-l-2 border-gold-base pl-4 py-1 bg-gold-dim">
-                <p className="font-devanagari text-xl text-text-gold tracking-wide leading-relaxed">
-                  ॥ विद्या ददाति विनयम् ॥
-                </p>
-                <p className="font-sans text-xs text-text-tertiary mt-1">
-                  "Vidya Dadati Vinayam" — Knowledge alone imparts genuine humility.
-                </p>
-              </div>
-            </FadeInSection>
-
-            <FadeInSection delay={300}>
-              <p className="font-sans text-base sm:text-lg text-text-secondary leading-relaxed max-w-xl">
-                Disconnect from the noise. Learn Vedas, Vyakarana, Advaita Vedanta, and Bhagavad Gita directly from a dedicated scholar with 7 years of full residential Gurukula training. Uncompromising oral tradition meets academic rigor.
+          {/* Strategic Placement of Sanskrit Verse */}
+          <FadeInSection delay={200}>
+            <div className="border-l border-r border-gold-base/50 px-8 py-4 bg-gold-dim/30 backdrop-blur-sm relative group overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gold-base/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+              <p className="font-devanagari text-2xl md:text-3xl text-text-gold tracking-wide leading-relaxed text-center relative z-10">
+                ॥ विद्या ददाति विनयम् ॥
               </p>
-            </FadeInSection>
+              <p className="font-sans text-xs uppercase tracking-widest text-text-tertiary mt-2 text-center relative z-10">
+                "Knowledge alone imparts genuine humility"
+              </p>
+            </div>
+          </FadeInSection>
 
-            {/* CTA Elements */}
-            <FadeInSection delay={400}>
-              <div className="flex flex-col sm:flex-row items-center gap-4 pt-2">
-                <Button
-                  onClick={() => handleNavClick('begin')}
-                  variant="primary"
-                  className="w-full sm:w-auto group"
-                >
-                  <span>Begin Your Journey</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Button>
+          <FadeInSection delay={300}>
+            <DecorativeBorder className="my-6 text-gold-base" />
+          </FadeInSection>
 
-                <Button
-                  onClick={() => handleNavClick('teachings')}
-                  variant="secondary"
-                  className="w-full sm:w-auto"
-                >
-                  Explore Subjects
-                </Button>
-              </div>
-            </FadeInSection>
-          </div>
+          <FadeInSection delay={400}>
+            <p className="font-sans text-base sm:text-lg text-text-secondary leading-relaxed max-w-2xl text-center">
+              Disconnect from the noise. Learn Vedas, Vyakarana, Advaita Vedanta, and Bhagavad Gita directly from a dedicated scholar with 7 years of full residential Gurukula training. Uncompromising oral tradition meets academic rigor.
+            </p>
+          </FadeInSection>
 
-          {/* Right Visual Column (Portrait + Glass Overlay Cards) */}
-          <div className="lg:col-span-5 relative flex items-center justify-center">
-            <FadeInSection delay={500}>
-              {/* Background Halo */}
-              <div className="absolute w-[320px] h-[320px] rounded-full bg-gradient-to-tr from-gold-base/10 to-transparent blur-2xl top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+          {/* CTA Elements */}
+          <FadeInSection delay={400}>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+              <Button
+                onClick={() => handleNavClick('begin')}
+                variant="primary"
+                className="w-full sm:w-auto group"
+              >
+                <span>Begin Your Journey</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Button>
 
-              {/* Portrait Frame */}
-              <div className="relative w-[300px] sm:w-[350px] aspect-[4/5] rounded-xl overflow-hidden border border-gold-mid bg-surface-2 p-3 shadow-2xl flex flex-col justify-between">
-                {/* Image Container with high contrast backdrop */}
-                <div className="relative w-full h-[85%] rounded-lg overflow-hidden bg-gradient-to-b from-[#1F160D] to-[#0E0B07] flex items-center justify-center border border-gold-dim">
-                  {/* SVG silhouette representing an elegant Acharya profile */}
-                  <svg viewBox="0 0 100 100" className="w-48 h-48 opacity-40" fill="currentColor">
-                    <path d="M50 24C41.2 24 34 31.2 34 40C34 48.8 41.2 56 50 56C58.8 56 66 48.8 66 40C66 31.2 58.8 24 50 24ZM50 60C38.4 60 14 65.8 14 77.4V86H86V77.4C86 65.8 61.6 60 50 60Z" fill="url(#gold-grad-hero)" />
-                    <defs>
-                      <linearGradient id="gold-grad-hero" x1="0%" y1="100%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#C8860A" />
-                        <stop offset="100%" stopColor="#FAF6EE" />
-                      </linearGradient>
-                    </defs>
-                  </svg>
-
-                  {/* Acharya Details overlaid on silhouette */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0E0B07] via-transparent to-transparent flex flex-col justify-end p-5 text-left">
-                    <span className="font-mono text-[9px] tracking-widest text-text-gold uppercase">Traditional Acharya</span>
-                    <h4 className="font-serif text-lg text-text-primary font-medium mt-0.5">Vishweshwara N M</h4>
-                    <p className="font-sans text-[10px] text-text-tertiary">M.A. Acharya (Expected 2026) • 7 Years Gurukula training</p>
-                  </div>
-                </div>
-
-                {/* Description box of photo */}
-                <div className="py-2 px-1 text-left space-y-0.5">
-                  <span className="font-mono text-[8px] tracking-widest text-[#FAF6EE]/50 uppercase">Veda Vijnana Gurukulam Lineage</span>
-                  <p className="font-sans text-[10px] text-text-secondary leading-tight italic">
-                    "Teaching is a Dharma — a sacred duty to preserve the purity of Vedic vibrations."
-                  </p>
-                </div>
-              </div>
-
-              {/* Floating Glassmorphic Card 1 (Top Left) */}
-              <div className="absolute -top-4 -left-6 bg-[#161008]/80 backdrop-blur-md border border-gold-mid p-3 rounded-lg shadow-xl text-left hidden sm:block max-w-[170px] hover:translate-y-[-4px] transition-transform duration-220">
-                <div className="flex items-center space-x-2">
-                  <div className="p-1 rounded bg-[#C8860A]/20">
-                    <Award className="w-4 h-4 text-text-gold" />
-                  </div>
-                  <span className="font-mono text-[10px] tracking-wider text-text-primary uppercase font-bold">Residency</span>
-                </div>
-                <p className="font-sans text-[10px] text-text-secondary mt-1 leading-tight">
-                  7 years of residential discipline at Janaseva Trust Gurukula.
-                </p>
-              </div>
-
-              {/* Floating Glassmorphic Card 2 (Bottom Right) */}
-              <div className="absolute -bottom-4 -right-6 bg-[#161008]/80 backdrop-blur-md border border-gold-mid p-3 rounded-lg shadow-xl text-left hidden sm:block max-w-[170px] hover:translate-y-[-4px] transition-transform duration-220">
-                <div className="flex items-center space-x-2">
-                  <div className="p-1 rounded bg-ruby-deep/40">
-                    <BookOpen className="w-4 h-4 text-text-gold" />
-                  </div>
-                  <span className="font-mono text-[10px] tracking-wider text-text-primary uppercase font-bold">Purity</span>
-                </div>
-                <p className="font-sans text-[10px] text-text-secondary mt-1 leading-tight">
-                  No mock summaries. Word-by-word structural decoding.
-                </p>
-              </div>
-            </FadeInSection>
-          </div>
+              <Button
+                onClick={() => handleNavClick('teachings')}
+                variant="secondary"
+                className="w-full sm:w-auto"
+              >
+                Explore Subjects
+              </Button>
+            </div>
+          </FadeInSection>
         </div>
       </section>
 
       {/* SECTION 2 - Stats Strip (Animated Counters) */}
       <FadeInSection>
-        <section className="max-w-7xl mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <section className="max-w-[1200px] mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {STATS_ITEMS.map((stat, idx) => (
               <div
                 key={stat.id}
-                className="bg-surface-2 border border-gold-dim p-6 rounded-lg text-center shadow-md relative hover:border-gold-mid transition-colors duration-220 group"
+                className="bg-[#120F0C] border border-[#C8860A]/20 p-8 md:p-10 rounded-[10px] text-center flex flex-col justify-center items-center"
               >
-                <div className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-gold-base/30 group-hover:bg-gold-bright transition-colors"></div>
-                <p className="font-display text-4xl md:text-5xl font-semibold text-text-gold tracking-tight">
+                <p className="font-[Times_New_Roman] text-[75px] leading-[75px] font-bold text-[#C8860A] text-center bg-black rounded-xl border-none">
                   {counters[idx]}
                   {stat.value.includes('+') ? '+' : stat.value.includes('%') ? '%' : ''}
                 </p>
-                <p className="font-mono text-[11px] tracking-widest text-text-primary uppercase mt-2">
+                <p className="font-mono text-[10px] md:text-[11px] font-bold tracking-[0.2em] text-[#8B867D] uppercase mt-4 whitespace-pre-line leading-relaxed">
                   {stat.label}
-                </p>
-                <p className="font-sans text-xs text-text-tertiary mt-1">
-                  {stat.subtext}
                 </p>
               </div>
             ))}
@@ -221,40 +165,23 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
       <section className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         {/* Left Column - Large Image or Styled Board */}
         <div className="lg:col-span-5 relative">
-          <FadeInSection delay={100}>
-            <div className="absolute inset-0 bg-gradient-to-tr from-gold-base/5 to-transparent rounded-2xl pointer-events-none"></div>
-            <div className="p-4 bg-surface-2 border border-gold-mid rounded-2xl shadow-xl">
-              {/* Visual display container */}
-              <div className="relative aspect-[3/4] rounded-xl overflow-hidden bg-gradient-to-b from-[#2A1E12] via-[#0E0B07] to-[#060504] border border-gold-dim flex flex-col justify-between p-6">
-                {/* OM background watermark */}
-                <div className="absolute top-4 right-4 font-devanagari text-6xl text-[#C8860A]/5 select-none font-bold">
-                  ॐ
-                </div>
+          <FadeInSection delay={100} direction="right">
+            <div className="absolute inset-0 bg-gradient-to-tr from-gold-base/5 to-transparent rounded-2xl pointer-events-none translate-x-4 translate-y-4"></div>
+            <div className="p-2 bg-surface-2 border border-gold-mid rounded-2xl shadow-xl relative z-10 overflow-hidden group">
+              <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-[#0E0B07] border border-gold-dim">
+                <img 
+                  src="/acharya-photo.jpeg" 
+                  alt="Acharya Vishweshwara" 
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out grayscale hover:grayscale-0 opacity-80 hover:opacity-100 mix-blend-luminosity hover:mix-blend-normal" 
+                />
                 
-                <div className="space-y-1 text-left">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0E0B07] via-[#0E0B07]/20 to-transparent"></div>
+                
+                <div className="absolute bottom-0 left-0 right-0 p-6 space-y-1 text-left">
                   <span className="font-mono text-[10px] tracking-widest text-text-gold uppercase block">Academic credentials</span>
                   <h3 className="font-serif text-2xl text-text-primary font-medium tracking-wide">Acharya Vishweshwara</h3>
-                </div>
-
-                {/* Graphic element - traditional manuscript representation */}
-                <div className="my-auto py-4 px-3 border border-gold-dim bg-surface-3/50 rounded-lg text-left relative overflow-hidden">
-                  <div className="h-[2px] w-12 bg-gold-bright mb-3"></div>
-                  <p className="font-devanagari text-base text-text-gold tracking-wide leading-relaxed">
-                    सत्येन ब्रह्मचर्येण व्यायामेनाथविद्यया । <br />
-                    देशभक्त्यात्मत्यागेन सम्मानार्हः सुखीभव ॥
-                  </p>
-                  <p className="font-sans text-[10px] text-text-tertiary italic mt-2 leading-tight">
-                    From the original Gurukula Convocation certificate. Blessing: "By truth, self-restraint, learning and dedication to motherland, may you lead a noble and fulfilled life."
-                  </p>
-                </div>
-
-                <div className="flex items-center justify-between text-left border-t border-gold-dim pt-4">
-                  <div>
-                    <span className="font-mono text-[9px] tracking-widest text-text-tertiary uppercase">Lineage trust</span>
-                    <p className="font-sans text-xs text-text-secondary font-medium">Veda Vijnana Gurukulam</p>
-                  </div>
-                  <div className="h-8 w-8 rounded-full border border-gold-mid flex items-center justify-center font-mono text-[10px] text-text-gold">
-                    7Y
+                  <div className="flex flex-wrap items-center gap-2 pt-2">
+                    <span className="font-mono text-[9px] tracking-widest text-text-tertiary uppercase border border-gold-dim/50 px-2 py-1 rounded bg-black/40 backdrop-blur">Veda Vijnana Gurukulam</span>
                   </div>
                 </div>
               </div>
@@ -475,48 +402,27 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
 
         {/* Testimonials 3 Column Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[
-            {
-              name: 'Dr. Ramesh Nair',
-              role: 'Retired Professor of Indology',
-              loc: 'Kerala, India',
-              flag: '🇮🇳',
-              quote: 'Studying the Bhagavad Gita under Vishweshwara has changed my approach entirely. His strict adherence to traditional Shankaracharya commentary, combined with his clarity and humility, represents the true spirit of a Gurukula Acharya.',
-            },
-            {
-              name: 'Ananya Sharma',
-              role: 'Software Engineer',
-              loc: 'California, USA',
-              flag: '🇺🇸',
-              quote: 'As someone living in Silicon Valley, I was looking for authentic Sanskrit grammar classes that were deep, logical, and structured. Vishweshwara explains Vyakarana like an elegant computer program. I highly recommend him!',
-            },
-            {
-              name: 'Gaurav Kulkarni',
-              role: 'Business Consultant',
-              loc: 'Bangalore, India',
-              flag: '🇮🇳',
-              quote: 'Veda chanting is not just reading a book. Vishweshwara meticulously corrects my Svara (pitch) and phonetic articulation. My daily chants are now full of energy, peace, and spiritual resonance.',
-            }
-          ].map((test, index) => (
-            <FadeInSection key={index} delay={100 + (index * 100)} className="flex">
+          {TESTIMONIALS_ITEMS.slice(0, 3).map((test, index) => (
+            <FadeInSection key={test.id} delay={100 + (index * 100)} className="flex">
               <div
-                className="w-full bg-surface-2 border border-gold-dim hover:border-gold-mid p-6 rounded-lg text-left shadow-md flex flex-col justify-between hover:-translate-y-1.5 transition-all duration-220 relative overflow-hidden"
+                className="w-full bg-surface-2 border border-gold-dim hover:border-gold-mid p-6 rounded-lg text-left shadow-md flex flex-col justify-between hover:-translate-y-1.5 transition-all duration-220 relative overflow-hidden group"
               >
-                <Quote className="w-10 h-10 text-gold-dim absolute -top-1 -right-1" />
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-gold-base/5 to-transparent rounded-bl-full opacity-50 group-hover:scale-110 transition-transform duration-500"></div>
+                <Quote className="w-10 h-10 text-gold-dim absolute top-4 right-4 opacity-50" />
                 
-                <p className="font-sans text-xs md:text-sm text-text-secondary italic leading-relaxed relative z-10 mb-6">
-                  "{test.quote}"
+                <p className="font-sans text-xs md:text-sm text-text-secondary italic leading-relaxed relative z-10 mb-6 line-clamp-6">
+                  "{test.content}"
                 </p>
 
-                <div className="flex items-center space-x-3 pt-4 border-t border-gold-dim/40 mt-auto">
-                  <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-[#2A1E12] to-[#1F160D] border border-gold-dim flex items-center justify-center font-serif text-text-gold font-bold text-sm">
+                <div className="flex items-center space-x-3 pt-4 border-t border-gold-dim/40 mt-auto relative z-10">
+                  <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-[#2A1E12] to-[#1F160D] border border-gold-dim flex items-center justify-center font-serif text-text-gold font-bold text-sm shrink-0">
                     {test.name.charAt(0)}
                   </div>
-                  <div>
-                    <h4 className="font-serif text-sm text-text-primary font-medium">{test.name}</h4>
-                    <div className="flex items-center space-x-1.5">
-                      <span className="text-[10px] text-text-tertiary">{test.role}</span>
-                      <span className="text-xs">{test.flag}</span>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="font-serif text-sm text-text-primary font-medium truncate">{test.name}</h4>
+                    <div className="flex items-center space-x-1.5 mt-0.5">
+                      <span className="text-[10px] text-text-tertiary truncate block">{test.role}</span>
+                      <span className="text-xs shrink-0">{test.flag}</span>
                     </div>
                   </div>
                 </div>

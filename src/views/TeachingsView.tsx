@@ -8,6 +8,8 @@ import { motion } from 'motion/react';
 import { BookOpen, HelpCircle, ArrowRight, Sparkles, CheckCircle, Clock, Globe, ShieldCheck } from 'lucide-react';
 import { SUBJECTS_ITEMS } from '../data';
 import { PageView } from '../types';
+import { Motif, DecorativeBorder } from '../components/Motif';
+import { FadeInSection } from '../components/FadeInSection';
 
 interface TeachingsViewProps {
   onViewChange: (view: PageView) => void;
@@ -58,68 +60,94 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
       <section className="relative pt-32 pb-16 bg-[#0E0B07] border-b border-gold-mid overflow-hidden px-6 md:px-12 select-none">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,#1F160D_0%,transparent_100%)] opacity-30 pointer-events-none"></div>
 
-        <div className="max-w-7xl mx-auto text-left space-y-4">
-          <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase flex items-center gap-1.5">
-            <Sparkles className="w-3.5 h-3.5" /> THE TRANSMISSION ARCHITECTURE • GURUKULA METHOD
-          </span>
-          <h1 className="font-display text-4xl sm:text-5xl md:text-7xl font-light text-text-primary tracking-tight leading-none">
-            Our Knowledge <br />
-            <span className="font-medium text-text-gold">Traditions & Curriculums</span>
-          </h1>
-          <p className="font-sans text-base sm:text-lg text-text-secondary leading-relaxed max-w-2xl">
-            Authentic Vedic subjects decoded with mathematical clarity, strict oral rules, and complete loyalty to traditional commentary lineages.
-          </p>
+        <div className="absolute top-0 right-0 opacity-10">
+          <Motif size={250} color="#C8860A" />
+        </div>
+
+        <div className="max-w-7xl mx-auto text-left space-y-6 relative z-10">
+          <FadeInSection direction="up" delay={100}>
+            <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5" /> THE TRANSMISSION ARCHITECTURE • GURUKULA METHOD
+            </span>
+          </FadeInSection>
+          <FadeInSection direction="up" delay={200}>
+            <h1 className="font-display text-4xl sm:text-5xl md:text-7xl font-light text-text-primary tracking-tight leading-none">
+              Our Knowledge <br />
+              <span className="font-medium text-text-gold">Traditions & Curriculums</span>
+            </h1>
+          </FadeInSection>
+          <FadeInSection direction="up" delay={300}>
+            <p className="font-sans text-base sm:text-lg text-text-secondary leading-relaxed max-w-2xl">
+              Authentic Vedic subjects decoded with mathematical clarity, strict oral rules, and complete loyalty to traditional commentary lineages.
+            </p>
+          </FadeInSection>
         </div>
       </section>
 
       {/* SECTION 2 - Pedagogical Approach */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center select-none">
-        <div className="lg:col-span-5 space-y-6 text-left">
-          <span className="font-mono text-xs tracking-[0.2em] text-text-gold uppercase">✦ THE GURUKULA APPROACH</span>
-          <h2 className="font-display text-3xl md:text-4xl font-light text-text-primary tracking-tight">
-            How Wisdom Is <br />
-            <span className="font-medium">Purified and Transmitted</span>
-          </h2>
-          <p className="font-sans text-xs sm:text-sm text-text-secondary leading-relaxed">
-            Many modern institutions simplify Sanskrit to a tourist vocabulary or turn scripture into spiritual entertainment. We preserve the original intellectual rigor.
-          </p>
-          <div className="p-4 border border-gold-dim rounded bg-gold-dim text-xs font-serif text-text-gold italic leading-relaxed">
-            "Acaryat padamadatte, Padam sishyah svamedhaya, Padam sabrahmacharibhyah, Padam kalakramena cha." <br />
-            — One quarter of wisdom is learned from the teacher, one from self-study, one from peer discussions, and the final quarter matures over time.
-          </div>
+      <section className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center select-none relative">
+        
+        <div className="lg:col-span-5 space-y-6 text-left relative z-10">
+          <FadeInSection direction="left" delay={100}>
+            <span className="font-mono text-xs tracking-[0.2em] text-text-gold uppercase">✦ THE GURUKULA APPROACH</span>
+            <h2 className="font-display text-3xl md:text-4xl font-light text-text-primary tracking-tight mt-2">
+              How Wisdom Is <br />
+              <span className="font-medium">Purified and Transmitted</span>
+            </h2>
+            <p className="font-sans text-xs sm:text-sm text-text-secondary leading-relaxed mt-4">
+              Many modern institutions simplify Sanskrit to a tourist vocabulary or turn scripture into spiritual entertainment. We preserve the original intellectual rigor.
+            </p>
+            <div className="p-4 border border-gold-dim rounded bg-gold-dim text-xs font-serif text-text-gold italic leading-relaxed mt-6">
+              "Acaryat padamadatte, Padam sishyah svamedhaya, Padam sabrahmacharibhyah, Padam kalakramena cha." <br />
+              — One quarter of wisdom is learned from the teacher, one from self-study, one from peer discussions, and the final quarter matures over time.
+            </div>
+          </FadeInSection>
         </div>
 
-        <div className="lg:col-span-7 space-y-6 text-left">
+        <div className="lg:col-span-7 space-y-6 text-left relative z-10">
           {approaches.map((app, idx) => (
-            <div key={idx} className="flex gap-4 p-4 rounded bg-surface-2 border border-gold-dim/40 hover:border-gold-mid transition-colors">
-              <div className="h-8 w-8 rounded-full bg-[#1F160D] border border-gold-mid flex items-center justify-center font-mono text-xs text-text-gold font-bold shrink-0">
-                {idx + 1}
+            <FadeInSection key={idx} direction="up" delay={200 + (idx * 100)}>
+              <div className="flex gap-4 p-4 rounded bg-surface-2 border border-gold-dim/40 hover:border-gold-mid transition-colors">
+                <div className="h-8 w-8 rounded-full bg-[#1F160D] border border-gold-mid flex items-center justify-center font-mono text-xs text-text-gold font-bold shrink-0">
+                  {idx + 1}
+                </div>
+                <div className="space-y-1">
+                  <h4 className="font-serif text-base text-text-primary font-semibold">{app.title}</h4>
+                  <p className="font-sans text-xs text-text-secondary leading-relaxed">{app.desc}</p>
+                </div>
               </div>
-              <div className="space-y-1">
-                <h4 className="font-serif text-base text-text-primary font-semibold">{app.title}</h4>
-                <p className="font-sans text-xs text-text-secondary leading-relaxed">{app.desc}</p>
-              </div>
-            </div>
+            </FadeInSection>
           ))}
         </div>
       </section>
 
       {/* SECTION 3 - Six Subjects Bento Grid */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 space-y-12 select-none">
-        <div className="space-y-3 text-center">
-          <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase block">Syllabus details</span>
-          <h2 className="font-display text-3xl md:text-5xl font-light text-text-primary tracking-tight">
-            Comprehensive <span className="font-medium text-text-gold">Study Pathways</span>
-          </h2>
+      <section className="max-w-7xl mx-auto px-6 md:px-12 space-y-12 select-none relative">
+        <div className="absolute top-1/2 left-0 opacity-10">
+          <Motif size={150} color="#C8860A" />
+        </div>
+        <div className="absolute top-1/2 right-0 opacity-10">
+          <Motif size={150} color="#C8860A" />
+        </div>
+        <div className="space-y-3 text-center relative z-10">
+          <FadeInSection direction="up" delay={100}>
+            <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase block">Syllabus details</span>
+            <h2 className="font-display text-3xl md:text-5xl font-light text-text-primary tracking-tight">
+              Comprehensive <span className="font-medium text-text-gold">Study Pathways</span>
+            </h2>
+          </FadeInSection>
+          <FadeInSection direction="up" delay={200}>
+            <DecorativeBorder className="my-6 text-gold-base" />
+          </FadeInSection>
         </div>
 
         {/* Bento Grid - 3 Columns Desktop, Horizontal Swipe Mobile */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {SUBJECTS_ITEMS.map((sub) => (
-            <div
-              key={sub.id}
-              className="bg-surface-2 border border-gold-dim rounded-lg p-8 text-left shadow-lg relative overflow-hidden flex flex-col justify-between min-h-[420px] hover:-translate-y-2 hover:border-gold-mid transition-all duration-220 group"
-            >
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative z-10">
+          {SUBJECTS_ITEMS.map((sub, idx) => (
+            <FadeInSection key={sub.id} direction="up" delay={300 + (idx * 50)}>
+              <div
+                className="bg-surface-2 border border-gold-dim rounded-lg p-8 text-left shadow-lg relative overflow-hidden flex flex-col justify-between min-h-[420px] hover:-translate-y-2 hover:border-gold-mid transition-all duration-220 group h-full"
+              >
               {/* Devanagari background watermark at 10-15% opacity */}
               <div className="absolute right-3 top-3 font-devanagari text-7xl text-[#C8860A]/8 select-none font-bold">
                 {sub.devanagari}
@@ -165,6 +193,7 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
                 </div>
               </div>
             </div>
+            </FadeInSection>
           ))}
         </div>
       </section>
