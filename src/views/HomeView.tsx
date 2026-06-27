@@ -10,7 +10,9 @@ import { PageView } from '../types';
 import { FadeInSection } from '../components/FadeInSection';
 import { Button } from '../components/Button';
 import { Motif, DecorativeBorder } from '../components/Motif';
+import { Link } from 'react-router-dom';
 import { HeroSlideshow } from '../components/Slideshow';
+import { FAQ } from '../components/FAQ';
 
 interface HomeViewProps {
   onViewChange: (view: PageView) => void;
@@ -56,7 +58,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
   ];
 
   return (
-    <div className="space-y-24 md:space-y-32 relative">
+    <div className="space-y-16 md:space-y-32 relative">
       {/* Background ambient gradient */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gold-base/10 via-surface-1 to-surface-1 pointer-events-none -z-10" />
       
@@ -84,7 +86,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
 
       {/* SECTION 2 - Stats Strip (Animated Counters) */}
       <FadeInSection>
-        <section className="max-w-[1200px] mx-auto px-4 sm:px-6 md:px-12 -mt-4 md:-mt-10 relative z-30">
+        <section className="max-w-[1200px] mx-auto px-4 sm:px-4 md:px-12 -mt-4 md:-mt-10 relative z-30">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
             {STATS_ITEMS.map((stat, idx) => (
               <div
@@ -105,7 +107,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
       </FadeInSection>
 
       {/* SECTION 3 - Acharya Introduction (The Trust Layer) */}
-      <section className="max-w-7xl mx-auto px-4 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+      <section className="max-w-7xl mx-auto px-4 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 lg:gap-12 items-center">
         {/* Left Column - Large Image or Styled Board */}
         <div className="lg:col-span-5 relative">
           <FadeInSection delay={100} direction="right">
@@ -115,7 +117,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
                 <img 
                   src="./acharya-photo.jpeg" 
                   alt="Acharya Vishweshwara" 
-                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out grayscale hover:grayscale-0 opacity-80 hover:opacity-100 mix-blend-luminosity hover:mix-blend-normal" 
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out" 
                 />
                 
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0E0B07] via-[#0E0B07]/20 to-transparent"></div>
@@ -181,7 +183,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
           <FadeInSection delay={500}>
             <div className="pt-2">
               <Button
-                onClick={() => handleNavClick('about')}
+                to="/about"
                 variant="ghost"
                 className="!px-0 text-text-gold hover:text-gold-bright group"
               >
@@ -238,12 +240,13 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
                     <span className="font-mono text-[9px] text-text-tertiary uppercase block">Frequency</span>
                     <span className="font-sans text-xs text-text-secondary font-medium">{sub.frequency}</span>
                   </div>
-                  <button
-                    onClick={() => handleNavClick('teachings')}
-                    className="p-2 rounded-full border border-gold-dim text-text-gold group-hover:bg-text-gold group-hover:text-ground transition-all active:scale-95"
+                  <Link
+                    to="/teachings"
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                    className="flex p-2 rounded-full border border-gold-dim text-text-gold hover:bg-text-gold hover:text-ground transition-all active:scale-95 items-center justify-center"
                   >
                     <ArrowRight className="w-4 h-4" />
-                  </button>
+                  </Link>
                 </div>
               </div>
             </FadeInSection>
@@ -253,7 +256,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
         <FadeInSection delay={400}>
           <div className="pt-2">
             <Button
-              onClick={() => handleNavClick('teachings')}
+              to="/teachings"
               variant="outline"
               className="w-full sm:w-auto"
             >
@@ -267,7 +270,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
       <section className="bg-surface-1 border-y border-gold-mid py-12 md:py-20 px-4 md:px-12 relative overflow-hidden">
         <div className="absolute top-1/2 left-0 -translate-y-1/2 w-64 h-64 rounded-full bg-ruby-mid/5 blur-3xl pointer-events-none"></div>
 
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center text-left">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 lg:gap-12 items-center text-left">
           {/* Left Quote Column */}
           <div className="lg:col-span-5 space-y-6">
             <FadeInSection delay={100}>
@@ -376,13 +379,14 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
 
         <FadeInSection delay={400}>
           <div className="pt-2">
-            <button
-              onClick={() => handleNavClick('testimonials')}
+            <Link
+              to="/testimonials"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               className="inline-flex items-center space-x-2 font-mono text-xs tracking-widest uppercase text-text-gold hover:text-gold-bright transition-colors active:scale-95"
             >
               <span>See Global Student Map & All Testimonials</span>
               <ArrowRight className="w-4 h-4" />
-            </button>
+            </Link>
           </div>
         </FadeInSection>
       </section>
@@ -396,17 +400,21 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
               <h3 className="font-serif text-xl md:text-2xl text-text-primary font-medium">Uncompromising Knowledge. Self-Determined Guru Dakshina.</h3>
               <p className="font-sans text-xs text-text-secondary">We do not sell ancient scripture. Seekers support our gurukula livelihood through self-determined offerings.</p>
             </div>
-            <button
-              onClick={() => handleNavClick('dakshina')}
-              className="w-full md:w-auto px-6 py-3 rounded bg-surface-2 hover:bg-surface-3 border border-gold-mid text-text-gold font-mono text-xs tracking-widest uppercase transition-colors shrink-0 active:scale-95"
+            <Link
+              to="/dakshina"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="inline-block text-center w-full md:w-auto px-6 py-3 rounded bg-surface-2 hover:bg-surface-3 border border-gold-mid text-text-gold font-mono text-xs tracking-widest uppercase transition-colors shrink-0 active:scale-95"
             >
               How Dakshina Works →
-            </button>
+            </Link>
           </div>
         </section>
       </FadeInSection>
 
-      {/* SECTION 8 - Global Reach (Country flag pills) */}
+      {/* SECTION 8 - Frequently Asked Questions */}
+      <FAQ />
+
+      {/* SECTION 9 - Global Reach (Country flag pills) */}
       <FadeInSection>
         <section className="max-w-7xl mx-auto px-4 md:px-12 text-center space-y-8 pb-12">
           <div className="space-y-3">
