@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Serif+Devanagari:wght@300;400;600&display=swap');
+@import url('https://fonts.cdnfonts.com/css/samarkan');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+  --font-display: "Bricolage Grotesque", sans-serif;
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-devanagari: "Noto Serif Devanagari", serif;
+  --font-samarkan: "SAMARKAN", cursive;
+
+  --color-ground: #060504;
+  --color-surface-1: #0E0B07;
+  --color-surface-2: #161008;
+  --color-surface-3: #1F160D;
+  --color-surface-4: #2A1E12;
+
+  --color-gold-dim: rgba(200, 134, 10, 0.12);
+  --color-gold-mid: rgba(200, 134, 10, 0.35);
+  --color-gold-base: #C8860A;
+  --color-gold-bright: #E8A820;
+  --color-gold-glow: #F2C84B;
+  --color-gold-text: #D4940C;
+
+  --color-ruby-deep: #3D0A0A;
+  --color-ruby-mid: #6B1212;
+  --color-ruby-base: #8B1A1A;
+
+  --color-text-primary: #FAF6EE;
+  --color-text-secondary: rgba(250, 246, 238, 0.68);
+  --color-text-tertiary: rgba(250, 246, 238, 0.42);
+  --color-text-disabled: rgba(250, 246, 238, 0.25);
+  --color-text-gold: #D4940C;
+
+  --text-2xs: 0.65rem;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1.0625rem;
+  --text-md: 1.2rem;
+  --text-lg: 1.5rem;
+  --text-xl: 2rem;
+  --text-2xl: 2.75rem;
+  --text-3xl: 3.75rem;
+  --text-4xl: 5rem;
+  --text-5xl: 7rem;
+  --text-display: clamp(3rem, 8vw, 8rem);
+
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 36px;
+  --radius-2xl: 48px;
+  --radius-full: 9999px;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --animate-spin-slow: spin 30s linear infinite;
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #060504;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1F160D;
+  border-radius: 4px;
+  border: 2px solid #060504;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #C8860A;
+}
+
+body {
+  background-color: #060504;
+  color: #FAF6EE;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Smooth active focus styles */
+:focus-visible {
+  outline: 3px solid #C8860A;
+  outline-offset: 2px;
+}
+
+/* Custom styles for premium layout ornaments */
+.text-stroke-gold {
+  -webkit-text-stroke: 1px rgba(200, 134, 10, 0.2);
+  color: transparent;
+}
+
