@@ -61,7 +61,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange }) => {
             <div className="relative">
               <div className="absolute inset-0 bg-gold-mid/20 rounded-xl translate-x-3 translate-y-3"></div>
               <img 
-                src="/acharya-photo.jpeg" 
+                src="./acharya-photo.jpeg" 
                 alt="Acharya Vishweshwara M" 
                 className="relative z-10 w-64 h-auto rounded-xl object-cover border border-gold-dim shadow-xl"
                 onError={(e) => {

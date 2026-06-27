@@ -58,7 +58,7 @@ export default function App() {
   const showStandardChrome = !isLandingView && !isBeginView && !isAdminView;
 
   return (
-    <div className="bg-ground min-h-screen text-text-primary selection:bg-gold-base selection:text-ground flex flex-col justify-between">
+    <div className="bg-ground min-h-screen text-text-primary selection:bg-gold-base selection:text-ground flex flex-col justify-between overflow-x-hidden w-full">
       
       {/* 1. Header (Sticky navigation, only on standard pages) */}
       {showStandardChrome && (

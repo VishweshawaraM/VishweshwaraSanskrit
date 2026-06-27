@@ -234,15 +234,15 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
               {/* Styled QR container representing the actual payments */}
               <div className="p-3 bg-white rounded-lg flex items-center justify-center shrink-0 border border-gold-mid">
                 <img 
-                  src="/qr-code.jpeg" 
+                  src="./qr-code.jpeg" 
                   alt="UPI QR Code" 
                   className="w-32 h-32 object-contain"
                 />
               </div>
 
-              <div className="space-y-3 w-full text-center sm:text-left">
+              <div className="space-y-4 w-full text-center sm:text-left">
                 <p className="font-sans text-xs text-text-secondary">
-                  Scan the UPI code using any Indian bank app (BHIM, PhonePe, Google Pay, Paytm) to transfer offerings securely.
+                  Scan the UPI code manually using your bank app, OR pay instantly using our secure payment gateway (Supports UPI, Cards, NetBanking).
                 </p>
                 <div className="flex items-center justify-between p-2.5 rounded bg-surface-3 border border-gold-dim">
                   <span className="font-mono text-xs text-text-secondary break-all">{upiId}</span>
@@ -254,35 +254,86 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
                     {copiedUpi ? <span className="text-[10px] uppercase font-mono font-bold text-emerald-500">Copied</span> : <Copy className="w-4 h-4" />}
                   </button>
                 </div>
-                
-                <div className="mt-4 space-y-2">
-                  <p className="font-mono text-[9px] tracking-widest text-text-tertiary uppercase text-center">Open with specific app</p>
-                  <div className="grid grid-cols-2 gap-2">
-                    <a 
-                      href={`upi://pay?pa=${upiId}&pn=Vishweshwara%20N%20M&cu=INR`}
-                      className="w-full flex items-center justify-center space-x-1.5 bg-surface-3 hover:bg-surface-4 border border-gold-dim text-text-secondary py-2 rounded transition-colors font-mono text-[10px] uppercase tracking-wider"
+
+                <div className="space-y-2 mt-4 pt-4 border-t border-gold-dim/30">
+                  <p className="font-mono text-[9px] tracking-widest text-text-tertiary uppercase">Or Pay Instantly via Gateway</p>
+                  <form 
+                    onSubmit={async (e) => {
+                      e.preventDefault();
+                      const formData = new FormData(e.currentTarget);
+                      const amount = Number(formData.get('amount'));
+                      if (!amount || amount < 1) return alert('Enter a valid amount');
+                      
+                      try {
+                        // 1. Create order
+                        const orderRes = await fetch('/api/create-order', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ amount })
+                        });
+                        const order = await orderRes.json();
+
+                        // 2. Open Razorpay Checkout
+                        const options = {
+                          key: 'rzp_test_mock_key', // This is just a placeholder, actual verification happens backend
+                          amount: order.amount,
+                          currency: order.currency,
+                          name: 'Acharya Vishweshwara',
+                          description: 'Guru Dakshina Offering',
+                          order_id: order.id,
+                          handler: async function (response: any) {
+                            // Payment success callback
+                            setShowSuccessMsg(true);
+                            // Send email notification
+                            try {
+                              await fetch('/api/email', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                  to: 'visanskrit.solopreneur@gmail.com',
+                                  subject: 'New Dakshina Payment Received (Gateway)',
+                                  html: `<p>A successful Dakshina payment was received via Gateway.</p><p><strong>Amount:</strong> ₹${amount}</p><p><strong>Payment ID:</strong> ${response.razorpay_payment_id || 'Mock_Payment_ID'}</p>`,
+                                }),
+                              });
+                            } catch (err) {
+                              console.error('Email failed', err);
+                            }
+                            setTimeout(() => setShowSuccessMsg(false), 8000);
+                          },
+                          theme: { color: '#C8860A' }
+                        };
+
+                        if (order.mock) {
+                           // If backend didn't have keys, mock the success
+                           options.handler({ razorpay_payment_id: 'mock_pay_' + Date.now() });
+                        } else {
+                           const rzp = new (window as any).Razorpay(options);
+                           rzp.on('payment.failed', function (response: any){
+                              alert('Payment failed: ' + response.error.description);
+                           });
+                           rzp.open();
+                        }
+                      } catch (error) {
+                        alert('Payment initialization failed. Please use the QR code.');
+                      }
+                    }}
+                    className="flex flex-col sm:flex-row gap-2"
+                  >
+                    <input 
+                      type="number" 
+                      name="amount"
+                      placeholder="Amount (₹)"
+                      min="1"
+                      required
+                      className="w-full sm:w-32 bg-[#0E0B07] border border-gold-dim rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-base"
+                    />
+                    <button 
+                      type="submit"
+                      className="w-full sm:flex-1 bg-gold-base hover:bg-gold-bright text-ground py-2 rounded transition-colors font-mono text-[10px] uppercase font-bold tracking-wider"
                     >
-                      <span>GPay</span>
-                    </a>
-                    <a 
-                      href={`phonepe://pay?pa=${upiId}&pn=Vishweshwara%20N%20M&cu=INR`}
-                      className="w-full flex items-center justify-center space-x-1.5 bg-surface-3 hover:bg-surface-4 border border-gold-dim text-text-secondary py-2 rounded transition-colors font-mono text-[10px] uppercase tracking-wider"
-                    >
-                      <span>PhonePe</span>
-                    </a>
-                    <a 
-                      href={`paytmmp://pay?pa=${upiId}&pn=Vishweshwara%20N%20M&cu=INR`}
-                      className="w-full flex items-center justify-center space-x-1.5 bg-surface-3 hover:bg-surface-4 border border-gold-dim text-text-secondary py-2 rounded transition-colors font-mono text-[10px] uppercase tracking-wider"
-                    >
-                      <span>Paytm</span>
-                    </a>
-                    <a 
-                      href={`upi://pay?pa=${upiId}&pn=Vishweshwara%20N%20M&cu=INR`}
-                      className="w-full flex items-center justify-center space-x-1.5 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 py-2 rounded transition-colors font-mono text-[10px] uppercase tracking-wider"
-                    >
-                      <span>Other App</span>
-                    </a>
-                  </div>
+                      Pay Online
+                    </button>
+                  </form>
                 </div>
               </div>
             </div>

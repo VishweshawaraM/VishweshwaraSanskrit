@@ -63,17 +63,17 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
       <HeroSlideshow 
         slides={[
           {
-            image: "/90BC0280-743E-496C-AD5A-10DB96ED68C9.png",
+            image: "./90BC0280-743E-496C-AD5A-10DB96ED68C9.png",
             title: "Live. Personal. Ancient Wisdom.",
             subtitle: "Disconnect from the noise. Learn Vedas, Vyakarana, Advaita Vedanta, and Bhagavad Gita directly from a dedicated scholar with 7 years of full residential Gurukula training."
           },
           {
-            image: "/BE39A249-BCEF-417F-B31A-70D71B6A709D.jpeg",
+            image: "./BE39A249-BCEF-417F-B31A-70D71B6A709D.jpeg",
             title: "Authentic Gurukula Tradition.",
             subtitle: "Immerse yourself in the exact pedagogy preserved for millennia, tailored for the modern seeker."
           },
           {
-            image: "/C2A70D39-41A8-4BC8-B4C6-E11D27F21CA5.png",
+            image: "./C2A70D39-41A8-4BC8-B4C6-E11D27F21CA5.png",
             title: "Global Community of Seekers.",
             subtitle: "Join dedicated students from across the world in small, interactive cohorts focused on deep learning."
           }
@@ -84,18 +84,18 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
 
       {/* SECTION 2 - Stats Strip (Animated Counters) */}
       <FadeInSection>
-        <section className="max-w-[1200px] mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        <section className="max-w-[1200px] mx-auto px-4 sm:px-6 md:px-12 -mt-4 md:-mt-10 relative z-30">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
             {STATS_ITEMS.map((stat, idx) => (
               <div
                 key={stat.id}
-                className="bg-[#120F0C] border border-[#C8860A]/20 p-8 md:p-10 rounded-[10px] text-center flex flex-col justify-center items-center"
+                className="bg-[#120F0C] border border-[#C8860A]/20 p-4 md:p-10 rounded-[10px] text-center flex flex-col justify-center items-center shadow-2xl"
               >
-                <p className="font-[Times_New_Roman] text-[75px] leading-[75px] font-bold text-[#C8860A] text-center bg-black rounded-xl border-none">
+                <p className="font-[Times_New_Roman] text-[32px] sm:text-[40px] md:text-[60px] lg:text-[75px] leading-tight font-bold text-[#C8860A] text-center bg-black/50 px-2 rounded-xl">
                   {counters[idx]}
                   {stat.value.includes('+') ? '+' : stat.value.includes('%') ? '%' : ''}
                 </p>
-                <p className="font-mono text-[10px] md:text-[11px] font-bold tracking-[0.2em] text-[#8B867D] uppercase mt-4 whitespace-pre-line leading-relaxed">
+                <p className="font-mono text-[9px] sm:text-[10px] md:text-[11px] font-bold tracking-[0.1em] md:tracking-[0.2em] text-[#8B867D] uppercase mt-2 md:mt-4 whitespace-pre-line leading-relaxed">
                   {stat.label}
                 </p>
               </div>
@@ -105,7 +105,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
       </FadeInSection>
 
       {/* SECTION 3 - Acharya Introduction (The Trust Layer) */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <section className="max-w-7xl mx-auto px-4 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
         {/* Left Column - Large Image or Styled Board */}
         <div className="lg:col-span-5 relative">
           <FadeInSection delay={100} direction="right">
@@ -113,7 +113,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
             <div className="p-2 bg-surface-2 border border-gold-mid rounded-2xl shadow-xl relative z-10 overflow-hidden group">
               <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-[#0E0B07] border border-gold-dim">
                 <img 
-                  src="/acharya-photo.jpeg" 
+                  src="./acharya-photo.jpeg" 
                   alt="Acharya Vishweshwara" 
                   className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out grayscale hover:grayscale-0 opacity-80 hover:opacity-100 mix-blend-luminosity hover:mix-blend-normal" 
                 />
@@ -194,7 +194,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
       </section>
 
       {/* SECTION 4 - Teachings Bento Grid */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 text-center space-y-12">
+      <section className="max-w-7xl mx-auto px-4 md:px-12 text-center space-y-8 md:space-y-12">
         <FadeInSection>
           <div className="space-y-3 max-w-2xl mx-auto">
             <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase block">
@@ -264,10 +264,10 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
       </section>
 
       {/* SECTION 5 - The Difference (Split Layout) */}
-      <section className="bg-surface-1 border-y border-gold-mid py-20 px-6 md:px-12 relative overflow-hidden">
+      <section className="bg-surface-1 border-y border-gold-mid py-12 md:py-20 px-4 md:px-12 relative overflow-hidden">
         <div className="absolute top-1/2 left-0 -translate-y-1/2 w-64 h-64 rounded-full bg-ruby-mid/5 blur-3xl pointer-events-none"></div>
 
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center text-left">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center text-left">
           {/* Left Quote Column */}
           <div className="lg:col-span-5 space-y-6">
             <FadeInSection delay={100}>
@@ -328,7 +328,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
       </section>
 
       {/* SECTION 6 - Testimonials Grid (Direct Credibility) */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 text-center space-y-12">
+      <section className="max-w-7xl mx-auto px-4 md:px-12 text-center space-y-8 md:space-y-12">
         <FadeInSection>
           <div className="space-y-3 max-w-2xl mx-auto">
             <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase block">
@@ -389,7 +389,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
 
       {/* SECTION 7 - Guru Dakshina Teaser (Minimal band) */}
       <FadeInSection>
-        <section className="bg-[#0E0B07] border-y border-gold-mid py-12 text-center px-6 md:px-12">
+        <section className="bg-[#0E0B07] border-y border-gold-mid py-8 md:py-12 text-center px-4 md:px-12">
           <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="text-left space-y-1">
               <span className="font-mono text-[9px] tracking-[0.2em] text-text-gold uppercase block">THE SACRED TRADITION</span>
@@ -408,7 +408,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
 
       {/* SECTION 8 - Global Reach (Country flag pills) */}
       <FadeInSection>
-        <section className="max-w-7xl mx-auto px-6 md:px-12 text-center space-y-8 pb-12">
+        <section className="max-w-7xl mx-auto px-4 md:px-12 text-center space-y-8 pb-12">
           <div className="space-y-3">
             <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase block">
               ✦ SAMPRADAYA EXPANSION

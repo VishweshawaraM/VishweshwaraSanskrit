@@ -304,13 +304,45 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
           <p className="font-sans text-xs text-text-secondary leading-relaxed">
             Not sure which path fits your background? Connect directly with Acharya Vishweshwara. Discuss your background and interest over a free 15-minute diagnostic call.
           </p>
-          <div>
-            <button
-              onClick={() => handleNavClick('begin')}
-              className="px-6 py-3 rounded bg-gradient-to-r from-gold-base to-gold-bright text-ground font-mono text-xs tracking-widest uppercase font-semibold active:scale-95 transition-all shadow-md"
+          <div className="max-w-md mx-auto pt-4">
+            <form 
+              onSubmit={async (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                const email = formData.get('email');
+                
+                try {
+                  await fetch('/api/email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      to: 'visanskrit.solopreneur@gmail.com',
+                      subject: `Syllabus Assessment Request from ${email}`,
+                      html: `<p><strong>Email:</strong> ${email}</p><p>This user has requested a free syllabus assessment call.</p>`,
+                    }),
+                  });
+                  alert('Request sent successfully! We will contact you soon.');
+                  (e.target as HTMLFormElement).reset();
+                } catch (error) {
+                  alert('Failed to send request.');
+                }
+              }}
+              className="flex flex-col sm:flex-row gap-3"
             >
-              Request Syllabus Call
-            </button>
+              <input 
+                type="email" 
+                name="email"
+                placeholder="Enter your email address" 
+                required
+                className="flex-1 bg-surface-2 border border-gold-dim rounded px-4 py-3 text-sm text-text-primary focus:outline-none focus:border-gold-base transition-colors placeholder:text-text-disabled"
+              />
+              <button
+                type="submit"
+                className="px-6 py-3 rounded bg-gradient-to-r from-gold-base to-gold-bright text-ground font-mono text-xs tracking-widest uppercase font-semibold active:scale-95 transition-all shadow-md shrink-0 hover:brightness-110"
+              >
+                Request Call
+              </button>
+            </form>
           </div>
         </div>
       </section>

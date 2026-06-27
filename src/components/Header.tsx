@@ -58,7 +58,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => 
             : 'bg-transparent py-5'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 md:px-12 flex items-center justify-between">
           {/* Brand Logo Wordmark */}
           <div onClick={() => handleNavClick('home')} className="z-50">
             <Logo variant="horizontal" />
@@ -177,11 +177,11 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => 
 
           {/* Mobile Hamburger Button */}
           <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden z-50 p-2 text-text-secondary hover:text-text-gold transition-colors"
-            aria-label="Toggle navigation menu"
+            onClick={() => setIsMobileMenuOpen(true)}
+            className="md:hidden p-2 -mr-2 text-text-secondary hover:text-text-gold transition-colors"
+            aria-label="Open navigation menu"
           >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            <Menu className="w-7 h-7" />
           </button>
         </div>
       </header>
@@ -205,26 +205,26 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => 
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
-              className="fixed inset-y-0 right-0 w-full max-w-[320px] bg-[#0E0B07] border-l border-gold-mid z-[60] flex flex-col justify-between p-8 shadow-2xl backdrop-blur-md"
+              className="fixed inset-y-0 right-0 w-[85%] max-w-[340px] bg-[#0E0B07] border-l border-gold-mid z-[60] flex flex-col p-6 shadow-2xl backdrop-blur-md overflow-y-auto"
             >
               {/* Top Logo / Spacer */}
-              <div className="pt-6 flex justify-between items-center">
-                <Logo variant="horizontal" size={38} />
+              <div className="flex justify-between items-center -mt-2 shrink-0">
+                <Logo variant="horizontal" size={32} />
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="p-2 text-text-secondary hover:text-text-gold transition-colors"
+                  className="p-2 -mr-2 text-text-secondary hover:text-text-gold transition-colors shrink-0"
                   aria-label="Close navigation menu"
                 >
-                  <X className="w-6 h-6" />
+                  <X className="w-7 h-7" />
                 </button>
               </div>
-              <div className="h-[1px] w-full bg-gold-dim my-6"></div>
+              <div className="h-[1px] w-full bg-gold-dim my-6 shrink-0"></div>
 
             {/* Nav Menu List */}
-            <nav className="flex flex-col space-y-6 text-left my-auto">
+            <nav className="flex flex-col space-y-4 text-left flex-1 mb-8">
               <button
                 onClick={() => handleNavClick('home')}
-                className={`font-serif text-2xl tracking-wide text-left py-2 hover:text-text-gold transition-colors ${
+                className={`font-serif text-xl tracking-wide text-left py-3 hover:text-text-gold transition-colors ${
                   currentView === 'home' ? 'text-text-gold' : 'text-text-secondary'
                 }`}
               >
@@ -232,7 +232,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => 
               </button>
               <button
                 onClick={() => handleNavClick('teachings')}
-                className={`font-serif text-2xl tracking-wide text-left py-2 hover:text-text-gold transition-colors ${
+                className={`font-serif text-xl tracking-wide text-left py-3 hover:text-text-gold transition-colors ${
                   currentView === 'teachings' ? 'text-text-gold' : 'text-text-secondary'
                 }`}
               >
@@ -240,7 +240,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => 
               </button>
               <button
                 onClick={() => handleNavClick('about')}
-                className={`font-serif text-2xl tracking-wide text-left py-2 hover:text-text-gold transition-colors ${
+                className={`font-serif text-xl tracking-wide text-left py-3 hover:text-text-gold transition-colors ${
                   currentView === 'about' ? 'text-text-gold' : 'text-text-secondary'
                 }`}
               >
@@ -248,7 +248,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => 
               </button>
               <button
                 onClick={() => handleNavClick('dakshina')}
-                className={`font-serif text-2xl tracking-wide text-left py-2 hover:text-text-gold transition-colors ${
+                className={`font-serif text-xl tracking-wide text-left py-3 hover:text-text-gold transition-colors ${
                   currentView === 'dakshina' ? 'text-text-gold' : 'text-text-secondary'
                 }`}
               >
@@ -256,7 +256,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => 
               </button>
               <button
                 onClick={() => handleNavClick('testimonials')}
-                className={`font-serif text-2xl tracking-wide text-left py-2 hover:text-text-gold transition-colors ${
+                className={`font-serif text-xl tracking-wide text-left py-3 hover:text-text-gold transition-colors ${
                   currentView === 'testimonials' ? 'text-text-gold' : 'text-text-secondary'
                 }`}
               >
@@ -265,8 +265,8 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => 
             </nav>
 
             {/* Bottom Actions */}
-            <div className="space-y-4">
-              <div className="h-[1px] w-full bg-gold-dim my-4"></div>
+            <div className="space-y-4 shrink-0 pb-4">
+              <div className="h-[1px] w-full bg-gold-dim mb-6"></div>
               <Button
                 onClick={() => handleNavClick('begin')}
                 variant="primary"

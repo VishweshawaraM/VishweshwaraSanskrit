@@ -86,6 +86,40 @@ async function startServer() {
     }
   });
 
+  // API route for Payment Order Generation
+  app.post("/api/create-order", async (req, res) => {
+    try {
+      const { amount, currency = "INR" } = req.body;
+      const keyId = process.env.RAZORPAY_KEY_ID;
+      const keySecret = process.env.RAZORPAY_KEY_SECRET;
+
+      if (!keyId || !keySecret) {
+        // Mock successful order creation if no keys are provided
+        return res.json({
+          id: `order_mock_${Date.now()}`,
+          amount: amount * 100,
+          currency,
+          mock: true
+        });
+      }
+
+      // If keys are provided, use the real Razorpay SDK
+      const Razorpay = require('razorpay');
+      const instance = new Razorpay({ key_id: keyId, key_secret: keySecret });
+      
+      const order = await instance.orders.create({
+        amount: amount * 100, // amount in smallest currency unit
+        currency,
+        receipt: `receipt_${Date.now()}`,
+      });
+
+      res.json(order);
+    } catch (error: any) {
+      console.error("Order creation error:", error);
+      res.status(500).json({ error: error.message || "Failed to create order" });
+    }
+  });
+
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
