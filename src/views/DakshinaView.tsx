@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { HelpCircle, ChevronDown, CheckCircle2, ShieldCheck, HeartHandshake, Upload, Copy, QrCode } from 'lucide-react';
+import { HelpCircle, ChevronDown, CheckCircle2, ShieldCheck, HeartHandshake, Copy, QrCode } from 'lucide-react';
 import { FAQ_ITEMS } from '../data';
 import { PageView } from '../types';
 import { Button } from '../components/Button';
@@ -16,9 +16,7 @@ interface DakshinaViewProps {
 
 export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
   const [copiedUpi, setCopiedUpi] = useState(false);
-  const [uploadedFile, setUploadedFile] = useState<string | null>(null);
   const [openFAQ, setOpenFAQ] = useState<string | null>('faq1');
-  const [showSuccessMsg, setShowSuccessMsg] = useState(false);
 
   const upiId = 'vishweshwara.sanskrit@slc';
 
@@ -26,12 +24,6 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
     navigator.clipboard.writeText(upiId);
     setCopiedUpi(true);
     setTimeout(() => setCopiedUpi(false), 2000);
-  };
-
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setUploadedFile(e.target.files[0].name);
-    }
   };
 
   const toggleFAQ = (id: string) => {
@@ -242,7 +234,7 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
 
               <div className="space-y-4 w-full text-center sm:text-left">
                 <p className="font-sans text-xs text-text-secondary">
-                  Scan the UPI code manually using your bank app, OR pay instantly using our secure payment gateway (Supports UPI, Cards, NetBanking).
+                  Scan the UPI code manually using your bank app to make your offering.
                 </p>
                 <div className="flex items-center justify-between p-2.5 rounded bg-surface-3 border border-gold-dim">
                   <span className="font-mono text-xs text-text-secondary break-all">{upiId}</span>
@@ -254,159 +246,37 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
                     {copiedUpi ? <span className="text-[10px] uppercase font-mono font-bold text-emerald-500">Copied</span> : <Copy className="w-4 h-4" />}
                   </button>
                 </div>
-
-                <div className="space-y-2 mt-4 pt-4 border-t border-gold-dim/30">
-                  <p className="font-mono text-[9px] tracking-widest text-text-tertiary uppercase">Or Pay Instantly via Gateway</p>
-                  <form 
-                    onSubmit={async (e) => {
-                      e.preventDefault();
-                      const formData = new FormData(e.currentTarget);
-                      const amount = Number(formData.get('amount'));
-                      if (!amount || amount < 1) return alert('Enter a valid amount');
-                      
-                      try {
-                        // 1. Create order
-                        const orderRes = await fetch('/api/create-order', {
-                          method: 'POST',
-                          headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({ amount })
-                        });
-                        const order = await orderRes.json();
-
-                        // 2. Open Razorpay Checkout
-                        const options = {
-                          key: 'rzp_test_mock_key', // This is just a placeholder, actual verification happens backend
-                          amount: order.amount,
-                          currency: order.currency,
-                          name: 'Acharya Vishweshwara',
-                          description: 'Guru Dakshina Offering',
-                          order_id: order.id,
-                          handler: async function (response: any) {
-                            // Payment success callback
-                            setShowSuccessMsg(true);
-                            // Send email notification
-                            try {
-                              await fetch('/api/email', {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({
-                                  to: 'visanskrit.solopreneur@gmail.com',
-                                  subject: 'New Dakshina Payment Received (Gateway)',
-                                  html: `<p>A successful Dakshina payment was received via Gateway.</p><p><strong>Amount:</strong> ₹${amount}</p><p><strong>Payment ID:</strong> ${response.razorpay_payment_id || 'Mock_Payment_ID'}</p>`,
-                                }),
-                              });
-                            } catch (err) {
-                              console.error('Email failed', err);
-                            }
-                            setTimeout(() => setShowSuccessMsg(false), 8000);
-                          },
-                          theme: { color: '#C8860A' }
-                        };
-
-                        if (order.mock) {
-                           // If backend didn't have keys, mock the success
-                           options.handler({ razorpay_payment_id: 'mock_pay_' + Date.now() });
-                        } else {
-                           const rzp = new (window as any).Razorpay(options);
-                           rzp.on('payment.failed', function (response: any){
-                              alert('Payment failed: ' + response.error.description);
-                           });
-                           rzp.open();
-                        }
-                      } catch (error) {
-                        alert('Payment initialization failed. Please use the QR code.');
-                      }
-                    }}
-                    className="flex flex-col sm:flex-row gap-2"
-                  >
-                    <input 
-                      type="number" 
-                      name="amount"
-                      placeholder="Amount (₹)"
-                      min="1"
-                      required
-                      className="w-full sm:w-32 bg-[#0E0B07] border border-gold-dim rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-base"
-                    />
-                    <button 
-                      type="submit"
-                      className="w-full sm:flex-1 bg-gold-base hover:bg-gold-bright text-ground py-2 rounded transition-colors font-mono text-[10px] uppercase font-bold tracking-wider"
-                    >
-                      Pay Online
-                    </button>
-                  </form>
-                </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Right Column: Screenshot Upload form */}
+        {/* Right Column: Screenshot Upload instructions */}
         <div className="lg:col-span-6 bg-surface-2 p-8 border border-gold-mid rounded-xl shadow-lg text-left space-y-6">
           <div className="space-y-1">
             <span className="font-mono text-[10px] tracking-widest text-text-gold uppercase block">STUDENT WORKFLOW</span>
-            <h4 className="font-serif text-xl text-text-primary font-semibold">Upload Offering receipt</h4>
+            <h4 className="font-serif text-xl text-text-primary font-semibold">Share Offering Receipt</h4>
             <p className="font-sans text-xs text-text-secondary">
-              If you have performed a monthly Guru Dakshina transfer, upload the screenshot or transaction receipt here. It updates your student files.
+              If you have performed a monthly Guru Dakshina transfer, please share the screenshot or transaction receipt with us via WhatsApp or Email to update your student files.
             </p>
           </div>
 
           <div className="space-y-4">
-            {/* Styled drag and drop file upload block */}
-            <div className="border-2 border-dashed border-gold-mid/40 hover:border-gold-mid rounded-lg p-6 text-center bg-[#0E0B07] transition-colors relative cursor-pointer group">
-              <input
-                type="file"
-                accept="image/*,.pdf"
-                onChange={handleFileUpload}
-                className="absolute inset-0 opacity-0 cursor-pointer"
-              />
-              <div className="space-y-2 pointer-events-none">
-                <Upload className="w-8 h-8 mx-auto text-[#C8860A] group-hover:scale-110 transition-transform" />
-                <p className="font-mono text-xs text-text-primary uppercase tracking-wider">Drag & drop or Click to browse</p>
-                <p className="font-sans text-[10px] text-text-tertiary">PNG, JPG, or PDF (Max 5MB)</p>
-              </div>
-            </div>
-
-            {uploadedFile && (
-              <div className="p-3 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 flex items-center justify-between text-xs font-mono">
-                <span>✓ Uploaded: {uploadedFile}</span>
-                <button onClick={() => setUploadedFile(null)} className="hover:underline">Remove</button>
-              </div>
-            )}
-
-            {showSuccessMsg && (
-              <div className="p-4 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-sans space-y-1">
-                <p className="font-semibold text-sm">✓ Record Submitted Successfully</p>
-                <p className="text-text-secondary">Gurupuja and Dakshina files updated. Sincere blessings for your shastra studies.</p>
-              </div>
-            )}
-
             <Button
-              disabled={!uploadedFile}
-              onClick={async () => {
-                const fileName = uploadedFile;
-                setShowSuccessMsg(true);
-                setUploadedFile(null);
-                
-                try {
-                  await fetch('/api/email', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                      to: 'visanskrit.solopreneur@gmail.com', // To the owner
-                      subject: 'New Dakshina Offering Uploaded',
-                      html: `<p>A new Dakshina offering receipt was uploaded.</p><p><strong>File Name:</strong> ${fileName}</p>`,
-                    }),
-                  });
-                } catch (error) {
-                  console.error('Failed to send notification email', error);
-                }
-
-                setTimeout(() => setShowSuccessMsg(false), 8000);
-              }}
+              href="https://wa.me/919482698612?text=Hari%20Om,%20I%20have%20made%20my%20Guru%20Dakshina%20offering.%20Here%20is%20the%20receipt."
+              target="_blank"
+              rel="noreferrer"
               variant="primary"
               className="w-full"
             >
-              Submit Offering Record
+              Share via WhatsApp
+            </Button>
+            <Button
+              href="mailto:visanskrit.solopreneur@gmail.com?subject=Guru%20Dakshina%20Offering%20Receipt"
+              variant="outline"
+              className="w-full"
+            >
+              Share via Email
             </Button>
           </div>
         </div>
