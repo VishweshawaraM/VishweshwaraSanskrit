@@ -128,7 +128,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
             <div className="p-2 bg-surface-2 border border-gold-mid rounded-2xl shadow-xl relative z-10 overflow-hidden group">
               <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-[#0E0B07] border border-gold-dim">
                 <img 
-                  src={`${import.meta.env.BASE_URL}acharya-photo.jpeg`} 
+                  src="/acharya-photo.jpeg" 
                   alt="Acharya Vishweshwara" 
                   className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out grayscale hover:grayscale-0 opacity-80 hover:opacity-100 mix-blend-luminosity hover:mix-blend-normal" 
                 />

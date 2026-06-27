@@ -234,7 +234,7 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
               {/* Styled QR container representing the actual payments */}
               <div className="p-3 bg-white rounded-lg flex items-center justify-center shrink-0 border border-gold-mid">
                 <img 
-                  src={`${import.meta.env.BASE_URL}qr-code.jpeg`} 
+                  src="/qr-code.jpeg" 
                   alt="UPI QR Code" 
                   className="w-32 h-32 object-contain"
                 />
