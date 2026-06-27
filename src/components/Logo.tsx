@@ -15,7 +15,7 @@ export const Logo: React.FC<LogoProps> = ({ variant = 'horizontal', className = 
   if (variant === 'symbol') {
     return (
       <img 
-        src="./symbol-only.PNG" 
+        src={`${import.meta.env.BASE_URL}symbol-only.PNG`} 
         alt="Vishweshwara Symbol" 
         className={`inline-block shrink-0 ${className}`}
         style={{ width: size || 48, height: size || 48 }}
@@ -31,7 +31,7 @@ export const Logo: React.FC<LogoProps> = ({ variant = 'horizontal', className = 
     return (
       <div className={`relative flex items-center justify-center p-1 rounded-2xl bg-[#0E0B07] border border-[#2A1E12] shadow-2xl ${className}`} style={{ width: size || 56, height: size || 56 }}>
         <img 
-          src="./favicon-logo.PNG" 
+          src={`${import.meta.env.BASE_URL}favicon-logo.PNG`} 
           alt="Vishweshwara Favicon" 
           className="shrink-0 rounded-xl"
           style={{ width: (size || 56) - 12, height: (size || 56) - 12, objectFit: 'contain' }}
@@ -47,7 +47,7 @@ export const Logo: React.FC<LogoProps> = ({ variant = 'horizontal', className = 
     return (
       <div className={`flex flex-col items-center justify-center text-center ${className}`}>
         <img 
-          src="./primary-logo.PNG" 
+          src={`${import.meta.env.BASE_URL}primary-logo.PNG`} 
           alt="Vishweshwara Primary Logo" 
           style={{ width: size || 240, height: 'auto' }}
           className="max-w-full"
@@ -63,7 +63,7 @@ export const Logo: React.FC<LogoProps> = ({ variant = 'horizontal', className = 
   return (
     <div className={`flex items-center space-x-3 cursor-pointer select-none ${className}`}>
       <img 
-        src="./horizontal-logo.PNG" 
+        src={`${import.meta.env.BASE_URL}horizontal-logo.PNG`} 
         alt="Vishweshwara Horizontal Logo" 
         style={{ height: size || 48, width: 'auto' }}
         onError={(e) => {

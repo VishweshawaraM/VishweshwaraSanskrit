@@ -10,7 +10,7 @@ import { PageView } from '../types';
 import { FadeInSection } from '../components/FadeInSection';
 import { Button } from '../components/Button';
 import { Motif, DecorativeBorder } from '../components/Motif';
-import { Slideshow } from '../components/Slideshow';
+import { HeroSlideshow } from '../components/Slideshow';
 
 interface HomeViewProps {
   onViewChange: (view: PageView) => void;
@@ -60,98 +60,42 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
       {/* Background ambient gradient */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gold-base/10 via-surface-1 to-surface-1 pointer-events-none -z-10" />
       
-      {/* SECTION 1 - Cinematic Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center pt-24 pb-16 overflow-hidden px-6 md:px-12 select-none">
-        {/* Background glow stack */}
-        <div className="absolute top-1/4 left-1/4 w-[300px] md:w-[500px] h-[300px] md:h-[500px] rounded-full bg-gold-base/5 blur-[120px] pointer-events-none"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-[250px] md:w-[450px] h-[250px] md:h-[450px] rounded-full bg-ruby-mid/5 blur-[100px] pointer-events-none"></div>
-
-        {/* Outer Grid lines for a modern architectural look */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#161008_1px,transparent_1px),linear-gradient(to_bottom,#161008_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-30 pointer-events-none"></div>
-
-        <div className="absolute top-10 left-10 opacity-10">
-          <Motif size={160} color="#C8860A" />
-        </div>
-        <div className="absolute bottom-10 right-10 opacity-10">
-          <Motif size={200} color="#C8860A" />
-        </div>
-
-        <div className="max-w-4xl mx-auto w-full flex flex-col items-center justify-center text-center z-10 space-y-8">
-          {/* Main Content Column */}
-          <FadeInSection delay={100} direction="down">
-            <div className="space-y-3 flex flex-col items-center">
-              <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase flex items-center justify-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5" /> A LIVING GURUKULA • DIGITAL ERA
-              </span>
-              <h1 className="font-display text-4xl sm:text-5xl md:text-7xl font-light text-text-primary tracking-tight leading-none text-center">
+      <HeroSlideshow 
+        slides={[
+          {
+            image: "https://images.unsplash.com/photo-1542382257-8024cb61b8f5?w=1600&auto=format&fit=crop&q=80",
+            title: (
+              <>
                 Ancient Wisdom. <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-base via-gold-bright to-gold-glow font-medium relative">
-                  Live. Personal.
-                  <span className="absolute -bottom-2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gold-base to-transparent opacity-50"></span>
-                </span>
-              </h1>
-            </div>
-          </FadeInSection>
-
-          {/* Strategic Placement of Sanskrit Verse */}
-          <FadeInSection delay={200}>
-            <div className="border-l border-r border-gold-base/50 px-8 py-4 bg-gold-dim/30 backdrop-blur-sm relative group overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gold-base/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-              <p className="font-devanagari text-2xl md:text-3xl text-text-gold tracking-wide leading-relaxed text-center relative z-10">
-                ॥ विद्या ददाति विनयम् ॥
-              </p>
-              <p className="font-sans text-xs uppercase tracking-widest text-text-tertiary mt-2 text-center relative z-10">
-                "Knowledge alone imparts genuine humility"
-              </p>
-            </div>
-          </FadeInSection>
-
-          <FadeInSection delay={300}>
-            <DecorativeBorder className="my-6 text-gold-base" />
-          </FadeInSection>
-
-          <FadeInSection delay={400}>
-            <p className="font-sans text-base sm:text-lg text-text-secondary leading-relaxed max-w-2xl text-center">
-              Disconnect from the noise. Learn Vedas, Vyakarana, Advaita Vedanta, and Bhagavad Gita directly from a dedicated scholar with 7 years of full residential Gurukula training. Uncompromising oral tradition meets academic rigor.
-            </p>
-          </FadeInSection>
-
-          {/* CTA Elements */}
-          <FadeInSection delay={400}>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-              <Button
-                onClick={() => handleNavClick('begin')}
-                variant="primary"
-                className="w-full sm:w-auto group"
-              >
-                <span>Begin Your Journey</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Button>
-
-              <Button
-                onClick={() => handleNavClick('teachings')}
-                variant="secondary"
-                className="w-full sm:w-auto"
-              >
-                Explore Subjects
-              </Button>
-            </div>
-          </FadeInSection>
-        </div>
-      </section>
-
-      {/* Banners Slideshow */}
-      <FadeInSection>
-        <section className="max-w-6xl mx-auto px-6 md:px-12 -mt-16 relative z-20">
-          <Slideshow 
-            images={[
-              "https://images.unsplash.com/photo-1542382257-8024cb61b8f5?w=1600&auto=format&fit=crop&q=80",
-              "https://images.unsplash.com/photo-1510861320402-285a6c7639ea?w=1600&auto=format&fit=crop&q=80",
-              "https://images.unsplash.com/photo-1591504711166-4e5088277259?w=1600&auto=format&fit=crop&q=80"
-            ]} 
-          />
-        </section>
-      </FadeInSection>
+                <span className="text-gold-base font-medium">Live. Personal.</span>
+              </>
+            ),
+            subtitle: "Disconnect from the noise. Learn Vedas, Vyakarana, Advaita Vedanta, and Bhagavad Gita directly from a dedicated scholar with 7 years of full residential Gurukula training."
+          },
+          {
+            image: "https://images.unsplash.com/photo-1510861320402-285a6c7639ea?w=1600&auto=format&fit=crop&q=80",
+            title: (
+              <>
+                Authentic <br />
+                <span className="text-gold-base font-medium">Gurukula Tradition</span>
+              </>
+            ),
+            subtitle: "Immerse yourself in the exact pedagogy preserved for millennia, tailored for the modern seeker."
+          },
+          {
+            image: "https://images.unsplash.com/photo-1591504711166-4e5088277259?w=1600&auto=format&fit=crop&q=80",
+            title: (
+              <>
+                Global <br />
+                <span className="text-gold-base font-medium">Community</span>
+              </>
+            ),
+            subtitle: "Join dedicated students from across the world in small, interactive cohorts focused on deep learning."
+          }
+        ]}
+        onBeginClick={() => handleNavClick('begin')}
+        onExploreClick={() => handleNavClick('teachings')}
+      />
 
       {/* SECTION 2 - Stats Strip (Animated Counters) */}
       <FadeInSection>
@@ -184,7 +128,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
             <div className="p-2 bg-surface-2 border border-gold-mid rounded-2xl shadow-xl relative z-10 overflow-hidden group">
               <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-[#0E0B07] border border-gold-dim">
                 <img 
-                  src="./acharya-photo.jpeg" 
+                  src={`${import.meta.env.BASE_URL}acharya-photo.jpeg`} 
                   alt="Acharya Vishweshwara" 
                   className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out grayscale hover:grayscale-0 opacity-80 hover:opacity-100 mix-blend-luminosity hover:mix-blend-normal" 
                 />
