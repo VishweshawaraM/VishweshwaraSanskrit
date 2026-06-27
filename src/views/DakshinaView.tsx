@@ -331,9 +331,25 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
 
             <Button
               disabled={!uploadedFile}
-              onClick={() => {
+              onClick={async () => {
+                const fileName = uploadedFile;
                 setShowSuccessMsg(true);
                 setUploadedFile(null);
+                
+                try {
+                  await fetch('/api/email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      to: 'visanskrit.solopreneur@gmail.com', // To the owner
+                      subject: 'New Dakshina Offering Uploaded',
+                      html: `<p>A new Dakshina offering receipt was uploaded.</p><p><strong>File Name:</strong> ${fileName}</p>`,
+                    }),
+                  });
+                } catch (error) {
+                  console.error('Failed to send notification email', error);
+                }
+
                 setTimeout(() => setShowSuccessMsg(false), 8000);
               }}
               variant="primary"

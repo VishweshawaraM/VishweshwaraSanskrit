@@ -2,12 +2,39 @@ import express from "express";
 import path from "path";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
+import { Resend } from "resend";
 
 async function startServer() {
   const app = express();
   const PORT = 3000;
 
   app.use(express.json({ limit: "50mb" }));
+
+  // Email route using Resend
+  app.post("/api/email", async (req, res) => {
+    try {
+      const { to, subject, html } = req.body;
+      const resendApiKey = process.env.RESEND_API_KEY;
+
+      if (!resendApiKey) {
+        return res.status(500).json({ error: "RESEND_API_KEY is not set." });
+      }
+
+      const resend = new Resend(resendApiKey);
+
+      const data = await resend.emails.send({
+        from: 'Vishweshwara <onboarding@resend.dev>', // Use a default resend testing email
+        to: [to],
+        subject: subject,
+        html: html,
+      });
+
+      res.json({ success: true, data });
+    } catch (error: any) {
+      console.error("Email sending error:", error);
+      res.status(500).json({ error: error.message || "Failed to send email" });
+    }
+  });
 
   // API route for Image Generation
   app.post("/api/generate-image", async (req, res) => {

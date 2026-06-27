@@ -63,33 +63,18 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
       <HeroSlideshow 
         slides={[
           {
-            image: "https://images.unsplash.com/photo-1542382257-8024cb61b8f5?w=1600&auto=format&fit=crop&q=80",
-            title: (
-              <>
-                Ancient Wisdom. <br />
-                <span className="text-gold-base font-medium">Live. Personal.</span>
-              </>
-            ),
+            image: "/90BC0280-743E-496C-AD5A-10DB96ED68C9.png",
+            title: "Live. Personal. Ancient Wisdom.",
             subtitle: "Disconnect from the noise. Learn Vedas, Vyakarana, Advaita Vedanta, and Bhagavad Gita directly from a dedicated scholar with 7 years of full residential Gurukula training."
           },
           {
-            image: "https://images.unsplash.com/photo-1510861320402-285a6c7639ea?w=1600&auto=format&fit=crop&q=80",
-            title: (
-              <>
-                Authentic <br />
-                <span className="text-gold-base font-medium">Gurukula Tradition</span>
-              </>
-            ),
+            image: "/BE39A249-BCEF-417F-B31A-70D71B6A709D.jpeg",
+            title: "Authentic Gurukula Tradition.",
             subtitle: "Immerse yourself in the exact pedagogy preserved for millennia, tailored for the modern seeker."
           },
           {
-            image: "https://images.unsplash.com/photo-1591504711166-4e5088277259?w=1600&auto=format&fit=crop&q=80",
-            title: (
-              <>
-                Global <br />
-                <span className="text-gold-base font-medium">Community</span>
-              </>
-            ),
+            image: "/C2A70D39-41A8-4BC8-B4C6-E11D27F21CA5.png",
+            title: "Global Community of Seekers.",
             subtitle: "Join dedicated students from across the world in small, interactive cohorts focused on deep learning."
           }
         ]}

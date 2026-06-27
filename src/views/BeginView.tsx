@@ -105,13 +105,53 @@ export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
                 </p>
               </div>
 
-              <Button
-                href="mailto:visanskrit.solopreneur@gmail.com?subject=Sanskrit%20Learning%20Cohort%20Inquiry"
-                variant="primary"
-                className="w-full"
+              <form 
+                onSubmit={async (e) => {
+                  e.preventDefault();
+                  const formData = new FormData(e.currentTarget);
+                  const email = formData.get('email');
+                  const message = formData.get('message');
+                  
+                  try {
+                    await fetch('/api/email', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        to: 'visanskrit.solopreneur@gmail.com',
+                        subject: `Institution Inquiry from ${email}`,
+                        html: `<p><strong>Email:</strong> ${email}</p><p><strong>Message:</strong></p><p>${message}</p>`,
+                      }),
+                    });
+                    alert('Email sent successfully!');
+                    (e.target as HTMLFormElement).reset();
+                  } catch (error) {
+                    alert('Failed to send email.');
+                  }
+                }}
+                className="space-y-3"
               >
-                <span>Send Official Email</span>
-              </Button>
+                <input 
+                  type="email" 
+                  name="email"
+                  placeholder="Your Email Address" 
+                  required
+                  className="w-full bg-[#0E0B07] border border-gold-dim rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors"
+                />
+                <textarea 
+                  name="message"
+                  placeholder="Your Message..." 
+                  required
+                  rows={3}
+                  className="w-full bg-[#0E0B07] border border-gold-dim rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors resize-none"
+                />
+                <Button
+                  type="submit"
+                  variant="primary"
+                  className="w-full"
+                >
+                  <span>Send Official Email</span>
+                </Button>
+              </form>
             </div>
           </FadeInSection>
           
