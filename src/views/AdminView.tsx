@@ -5,6 +5,7 @@ import { Button } from '../components/Button';
 import { initAuth, googleSignIn, logout, getAccessToken } from '../lib/auth';
 import { getLeads, Lead } from '../lib/firebase';
 import { User } from 'firebase/auth';
+import { ImageGenerator } from '../components/ImageGenerator';
 
 interface AdminViewProps {
   onViewChange: (view: PageView) => void;
@@ -378,6 +379,11 @@ export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
             </table>
           </div>
         )}
+      </div>
+
+      {/* Image Generator Section */}
+      <div className="mt-12">
+        <ImageGenerator />
       </div>
     </div>
   );

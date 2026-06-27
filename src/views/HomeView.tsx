@@ -10,6 +10,7 @@ import { PageView } from '../types';
 import { FadeInSection } from '../components/FadeInSection';
 import { Button } from '../components/Button';
 import { Motif, DecorativeBorder } from '../components/Motif';
+import { Slideshow } from '../components/Slideshow';
 
 interface HomeViewProps {
   onViewChange: (view: PageView) => void;
@@ -138,6 +139,19 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
           </FadeInSection>
         </div>
       </section>
+
+      {/* Banners Slideshow */}
+      <FadeInSection>
+        <section className="max-w-6xl mx-auto px-6 md:px-12 -mt-16 relative z-20">
+          <Slideshow 
+            images={[
+              "https://images.unsplash.com/photo-1542382257-8024cb61b8f5?w=1600&auto=format&fit=crop&q=80",
+              "https://images.unsplash.com/photo-1510861320402-285a6c7639ea?w=1600&auto=format&fit=crop&q=80",
+              "https://images.unsplash.com/photo-1591504711166-4e5088277259?w=1600&auto=format&fit=crop&q=80"
+            ]} 
+          />
+        </section>
+      </FadeInSection>
 
       {/* SECTION 2 - Stats Strip (Animated Counters) */}
       <FadeInSection>
