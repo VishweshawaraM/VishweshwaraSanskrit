@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ArrowLeft, RefreshCw, LogIn, FileSpreadsheet, Mail, Calendar, FileText, Loader2 } from 'lucide-react';
 import { PageView } from '../types';
 import { Button } from '../components/Button';
-import { initAuth, googleSignIn, logout, getAccessToken } from '../lib/auth';
+import { initAuth, googleSignIn, emailSignIn, emailSignUp, anonymousSignIn, logout, getAccessToken } from '../lib/auth';
 import { getLeads, Lead } from '../lib/firebase';
 import { User } from 'firebase/auth';
 import { ImageGenerator } from '../components/ImageGenerator';
@@ -19,6 +19,12 @@ export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
   const [activeActionId, setActiveActionId] = useState<string | null>(null);
+
+  // Email login state
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loginError, setLoginError] = useState('');
+  const [isSignUp, setIsSignUp] = useState(false);
 
   useEffect(() => {
     const unsubscribe = initAuth(
@@ -44,6 +50,38 @@ export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
       console.error(err);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleEmailLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoginError('');
+    setIsLoggingIn(true);
+    try {
+      let result;
+      // Hardcoded bypass for ease of access
+      if (email === 'admin' && password === 'admin@V12') {
+        setUser({ email: 'admin@visanskrit.com', uid: 'admin-bypass' } as unknown as User);
+        setNeedsAuth(false);
+        fetchLeads();
+        setIsLoggingIn(false);
+        return;
+      } else if (isSignUp) {
+        result = await emailSignUp(email, password);
+      } else {
+        result = await emailSignIn(email, password);
+      }
+      
+      if (result) {
+        setUser(result.user);
+        setNeedsAuth(false);
+        fetchLeads();
+      }
+    } catch (err: any) {
+      console.error('Login failed:', err);
+      setLoginError(err.message || 'Invalid email or password');
+    } finally {
+      setIsLoggingIn(false);
     }
   };
 
@@ -273,19 +311,78 @@ export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
 
   if (needsAuth) {
     return (
-      <div className="min-h-[70vh] flex flex-col items-center justify-center space-y-6 px-6">
-        <div className="text-center space-y-2">
-          <h1 className="font-serif text-3xl text-text-primary">Admin Access</h1>
-          <p className="font-sans text-sm text-text-secondary">Please sign in to view leads and manage data.</p>
+      <div className="min-h-[70vh] flex flex-col items-center justify-center px-6">
+        <div className="w-full max-w-sm space-y-6">
+          <div className="text-center space-y-2">
+            <h1 className="font-serif text-3xl text-text-primary">Admin Access</h1>
+            <p className="font-sans text-sm text-text-secondary">Please sign in to view leads and manage data.</p>
+          </div>
+
+          <form onSubmit={handleEmailLogin} className="space-y-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-text-secondary block">Email or Username</label>
+              <input 
+                type="text" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-md px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base transition-colors" 
+                placeholder="admin" 
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-text-secondary block">Password</label>
+              <input 
+                type="password" 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-md px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base transition-colors" 
+                placeholder="••••••••" 
+              />
+            </div>
+            
+            {loginError && (
+              <p className="text-red-500 text-xs font-medium">{loginError}</p>
+            )}
+
+            <Button type="submit" variant="primary" disabled={isLoggingIn} className="w-full">
+              <LogIn className="w-4 h-4 mr-2" />
+              <span>{isLoggingIn ? 'Please wait...' : (isSignUp ? 'Create Account' : 'Sign in')}</span>
+            </Button>
+            
+            <div className="text-center mt-2">
+              <button 
+                type="button" 
+                onClick={() => setIsSignUp(!isSignUp)}
+                className="text-xs text-text-tertiary hover:text-gold-base transition-colors"
+              >
+                {isSignUp ? 'Already have an account? Sign In' : 'Need an account? Sign Up'}
+              </button>
+            </div>
+          </form>
+
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gold-dim/30"></div>
+            </div>
+            <div className="relative flex justify-center text-xs">
+              <span className="bg-surface-0 px-2 text-text-tertiary">Or</span>
+            </div>
+          </div>
+
+          <Button onClick={handleLogin} variant="outline" disabled={isLoggingIn} className="w-full">
+            <LogIn className="w-4 h-4 mr-2" />
+            <span>Sign in with Google</span>
+          </Button>
+
+          <div className="pt-4 flex justify-center">
+            <Button to="/" variant="ghost">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              <span>Return Home</span>
+            </Button>
+          </div>
         </div>
-        <Button onClick={handleLogin} variant="primary" disabled={isLoggingIn} className="w-full max-w-sm">
-          <LogIn className="w-4 h-4 mr-2" />
-          <span>{isLoggingIn ? 'Signing In...' : 'Sign in with Google'}</span>
-        </Button>
-        <Button to="/" variant="ghost">
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          <span>Return Home</span>
-        </Button>
       </div>
     );
   }

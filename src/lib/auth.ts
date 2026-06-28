@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, User } from 'firebase/auth';
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, User, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInAnonymously } from 'firebase/auth';
 import firebaseConfig from '../../firebase-applet-config.json';
 
 const app = initializeApp(firebaseConfig);
@@ -15,22 +15,59 @@ let isSigningIn = false;
 let cachedAccessToken: string | null = null;
 
 export const initAuth = (
-  onAuthSuccess?: (user: User, token: string) => void,
+  onAuthSuccess?: (user: User, token: string | null) => void,
   onAuthFailure?: () => void
 ) => {
   return onAuthStateChanged(auth, async (user: User | null) => {
     if (user) {
-      if (cachedAccessToken) {
-        if (onAuthSuccess) onAuthSuccess(user, cachedAccessToken);
-      } else if (!isSigningIn) {
-        cachedAccessToken = null;
-        if (onAuthFailure) onAuthFailure();
-      }
+      if (onAuthSuccess) onAuthSuccess(user, cachedAccessToken);
     } else {
       cachedAccessToken = null;
       if (onAuthFailure) onAuthFailure();
     }
   });
+};
+
+export const emailSignUp = async (email: string, password: string): Promise<{ user: User } | null> => {
+  try {
+    isSigningIn = true;
+    const result = await createUserWithEmailAndPassword(auth, email, password);
+    cachedAccessToken = null;
+    return { user: result.user };
+  } catch (error: any) {
+    console.error('Sign up error:', error);
+    throw error;
+  } finally {
+    isSigningIn = false;
+  }
+};
+
+export const emailSignIn = async (email: string, password: string): Promise<{ user: User } | null> => {
+  try {
+    isSigningIn = true;
+    const result = await signInWithEmailAndPassword(auth, email, password);
+    cachedAccessToken = null; // Email/Password doesn't provide Google API access token
+    return { user: result.user };
+  } catch (error: any) {
+    console.error('Sign in error:', error);
+    throw error;
+  } finally {
+    isSigningIn = false;
+  }
+};
+
+export const anonymousSignIn = async (): Promise<{ user: User } | null> => {
+  try {
+    isSigningIn = true;
+    const result = await signInAnonymously(auth);
+    cachedAccessToken = null;
+    return { user: result.user };
+  } catch (error: any) {
+    console.error('Anonymous sign in error:', error);
+    throw error;
+  } finally {
+    isSigningIn = false;
+  }
 };
 
 export const googleSignIn = async (): Promise<{ user: User; accessToken: string } | null> => {
