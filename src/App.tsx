@@ -11,6 +11,7 @@ import { Footer } from './components/Footer';
 import { MobileBottomBar } from './components/MobileBottomBar';
 import { CommonCTA } from './components/CommonCTA';
 import { WhatsAppWidget } from './components/WhatsAppWidget';
+import { PageNavigation } from './components/PageNavigation';
 import { HomeView } from './views/HomeView';
 import { AboutView } from './views/AboutView';
 import { TeachingsView } from './views/TeachingsView';
@@ -132,6 +133,9 @@ const AppContent = () => {
               <Route path="/admin" element={<AdminView onViewChange={handleViewChange} />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
+            {showStandardChrome && (
+              <PageNavigation />
+            )}
           </motion.div>
         </AnimatePresence>
       </main>
