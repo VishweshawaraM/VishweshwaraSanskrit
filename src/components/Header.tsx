@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X, ArrowRight, ChevronDown, Sparkles, GraduationCap } from 'lucide-react';
 import { Logo } from './Logo';
@@ -60,9 +61,9 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => 
       >
         <div className="max-w-7xl mx-auto px-4 md:px-12 flex items-center justify-between">
           {/* Brand Logo Wordmark */}
-          <div onClick={() => handleNavClick('home')} className="z-50">
+          <Link to="/" onClick={() => { setIsMobileMenuOpen(false); setIsTeachingsDropdownOpen(false); }} className="z-50">
             <Logo variant="horizontal" />
-          </div>
+          </Link>
 
           {/* Desktop Navigation - 3 + 1 */}
           <nav className="hidden md:flex items-center space-x-8">
@@ -95,19 +96,21 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => 
                       <span className="font-mono text-[10px] tracking-widest text-text-gold uppercase flex items-center gap-1">
                         <Sparkles className="w-3 h-3" /> Core Subjects
                       </span>
-                      <button
-                        onClick={() => handleNavClick('teachings')}
+                      <Link
+                        to="/teachings"
+                        onClick={() => { setIsMobileMenuOpen(false); setIsTeachingsDropdownOpen(false); }}
                         className="text-[10px] font-mono tracking-wider text-text-tertiary hover:text-text-gold transition-colors"
                       >
                         View Teaching Approach →
-                      </button>
+                      </Link>
                     </div>
 
                     <div className="grid grid-cols-2 gap-x-6 gap-y-3">
                       {subjects.map((sub) => (
-                        <div
+                        <Link
+                          to="/teachings"
                           key={sub.id}
-                          onClick={() => handleNavClick('teachings')}
+                          onClick={() => { setIsMobileMenuOpen(false); setIsTeachingsDropdownOpen(false); }}
                           className="group flex flex-col p-2.5 rounded-md hover:bg-surface-3 transition-all duration-150 cursor-pointer border border-transparent hover:border-gold-dim"
                         >
                           <span className="font-serif text-sm text-text-primary group-hover:text-text-gold transition-colors font-medium">
@@ -116,18 +119,19 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => 
                           <span className="font-sans text-[10px] text-text-tertiary mt-0.5 leading-tight group-hover:text-text-secondary transition-colors">
                             {sub.desc}
                           </span>
-                        </div>
+                        </Link>
                       ))}
                     </div>
 
                     <div className="mt-4 pt-3 border-t border-gold-dim text-center">
-                      <button
-                        onClick={() => handleNavClick('teachings')}
-                        className="inline-flex items-center space-x-1 font-mono text-[10px] tracking-wider text-text-gold hover:text-gold-bright transition-colors uppercase"
+                      <Link
+                        to="/teachings"
+                        onClick={() => { setIsMobileMenuOpen(false); setIsTeachingsDropdownOpen(false); }}
+                        className="inline-flex items-center justify-center space-x-1 font-mono text-[10px] tracking-wider text-text-gold hover:text-gold-bright transition-colors uppercase"
                       >
                         <GraduationCap className="w-3 h-3" />
                         <span>Explore Curriculum details</span>
-                      </button>
+                      </Link>
                     </div>
                   </motion.div>
                 )}
@@ -135,38 +139,42 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => 
             </div>
 
             {/* Simple Link - About */}
-            <button
-              onClick={() => handleNavClick('about')}
+            <Link
+              to="/about"
+              onClick={() => { setIsMobileMenuOpen(false); setIsTeachingsDropdownOpen(false); }}
               className={`font-mono text-xs tracking-[0.12em] uppercase transition-colors hover:text-text-gold ${
                 currentView === 'about' ? 'text-text-gold font-semibold' : 'text-text-secondary'
               }`}
             >
               About
-            </button>
+            </Link>
 
             {/* Simple Link - Testimonials */}
-            <button
-              onClick={() => handleNavClick('testimonials')}
+            <Link
+              to="/testimonials"
+              onClick={() => { setIsMobileMenuOpen(false); setIsTeachingsDropdownOpen(false); }}
               className={`font-mono text-xs tracking-[0.12em] uppercase transition-colors hover:text-text-gold ${
                 currentView === 'testimonials' ? 'text-text-gold font-semibold' : 'text-text-secondary'
               }`}
             >
               Students
-            </button>
+            </Link>
 
             {/* Simple Link - Dakshina */}
-            <button
-              onClick={() => handleNavClick('dakshina')}
+            <Link
+              to="/dakshina"
+              onClick={() => { setIsMobileMenuOpen(false); setIsTeachingsDropdownOpen(false); }}
               className={`font-mono text-xs tracking-[0.12em] uppercase transition-colors hover:text-text-gold ${
                 currentView === 'dakshina' ? 'text-text-gold font-semibold' : 'text-text-secondary'
               }`}
             >
               Dakshina
-            </button>
+            </Link>
 
             {/* CTA Button - Begin (Only conversion needed) */}
             <Button
-              onClick={() => handleNavClick('begin')}
+              to="/begin"
+              onClick={() => { setIsMobileMenuOpen(false); setIsTeachingsDropdownOpen(false); }}
               variant="primary"
               className="group !px-5"
             >
@@ -222,53 +230,59 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => 
 
             {/* Nav Menu List */}
             <nav className="flex flex-col space-y-4 text-left flex-1 mb-8">
-              <button
-                onClick={() => handleNavClick('home')}
+              <Link
+                to="/"
+                onClick={() => { setIsMobileMenuOpen(false); setIsTeachingsDropdownOpen(false); }}
                 className={`font-serif text-xl tracking-wide text-left py-3 hover:text-text-gold transition-colors ${
                   currentView === 'home' ? 'text-text-gold' : 'text-text-secondary'
                 }`}
               >
                 Home
-              </button>
-              <button
-                onClick={() => handleNavClick('teachings')}
+              </Link>
+              <Link
+                to="/teachings"
+                onClick={() => { setIsMobileMenuOpen(false); setIsTeachingsDropdownOpen(false); }}
                 className={`font-serif text-xl tracking-wide text-left py-3 hover:text-text-gold transition-colors ${
                   currentView === 'teachings' ? 'text-text-gold' : 'text-text-secondary'
                 }`}
               >
                 Teachings
-              </button>
-              <button
-                onClick={() => handleNavClick('about')}
+              </Link>
+              <Link
+                to="/about"
+                onClick={() => { setIsMobileMenuOpen(false); setIsTeachingsDropdownOpen(false); }}
                 className={`font-serif text-xl tracking-wide text-left py-3 hover:text-text-gold transition-colors ${
                   currentView === 'about' ? 'text-text-gold' : 'text-text-secondary'
                 }`}
               >
                 About Acharya
-              </button>
-              <button
-                onClick={() => handleNavClick('dakshina')}
+              </Link>
+              <Link
+                to="/dakshina"
+                onClick={() => { setIsMobileMenuOpen(false); setIsTeachingsDropdownOpen(false); }}
                 className={`font-serif text-xl tracking-wide text-left py-3 hover:text-text-gold transition-colors ${
                   currentView === 'dakshina' ? 'text-text-gold' : 'text-text-secondary'
                 }`}
               >
                 Guru Dakshina
-              </button>
-              <button
-                onClick={() => handleNavClick('testimonials')}
+              </Link>
+              <Link
+                to="/testimonials"
+                onClick={() => { setIsMobileMenuOpen(false); setIsTeachingsDropdownOpen(false); }}
                 className={`font-serif text-xl tracking-wide text-left py-3 hover:text-text-gold transition-colors ${
                   currentView === 'testimonials' ? 'text-text-gold' : 'text-text-secondary'
                 }`}
               >
                 Student Voices
-              </button>
+              </Link>
             </nav>
 
             {/* Bottom Actions */}
             <div className="space-y-4 shrink-0 pb-4">
               <div className="h-[1px] w-full bg-gold-dim mb-6"></div>
               <Button
-                onClick={() => handleNavClick('begin')}
+                to="/begin"
+                onClick={() => { setIsMobileMenuOpen(false); setIsTeachingsDropdownOpen(false); }}
                 variant="primary"
                 className="w-full group"
               >

@@ -39,12 +39,13 @@ export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
   ];
 
   return (
-    <div className="space-y-24 md:space-y-32">
+    <div className="space-y-16 md:space-y-32">
       {/* Header and Back Link */}
       <FadeInSection delay={100}>
-        <div className="max-w-7xl mx-auto px-6 md:px-12 pt-28 text-left select-none">
+        <div className="max-w-7xl mx-auto px-4 md:px-12 pt-28 text-left select-none">
           <Button
-            onClick={handleBackClick}
+            to="/"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             variant="ghost"
             className="!px-0 text-text-gold"
           >
@@ -64,7 +65,7 @@ export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
         </div>
       </FadeInSection>
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 text-left select-none pb-24">
+      <div className="max-w-7xl mx-auto px-4 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 text-left select-none pb-24">
         {/* LEFT COLUMN: Timeline & Quick Contact */}
         <div className="lg:col-span-5 space-y-12">
           <FadeInSection delay={200}>
@@ -97,11 +98,11 @@ export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
             <div className="bg-surface-2 border border-gold-mid p-6 rounded-xl shadow-lg space-y-5 hover:border-gold-bright transition-all duration-300">
               <div className="space-y-2">
                 <div className="h-10 w-10 rounded bg-[#C8860A]/10 border border-gold-mid flex items-center justify-center">
-                  <Mail className="w-5 h-5 text-text-gold" />
+                  <MessageSquareCode className="w-5 h-5 text-text-gold" />
                 </div>
-                <h3 className="font-serif text-xl text-text-primary font-semibold">Institutional Email</h3>
+                <h3 className="font-serif text-xl text-text-primary font-semibold">Enrollment Inquiry</h3>
                 <p className="font-sans text-xs text-text-secondary leading-relaxed">
-                  For academic institutions, study centers, or detailed corporate cohort syllabus requests.
+                  Submit your details below to express interest in upcoming batches or personalized shastra studies.
                 </p>
               </div>
 
@@ -109,37 +110,78 @@ export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
                 onSubmit={async (e) => {
                   e.preventDefault();
                   const formData = new FormData(e.currentTarget);
-                  const email = formData.get('email');
-                  const message = formData.get('message');
+                  const data = {
+                    name: formData.get('name') as string,
+                    email: formData.get('email') as string,
+                    subject: formData.get('subject') as string,
+                    timezone: formData.get('timezone') as string,
+                    background: formData.get('background') as string,
+                    message: formData.get('message') as string,
+                  };
                   
                   try {
-                    await fetch('/api/email', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({
-                        to: 'visanskrit.solopreneur@gmail.com',
-                        subject: `Institution Inquiry from ${email}`,
-                        html: `<p><strong>Email:</strong> ${email}</p><p><strong>Message:</strong></p><p>${message}</p>`,
-                      }),
-                    });
-                    alert('Email sent successfully!');
+                    const { saveLead } = await import('../lib/firebase');
+                    await saveLead(data);
+                    alert('Inquiry submitted successfully! We will get back to you soon.');
                     (e.target as HTMLFormElement).reset();
                   } catch (error) {
-                    alert('Failed to send email.');
+                    console.error('Submission error:', error);
+                    alert('Failed to submit inquiry. Please try again.');
                   }
                 }}
                 className="space-y-3"
               >
-                <input 
-                  type="email" 
-                  name="email"
-                  placeholder="Your Email Address" 
+                <div className="grid grid-cols-2 gap-3">
+                  <input 
+                    type="text" 
+                    name="name"
+                    placeholder="Full Name" 
+                    required
+                    className="w-full bg-[#0E0B07] border border-gold-dim rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors"
+                  />
+                  <input 
+                    type="email" 
+                    name="email"
+                    placeholder="Email Address" 
+                    required
+                    className="w-full bg-[#0E0B07] border border-gold-dim rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <select 
+                    name="subject"
+                    required
+                    className="w-full bg-[#0E0B07] border border-gold-dim rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors appearance-none"
+                  >
+                    <option value="" disabled selected>Select Subject</option>
+                    <option value="Sanskrit Grammar">Sanskrit Grammar</option>
+                    <option value="Bhagavad Gita">Bhagavad Gita</option>
+                    <option value="Advaita Vedanta">Advaita Vedanta</option>
+                    <option value="Vedic Chanting">Vedic Chanting</option>
+                    <option value="Other">Other</option>
+                  </select>
+                  <input 
+                    type="text" 
+                    name="timezone"
+                    placeholder="Your Timezone (e.g. IST, EST)" 
+                    required
+                    className="w-full bg-[#0E0B07] border border-gold-dim rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors"
+                  />
+                </div>
+                <select 
+                  name="background"
                   required
-                  className="w-full bg-[#0E0B07] border border-gold-dim rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors"
-                />
+                  className="w-full bg-[#0E0B07] border border-gold-dim rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors appearance-none"
+                >
+                  <option value="" disabled selected>Current Knowledge Level</option>
+                  <option value="Complete Beginner">Complete Beginner</option>
+                  <option value="Know Alphabet/Basic Reading">Know Alphabet/Basic Reading</option>
+                  <option value="Intermediate (Studied previously)">Intermediate (Studied previously)</option>
+                  <option value="Advanced (Seeking Shastra study)">Advanced (Seeking Shastra study)</option>
+                </select>
                 <textarea 
                   name="message"
-                  placeholder="Your Message..." 
+                  placeholder="Tell us about your learning goals..." 
                   required
                   rows={3}
                   className="w-full bg-[#0E0B07] border border-gold-dim rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors resize-none"
@@ -149,7 +191,7 @@ export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
                   variant="primary"
                   className="w-full"
                 >
-                  <span>Send Official Email</span>
+                  <span>Submit Inquiry</span>
                 </Button>
               </form>
             </div>

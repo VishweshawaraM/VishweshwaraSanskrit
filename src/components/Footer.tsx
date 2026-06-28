@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Mail, Phone, MapPin, ArrowUp, Send, Instagram, Facebook } from 'lucide-react';
 import { Logo } from './Logo';
 import { PageView } from '../types';
@@ -26,7 +27,7 @@ export const Footer: React.FC<FooterProps> = ({ onViewChange }) => {
   };
 
   return (
-    <footer className="bg-surface-1 border-t border-gold-mid pt-16 pb-8 px-6 md:px-12 relative overflow-hidden">
+    <footer className="bg-surface-1 border-t border-gold-mid pt-16 pb-8 px-4 md:px-12 relative overflow-hidden">
       {/* Decorative Background Elements */}
       <div className="absolute right-0 bottom-0 translate-x-1/4 translate-y-1/4 w-96 h-96 rounded-full bg-[#C8860A]/2 blur-[120px] pointer-events-none"></div>
 
@@ -51,12 +52,13 @@ export const Footer: React.FC<FooterProps> = ({ onViewChange }) => {
           <ul className="space-y-2.5">
             {['Samskrita Language', 'Bhagavad Gita', 'Veda Mantra Chanting', 'Advaita Vedanta', 'Puja Vidhi & Rituals'].map((item) => (
               <li key={item}>
-                <button
-                  onClick={() => handleLinkClick('teachings')}
+                <Link
+                  to="/teachings"
+                  onClick={scrollToTop}
                   className="font-sans text-xs text-text-tertiary hover:text-text-gold transition-colors text-left"
                 >
                   {item}
-                </button>
+                </Link>
               </li>
             ))}
           </ul>
@@ -69,29 +71,29 @@ export const Footer: React.FC<FooterProps> = ({ onViewChange }) => {
           </h4>
           <ul className="space-y-2.5">
             <li>
-              <button onClick={() => handleLinkClick('about')} className="font-sans text-xs text-text-tertiary hover:text-text-gold transition-colors">
+              <Link to="/about" onClick={scrollToTop} className="font-sans text-xs text-text-tertiary hover:text-text-gold transition-colors">
                 The Acharya's Story
-              </button>
+              </Link>
             </li>
             <li>
-              <button onClick={() => handleLinkClick('teachings')} className="font-sans text-xs text-text-tertiary hover:text-text-gold transition-colors">
+              <Link to="/teachings" onClick={scrollToTop} className="font-sans text-xs text-text-tertiary hover:text-text-gold transition-colors">
                 Curriculum Details
-              </button>
+              </Link>
             </li>
             <li>
-              <button onClick={() => handleLinkClick('dakshina')} className="font-sans text-xs text-text-tertiary hover:text-text-gold transition-colors">
+              <Link to="/dakshina" onClick={scrollToTop} className="font-sans text-xs text-text-tertiary hover:text-text-gold transition-colors">
                 Guru Dakshina Concept
-              </button>
+              </Link>
             </li>
             <li>
-              <button onClick={() => handleLinkClick('testimonials')} className="font-sans text-xs text-text-tertiary hover:text-text-gold transition-colors">
+              <Link to="/testimonials" onClick={scrollToTop} className="font-sans text-xs text-text-tertiary hover:text-text-gold transition-colors">
                 Student Testimonials
-              </button>
+              </Link>
             </li>
             <li>
-              <button onClick={() => handleLinkClick('begin')} className="font-sans text-xs text-text-tertiary hover:text-text-gold transition-colors">
+              <Link to="/begin" onClick={scrollToTop} className="font-sans text-xs text-text-tertiary hover:text-text-gold transition-colors">
                 Begin Enquiry
-              </button>
+              </Link>
             </li>
           </ul>
         </div>
@@ -174,13 +176,13 @@ export const Footer: React.FC<FooterProps> = ({ onViewChange }) => {
         </div>
 
         <div className="flex items-center space-x-6 text-[10px] font-mono tracking-wider uppercase">
-          <button onClick={() => handleLinkClick('landing')} className="text-text-tertiary hover:text-text-gold transition-colors">
+          <Link to="/landing" onClick={scrollToTop} className="text-text-tertiary hover:text-text-gold transition-colors">
             Ads Campaign Preview
-          </button>
+          </Link>
           <span className="text-[#C8860A]/20">|</span>
-          <button onClick={() => handleLinkClick('admin')} className="text-text-tertiary hover:text-text-gold transition-colors">
+          <Link to="/admin" onClick={scrollToTop} className="text-text-tertiary hover:text-text-gold transition-colors">
             Admin Access
-          </button>
+          </Link>
           <span className="text-[#C8860A]/20">|</span>
           <button onClick={scrollToTop} className="text-text-gold hover:text-gold-bright transition-colors flex items-center space-x-1">
             <span>Scroll Top</span>

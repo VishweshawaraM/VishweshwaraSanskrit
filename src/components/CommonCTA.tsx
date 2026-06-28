@@ -30,7 +30,7 @@ export const CommonCTA: React.FC<CommonCTAProps> = ({
   };
 
   return (
-    <section className="relative py-20 md:py-28 bg-surface-1 border-t border-gold-mid overflow-hidden text-center px-6 md:px-12 select-none">
+    <section className="relative py-20 md:py-28 bg-surface-1 border-t border-gold-mid overflow-hidden text-center px-4 md:px-12 select-none">
       {/* Absolute OM Watermark (Sanskrit placement rule) */}
       <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none select-none">
         <span className="font-devanagari text-[18rem] md:text-[32rem] text-gold-base leading-none">
@@ -58,7 +58,7 @@ export const CommonCTA: React.FC<CommonCTAProps> = ({
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
           <Button
-            onClick={handleCTAClick}
+            to="/begin"
             variant="primary"
             className="w-full sm:w-auto group"
           >

@@ -31,7 +31,7 @@ export const Logo: React.FC<LogoProps> = ({ variant = 'horizontal', className = 
     return (
       <div className={`relative flex items-center justify-center p-1 rounded-2xl bg-[#0E0B07] border border-[#2A1E12] shadow-2xl ${className}`} style={{ width: size || 56, height: size || 56 }}>
         <img 
-          src="./favicon-logo.PNG" 
+          src="./favicon-logo.png" 
           alt="Vishweshwara Favicon" 
           className="shrink-0 rounded-xl"
           style={{ width: (size || 56) - 12, height: (size || 56) - 12, objectFit: 'contain' }}
@@ -47,7 +47,7 @@ export const Logo: React.FC<LogoProps> = ({ variant = 'horizontal', className = 
     return (
       <div className={`flex flex-col items-center justify-center text-center ${className}`}>
         <img 
-          src="./primary-logo.PNG" 
+          src="./primary-logo.png" 
           alt="Vishweshwara Primary Logo" 
           style={{ width: size || 240, height: 'auto' }}
           className="max-w-full"

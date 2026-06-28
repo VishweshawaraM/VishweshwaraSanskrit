@@ -5,9 +5,11 @@
 
 import React from 'react';
 import { motion } from 'motion/react';
+import { Link } from 'react-router-dom';
 import { ShieldAlert, BookOpen, GraduationCap, Calendar, Compass, Milestone, Sparkles } from 'lucide-react';
 import { TIMELINE_ITEMS, CREDENTIALS_ITEMS } from '../data';
 import { PageView } from '../types';
+import { FAQ } from '../components/FAQ';
 
 interface AboutViewProps {
   onViewChange: (view: PageView) => void;
@@ -37,10 +39,28 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange }) => {
     { label: 'Field Methodology', desc: 'Upanishadic learning methodologies, research methods, and field teaching.' }
   ];
 
+  const aboutFaqData = [
+    {
+      id: 'faq1',
+      question: 'What does the traditional Gurukula format entail?',
+      answer: 'The traditional Gurukula format is an immersive, highly disciplined learning environment. It emphasizes an unaltered oral transmission (Parampara) of knowledge, strict adherence to daily rituals, and a deep, continuous engagement with the shastras under the direct guidance of an Acharya.'
+    },
+    {
+      id: 'faq2',
+      question: 'How are the class schedules structured?',
+      answer: 'Schedules are aligned with traditional rhythms, often beginning in the Brahma Muhurta (early morning). While our digital cohorts adapt to modern realities, we maintain a rigorous cadence of live sessions, individual practice (Svadhyaya), and regular assessments to ensure continuous progress.'
+    },
+    {
+      id: 'faq3',
+      question: 'What level of commitment is expected from a student?',
+      answer: 'We expect a high level of dedication. This is not a casual course. Students must commit to regular attendance, daily practice, and a disciplined approach to study. The journey to mastering Sanskrit and the shastras requires patience, humility, and sustained effort.'
+    }
+  ];
+
   return (
-    <div className="space-y-24 md:space-y-32">
+    <div className="space-y-16 md:space-y-32">
       {/* SECTION 1 - Page Hero */}
-      <section className="relative pt-32 pb-16 bg-[#0E0B07] border-b border-gold-mid overflow-hidden px-6 md:px-12 select-none">
+      <section className="relative pt-32 pb-16 bg-[#0E0B07] border-b border-gold-mid overflow-hidden px-4 md:px-12 select-none">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,#1F160D_0%,transparent_100%)] opacity-30 pointer-events-none"></div>
 
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
@@ -108,7 +128,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange }) => {
       </section>
 
       {/* SECTION 4 - Formation Timeline */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 space-y-12 select-none">
+      <section className="max-w-7xl mx-auto px-4 md:px-12 space-y-12 select-none">
         <div className="space-y-3 text-center">
           <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase block">CHRONOLOGY OF TRAINING</span>
           <h2 className="font-display text-3xl md:text-5xl font-light text-text-primary tracking-tight">
@@ -142,7 +162,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange }) => {
       </section>
 
       {/* SECTION 5 - Credential Bento Grid (Stage 1 & Stage 2 details) */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 space-y-12 select-none">
+      <section className="max-w-7xl mx-auto px-4 md:px-12 space-y-12 select-none">
         <div className="space-y-3 text-center">
           <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase block">THE ACADEMIC SPECTRUM</span>
           <h2 className="font-display text-3xl md:text-5xl font-light text-text-primary tracking-tight">
@@ -200,8 +220,11 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange }) => {
         </div>
       </section>
 
-      {/* SECTION 6 - Vision Section (Centered, OM watermark) */}
-      <section className="relative py-20 bg-surface-1 border-t border-gold-mid overflow-hidden text-center px-6 md:px-12 select-none">
+      {/* SECTION 6 - FAQ */}
+      <FAQ data={aboutFaqData} />
+
+      {/* SECTION 7 - Vision Section (Centered, OM watermark) */}
+      <section className="relative py-20 bg-surface-1 border-t border-gold-mid overflow-hidden text-center px-4 md:px-12 select-none">
         {/* Absolute OM watermark */}
         <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
           <span className="font-devanagari text-[20rem] md:text-[32rem] text-gold-base leading-none">
@@ -218,12 +241,13 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange }) => {
             "My ultimate vision is to bridge the gap between ancient rigorous Gurukula disciplines and modern digital convenience. I desire to create an online sanctuary where any earnest seeker, regardless of corporate location, can access unaltered Sanskrit texts with absolute purity and trust."
           </p>
           <div className="pt-4">
-            <button
-              onClick={() => handleNavClick('begin')}
-              className="px-6 py-3.5 rounded bg-gradient-to-r from-gold-base to-gold-bright text-ground font-mono text-xs tracking-widest uppercase font-semibold active:scale-95 transition-all shadow-md hover:shadow-lg"
+            <Link
+              to="/begin"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="inline-block px-6 py-3.5 rounded bg-gradient-to-r from-gold-base to-gold-bright text-ground font-mono text-xs tracking-widest uppercase font-semibold active:scale-95 transition-all shadow-md hover:shadow-lg text-center"
             >
               Enquire and Join My Cohort
-            </button>
+            </Link>
           </div>
         </div>
       </section>

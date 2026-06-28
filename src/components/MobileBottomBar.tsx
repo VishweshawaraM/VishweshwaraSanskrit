@@ -68,7 +68,7 @@ export const MobileBottomBar: React.FC<MobileBottomBarProps> = ({ onViewChange }
 
           {/* Primary Gold CTA Button */}
           <Button
-            onClick={handleBeginClick}
+            to="/begin"
             variant="primary"
             className="flex-[1.5] !px-2 group"
           >

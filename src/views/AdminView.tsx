@@ -282,7 +282,7 @@ export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
           <LogIn className="w-4 h-4 mr-2" />
           <span>{isLoggingIn ? 'Signing In...' : 'Sign in with Google'}</span>
         </Button>
-        <Button onClick={() => onViewChange('home')} variant="ghost">
+        <Button to="/" variant="ghost">
           <ArrowLeft className="w-4 h-4 mr-2" />
           <span>Return Home</span>
         </Button>
@@ -291,10 +291,10 @@ export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-6 md:px-12 py-24 space-y-12">
+    <div className="max-w-7xl mx-auto px-4 md:px-12 py-24 space-y-12">
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="space-y-2">
-          <Button onClick={() => onViewChange('home')} variant="ghost" className="!px-0 text-text-gold">
+          <Button to="/" variant="ghost" className="!px-0 text-text-gold">
             <ArrowLeft className="w-4 h-4 mr-2" />
             <span>Return Home</span>
           </Button>

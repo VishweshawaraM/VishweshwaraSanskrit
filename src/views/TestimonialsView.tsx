@@ -33,9 +33,9 @@ export const TestimonialsView: React.FC<TestimonialsViewProps> = ({ onViewChange
   const featuredTestimonials = TESTIMONIALS_ITEMS.filter(item => item.featured);
 
   return (
-    <div className="space-y-24 md:space-y-32">
+    <div className="space-y-16 md:space-y-32">
       {/* SECTION 1 - Page Hero */}
-      <section className="relative pt-32 pb-16 bg-[#0E0B07] border-b border-gold-mid overflow-hidden px-6 md:px-12 select-none">
+      <section className="relative pt-32 pb-16 bg-[#0E0B07] border-b border-gold-mid overflow-hidden px-4 md:px-12 select-none">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,#1F160D_0%,transparent_100%)] opacity-30 pointer-events-none"></div>
 
         <div className="max-w-7xl mx-auto text-left space-y-4">
@@ -53,7 +53,7 @@ export const TestimonialsView: React.FC<TestimonialsViewProps> = ({ onViewChange
       </section>
 
       {/* SECTION 2 - Filter Bar (Subject pills) */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 select-none">
+      <section className="max-w-7xl mx-auto px-4 md:px-12 select-none">
         <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3 py-3 border-y border-gold-dim/40 bg-surface-1/50 rounded-lg">
           {filters.map((f) => (
             <button
@@ -72,7 +72,7 @@ export const TestimonialsView: React.FC<TestimonialsViewProps> = ({ onViewChange
       </section>
 
       {/* SECTION 3 - Stats Banner */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 select-none">
+      <section className="max-w-7xl mx-auto px-4 md:px-12 select-none">
         <div className="bg-surface-2 border border-gold-mid/40 rounded-xl p-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-center shadow-lg relative overflow-hidden">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-[2px] bg-gradient-to-r from-transparent via-gold-base to-transparent"></div>
           
@@ -100,7 +100,7 @@ export const TestimonialsView: React.FC<TestimonialsViewProps> = ({ onViewChange
       </section>
 
       {/* SECTION 4 - Featured Testimonial Large Cards */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 space-y-8 text-left select-none">
+      <section className="max-w-7xl mx-auto px-4 md:px-12 space-y-8 text-left select-none">
         <h3 className="font-serif text-2xl tracking-widest text-text-gold uppercase font-bold border-b border-gold-dim/30 pb-2">
           ✦ Featured Transformations
         </h3>
@@ -142,7 +142,7 @@ export const TestimonialsView: React.FC<TestimonialsViewProps> = ({ onViewChange
       </section>
 
       {/* SECTION 5 - General Testimonials Filtered List */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 space-y-8 select-none text-left">
+      <section className="max-w-7xl mx-auto px-4 md:px-12 space-y-8 select-none text-left">
         <h3 className="font-serif text-2xl tracking-widest text-text-gold uppercase font-bold border-b border-gold-dim/30 pb-2">
           ✦ Core Student Body
         </h3>
@@ -188,7 +188,7 @@ export const TestimonialsView: React.FC<TestimonialsViewProps> = ({ onViewChange
       </section>
 
       {/* SECTION 6 - Video Recitation Interface */}
-      <section className="max-w-5xl mx-auto px-6 md:px-12 select-none">
+      <section className="max-w-5xl mx-auto px-4 md:px-12 select-none">
         <div className="bg-surface-2 border border-gold-mid rounded-xl p-8 space-y-6 text-center shadow-2xl relative overflow-hidden">
           <div className="space-y-1.5">
             <span className="font-mono text-xs tracking-widest text-text-gold uppercase block">AUDITORY INTEGRITY</span>

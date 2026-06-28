@@ -5,6 +5,7 @@
 
 import React from 'react';
 import { motion } from 'motion/react';
+import { Link } from 'react-router-dom';
 import { BookOpen, HelpCircle, ArrowRight, Sparkles, CheckCircle, Clock, Globe, ShieldCheck } from 'lucide-react';
 import { SUBJECTS_ITEMS } from '../data';
 import { PageView } from '../types';
@@ -55,9 +56,9 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
   ];
 
   return (
-    <div className="space-y-24 md:space-y-32">
+    <div className="space-y-16 md:space-y-32">
       {/* SECTION 1 - Page Hero */}
-      <section className="relative pt-32 pb-16 bg-[#0E0B07] border-b border-gold-mid overflow-hidden px-6 md:px-12 select-none">
+      <section className="relative pt-32 pb-16 bg-[#0E0B07] border-b border-gold-mid overflow-hidden px-4 md:px-12 select-none">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,#1F160D_0%,transparent_100%)] opacity-30 pointer-events-none"></div>
 
         <div className="absolute top-0 right-0 opacity-10">
@@ -85,7 +86,7 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
       </section>
 
       {/* SECTION 2 - Pedagogical Approach */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center select-none relative">
+      <section className="max-w-7xl mx-auto px-4 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center select-none relative">
         
         <div className="lg:col-span-5 space-y-6 text-left relative z-10">
           <FadeInSection direction="left" delay={100}>
@@ -122,7 +123,7 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
       </section>
 
       {/* SECTION 3 - Six Subjects Bento Grid */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 space-y-12 select-none relative">
+      <section className="max-w-7xl mx-auto px-4 md:px-12 space-y-12 select-none relative">
         <div className="absolute top-1/2 left-0 opacity-10">
           <Motif size={150} color="#C8860A" />
         </div>
@@ -199,7 +200,7 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
       </section>
 
       {/* SECTION 4 - Who This Is For (Persona Cards) */}
-      <section className="bg-surface-1 border-y border-gold-mid py-20 px-6 md:px-12 text-center space-y-12 select-none">
+      <section className="bg-surface-1 border-y border-gold-mid py-20 px-4 md:px-12 text-center space-y-12 select-none">
         <div className="space-y-3 max-w-xl mx-auto">
           <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase block">SUPPORTING ALL MOTIVATIONS</span>
           <h2 className="font-display text-3xl md:text-4xl font-light text-text-primary tracking-tight">
@@ -222,20 +223,21 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
                   {per.desc}
                 </p>
               </div>
-              <button
-                onClick={() => handleNavClick('begin')}
-                className="mt-6 flex items-center space-x-1.5 font-mono text-[10px] tracking-wider text-text-gold uppercase"
+              <Link
+                to="/begin"
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                className="mt-6 flex items-center space-x-1.5 font-mono text-[10px] tracking-wider text-text-gold uppercase w-fit"
               >
                 <span>Request Custom Syllabus</span>
                 <ArrowRight className="w-3 h-3" />
-              </button>
+              </Link>
             </div>
           ))}
         </div>
       </section>
 
       {/* SECTION 5 - Method + Timings (Split Layout) */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 select-none">
+      <section className="max-w-7xl mx-auto px-4 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 select-none">
         {/* Left Column */}
         <div className="lg:col-span-5 space-y-6 text-left">
           <span className="font-mono text-xs tracking-[0.2em] text-text-gold uppercase">✦ COHORT PARAMETERS</span>

@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'motion/react';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform, useSpring } from 'motion/react';
 
 interface MotifProps {
   className?: string;
@@ -16,6 +16,15 @@ export const Motif: React.FC<MotifProps> = ({
   color = 'currentColor',
   animate = true
 }) => {
+  const { scrollY } = useScroll();
+  const smoothY = useSpring(scrollY, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
+  const rotate = useTransform(smoothY, (v) => v * 0.1);
+
   return (
     <motion.svg 
       width={size} 
@@ -24,9 +33,7 @@ export const Motif: React.FC<MotifProps> = ({
       fill="none" 
       xmlns="http://www.w3.org/2000/svg"
       className={className}
-      style={{ opacity }}
-      animate={animate ? { rotate: 360 } : {}}
-      transition={animate ? { duration: 60, repeat: Infinity, ease: "linear" } : {}}
+      style={{ opacity, rotate: animate ? rotate : 0 }}
     >
       <g stroke={color} strokeWidth="1" opacity="0.8">
         {/* Lotus petals */}
@@ -50,13 +57,32 @@ export const Motif: React.FC<MotifProps> = ({
 };
 
 export const DecorativeBorder: React.FC<{ className?: string, color?: string }> = ({ className = '', color = 'currentColor' }) => {
+  const { scrollY } = useScroll();
+  const smoothY = useSpring(scrollY, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
+  const rotate = useTransform(smoothY, (v) => v * -0.15);
+  const scale = useTransform(smoothY, (v) => 1 + Math.sin(v * 0.005) * 0.2);
+
   return (
     <div className={`flex justify-center items-center space-x-4 ${className}`}>
       <div className="h-px flex-1 bg-gradient-to-r from-transparent to-current opacity-30 max-w-[100px]"></div>
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.5" className="opacity-50">
+      <motion.svg 
+        width="24" 
+        height="24" 
+        viewBox="0 0 24 24" 
+        fill="none" 
+        stroke={color} 
+        strokeWidth="1.5" 
+        className="opacity-50"
+        style={{ rotate, scale }}
+      >
         <path d="M12 2 L15 9 L22 12 L15 15 L12 22 L9 15 L2 12 L9 9 Z" />
         <circle cx="12" cy="12" r="2" fill={color} />
-      </svg>
+      </motion.svg>
       <div className="h-px flex-1 bg-gradient-to-l from-transparent to-current opacity-30 max-w-[100px]"></div>
     </div>
   );

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'emerald';
 
@@ -10,16 +11,23 @@ interface BaseProps {
 
 type ButtonAsButton = BaseProps & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, keyof BaseProps> & {
   href?: never;
+  to?: never;
 };
 
 type ButtonAsAnchor = BaseProps & Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, keyof BaseProps> & {
   href: string;
+  to?: never;
 };
 
-export type ButtonProps = ButtonAsButton | ButtonAsAnchor;
+type ButtonAsLink = BaseProps & Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, keyof BaseProps> & {
+  href?: never;
+  to: string;
+};
+
+export type ButtonProps = ButtonAsButton | ButtonAsAnchor | ButtonAsLink;
 
 export const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
-  ({ className = '', variant = 'primary', href, children, ...props }, ref) => {
+  ({ className = '', variant = 'primary', href, to, children, ...props }, ref) => {
     let variantStyles = '';
     
     switch (variant) {
@@ -40,10 +48,21 @@ export const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Bu
         break;
     }
 
-    // The active:scale-[0.97], md:hover:-translate-y-[3px], and min-h-[52px] satisfy the unified interaction requirements
-    const baseStyles = 'inline-flex items-center justify-center space-x-2 px-6 sm:px-8 rounded-md font-mono text-xs tracking-widest uppercase font-semibold transition-all duration-220 min-h-[52px] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none active:scale-[0.97] md:hover:-translate-y-[3px] disabled:active:scale-100 disabled:hover:translate-y-0';
+    const baseStyles = 'inline-flex items-center justify-center space-x-2 px-6 sm:px-8 rounded-md font-mono text-xs tracking-widest uppercase font-semibold transition-all duration-220 min-h-[52px] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none active:scale-[0.97] md:hover:-translate-y-[3px] disabled:active:scale-100 disabled:hover:translate-y-0 cursor-pointer';
 
     const combinedClassName = `${baseStyles} ${variantStyles} ${className}`;
+
+    if (to) {
+      return (
+        <Link
+          to={to}
+          className={combinedClassName}
+          {...(props as any)}
+        >
+          {children}
+        </Link>
+      );
+    }
 
     if (href) {
       return (

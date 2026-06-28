@@ -72,7 +72,7 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
   ];
 
   return (
-    <div className="space-y-24 md:space-y-32">
+    <div className="space-y-16 md:space-y-32">
       {/* SECTION 1 - Cinematic Hero with Mandala (slow spin) */}
       <section className="relative min-h-[75vh] flex items-center justify-center pt-32 pb-16 bg-[#060504] border-b border-gold-mid overflow-hidden px-6 text-center select-none">
         
@@ -108,7 +108,7 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
       </section>
 
       {/* SECTION 2 - Meaning & Comparison Table */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 space-y-12 select-none">
+      <section className="max-w-7xl mx-auto px-4 md:px-12 space-y-12 select-none">
         <div className="space-y-3 text-center">
           <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase block">THE CORE PHILOSOPHY</span>
           <h2 className="font-display text-3xl md:text-5xl font-light text-text-primary tracking-tight">
@@ -142,7 +142,7 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
       </section>
 
       {/* SECTION 3 - Three Step Process */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 space-y-12 select-none">
+      <section className="max-w-7xl mx-auto px-4 md:px-12 space-y-12 select-none">
         <div className="space-y-3 text-center">
           <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase block">THE PROCESS OF RELATIONSHIP</span>
           <h2 className="font-display text-3xl md:text-5xl font-light text-text-primary tracking-tight">
@@ -173,7 +173,7 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
       </section>
 
       {/* SECTION 4 - Why Not Fixed Price */}
-      <section className="bg-surface-1 border-y border-gold-mid py-20 px-6 md:px-12 text-left relative overflow-hidden select-none">
+      <section className="bg-surface-1 border-y border-gold-mid py-20 px-4 md:px-12 text-left relative overflow-hidden select-none">
         <div className="absolute top-1/2 right-0 -translate-y-1/2 w-64 h-64 rounded-full bg-ruby-mid/5 blur-3xl pointer-events-none"></div>
 
         <div className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
@@ -204,7 +204,7 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
       </section>
 
       {/* SECTION 5 - QR Payment Panel (Interactive hub) */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center select-none">
+      <section className="max-w-7xl mx-auto px-4 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center select-none">
         {/* Left Column: QR and Bank Details */}
         <div className="lg:col-span-6 space-y-6 text-left">
           <div className="space-y-2">
@@ -283,7 +283,7 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
       </section>
 
       {/* SECTION 6 - FAQ Accordion */}
-      <section className="max-w-4xl mx-auto px-6 md:px-12 space-y-8 select-none">
+      <section className="max-w-4xl mx-auto px-4 md:px-12 space-y-8 select-none">
         <div className="space-y-3 text-center">
           <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase block">SOLVING AMBIGUITY</span>
           <h2 className="font-display text-2xl md:text-4xl font-light text-[#FAF6EE] tracking-tight">

@@ -1,0 +1,45 @@
+{
+  "entities": {
+    "Lead": {
+      "title": "Lead",
+      "description": "A contact lead generated from the landing page.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Full name of the person requesting a consultation"
+        },
+        "childAge": {
+          "type": "number",
+          "description": "Age of the child"
+        },
+        "country": {
+          "type": "string",
+          "description": "Country of residence"
+        },
+        "phone": {
+          "type": "string",
+          "description": "WhatsApp or contact number"
+        },
+        "reason": {
+          "type": "string",
+          "description": "Reason for wanting to learn Sanskrit"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the lead was submitted"
+        }
+      },
+      "required": ["name", "childAge", "country", "phone", "reason", "createdAt"]
+    }
+  },
+  "firestore": {
+    "leads": {
+      "schema": {
+        "$ref": "#/entities/Lead"
+      },
+      "description": "Collection storing all leads submitted through the landing page."
+    }
+  }
+}

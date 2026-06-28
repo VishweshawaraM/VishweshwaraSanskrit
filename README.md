@@ -1,20 +1,27 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# Vishweshwara Sanskrit Gurukula
 
-# Run and deploy your AI Studio app
+A modern digital Gurukula dedicated to preserving and transmitting authentic Indian wisdom traditions through Sanskrit, Bhagavad Gita, Vedic chanting, Vedanta, and personalized lineage-based learning rooted in Guru–Shishya Parampara.
 
-This contains everything you need to run your app locally.
+## Features
+- **Sanskrit Grammar**: Learn Vyakarana basics to advanced rules.
+- **Bhagavad Gita**: Explore the philosophy with meaning.
+- **Advaita Vedanta**: Study deep concepts of existence.
+- **Vedic Chanting**: Learn accurate chanting patterns.
 
-View your app in AI Studio: https://ai.studio/apps/efdc7654-2f2a-425c-adc3-80166c75f625
+## Tech Stack
+- React + Vite
+- Tailwind CSS
+- React Router DOM
+- Firebase (Firestore)
 
-## Run Locally
+## Setup & Running
+```bash
+npm install
+npm run dev
+```
 
-**Prerequisites:**  Node.js
+## Deployment
+This project is configured to deploy to Cloudflare Pages via the connected GitHub repository. 
+The production build output goes to the `/dist` directory.
 
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+> **Note:** For optimal social sharing, place a 1200x630 banner named `og-banner.jpg` in the `public` directory.
