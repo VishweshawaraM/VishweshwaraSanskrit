@@ -5,9 +5,11 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Quote, Sparkles, Star, Users, MapPin, PlayCircle, MessageSquare, Heart } from 'lucide-react';
+import { Quote, Sparkles, Star, Users, MapPin, PlayCircle, MessageSquare, Heart, CheckCircle } from 'lucide-react';
 import { TESTIMONIALS_ITEMS } from '../data';
 import { PageView } from '../types';
+import confetti from 'canvas-confetti';
+import { playChime } from '../lib/audio';
 
 interface TestimonialsViewProps {
   onViewChange: (view: PageView) => void;
@@ -16,6 +18,8 @@ interface TestimonialsViewProps {
 export const TestimonialsView: React.FC<TestimonialsViewProps> = ({ onViewChange }) => {
   const [activeFilter, setActiveFilter] = useState<string>('all');
   const [isPlayingVideo, setIsPlayingVideo] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const filters = [
     { id: 'all', label: 'All Subjects' },
@@ -236,6 +240,175 @@ export const TestimonialsView: React.FC<TestimonialsViewProps> = ({ onViewChange
               </div>
             )}
           </div>
+        </div>
+      </section>
+      {/* SECTION 7 - Submit Testimonial Form */}
+      <section className="max-w-3xl mx-auto px-4 md:px-12 pb-32 text-left select-none">
+        <div className="bg-surface-2 border border-gold-mid rounded-xl p-8 md:p-10 shadow-xl relative min-h-[300px] flex flex-col justify-center">
+          <div className="text-center space-y-2 mb-8">
+            <h3 className="font-serif text-2xl tracking-widest text-text-gold uppercase font-bold">
+              ✦ Share Your Experience
+            </h3>
+            <p className="font-sans text-sm text-text-secondary">
+              Have you studied with Acharya? We would love to hear about your transformation.
+            </p>
+          </div>
+          
+          {isSubmitted ? (
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }} 
+              animate={{ opacity: 1, scale: 1 }} 
+              className="text-center space-y-4 py-8"
+            >
+              <div className="w-16 h-16 bg-gold-base/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <CheckCircle className="w-8 h-8 text-gold-base" />
+              </div>
+              <h3 className="text-xl font-serif text-text-primary">Testimonial Submitted</h3>
+              <p className="text-text-secondary">
+                Thank you for sharing your experience. Your testimony has been received.
+              </p>
+            </motion.div>
+          ) : (
+            <form 
+              onSubmit={async (e) => {
+                e.preventDefault();
+                setIsSubmitting(true);
+                const formData = new FormData(e.currentTarget);
+                const data = {
+                  name: formData.get('name') as string,
+                  location: formData.get('location') as string,
+                  testimony: formData.get('testimony') as string,
+                  subject: formData.get('subject') as string,
+                  email: formData.get('email') as string,
+                };
+                
+                try {
+                  const { saveLead } = await import('../lib/firebase');
+                  await saveLead({
+                    name: data.name,
+                    email: data.email,
+                    subject: 'New Student Testimonial',
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown',
+                    background: `Location: ${data.location}, Subject: ${data.subject}`,
+                    message: data.testimony,
+                  });
+
+                  // Send Email to User
+                  await fetch('/api/email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      to: data.email,
+                      subject: 'Testimonial Received - Visanskrit',
+                      html: '<p>Thank you for sharing your experience. We have received your testimony.</p>'
+                    })
+                  });
+
+                  // Send Email to Admin
+                  await fetch('/api/email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      to: 'visanskrit.solopreneur@gmail.com',
+                      subject: `New Testimonial from ${data.name}`,
+                      html: `<p>New testimonial received from ${data.name} (${data.email}).</p><p>Location: ${data.location}</p><p>Subject: ${data.subject}</p><p>Testimony:</p><p>${data.testimony}</p>`
+                    })
+                  });
+
+                  setIsSubmitted(true);
+                  
+                  // Trigger gold confetti burst and meditative chime
+                  confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#C8860A', '#E0A32E', '#F9C256', '#FFE391', '#F5F5F5']
+                  });
+                  playChime();
+                } catch (error: any) {
+                  console.error('Submission error:', error);
+                  alert('Failed to submit testimonial: ' + error.message);
+                } finally {
+                  setIsSubmitting(false);
+                }
+              }}
+              className="space-y-4"
+            >
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-1">
+                  <label className="text-xs font-mono text-text-secondary uppercase tracking-wider block">Full Name *</label>
+                  <input 
+                    type="text" 
+                    name="name"
+                    required
+                    disabled={isSubmitting}
+                    className="w-full bg-[#0E0B07] border border-gold-dim rounded px-4 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors disabled:opacity-50"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="text-xs font-mono text-text-secondary uppercase tracking-wider block">Email Address *</label>
+                  <input 
+                    type="email" 
+                    name="email"
+                    required
+                    disabled={isSubmitting}
+                    className="w-full bg-[#0E0B07] border border-gold-dim rounded px-4 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors disabled:opacity-50"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-1">
+                  <label className="text-xs font-mono text-text-secondary uppercase tracking-wider block">Location (City, Country) *</label>
+                  <input 
+                    type="text" 
+                    name="location"
+                    required
+                    disabled={isSubmitting}
+                    className="w-full bg-[#0E0B07] border border-gold-dim rounded px-4 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors disabled:opacity-50"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="text-xs font-mono text-text-secondary uppercase tracking-wider block">Course/Subject Studied *</label>
+                  <select 
+                    name="subject"
+                    required
+                    defaultValue=""
+                    disabled={isSubmitting}
+                    className="w-full bg-[#0E0B07] border border-gold-dim rounded px-4 py-2.5 text-sm text-white focus:outline-none focus:border-gold-base transition-colors appearance-none disabled:opacity-50"
+                  >
+                    <option value="" disabled>Select Subject</option>
+                    <option value="Sanskrit Language">Sanskrit Language</option>
+                    <option value="Bhagavad Gita">Bhagavad Gita</option>
+                    <option value="Veda Chanting">Veda Chanting</option>
+                    <option value="Puja Vidhi">Puja Vidhi</option>
+                    <option value="Advaita Vedanta">Advaita Vedanta</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div className="space-y-1">
+                <label className="text-xs font-mono text-text-secondary uppercase tracking-wider block">Your Testimony *</label>
+                <textarea 
+                  name="testimony"
+                  required
+                  rows={4}
+                  disabled={isSubmitting}
+                  placeholder="Share how the teachings have impacted your life..."
+                  className="w-full bg-[#0E0B07] border border-gold-dim rounded px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base transition-colors resize-none disabled:opacity-50"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full mt-2 px-6 py-3 rounded bg-gradient-to-r from-gold-base to-gold-bright text-ground font-mono text-sm tracking-widest uppercase font-semibold active:scale-95 transition-all shadow-md hover:brightness-110 disabled:opacity-50"
+              >
+                {isSubmitting ? 'Submitting...' : 'Submit Testimonial'}
+              </button>
+            </form>
+          )}
         </div>
       </section>
     </div>

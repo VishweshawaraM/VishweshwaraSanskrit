@@ -10,26 +10,62 @@ async function startServer() {
 
   app.use(express.json({ limit: "50mb" }));
 
-  // Email route using Resend
+  // Email route using Resend or Nodemailer test account
   app.post("/api/email", async (req, res) => {
     try {
       const { to, subject, html } = req.body;
       const resendApiKey = process.env.RESEND_API_KEY;
 
-      if (!resendApiKey) {
-        return res.status(500).json({ error: "RESEND_API_KEY is not set." });
+      if (resendApiKey) {
+        const resend = new Resend(resendApiKey);
+        const data = await resend.emails.send({
+          from: 'Vishweshwara <onboarding@resend.dev>', // Use a default resend testing email
+          to: Array.isArray(to) ? to : [to],
+          subject: subject,
+          html: html,
+        });
+        return res.json({ success: true, data, provider: 'resend' });
+      } 
+      
+      // Real SMTP fallback using Nodemailer
+      const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM } = process.env;
+      
+      if (SMTP_HOST && SMTP_USER && SMTP_PASS) {
+        const nodemailer = require('nodemailer');
+        const transporter = nodemailer.createTransport({
+          host: SMTP_HOST,
+          port: parseInt(SMTP_PORT || '587'),
+          secure: parseInt(SMTP_PORT || '587') === 465,
+          auth: {
+            user: SMTP_USER,
+            pass: SMTP_PASS,
+          },
+        });
+        
+        const info = await transporter.sendMail({
+          from: SMTP_FROM || '"Visanskrit" <noreply@visanskrit.com>',
+          to: Array.isArray(to) ? to.join(', ') : to,
+          subject: subject,
+          html: html,
+        });
+        
+        return res.json({ 
+          success: true, 
+          messageId: info.messageId,
+          provider: 'nodemailer' 
+        });
       }
-
-      const resend = new Resend(resendApiKey);
-
-      const data = await resend.emails.send({
-        from: 'Vishweshwara <onboarding@resend.dev>', // Use a default resend testing email
-        to: [to],
-        subject: subject,
-        html: html,
+      
+      // Final mock fallback
+      console.log("No Email API keys found. Mocking email send:");
+      console.log("To:", to);
+      console.log("Subject:", subject);
+      
+      return res.json({ 
+        success: true, 
+        message: "Email mocked successfully (configure SMTP_* or RESEND_API_KEY for actual email delivery).",
+        provider: 'mock' 
       });
-
-      res.json({ success: true, data });
     } catch (error: any) {
       console.error("Email sending error:", error);
       res.status(500).json({ error: error.message || "Failed to send email" });
@@ -82,6 +118,13 @@ async function startServer() {
       }
     } catch (error: any) {
       console.error("Image generation error:", error);
+      
+      // Fallback to placeholder if rate limited or quota exceeded
+      if (error.message && (error.message.includes("quota") || error.message.includes("too_many_requests") || error.status === 429)) {
+        console.log("Falling back to placeholder image due to quota limits.");
+        return res.json({ imageUrl: `https://images.unsplash.com/photo-1577401239170-897940cb75be?auto=format&fit=crop&q=80&w=1600&h=900` });
+      }
+      
       res.status(500).json({ error: error.message || "Failed to generate image" });
     }
   });

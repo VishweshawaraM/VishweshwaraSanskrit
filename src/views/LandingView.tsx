@@ -6,6 +6,8 @@ import { PageView } from '../types';
 import { FadeInSection } from '../components/FadeInSection';
 import { Button } from '../components/Button';
 import { Motif, DecorativeBorder } from '../components/Motif';
+import confetti from 'canvas-confetti';
+import { playChime } from '../lib/audio';
 
 const LANDING_TESTIMONIALS = [
   {
@@ -31,6 +33,8 @@ interface LandingViewProps {
 
 export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -275,28 +279,85 @@ export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
           </div>
 
           <FadeInSection delay={200}>
-            <form 
-              onSubmit={async (e) => {
-                e.preventDefault();
-                const formData = new FormData(e.currentTarget);
-                try {
-                  const { saveLead } = await import('../lib/firebase');
-                  await saveLead({
-                    name: formData.get('name') as string,
-                    email: formData.get('phone') as string, // Fallback since no email field
-                    subject: 'Landing Page Lead',
-                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown',
-                    background: `Child Age: ${formData.get('childAge')}, Country: ${formData.get('country')}`,
-                    message: formData.get('reason') as string,
-                  });
-                  alert('Thank you for your interest! We will contact you shortly on WhatsApp.');
-                  (e.target as HTMLFormElement).reset();
-                } catch (error) {
-                  alert('Failed to submit form. Please try again.');
-                }
-              }}
-              className="bg-surface-1 border border-gold-mid rounded-xl p-6 md:p-8 shadow-xl space-y-5 text-left"
-            >
+            {isSubmitted ? (
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.95 }} 
+                animate={{ opacity: 1, scale: 1 }} 
+                className="bg-surface-1 border border-gold-mid rounded-xl p-8 md:p-12 shadow-xl text-center space-y-4"
+              >
+                <div className="w-16 h-16 bg-gold-base/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <CheckCircle className="w-8 h-8 text-gold-base" />
+                </div>
+                <h3 className="text-xl font-serif text-text-primary">Application Sent Successfully</h3>
+                <p className="text-text-secondary">
+                  Thank you for your interest! Acharya will reach out to you soon on WhatsApp.
+                </p>
+              </motion.div>
+            ) : (
+              <form 
+                onSubmit={async (e) => {
+                  e.preventDefault();
+                  setIsSubmitting(true);
+                  const formData = new FormData(e.currentTarget);
+                  const email = formData.get('email') as string;
+                  const phone = formData.get('phone') as string;
+                  const name = formData.get('name') as string;
+                  
+                  try {
+                    const { saveLead } = await import('../lib/firebase');
+                    await saveLead({
+                      name: name,
+                      email: email || phone, // Using email, fallback to phone
+                      phone: phone,
+                      subject: 'Landing Page Lead',
+                      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown',
+                      background: `Child Age: ${formData.get('childAge')}, Country: ${formData.get('country')}`,
+                      message: formData.get('reason') as string,
+                    });
+
+                    if (email) {
+                      // Send Email to User
+                      await fetch('/api/email', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                          to: email,
+                          subject: 'Application Received - Visanskrit',
+                          html: '<p>Your application was sent successfully! Acharya will reach out to you soon.</p>'
+                        })
+                      });
+                    }
+
+                    // Send Email to Admin
+                    await fetch('/api/email', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        to: 'visanskrit.solopreneur@gmail.com',
+                        subject: 'New Lead: Landing Page Application',
+                        html: `<p>New application from ${name}. Phone: ${phone}. Email: ${email}</p>`
+                      })
+                    });
+
+                    setIsSubmitted(true);
+                    
+                    // Trigger gold confetti burst and meditative chime
+                    confetti({
+                      particleCount: 100,
+                      spread: 70,
+                      origin: { y: 0.6 },
+                      colors: ['#C8860A', '#E0A32E', '#F9C256', '#FFE391', '#F5F5F5']
+                    });
+                    playChime();
+                  } catch (error: any) {
+                    console.error(error);
+                    alert('Failed to submit form: ' + error.message);
+                  } finally {
+                    setIsSubmitting(false);
+                  }
+                }}
+                className="bg-surface-1 border border-gold-mid rounded-xl p-6 md:p-8 shadow-xl space-y-5 text-left"
+              >
               <div className="space-y-1.5">
                 <label className="text-sm font-medium text-text-secondary block">Name *</label>
                 <input type="text" name="name" required className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-md px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base transition-colors" placeholder="Your name" />
@@ -325,11 +386,13 @@ export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
               <Button
                 type="submit"
                 variant="primary"
-                className="w-full mt-4 !py-4"
+                disabled={isSubmitting}
+                className="w-full mt-4 !py-4 disabled:opacity-50"
               >
-                Request Consultation
+                {isSubmitting ? 'Sending...' : 'Request Consultation'}
               </Button>
             </form>
+            )}
           </FadeInSection>
         </div>
       </section>

@@ -53,10 +53,10 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => 
   return (
     <>
       <header
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-350 ${
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-out ${
           isScrolled
-            ? 'bg-[#060504]/80 backdrop-blur-md border-b border-gold-mid shadow-lg py-3'
-            : 'bg-transparent py-5'
+            ? 'bg-[#060504]/75 backdrop-blur-xl border-b border-gold-mid/60 shadow-lg py-3'
+            : 'bg-gradient-to-b from-[#060504]/80 to-transparent py-5'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 md:px-12 flex items-center justify-between">

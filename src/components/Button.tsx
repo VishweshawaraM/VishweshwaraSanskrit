@@ -32,16 +32,16 @@ export const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Bu
     
     switch (variant) {
       case 'primary':
-        variantStyles = 'text-ground bg-gradient-to-r from-gold-base to-gold-bright shadow-lg shadow-gold-dim hover:shadow-gold-mid';
+        variantStyles = 'text-ground bg-gradient-to-r from-gold-base to-gold-bright shadow-lg shadow-gold-dim hover:shadow-gold-mid hover:from-gold-bright hover:to-gold-glow';
         break;
       case 'secondary':
-        variantStyles = 'text-text-secondary bg-surface-2 border border-gold-mid hover:text-text-gold hover:border-text-gold hover:bg-surface-3';
+        variantStyles = 'text-text-secondary bg-surface-2 border border-gold-mid hover:text-text-gold hover:border-text-gold hover:bg-surface-3 hover:shadow-[0_0_15px_rgba(200,134,10,0.15)]';
         break;
       case 'outline':
-        variantStyles = 'text-text-gold bg-transparent border border-gold-mid hover:bg-surface-3 hover:text-gold-bright hover:border-gold-bright';
+        variantStyles = 'text-text-gold bg-transparent border border-gold-mid hover:bg-surface-3 hover:text-gold-bright hover:border-gold-bright hover:shadow-[0_0_15px_rgba(200,134,10,0.15)]';
         break;
       case 'ghost':
-        variantStyles = 'text-text-secondary hover:text-text-gold bg-transparent';
+        variantStyles = 'text-text-secondary hover:text-text-gold bg-transparent hover:bg-surface-2';
         break;
       case 'emerald':
         variantStyles = 'text-ground bg-emerald-500 hover:bg-emerald-400 shadow-lg shadow-emerald-500/20';

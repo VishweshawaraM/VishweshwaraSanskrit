@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { BookOpen, HelpCircle, ArrowRight, Sparkles, CheckCircle, Clock, Globe, ShieldCheck } from 'lucide-react';
@@ -11,12 +11,17 @@ import { SUBJECTS_ITEMS } from '../data';
 import { PageView } from '../types';
 import { Motif, DecorativeBorder } from '../components/Motif';
 import { FadeInSection } from '../components/FadeInSection';
+import confetti from 'canvas-confetti';
+import { playChime } from '../lib/audio';
 
 interface TeachingsViewProps {
   onViewChange: (view: PageView) => void;
 }
 
 export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
   const handleNavClick = (view: PageView) => {
     onViewChange(view);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -306,45 +311,92 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
           <p className="font-sans text-xs text-text-secondary leading-relaxed">
             Not sure which path fits your background? Connect directly with Acharya Vishweshwara. Discuss your background and interest over a free 15-minute diagnostic call.
           </p>
-          <div className="max-w-md mx-auto pt-4">
-            <form 
-              onSubmit={async (e) => {
-                e.preventDefault();
-                const formData = new FormData(e.currentTarget);
-                const email = formData.get('email');
-                
-                try {
-                  const { saveLead } = await import('../lib/firebase');
-                  await saveLead({
-                    name: 'Assessment Request',
-                    email: email as string,
-                    subject: 'Syllabus Assessment',
-                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown',
-                    background: 'Requested via Teaching View',
-                    message: 'Requested a free syllabus assessment call.'
-                  });
-                  alert('Request sent successfully! We will contact you soon.');
-                  (e.target as HTMLFormElement).reset();
-                } catch (error) {
-                  alert('Failed to send request.');
-                }
-              }}
-              className="flex flex-col sm:flex-row gap-3"
-            >
-              <input 
-                type="email" 
-                name="email"
-                placeholder="Enter your email address" 
-                required
-                className="flex-1 bg-surface-2 border border-gold-dim rounded px-4 py-3 text-sm text-text-primary focus:outline-none focus:border-gold-base transition-colors placeholder:text-text-disabled"
-              />
-              <button
-                type="submit"
-                className="px-6 py-3 rounded bg-gradient-to-r from-gold-base to-gold-bright text-ground font-mono text-xs tracking-widest uppercase font-semibold active:scale-95 transition-all shadow-md shrink-0 hover:brightness-110"
+          <div className="max-w-md mx-auto pt-4 relative min-h-[50px]">
+            {isSubmitted ? (
+              <motion.div 
+                initial={{ opacity: 0, y: 10 }} 
+                animate={{ opacity: 1, y: 0 }} 
+                className="absolute inset-0 flex items-center justify-center text-sm text-text-gold font-medium bg-surface-2 border border-gold-mid rounded py-3 px-4"
               >
-                Request Call
-              </button>
-            </form>
+                <CheckCircle className="w-4 h-4 mr-2" />
+                Request received! Acharya will reach out soon.
+              </motion.div>
+            ) : (
+              <form 
+                onSubmit={async (e) => {
+                  e.preventDefault();
+                  setIsSubmitting(true);
+                  const formData = new FormData(e.currentTarget);
+                  const email = formData.get('email') as string;
+                  
+                  try {
+                    const { saveLead } = await import('../lib/firebase');
+                    await saveLead({
+                      name: 'Assessment Request',
+                      email: email,
+                      subject: 'Syllabus Assessment',
+                      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown',
+                      background: 'Requested via Teaching View',
+                      message: 'Requested a free syllabus assessment call.'
+                    });
+
+                    // Send Email to User
+                    await fetch('/api/email', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        to: email,
+                        subject: 'Syllabus Assessment Request - Visanskrit',
+                        html: '<p>Your application was sent successfully! Acharya will reach out to you soon.</p>'
+                      })
+                    });
+
+                    // Send Email to Admin
+                    await fetch('/api/email', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        to: 'visanskrit.solopreneur@gmail.com',
+                        subject: 'New Lead: Syllabus Assessment Request',
+                        html: `<p>New syllabus assessment request from ${email}</p>`
+                      })
+                    });
+
+                    setIsSubmitted(true);
+                    
+                    // Trigger gold confetti burst and meditative chime
+                    confetti({
+                      particleCount: 100,
+                      spread: 70,
+                      origin: { y: 0.6 },
+                      colors: ['#C8860A', '#E0A32E', '#F9C256', '#FFE391', '#F5F5F5']
+                    });
+                    playChime();
+                  } catch (error: any) {
+                    alert('Failed to send request: ' + error.message);
+                  } finally {
+                    setIsSubmitting(false);
+                  }
+                }}
+                className="flex flex-col sm:flex-row gap-3"
+              >
+                <input 
+                  type="email" 
+                  name="email"
+                  placeholder="Enter your email address" 
+                  required
+                  disabled={isSubmitting}
+                  className="flex-1 bg-surface-2 border border-gold-dim rounded px-4 py-3 text-sm text-text-primary focus:outline-none focus:border-gold-base transition-colors placeholder:text-text-disabled disabled:opacity-50"
+                />
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="px-6 py-3 rounded bg-gradient-to-r from-gold-base to-gold-bright text-ground font-mono text-xs tracking-widest uppercase font-semibold active:scale-95 transition-all shadow-md shrink-0 hover:brightness-110 disabled:opacity-50"
+                >
+                  {isSubmitting ? 'Sending...' : 'Request Call'}
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </section>

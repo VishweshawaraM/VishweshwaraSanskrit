@@ -3,18 +3,55 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowLeft, MessageSquareCode, Mail, ArrowRight, Clock, ShieldCheck, CheckCircle } from 'lucide-react';
 import { PageView } from '../types';
 import { FadeInSection } from '../components/FadeInSection';
 import { Button } from '../components/Button';
 import { InlineWidget } from 'react-calendly';
+import confetti from 'canvas-confetti';
+import { playChime } from '../lib/audio';
 
 interface BeginViewProps {
   onViewChange: (view: PageView) => void;
 }
 
 export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    subject: '',
+    timezone: '',
+    background: '',
+    message: ''
+  });
+
+  useEffect(() => {
+    const saved = localStorage.getItem('beginViewFormData');
+    if (saved) {
+      try {
+        setFormData(JSON.parse(saved));
+      } catch (e) {
+        console.error('Error parsing saved form data', e);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('beginViewFormData', JSON.stringify(formData));
+  }, [formData]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
+
+
   const handleBackClick = () => {
     onViewChange('home');
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -95,7 +132,7 @@ export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
           </FadeInSection>
 
           <FadeInSection delay={300}>
-            <div className="bg-surface-2 border border-gold-mid p-6 rounded-xl shadow-lg space-y-5 hover:border-gold-bright transition-all duration-300">
+            <div className="bg-surface-2 border border-gold-mid p-6 rounded-xl shadow-lg space-y-5 hover:border-gold-bright transition-all duration-300 relative min-h-[300px]">
               <div className="space-y-2">
                 <div className="h-10 w-10 rounded bg-[#C8860A]/10 border border-gold-mid flex items-center justify-center">
                   <MessageSquareCode className="w-5 h-5 text-text-gold" />
@@ -106,94 +143,182 @@ export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
                 </p>
               </div>
 
-              <form 
-                onSubmit={async (e) => {
-                  e.preventDefault();
-                  const formData = new FormData(e.currentTarget);
-                  const data = {
-                    name: formData.get('name') as string,
-                    email: formData.get('email') as string,
-                    subject: formData.get('subject') as string,
-                    timezone: formData.get('timezone') as string,
-                    background: formData.get('background') as string,
-                    message: formData.get('message') as string,
-                  };
-                  
-                  try {
-                    const { saveLead } = await import('../lib/firebase');
-                    await saveLead(data);
-                    alert('Inquiry submitted successfully! We will get back to you soon.');
-                    (e.target as HTMLFormElement).reset();
-                  } catch (error) {
-                    console.error('Submission error:', error);
-                    alert('Failed to submit inquiry. Please try again.');
-                  }
-                }}
-                className="space-y-3"
-              >
-                <div className="grid grid-cols-2 gap-3">
-                  <input 
-                    type="text" 
-                    name="name"
-                    placeholder="Full Name" 
-                    required
-                    className="w-full bg-[#0E0B07] border border-gold-dim rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors"
-                  />
-                  <input 
-                    type="email" 
-                    name="email"
-                    placeholder="Email Address" 
-                    required
-                    className="w-full bg-[#0E0B07] border border-gold-dim rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors"
-                  />
+              {isSubmitted ? (
+                <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center animate-fade-in z-10 bg-surface-2 rounded-xl">
+                  <div className="w-12 h-12 bg-gold-base/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <CheckCircle className="w-6 h-6 text-gold-base" />
+                  </div>
+                  <h4 className="text-text-gold font-medium mb-2">Inquiry Submitted</h4>
+                  <p className="text-sm text-text-secondary">
+                    Your application was sent successfully. Acharya will reach out to you soon.
+                  </p>
                 </div>
-                <div className="grid grid-cols-2 gap-3">
-                  <select 
-                    name="subject"
+              ) : (
+                <form 
+                  onSubmit={async (e) => {
+                    e.preventDefault();
+                    setIsSubmitting(true);
+                    const formData = new FormData(e.currentTarget);
+                    const data = {
+                      name: formData.get('name') as string,
+                      email: formData.get('email') as string,
+                      phone: formData.get('phone') as string,
+                      subject: formData.get('subject') as string,
+                      timezone: formData.get('timezone') as string,
+                      background: formData.get('background') as string,
+                      message: formData.get('message') as string,
+                    };
+                    
+                    try {
+                      const { saveLead } = await import('../lib/firebase');
+                      await saveLead(data);
+
+                      // Send Email to User
+                      await fetch('/api/email', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                          to: data.email,
+                          subject: 'Inquiry Received - Visanskrit',
+                          html: '<p>Your application was sent successfully! Acharya will reach out to you soon.</p>'
+                        })
+                      });
+
+                      // Send Email to Admin
+                      await fetch('/api/email', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                          to: 'visanskrit.solopreneur@gmail.com',
+                          subject: `New Inquiry: ${data.subject}`,
+                          html: `<p>New inquiry from ${data.name} (${data.email}).</p><p>Phone: ${data.phone || 'N/A'}</p><p>Subject: ${data.subject}</p><p>Background: ${data.background}</p><p>Message: ${data.message}</p>`
+                        })
+                      });
+
+                      setIsSubmitted(true);
+                      
+                      // Trigger gold confetti burst and meditative chime
+                      confetti({
+                        particleCount: 100,
+                        spread: 70,
+                        origin: { y: 0.6 },
+                        colors: ['#C8860A', '#E0A32E', '#F9C256', '#FFE391', '#F5F5F5']
+                      });
+                      playChime();
+
+                      setFormData({
+                        name: '',
+                        email: '',
+                        phone: '',
+                        subject: '',
+                        timezone: '',
+                        background: '',
+                        message: ''
+                      });
+                      localStorage.removeItem('beginViewFormData');
+                    } catch (error: any) {
+                      console.error('Submission error:', error);
+                      alert('Failed to submit inquiry: ' + error.message);
+                    } finally {
+                      setIsSubmitting(false);
+                    }
+                  }}
+                  className="space-y-3"
+                >
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <input 
+                      type="text" 
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      placeholder="Full Name" 
+                      required
+                      disabled={isSubmitting}
+                      className="w-full bg-[#0E0B07] border border-gold-dim rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors disabled:opacity-50"
+                    />
+                    <input 
+                      type="email" 
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      placeholder="Email Address" 
+                      required
+                      disabled={isSubmitting}
+                      className="w-full bg-[#0E0B07] border border-gold-dim rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors disabled:opacity-50"
+                    />
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <input 
+                      type="tel" 
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      placeholder="Phone Number (Optional)" 
+                      disabled={isSubmitting}
+                      className="w-full bg-[#0E0B07] border border-gold-dim rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors disabled:opacity-50"
+                    />
+                    <select 
+                      name="subject"
+                      required
+                      value={formData.subject}
+                      onChange={handleInputChange}
+                      disabled={isSubmitting}
+                      className="w-full bg-[#0E0B07] border border-gold-dim rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors appearance-none disabled:opacity-50"
+                    >
+                      <option value="" disabled>Select Subject</option>
+                      <option value="Sanskrit Grammar">Sanskrit Grammar</option>
+                      <option value="Bhagavad Gita">Bhagavad Gita</option>
+                      <option value="Advaita Vedanta">Advaita Vedanta</option>
+                      <option value="Vedic Chanting">Vedic Chanting</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <input 
+                      type="text" 
+                      name="timezone"
+                      value={formData.timezone}
+                      onChange={handleInputChange}
+                      placeholder="Your Timezone (e.g. IST, EST)" 
+                      required
+                      disabled={isSubmitting}
+                      className="w-full bg-[#0E0B07] border border-gold-dim rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors disabled:opacity-50"
+                    />
+                    <select 
+                      name="background"
+                      required
+                      value={formData.background}
+                      onChange={handleInputChange}
+                      disabled={isSubmitting}
+                      className="w-full bg-[#0E0B07] border border-gold-dim rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors appearance-none disabled:opacity-50"
+                    >
+                      <option value="" disabled>Current Knowledge Level</option>
+                      <option value="Complete Beginner">Complete Beginner</option>
+                      <option value="Know Alphabet/Basic Reading">Know Alphabet/Basic Reading</option>
+                      <option value="Intermediate (Studied previously)">Intermediate (Studied previously)</option>
+                      <option value="Advanced (Seeking Shastra study)">Advanced (Seeking Shastra study)</option>
+                    </select>
+                  </div>
+                  <textarea 
+                    name="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    placeholder="Tell us about your learning goals..." 
                     required
-                    className="w-full bg-[#0E0B07] border border-gold-dim rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors appearance-none"
+                    rows={3}
+                    disabled={isSubmitting}
+                    className="w-full bg-[#0E0B07] border border-gold-dim rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors resize-none disabled:opacity-50"
+                  />
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    disabled={isSubmitting}
+                    className="w-full disabled:opacity-50"
                   >
-                    <option value="" disabled selected>Select Subject</option>
-                    <option value="Sanskrit Grammar">Sanskrit Grammar</option>
-                    <option value="Bhagavad Gita">Bhagavad Gita</option>
-                    <option value="Advaita Vedanta">Advaita Vedanta</option>
-                    <option value="Vedic Chanting">Vedic Chanting</option>
-                    <option value="Other">Other</option>
-                  </select>
-                  <input 
-                    type="text" 
-                    name="timezone"
-                    placeholder="Your Timezone (e.g. IST, EST)" 
-                    required
-                    className="w-full bg-[#0E0B07] border border-gold-dim rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors"
-                  />
-                </div>
-                <select 
-                  name="background"
-                  required
-                  className="w-full bg-[#0E0B07] border border-gold-dim rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors appearance-none"
-                >
-                  <option value="" disabled selected>Current Knowledge Level</option>
-                  <option value="Complete Beginner">Complete Beginner</option>
-                  <option value="Know Alphabet/Basic Reading">Know Alphabet/Basic Reading</option>
-                  <option value="Intermediate (Studied previously)">Intermediate (Studied previously)</option>
-                  <option value="Advanced (Seeking Shastra study)">Advanced (Seeking Shastra study)</option>
-                </select>
-                <textarea 
-                  name="message"
-                  placeholder="Tell us about your learning goals..." 
-                  required
-                  rows={3}
-                  className="w-full bg-[#0E0B07] border border-gold-dim rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors resize-none"
-                />
-                <Button
-                  type="submit"
-                  variant="primary"
-                  className="w-full"
-                >
-                  <span>Submit Inquiry</span>
-                </Button>
-              </form>
+                    <span>{isSubmitting ? 'Sending...' : 'Submit Inquiry'}</span>
+                  </Button>
+                </form>
+              )}
             </div>
           </FadeInSection>
           
