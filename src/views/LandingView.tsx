@@ -276,35 +276,50 @@ export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
 
           <FadeInSection delay={200}>
             <form 
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
-                alert('Thank you for your interest! We will contact you shortly on WhatsApp.');
+                const formData = new FormData(e.currentTarget);
+                try {
+                  const { saveLead } = await import('../lib/firebase');
+                  await saveLead({
+                    name: formData.get('name') as string,
+                    email: formData.get('phone') as string, // Fallback since no email field
+                    subject: 'Landing Page Lead',
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown',
+                    background: `Child Age: ${formData.get('childAge')}, Country: ${formData.get('country')}`,
+                    message: formData.get('reason') as string,
+                  });
+                  alert('Thank you for your interest! We will contact you shortly on WhatsApp.');
+                  (e.target as HTMLFormElement).reset();
+                } catch (error) {
+                  alert('Failed to submit form. Please try again.');
+                }
               }}
               className="bg-surface-1 border border-gold-mid rounded-xl p-6 md:p-8 shadow-xl space-y-5 text-left"
             >
               <div className="space-y-1.5">
                 <label className="text-sm font-medium text-text-secondary block">Name *</label>
-                <input type="text" required className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-md px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base transition-colors" placeholder="Your name" />
+                <input type="text" name="name" required className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-md px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base transition-colors" placeholder="Your name" />
               </div>
               
               <div className="space-y-1.5">
                 <label className="text-sm font-medium text-text-secondary block">Child Age *</label>
-                <input type="number" min="6" max="18" required className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-md px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base transition-colors" placeholder="e.g. 8" />
+                <input type="number" name="childAge" min="6" max="18" required className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-md px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base transition-colors" placeholder="e.g. 8" />
               </div>
 
               <div className="space-y-1.5">
                 <label className="text-sm font-medium text-text-secondary block">Country *</label>
-                <input type="text" required className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-md px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base transition-colors" placeholder="e.g. United States" />
+                <input type="text" name="country" required className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-md px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base transition-colors" placeholder="e.g. United States" />
               </div>
 
               <div className="space-y-1.5">
                 <label className="text-sm font-medium text-text-secondary block">WhatsApp Number *</label>
-                <input type="tel" required className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-md px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base transition-colors" placeholder="+1 (234) 567-8900" />
+                <input type="tel" name="phone" required className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-md px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base transition-colors" placeholder="+1 (234) 567-8900" />
               </div>
 
               <div className="space-y-1.5">
                 <label className="text-sm font-medium text-text-secondary block">Why do you wish your child to learn Sanskrit? *</label>
-                <textarea required rows={3} className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-md px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base transition-colors resize-none" placeholder="Briefly describe your goals..." />
+                <textarea name="reason" required rows={3} className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-md px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base transition-colors resize-none" placeholder="Briefly describe your goals..." />
               </div>
 
               <Button

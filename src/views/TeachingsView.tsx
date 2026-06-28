@@ -314,14 +314,14 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
                 const email = formData.get('email');
                 
                 try {
-                  await fetch('/api/email', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                      to: 'visanskrit.solopreneur@gmail.com',
-                      subject: `Syllabus Assessment Request from ${email}`,
-                      html: `<p><strong>Email:</strong> ${email}</p><p>This user has requested a free syllabus assessment call.</p>`,
-                    }),
+                  const { saveLead } = await import('../lib/firebase');
+                  await saveLead({
+                    name: 'Assessment Request',
+                    email: email as string,
+                    subject: 'Syllabus Assessment',
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown',
+                    background: 'Requested via Teaching View',
+                    message: 'Requested a free syllabus assessment call.'
                   });
                   alert('Request sent successfully! We will contact you soon.');
                   (e.target as HTMLFormElement).reset();
