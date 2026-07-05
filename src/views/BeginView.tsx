@@ -225,95 +225,116 @@ export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
                   }}
                   className="space-y-3"
                 >
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <input 
-                      type="text" 
-                      name="name"
-                      value={formData.name}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-medium text-text-secondary uppercase tracking-wider block">Full Name *</label>
+                      <input 
+                        type="text" 
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        placeholder="Your full name" 
+                        required
+                        disabled={isSubmitting}
+                        className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner disabled:opacity-50"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-medium text-text-secondary uppercase tracking-wider block">Email Address *</label>
+                      <input 
+                        type="email" 
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        placeholder="email@example.com" 
+                        required
+                        disabled={isSubmitting}
+                        className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner disabled:opacity-50"
+                      />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-medium text-text-secondary uppercase tracking-wider block">Phone Number (Optional)</label>
+                      <input 
+                        type="tel" 
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                        placeholder="+1 (234) 567-8900" 
+                        disabled={isSubmitting}
+                        className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner disabled:opacity-50"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-medium text-text-secondary uppercase tracking-wider block">Subject of Interest *</label>
+                      <select 
+                        name="subject"
+                        required
+                        value={formData.subject}
+                        onChange={handleInputChange}
+                        disabled={isSubmitting}
+                        className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner appearance-none disabled:opacity-50"
+                      >
+                        <option value="" disabled>Select Subject</option>
+                        <option value="Sanskrit Grammar">Sanskrit Grammar</option>
+                        <option value="Bhagavad Gita">Bhagavad Gita</option>
+                        <option value="Advaita Vedanta">Advaita Vedanta</option>
+                        <option value="Vedic Chanting">Vedic Chanting</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-medium text-text-secondary uppercase tracking-wider block">Your Timezone *</label>
+                      <input 
+                        type="text" 
+                        name="timezone"
+                        value={formData.timezone}
+                        onChange={handleInputChange}
+                        placeholder="e.g. IST, EST" 
+                        required
+                        disabled={isSubmitting}
+                        className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner disabled:opacity-50"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-medium text-text-secondary uppercase tracking-wider block">Current Knowledge Level *</label>
+                      <select 
+                        name="background"
+                        required
+                        value={formData.background}
+                        onChange={handleInputChange}
+                        disabled={isSubmitting}
+                        className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner appearance-none disabled:opacity-50"
+                      >
+                        <option value="" disabled>Select Level</option>
+                        <option value="Complete Beginner">Complete Beginner</option>
+                        <option value="Know Alphabet/Basic Reading">Know Alphabet/Basic Reading</option>
+                        <option value="Intermediate (Studied previously)">Intermediate (Studied previously)</option>
+                        <option value="Advanced (Seeking Shastra study)">Advanced (Seeking Shastra study)</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-medium text-text-secondary uppercase tracking-wider block">Learning Goals *</label>
+                    <textarea 
+                      name="message"
+                      value={formData.message}
                       onChange={handleInputChange}
-                      placeholder="Full Name" 
+                      placeholder="Tell us about what you want to achieve..." 
                       required
+                      rows={3}
                       disabled={isSubmitting}
-                      className="w-full bg-[#0E0B07] border border-gold-dim rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors disabled:opacity-50"
-                    />
-                    <input 
-                      type="email" 
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      placeholder="Email Address" 
-                      required
-                      disabled={isSubmitting}
-                      className="w-full bg-[#0E0B07] border border-gold-dim rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors disabled:opacity-50"
+                      className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner resize-none disabled:opacity-50"
                     />
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <input 
-                      type="tel" 
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      placeholder="Phone Number (Optional)" 
-                      disabled={isSubmitting}
-                      className="w-full bg-[#0E0B07] border border-gold-dim rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors disabled:opacity-50"
-                    />
-                    <select 
-                      name="subject"
-                      required
-                      value={formData.subject}
-                      onChange={handleInputChange}
-                      disabled={isSubmitting}
-                      className="w-full bg-[#0E0B07] border border-gold-dim rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors appearance-none disabled:opacity-50"
-                    >
-                      <option value="" disabled>Select Subject</option>
-                      <option value="Sanskrit Grammar">Sanskrit Grammar</option>
-                      <option value="Bhagavad Gita">Bhagavad Gita</option>
-                      <option value="Advaita Vedanta">Advaita Vedanta</option>
-                      <option value="Vedic Chanting">Vedic Chanting</option>
-                      <option value="Other">Other</option>
-                    </select>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <input 
-                      type="text" 
-                      name="timezone"
-                      value={formData.timezone}
-                      onChange={handleInputChange}
-                      placeholder="Your Timezone (e.g. IST, EST)" 
-                      required
-                      disabled={isSubmitting}
-                      className="w-full bg-[#0E0B07] border border-gold-dim rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors disabled:opacity-50"
-                    />
-                    <select 
-                      name="background"
-                      required
-                      value={formData.background}
-                      onChange={handleInputChange}
-                      disabled={isSubmitting}
-                      className="w-full bg-[#0E0B07] border border-gold-dim rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors appearance-none disabled:opacity-50"
-                    >
-                      <option value="" disabled>Current Knowledge Level</option>
-                      <option value="Complete Beginner">Complete Beginner</option>
-                      <option value="Know Alphabet/Basic Reading">Know Alphabet/Basic Reading</option>
-                      <option value="Intermediate (Studied previously)">Intermediate (Studied previously)</option>
-                      <option value="Advanced (Seeking Shastra study)">Advanced (Seeking Shastra study)</option>
-                    </select>
-                  </div>
-                  <textarea 
-                    name="message"
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    placeholder="Tell us about your learning goals..." 
-                    required
-                    rows={3}
-                    disabled={isSubmitting}
-                    className="w-full bg-[#0E0B07] border border-gold-dim rounded px-3 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors resize-none disabled:opacity-50"
-                  />
                   <Button
                     type="submit"
                     variant="primary"
                     disabled={isSubmitting}
-                    className="w-full disabled:opacity-50"
+                    className="w-full mt-2 py-4 shadow-xl disabled:opacity-50"
                   >
                     <span>{isSubmitting ? 'Sending...' : 'Submit Inquiry'}</span>
                   </Button>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, CheckCircle, MapPin, Globe, Quote } from 'lucide-react';
+import { ArrowRight, CheckCircle, MapPin, Globe, Quote, X, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Logo } from '../components/Logo';
 import { PageView } from '../types';
@@ -35,6 +35,46 @@ export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
+  
+  const [emailValue, setEmailValue] = useState('');
+  const [phoneValue, setPhoneValue] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [phoneError, setPhoneError] = useState('');
+
+  const validateEmail = (value: string) => {
+    if (!value) {
+      setEmailError('');
+      return true;
+    }
+    const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    setEmailError(isValid ? '' : 'Please enter a valid email address');
+    return isValid;
+  };
+
+  const validatePhone = (value: string) => {
+    if (!value) {
+      setPhoneError('Phone number is required');
+      return false;
+    }
+    // Basic phone validation: allows +, numbers, spaces, parentheses, hyphens. At least 7 digits.
+    const digitCount = value.replace(/\D/g, '').length;
+    const isValid = /^[\d\s()+-]+$/.test(value) && digitCount >= 7;
+    setPhoneError(isValid ? '' : 'Please enter a valid phone number');
+    return isValid;
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmailValue(e.target.value);
+    validateEmail(e.target.value);
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPhoneValue(e.target.value);
+    validatePhone(e.target.value);
+  };
+
+  const isFormValid = !emailError && !phoneError && phoneValue.length > 0;
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -311,7 +351,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
                       phone: phone,
                       subject: 'Landing Page Lead',
                       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown',
-                      background: `Child Age: ${formData.get('childAge')}, Country: ${formData.get('country')}`,
+                      background: `Child Age: ${formData.get('childAge')}, Country: ${formData.get('country')}\nEmail Notifications: ${formData.get('emailNotifications') === 'on' ? 'Yes' : 'No'}`,
                       message: formData.get('reason') as string,
                     });
 
@@ -340,6 +380,8 @@ export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
                     });
 
                     setIsSubmitted(true);
+                    setShowSuccessToast(true);
+                    setTimeout(() => setShowSuccessToast(false), 5000);
                     
                     // Trigger gold confetti burst and meditative chime
                     confetti({
@@ -358,37 +400,78 @@ export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
                 }}
                 className="bg-surface-1 border border-gold-mid rounded-xl p-6 md:p-8 shadow-xl space-y-5 text-left"
               >
-              <div className="space-y-1.5">
-                <label className="text-sm font-medium text-text-secondary block">Name *</label>
-                <input type="text" name="name" required className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-md px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base transition-colors" placeholder="Your name" />
+              <div className="space-y-2">
+                <label className="text-xs font-medium text-text-secondary uppercase tracking-wider block">Name *</label>
+                <input type="text" name="name" required className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner" placeholder="Your name" />
               </div>
               
-              <div className="space-y-1.5">
-                <label className="text-sm font-medium text-text-secondary block">Child Age *</label>
-                <input type="number" name="childAge" min="6" max="18" required className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-md px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base transition-colors" placeholder="e.g. 8" />
+              <div className="space-y-2">
+                <label className="text-xs font-medium text-text-secondary uppercase tracking-wider block">Child Age *</label>
+                <input type="number" name="childAge" min="6" max="18" required className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner" placeholder="e.g. 8" />
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-sm font-medium text-text-secondary block">Country *</label>
-                <input type="text" name="country" required className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-md px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base transition-colors" placeholder="e.g. United States" />
+              <div className="space-y-2">
+                <label className="text-xs font-medium text-text-secondary uppercase tracking-wider block">Country *</label>
+                <input type="text" name="country" required className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner" placeholder="e.g. United States" />
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-sm font-medium text-text-secondary block">WhatsApp Number *</label>
-                <input type="tel" name="phone" required className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-md px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base transition-colors" placeholder="+1 (234) 567-8900" />
+              <div className="space-y-2">
+                <label className="text-xs font-medium text-text-secondary uppercase tracking-wider block">Email Address</label>
+                <input 
+                  type="email" 
+                  name="email" 
+                  value={emailValue}
+                  onChange={handleEmailChange}
+                  className={`w-full bg-[#0E0B07] border rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:ring-1 transition-all shadow-inner ${emailError ? 'border-red-500/50 focus:border-red-500 focus:ring-red-500/50' : 'border-gold-dim/50 focus:border-gold-base focus:ring-gold-base/50'}`} 
+                  placeholder="email@example.com" 
+                />
+                {emailError && <p className="text-xs text-red-400 mt-1">{emailError}</p>}
+              </div>
+              
+              <div className="space-y-2">
+                <label className="text-xs font-medium text-text-secondary uppercase tracking-wider block">WhatsApp Number *</label>
+                <input 
+                  type="tel" 
+                  name="phone" 
+                  required 
+                  value={phoneValue}
+                  onChange={handlePhoneChange}
+                  className={`w-full bg-[#0E0B07] border rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:ring-1 transition-all shadow-inner ${phoneError ? 'border-red-500/50 focus:border-red-500 focus:ring-red-500/50' : 'border-gold-dim/50 focus:border-gold-base focus:ring-gold-base/50'}`} 
+                  placeholder="+1 (234) 567-8900" 
+                />
+                {phoneError && <p className="text-xs text-red-400 mt-1">{phoneError}</p>}
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-sm font-medium text-text-secondary block">Why do you wish your child to learn Sanskrit? *</label>
-                <textarea name="reason" required rows={3} className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-md px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base transition-colors resize-none" placeholder="Briefly describe your goals..." />
+              <div className="space-y-2">
+                <label className="text-xs font-medium text-text-secondary uppercase tracking-wider block">Why do you wish your child to learn Sanskrit? *</label>
+                <textarea name="reason" required rows={3} className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner resize-none" placeholder="Briefly describe your goals..." />
+              </div>
+
+              <div className="flex items-start gap-3 mt-4 mb-2">
+                <div className="flex items-center h-5">
+                  <input
+                    id="emailNotifications"
+                    name="emailNotifications"
+                    type="checkbox"
+                    defaultChecked
+                    className="w-4 h-4 rounded border-gold-dim/50 bg-[#0E0B07] text-gold-base focus:ring-gold-base focus:ring-1 focus:ring-offset-0 cursor-pointer"
+                  />
+                </div>
+                <div className="text-xs text-text-secondary">
+                  <label htmlFor="emailNotifications" className="font-medium text-text-primary cursor-pointer">
+                    Email Notifications
+                  </label>
+                  <p className="mt-0.5 opacity-80">Receive follow-up communications and educational resources via email.</p>
+                </div>
               </div>
 
               <Button
                 type="submit"
                 variant="primary"
-                disabled={isSubmitting}
-                className="w-full mt-4 !py-4 disabled:opacity-50"
+                disabled={isSubmitting || !!emailError || !!phoneError}
+                className="w-full mt-4 !py-4 disabled:opacity-50 shadow-xl flex items-center justify-center gap-2"
               >
+                {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
                 {isSubmitting ? 'Sending...' : 'Request Consultation'}
               </Button>
             </form>
@@ -413,6 +496,37 @@ export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
           Request Free Consultation
         </Button>
       </div>
+
+      <AnimatePresence>
+        {showSuccessToast && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.9 }}
+            transition={{ type: "spring", stiffness: 400, damping: 25 }}
+            className="fixed bottom-24 md:bottom-8 right-4 md:right-8 bg-surface-1 border border-gold-base/50 text-text-primary px-6 py-4 rounded-xl shadow-2xl z-[100] flex items-center gap-4"
+          >
+            <motion.div
+              initial={{ scale: 0, rotate: -180 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.1 }}
+            >
+              <CheckCircle className="text-gold-base w-6 h-6 shrink-0" />
+            </motion.div>
+            <div>
+              <p className="font-serif text-lg">Application Received</p>
+              <p className="text-sm text-text-secondary">We will contact you shortly.</p>
+            </div>
+            <button 
+              onClick={() => setShowSuccessToast(false)} 
+              className="text-text-tertiary hover:text-text-primary transition-colors ml-4"
+              aria-label="Close notification"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

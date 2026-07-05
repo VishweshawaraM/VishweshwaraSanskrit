@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp, Timestamp } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp, Timestamp, deleteDoc, doc } from 'firebase/firestore';
 import firebaseConfig from '../../firebase-applet-config.json';
 
 const app = initializeApp(firebaseConfig);
@@ -37,4 +37,13 @@ export const getLeads = async (): Promise<Lead[]> => {
     id: doc.id,
     ...doc.data()
   } as Lead));
+};
+
+export const deleteLead = async (id: string): Promise<void> => {
+  try {
+    await deleteDoc(doc(db, 'leads', id));
+  } catch (e) {
+    console.error("Error deleting document: ", e);
+    throw e;
+  }
 };
