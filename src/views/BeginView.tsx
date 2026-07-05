@@ -1,8 +1,3 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, MessageSquareCode, Mail, ArrowRight, Clock, ShieldCheck, CheckCircle } from 'lucide-react';
 import { PageView } from '../types';
@@ -172,28 +167,6 @@ export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
                     try {
                       const { saveLead } = await import('../lib/firebase');
                       await saveLead(data);
-
-                      // Send Email to User
-                      await fetch('/api/email', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                          to: data.email,
-                          subject: 'Inquiry Received - Visanskrit',
-                          html: '<p>Your application was sent successfully! Acharya will reach out to you soon.</p>'
-                        })
-                      });
-
-                      // Send Email to Admin
-                      await fetch('/api/email', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                          to: 'visanskrit.solopreneur@gmail.com',
-                          subject: `New Inquiry: ${data.subject}`,
-                          html: `<p>New inquiry from ${data.name} (${data.email}).</p><p>Phone: ${data.phone || 'N/A'}</p><p>Subject: ${data.subject}</p><p>Background: ${data.background}</p><p>Message: ${data.message}</p>`
-                        })
-                      });
 
                       setIsSubmitted(true);
                       

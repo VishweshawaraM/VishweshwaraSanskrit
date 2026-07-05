@@ -1,14 +1,10 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, Phone, MapPin, ArrowUp, Send, Instagram, Facebook } from 'lucide-react';
 import { Logo } from './Logo';
 import { PageView } from '../types';
 import { Button } from './Button';
+import { Share } from './Share';
 
 interface FooterProps {
   onViewChange: (view: PageView) => void;
@@ -106,8 +102,8 @@ export const Footer: React.FC<FooterProps> = ({ onViewChange }) => {
           <ul className="space-y-3 font-sans text-xs text-text-tertiary">
             <li className="flex items-start space-x-2.5">
               <Mail className="w-4 h-4 text-text-gold shrink-0 mt-0.5" />
-              <a href="mailto:visanskrit.solopreneur@gmail.com" className="hover:text-text-gold transition-colors break-all">
-                visanskrit.solopreneur@gmail.com
+              <a href="mailto:namaste@vishweshwarasanskrit.com" className="hover:text-text-gold transition-colors break-all">
+                namaste@vishweshwarasanskrit.com
               </a>
             </li>
             <li className="flex items-start space-x-2.5">
@@ -140,6 +136,7 @@ export const Footer: React.FC<FooterProps> = ({ onViewChange }) => {
             >
               <Facebook className="w-4 h-4" />
             </a>
+            <Share className="p-1.5 bg-surface-2 rounded border border-gold-dim/40 hover:border-text-gold !text-text-tertiary hover:!text-text-gold" />
           </div>
           <div className="pt-2">
             <Button

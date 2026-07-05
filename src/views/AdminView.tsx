@@ -1,10 +1,8 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { ArrowLeft, RefreshCw, LogIn, FileSpreadsheet, Mail, Calendar, FileText, Loader2, TrendingUp, Download, Trash2 } from 'lucide-react';
+import { ArrowLeft, RefreshCw, FileSpreadsheet, Mail, Calendar, FileText, Loader2, TrendingUp, Download, Trash2 } from 'lucide-react';
 import { PageView } from '../types';
 import { Button } from '../components/Button';
-import { initAuth, googleSignIn, emailSignIn, emailSignUp, anonymousSignIn, logout, getAccessToken } from '../lib/auth';
 import { getLeads, Lead, deleteLead } from '../lib/firebase';
-import { User } from 'firebase/auth';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 interface AdminViewProps {
@@ -12,9 +10,6 @@ interface AdminViewProps {
 }
 
 export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
-  const [needsAuth, setNeedsAuth] = useState(true);
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [leads, setLeads] = useState<Lead[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
@@ -24,23 +19,6 @@ export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
   const chartData = useMemo(() => {
     if (!leads.length) return [];
     
-    // Group by date (MM/DD)
-    const grouped = leads.reduce((acc: any, lead) => {
-      let dateObj = lead.createdAt instanceof Date ? lead.createdAt : (lead.createdAt as any)?.toDate?.();
-      if (!dateObj) dateObj = new Date(); // fallback
-      
-      const dateStr = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-      if (!acc[dateStr]) {
-        acc[dateStr] = { date: dateStr, inquiries: 0 };
-      }
-      acc[dateStr].inquiries += 1;
-      return acc;
-    }, {});
-    
-    // Convert to array and sort chronologically (assuming leads are somewhat ordered or we sort by key)
-    // A more robust sort would require the original date objects, but for a simple display this works if we sort by the Date object first
-    
-    // Better sorting: sort leads by date ascending, then map
     const sortedLeads = [...leads].sort((a, b) => {
       const dateA = a.createdAt instanceof Date ? a.createdAt.getTime() : (a.createdAt as any)?.toDate?.()?.getTime() || 0;
       const dateB = b.createdAt instanceof Date ? b.createdAt.getTime() : (b.createdAt as any)?.toDate?.()?.getTime() || 0;
@@ -62,27 +40,11 @@ export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
     return Object.values(finalGrouped);
   }, [leads]);
 
-  // Email login state
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loginError, setLoginError] = useState('');
-  const [isSignUp, setIsSignUp] = useState(false);
   const [leadToDelete, setLeadToDelete] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = initAuth(
-      (user) => {
-        setUser(user);
-        setNeedsAuth(false);
-        fetchLeads();
-      },
-      () => {
-        setUser(null);
-        setNeedsAuth(true);
-      }
-    );
-    return () => unsubscribe();
+    fetchLeads();
   }, []);
 
   const fetchLeads = async () => {
@@ -97,195 +59,119 @@ export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
     }
   };
 
-  const handleEmailLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoginError('');
-    setIsLoggingIn(true);
-    try {
-      let result;
-      // Hardcoded bypass for ease of access
-      if (email === 'admin') {
-        if (password === 'admin@V12') {
-          setUser({ email: 'admin@visanskrit.com', uid: 'admin-bypass' } as unknown as User);
-          setNeedsAuth(false);
-          fetchLeads();
-          setIsLoggingIn(false);
-          return;
-        } else {
-          throw new Error('Incorrect admin password.');
-        }
-      }
-
-      // Basic client-side email validation
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        throw { code: 'auth/invalid-email' };
-      }
-
-      if (isSignUp) {
-        result = await emailSignUp(email, password);
-      } else {
-        result = await emailSignIn(email, password);
-      }
-      
-      if (result) {
-        setUser(result.user);
-        setNeedsAuth(false);
-        fetchLeads();
-      }
-    } catch (err: any) {
-      console.error('Login failed:', err);
-      let errorMessage = 'Invalid email or password';
-      if (err.code === 'auth/invalid-email') {
-        errorMessage = 'Please enter a valid email address.';
-      } else if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
-        errorMessage = 'Incorrect email or password.';
-      } else if (err.code === 'auth/email-already-in-use') {
-        errorMessage = 'An account with this email already exists.';
-      } else if (err.code === 'auth/weak-password') {
-        errorMessage = 'Password should be at least 6 characters.';
-      } else if (err.code === 'auth/popup-closed-by-user') {
-        errorMessage = 'Sign-in popup was closed.';
-      } else if (err.message) {
-        errorMessage = err.message;
-      }
-      setLoginError(errorMessage);
-    } finally {
-      setIsLoggingIn(false);
-    }
-  };
-
-  const handleLogin = async () => {
-    setIsLoggingIn(true);
-    try {
-      const result = await googleSignIn();
-      if (result) {
-        setUser(result.user);
-        setNeedsAuth(false);
-        fetchLeads();
-      }
-    } catch (err: any) {
-      console.error('Login failed:', err);
-      if (err.code !== 'auth/popup-closed-by-user' && err.code !== 'auth/cancelled-popup-request') {
-        setLoginError(err.message || 'Failed to sign in with Google');
-      }
-    } finally {
-      setIsLoggingIn(false);
-    }
+  const handleLogout = () => {
+    localStorage.removeItem('admin_auth_token');
+    window.location.reload();
   };
 
   const handleSyncToSheets = async () => {
     const confirmed = window.confirm(
-      `Are you sure you want to create a new Google Spreadsheet with ${leads.length} leads?`
+      `Are you sure you want to export ${leads.length} leads as CSV?`
     );
     if (!confirmed) return;
 
     setIsSyncing(true);
     try {
-      const token = await getAccessToken();
-      if (!token) {
-        alert('Authentication error. Please login again.');
-        setNeedsAuth(true);
-        return;
-      }
-
-      // 1. Create Spreadsheet
-      const createRes = await fetch('https://sheets.googleapis.com/v4/spreadsheets', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          properties: {
-            title: `Vishweshwara Leads - ${new Date().toLocaleDateString()}`
-          }
-        })
-      });
-      const createData = await createRes.json();
-      if (!createRes.ok) throw new Error(createData.error?.message || 'Failed to create sheet');
+      // Simple CSV export for now
+      const headers = ['Date', 'Name', 'Email', 'Phone', 'Subject', 'Timezone', 'Message'];
       
-      const spreadsheetId = createData.spreadsheetId;
-      const sheetUrl = createData.spreadsheetUrl;
-
-      // 2. Format Data for sheets
-      const headerRow = ['Date', 'Name', 'Email', 'Phone', 'Subject', 'Timezone', 'Background', 'Message'];
-      const dataRows = leads.map(lead => [
-        lead.createdAt instanceof Date ? lead.createdAt.toLocaleString() : (lead.createdAt as any).toDate().toLocaleString(),
-        lead.name,
-        lead.email || '',
-        lead.phone || '',
-        lead.subject,
-        lead.timezone,
-        lead.background,
-        lead.message
-      ]);
-
-      // 3. Update spreadsheet
-      const updateRes = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/A1:append?valueInputOption=USER_ENTERED`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          range: 'Sheet1!A1',
-          values: [headerRow, ...dataRows]
+      const csvContent = [
+        headers.join(','),
+        ...leads.map(lead => {
+          const date = lead.createdAt instanceof Date 
+            ? lead.createdAt.toLocaleDateString() 
+            : (lead.createdAt as any)?.toDate?.()?.toLocaleDateString() || '';
+          
+          return [
+            `"${date}"`,
+            `"${lead.name || ''}"`,
+            `"${lead.email || ''}"`,
+            `"${lead.phone || ''}"`,
+            `"${lead.subject || ''}"`,
+            `"${lead.timezone || ''}"`,
+            `"${(lead.message || '').replace(/"/g, '""')}"`
+          ].join(',');
         })
-      });
+      ].join('\n');
 
-      if (!updateRes.ok) {
-        const updateData = await updateRes.json();
-        throw new Error(updateData.error?.message || 'Failed to update sheet');
-      }
-
-      alert(`Successfully synced to Google Sheets!\nURL: ${sheetUrl}`);
-      window.open(sheetUrl, '_blank');
-
-    } catch (err: any) {
-      console.error(err);
-      alert('Error syncing to sheets: ' + err.message);
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', `leads_export_${new Date().toISOString().split('T')[0]}.csv`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+    } catch (err) {
+      console.error('Export failed:', err);
+      alert('Failed to export leads.');
     } finally {
       setIsSyncing(false);
     }
   };
 
-  const handleExportToCSV = () => {
-    if (leads.length === 0) return;
+  const handleSendEmail = async (lead: Lead) => {
+    if (!lead.email) return;
     
-    // Define headers
-    const headers = ['Date', 'Name', 'Email', 'Phone', 'Subject', 'Timezone', 'Background', 'Message'];
-    
-    // Create rows
-    const rows = leads.map(lead => {
-      const date = lead.createdAt instanceof Date ? lead.createdAt.toLocaleString() : (lead.createdAt as any)?.toDate?.()?.toLocaleString() || '';
-      return [
-        `"${date}"`,
-        `"${(lead.name || '').replace(/"/g, '""')}"`,
-        `"${(lead.email || '').replace(/"/g, '""')}"`,
-        `"${(lead.phone || '').replace(/"/g, '""')}"`,
-        `"${(lead.subject || '').replace(/"/g, '""')}"`,
-        `"${(lead.timezone || '').replace(/"/g, '""')}"`,
-        `"${(lead.background || '').replace(/"/g, '""')}"`,
-        `"${(lead.message || '').replace(/"/g, '""')}"`
-      ].join(',');
-    });
-    
-    const csvContent = [headers.join(','), ...rows].join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    
-    const link = document.createElement('a');
-    link.setAttribute('href', url);
-    link.setAttribute('download', `leads_export_${new Date().toISOString().split('T')[0]}.csv`);
-    link.style.visibility = 'hidden';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    setActiveActionId(`email-${lead.id}`);
+    try {
+      const response = await fetch('/api/email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          to: lead.email,
+          subject: 'Welcome to Vishweshwara Sanskrit Gurukula',
+          html: `
+            <div style="font-family: sans-serif; max-w: 600px; margin: 0 auto; color: #333;">
+              <h2 style="color: #C8860A;">Hari Om ${lead.name},</h2>
+              <p>Thank you for your interest in joining the Gurukula.</p>
+              <p>We have received your inquiry regarding "${lead.subject}".</p>
+              <p>Acharya will review your application and we will get back to you shortly to schedule a diagnostic call.</p>
+              <br/>
+              <p>In service of the tradition,</p>
+              <p><strong>Vishweshwara Sanskrit Gurukula</strong></p>
+            </div>
+          `
+        })
+      });
+
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to send email');
+      }
+
+      alert('Welcome email sent successfully!');
+    } catch (error: any) {
+      console.error('Error sending email:', error);
+      alert(`Error: ${error.message}`);
+    } finally {
+      setActiveActionId(null);
+    }
   };
 
-  const confirmDelete = (id: string) => {
-    setLeadToDelete(id);
+  const handleSchedule = (lead: Lead) => {
+    if (!lead.email) return;
+    setActiveActionId(`cal-${lead.id}`);
+    
+    // In a real app, this would integrate with Google Calendar API
+    // For now, we open a mailto link with a scheduling template
+    const subject = encodeURIComponent(`Scheduling Diagnostic Call - ${lead.name}`);
+    const body = encodeURIComponent(`Hari Om ${lead.name},\n\nI would like to schedule a brief diagnostic call to discuss your Sanskrit journey.\n\nPlease let me know your availability for this week.\n\nRegards,\nAcharya Vishweshwara`);
+    
+    window.location.href = `mailto:${lead.email}?subject=${subject}&body=${body}`;
+    
+    setTimeout(() => {
+      setActiveActionId(null);
+    }, 1000);
+  };
+
+  const confirmDelete = (leadId: string) => {
+    setLeadToDelete(leadId);
   };
 
   const cancelDelete = () => {
@@ -294,231 +180,19 @@ export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
 
   const executeDelete = async () => {
     if (!leadToDelete) return;
+    
     setIsDeleting(true);
     try {
       await deleteLead(leadToDelete);
-      setLeads(leads.filter(lead => lead.id !== leadToDelete));
+      setLeads(leads.filter(l => l.id !== leadToDelete));
       setLeadToDelete(null);
-    } catch (err: any) {
-      console.error(err);
-      alert('Error deleting lead: ' + err.message);
+    } catch (err) {
+      console.error('Failed to delete lead:', err);
+      alert('Failed to delete lead. Check console for details.');
     } finally {
       setIsDeleting(false);
     }
   };
-
-  const handleSendEmail = async (lead: Lead) => {
-    if (!lead.email) {
-      alert("No email address provided by this lead.");
-      return;
-    }
-    setActiveActionId(`email-${lead.id}`);
-    try {
-      const token = await getAccessToken();
-      if (!token) throw new Error('Auth error');
-
-      const emailLines = [
-        `To: ${lead.email}`,
-        `Subject: Hari Om - Vishweshwara Sanskrit Diagnostic Call`,
-        'Content-Type: text/html; charset=utf-8',
-        '',
-        `Hari Om ${lead.name},<br><br>`,
-        `Thank you for expressing interest in learning ${lead.subject}.<br>`,
-        `We have received your details. Please let us know your availability for a 15-minute diagnostic session on Zoom.<br><br>`,
-        `Dhanyavadah,<br>Acharya Vishweshwara`
-      ];
-
-      const emailContent = emailLines.join('\r\n');
-      const encodedEmail = btoa(unescape(encodeURIComponent(emailContent))).replace(/\+/g, '-').replace(/\//g, '_');
-
-      const res = await fetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          raw: encodedEmail
-        })
-      });
-
-      if (!res.ok) throw new Error('Failed to send email');
-      alert(`Welcome email sent to ${lead.email}!`);
-    } catch (e: any) {
-      alert('Error sending email: ' + e.message);
-    } finally {
-      setActiveActionId(null);
-    }
-  };
-
-  const handleSchedule = async (lead: Lead) => {
-    if (!lead.email) {
-      alert("No email address provided by this lead.");
-      return;
-    }
-    setActiveActionId(`cal-${lead.id}`);
-    try {
-      const token = await getAccessToken();
-      if (!token) throw new Error('Auth error');
-
-      const startDate = new Date();
-      startDate.setDate(startDate.getDate() + 1); // Tomorrow
-      startDate.setHours(10, 0, 0, 0); // 10 AM
-
-      const endDate = new Date(startDate);
-      endDate.setMinutes(endDate.getMinutes() + 15);
-
-      const res = await fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events?conferenceDataVersion=1', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          summary: `Diagnostic Session: ${lead.name}`,
-          description: `Subject: ${lead.subject}\nBackground: ${lead.background}\nMessage: ${lead.message}`,
-          start: {
-            dateTime: startDate.toISOString(),
-            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
-          },
-          end: {
-            dateTime: endDate.toISOString(),
-            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
-          },
-          attendees: [
-            { email: lead.email }
-          ],
-          conferenceData: {
-            createRequest: {
-              requestId: `meet-${lead.id}-${Date.now()}`,
-              conferenceSolutionKey: { type: "hangoutsMeet" }
-            }
-          }
-        })
-      });
-
-      if (!res.ok) throw new Error('Failed to create calendar event');
-      const data = await res.json();
-      alert(`Event created! Link: ${data.htmlLink}`);
-      window.open(data.htmlLink, '_blank');
-    } catch (e: any) {
-      alert('Error creating event: ' + e.message);
-    } finally {
-      setActiveActionId(null);
-    }
-  };
-
-  const handleCreateForm = async () => {
-    setActiveActionId('form');
-    try {
-      const token = await getAccessToken();
-      if (!token) throw new Error('Auth error');
-
-      const res = await fetch('https://forms.googleapis.com/v1/forms', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          info: {
-            title: `Student Feedback - ${new Date().toLocaleDateString()}`,
-            documentTitle: 'Cohort Feedback Form'
-          }
-        })
-      });
-
-      if (!res.ok) throw new Error('Failed to create form');
-      const data = await res.json();
-      
-      alert(`Feedback form created! URL: ${data.responderUri}`);
-      window.open(data.responderUri, '_blank');
-    } catch (e: any) {
-      alert('Error creating form: ' + e.message);
-    } finally {
-      setActiveActionId(null);
-    }
-  };
-
-  if (needsAuth) {
-    return (
-      <div className="min-h-[80vh] flex flex-col items-center justify-center px-6">
-        <div className="w-full max-w-sm space-y-8 bg-surface-1/50 backdrop-blur-xl border border-gold-dim/40 rounded-2xl p-8 shadow-2xl">
-          <div className="text-center space-y-3">
-            <h1 className="font-serif text-3xl text-text-gold">Admin Access</h1>
-            <p className="font-sans text-sm text-text-secondary">Please sign in to view leads and manage data.</p>
-          </div>
-
-          <form onSubmit={handleEmailLogin} className="space-y-5">
-            <div className="space-y-2">
-              <label className="text-xs font-medium text-text-secondary uppercase tracking-wider block">Email or Username</label>
-              <input 
-                type="text" 
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner" 
-                placeholder="admin" 
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="text-xs font-medium text-text-secondary uppercase tracking-wider block">Password</label>
-              <input 
-                type="password" 
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner" 
-                placeholder="••••••••" 
-              />
-            </div>
-            
-            {loginError && (
-              <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-medium p-3 rounded-md text-center">
-                {loginError}
-              </div>
-            )}
-
-            <Button type="submit" variant="primary" disabled={isLoggingIn} className="w-full mt-2">
-              <LogIn className="w-4 h-4 mr-2" />
-              <span>{isLoggingIn ? 'Please wait...' : (isSignUp ? 'Create Account' : 'Sign in')}</span>
-            </Button>
-            
-            <div className="text-center mt-4">
-              <button 
-                type="button" 
-                onClick={() => setIsSignUp(!isSignUp)}
-                className="text-xs text-text-tertiary hover:text-gold-bright transition-colors border-b border-transparent hover:border-gold-bright/30 pb-0.5"
-              >
-                {isSignUp ? 'Already have an account? Sign In' : 'Need an account? Sign Up'}
-              </button>
-            </div>
-          </form>
-
-          <div className="relative pt-2">
-            <div className="absolute inset-0 flex items-center pt-2">
-              <div className="w-full border-t border-gold-dim/30"></div>
-            </div>
-            <div className="relative flex justify-center text-xs pt-2">
-              <span className="bg-surface-1 px-3 text-text-tertiary">Or</span>
-            </div>
-          </div>
-
-          <Button onClick={handleLogin} variant="outline" disabled={isLoggingIn} className="w-full mt-4">
-            <LogIn className="w-4 h-4 mr-2" />
-            <span>Sign in with Google</span>
-          </Button>
-
-          <div className="pt-6 flex justify-center border-t border-gold-dim/20 mt-6">
-            <Button to="/" variant="ghost" className="text-text-tertiary hover:text-text-secondary">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              <span>Return Home</span>
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-12 py-24 space-y-12">
@@ -526,41 +200,46 @@ export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
         <div className="space-y-2">
           <Button to="/" variant="ghost" className="!px-0 text-text-gold hover:text-gold-bright transition-colors -ml-2 mb-2">
             <ArrowLeft className="w-4 h-4 mr-2" />
-            <span>Return Home</span>
+            Back to Site
           </Button>
-          <h1 className="font-serif text-3xl md:text-4xl text-text-primary font-medium tracking-tight">
-            Leads Documentation
-          </h1>
-          <p className="font-sans text-sm text-text-secondary bg-surface-1 inline-block px-3 py-1 rounded-full border border-gold-dim/30">
-            Logged in as <span className="text-text-gold">{user?.email}</span>
-          </p>
+          <h1 className="font-serif text-3xl md:text-4xl text-text-primary">Admin Dashboard</h1>
+          <p className="text-text-secondary">Manage inquiries and student applications</p>
         </div>
-        
-        <div className="flex items-center gap-3 flex-wrap">
-          <Button onClick={handleCreateForm} variant="outline" disabled={activeActionId === 'form'} className="shadow-lg shadow-black/20">
-            {activeActionId === 'form' ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <FileText className="w-4 h-4 mr-2" />}
-            <span>Create Feedback Form</span>
-          </Button>
-          <Button onClick={fetchLeads} variant="outline" disabled={isLoading} className="shadow-lg shadow-black/20">
+        <div className="flex items-center gap-3 w-full md:w-auto">
+          <Button 
+            onClick={fetchLeads} 
+            variant="secondary" 
+            disabled={isLoading}
+            className="flex-1 md:flex-none"
+          >
             <RefreshCw className={`w-4 h-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
-            <span>Refresh</span>
+            Refresh
           </Button>
-          <Button onClick={handleSyncToSheets} variant="emerald" disabled={isSyncing || leads.length === 0} className="shadow-lg shadow-emerald-500/10">
-            <FileSpreadsheet className="w-4 h-4 mr-2" />
-            <span>{isSyncing ? 'Syncing...' : 'Export to Google Sheets'}</span>
+          <Button 
+            onClick={handleSyncToSheets} 
+            variant="outline" 
+            disabled={isSyncing || leads.length === 0}
+            className="flex-1 md:flex-none"
+          >
+            {isSyncing ? (
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+            ) : (
+              <Download className="w-4 h-4 mr-2" />
+            )}
+            Export CSV
           </Button>
-          <Button onClick={handleExportToCSV} variant="secondary" disabled={leads.length === 0} className="shadow-lg shadow-black/20">
-            <Download className="w-4 h-4 mr-2 text-text-gold" />
-            <span>Export CSV</span>
-          </Button>
-          <Button onClick={logout} variant="secondary" className="shadow-lg shadow-black/20">
-            <span>Logout</span>
+          <Button 
+            onClick={handleLogout} 
+            variant="ghost" 
+            className="text-red-400 hover:text-red-300 hover:bg-red-400/10"
+          >
+            Logout
           </Button>
         </div>
       </div>
 
       {chartData.length > 0 && (
-        <div className="bg-surface-1/50 backdrop-blur-md border border-gold-dim/40 rounded-2xl p-6 md:p-8 shadow-2xl">
+        <div className="bg-surface-1/50 backdrop-blur-md border border-gold-dim/40 p-6 md:p-8 rounded-2xl shadow-2xl">
           <div className="flex items-center gap-3 mb-6">
             <TrendingUp className="w-5 h-5 text-gold-base" />
             <h2 className="font-serif text-xl text-text-primary">Inquiry Growth Trend</h2>

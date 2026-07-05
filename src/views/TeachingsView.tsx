@@ -1,8 +1,3 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
@@ -338,28 +333,6 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
                       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown',
                       background: 'Requested via Teaching View',
                       message: 'Requested a free syllabus assessment call.'
-                    });
-
-                    // Send Email to User
-                    await fetch('/api/email', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({
-                        to: email,
-                        subject: 'Syllabus Assessment Request - Visanskrit',
-                        html: '<p>Your application was sent successfully! Acharya will reach out to you soon.</p>'
-                      })
-                    });
-
-                    // Send Email to Admin
-                    await fetch('/api/email', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({
-                        to: 'visanskrit.solopreneur@gmail.com',
-                        subject: 'New Lead: Syllabus Assessment Request',
-                        html: `<p>New syllabus assessment request from ${email}</p>`
-                      })
                     });
 
                     setIsSubmitted(true);

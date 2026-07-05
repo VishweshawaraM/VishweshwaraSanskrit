@@ -1,8 +1,3 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 export type PageView = 'home' | 'about' | 'teachings' | 'dakshina' | 'testimonials' | 'begin' | 'landing' | 'admin';
 
 export interface StatItem {

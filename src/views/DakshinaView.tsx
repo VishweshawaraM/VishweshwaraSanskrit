@@ -1,8 +1,3 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { HelpCircle, ChevronDown, CheckCircle2, ShieldCheck, HeartHandshake, Copy, QrCode } from 'lucide-react';
@@ -192,7 +187,7 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
             {[
               { title: 'Preserves Sincerity', desc: 'When teachers do not teach for money, and students do not pay merely to claim certificates, the relationship becomes centered purely on learning and truth.' },
               { title: 'Unrestricted Access', desc: 'Capable seekers without financial abundance are never blocked. Corporate executives and Indology scholars study alongside each other.' },
-              { title: 'Traditional Integrity', desc: 'We honor our Veda Vijnana Gurukulam lineage by ensuring we do not commercialize the sacred Taittiriya Samhita chants.' }
+              { title: 'Traditional Integrity', desc: 'We honor our Traditional Gurukulam lineage by ensuring we do not commercialize the sacred Taittiriya Samhita chants.' }
             ].map((p, i) => (
               <div key={i} className="p-4 bg-surface-2 border border-gold-dim/40 rounded-lg space-y-1">
                 <span className="font-serif text-sm font-semibold text-text-primary block">{p.title}</span>
@@ -226,7 +221,7 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
               {/* Styled QR container representing the actual payments */}
               <div className="p-3 bg-white rounded-lg flex items-center justify-center shrink-0 border border-gold-mid">
                 <img 
-                  src="./qr-code.jpeg" 
+                  src="/qr-code.jpeg" 
                   alt="UPI QR Code" 
                   className="w-32 h-32 object-contain"
                 />
@@ -272,7 +267,7 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
               Share via WhatsApp
             </Button>
             <Button
-              href="mailto:visanskrit.solopreneur@gmail.com?subject=Guru%20Dakshina%20Offering%20Receipt"
+              href="mailto:namaste@vishweshwarasanskrit.com?subject=Guru%20Dakshina%20Offering%20Receipt"
               variant="outline"
               className="w-full"
             >

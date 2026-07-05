@@ -1,8 +1,3 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Quote, Sparkles, Star, Users, MapPin, PlayCircle, MessageSquare, Heart, CheckCircle } from 'lucide-react';
@@ -291,28 +286,6 @@ export const TestimonialsView: React.FC<TestimonialsViewProps> = ({ onViewChange
                     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown',
                     background: `Location: ${data.location}, Subject: ${data.subject}`,
                     message: data.testimony,
-                  });
-
-                  // Send Email to User
-                  await fetch('/api/email', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                      to: data.email,
-                      subject: 'Testimonial Received - Visanskrit',
-                      html: '<p>Thank you for sharing your experience. We have received your testimony.</p>'
-                    })
-                  });
-
-                  // Send Email to Admin
-                  await fetch('/api/email', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                      to: 'visanskrit.solopreneur@gmail.com',
-                      subject: `New Testimonial from ${data.name}`,
-                      html: `<p>New testimonial received from ${data.name} (${data.email}).</p><p>Location: ${data.location}</p><p>Subject: ${data.subject}</p><p>Testimony:</p><p>${data.testimony}</p>`
-                    })
                   });
 
                   setIsSubmitted(true);

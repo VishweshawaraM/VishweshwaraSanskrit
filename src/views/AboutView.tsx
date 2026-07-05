@@ -1,8 +1,3 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import React from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
@@ -73,7 +68,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange }) => {
               <span className="font-medium text-text-gold">Vishweshwara M</span>
             </h1>
             <p className="font-sans text-base sm:text-lg text-text-secondary leading-relaxed max-w-2xl">
-              An Indologist, Sanskritist, and traditional educator who spent seven continuous years under residential vow at Veda Vijnana Gurukulam, undergoing strict, unaltered Vedic lineages.
+              An Indologist, Sanskritist, and traditional educator who spent seven continuous years under residential vow at Traditional Gurukulam, undergoing strict, unaltered Vedic lineages.
             </p>
           </div>
 
@@ -81,7 +76,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange }) => {
             <div className="relative">
               <div className="absolute inset-0 bg-gold-mid/20 rounded-xl translate-x-3 translate-y-3"></div>
               <img 
-                src="./acharya-photo.jpeg" 
+                src="/acharya-photo.jpeg" 
                 alt="Acharya Vishweshwara M" 
                 className="relative z-10 w-64 h-auto rounded-xl object-cover border border-gold-dim shadow-xl"
                 onError={(e) => {
@@ -115,7 +110,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange }) => {
         </h2>
 
         <p className="font-sans text-lg text-text-secondary leading-relaxed font-light">
-          At age eighteen, while his contemporaries integrated into corporate colleges, Vishweshwara chose a different path—the residential vow of a Gurukula resident. For seven continuous years, he resided within the peaceful bounds of Veda Vijnana Gurukulam, living a highly disciplined lifestyle governed by early rising (Brahma Muhurta), daily worship, and intensive shastra adhyayana (academic focus).
+          At age eighteen, while his contemporaries integrated into corporate colleges, Vishweshwara chose a different path—the residential vow of a Gurukula resident. For seven continuous years, he resided within the peaceful bounds of Traditional Gurukulam, living a highly disciplined lifestyle governed by early rising (Brahma Muhurta), daily worship, and intensive shastra adhyayana (academic focus).
         </p>
 
         <p className="font-sans text-base text-text-secondary leading-relaxed">

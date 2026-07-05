@@ -355,30 +355,6 @@ export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
                       message: formData.get('reason') as string,
                     });
 
-                    if (email) {
-                      // Send Email to User
-                      await fetch('/api/email', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                          to: email,
-                          subject: 'Application Received - Visanskrit',
-                          html: '<p>Your application was sent successfully! Acharya will reach out to you soon.</p>'
-                        })
-                      });
-                    }
-
-                    // Send Email to Admin
-                    await fetch('/api/email', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({
-                        to: 'visanskrit.solopreneur@gmail.com',
-                        subject: 'New Lead: Landing Page Application',
-                        html: `<p>New application from ${name}. Phone: ${phone}. Email: ${email}</p>`
-                      })
-                    });
-
                     setIsSubmitted(true);
                     setShowSuccessToast(true);
                     setTimeout(() => setShowSuccessToast(false), 5000);

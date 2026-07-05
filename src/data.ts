@@ -1,14 +1,9 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import { StatItem, CredentialItem, SubjectItem, TestimonialItem, TimelineItem, FAQItem } from './types';
 
 export const STATS_ITEMS: StatItem[] = [
   { id: '1', value: '7', label: 'Years Gurukula\nFormation', subtext: '' },
   { id: '2', value: '6+', label: 'Countries •\nStudents Worldwide', subtext: '' },
-  { id: '3', value: '500', label: 'Sessions\nDelivered', subtext: '' },
+  { id: '3', value: '500+', label: 'Sessions\nDelivered', subtext: '' },
   { id: '4', value: '6', label: 'Sacred Subjects\nTaught', subtext: '' }
 ];
 
@@ -17,7 +12,7 @@ export const CREDENTIALS_ITEMS: CredentialItem[] = [
     id: '1',
     title: 'M.A. (Acharya Exam)',
     institution: 'Veda Vijnana Shodha Samsthana Samskrutha Mahapatashala',
-    year: 'Expected 2026',
+    year: '2026',
     description: 'Specialization in Advaita Vedanta and Shastra studies.'
   },
   {
@@ -30,14 +25,14 @@ export const CREDENTIALS_ITEMS: CredentialItem[] = [
   {
     id: '3',
     title: '7-Year Gurukula Residency',
-    institution: 'Veda Vijnana Gurukulam (Janaseva Trust)',
+    institution: 'Traditional Gurukulam',
     year: '2018 - 2025',
     description: 'Immersive residential training in Krishnayajurveda (Samhita & Brahmana), Advaita Vedanta, Vyakarana (Laghu and Siddhanta Kaumudi), Nyaya (Tarkasangraha), Mimamsa, and Yoga.'
   },
   {
     id: '4',
     title: 'Vedanta Paribhaasha Certificate',
-    institution: 'Veda Vijnana Gurukulam',
+    institution: 'Traditional Gurukulam',
     year: '2024',
     description: 'Successfully completed rigorous examination on the seminal text of epistemology.'
   }
@@ -144,7 +139,7 @@ export const TIMELINE_ITEMS: TimelineItem[] = [
     id: 't1',
     year: '2018',
     title: 'Pratishtha (The Entrance)',
-    subtitle: 'Veda Vijnana Gurukulam',
+    subtitle: 'Traditional Gurukulam',
     description: 'Began 7 years of traditional, fully residential residency living under the direct guidance of revered Acharyas, disconnecting from modern distractions to focus on scriptural study.'
   },
   {

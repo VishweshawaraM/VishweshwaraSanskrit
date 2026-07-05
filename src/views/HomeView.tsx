@@ -1,8 +1,3 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, CheckCircle2, Award, Sparkles, BookOpen, Quote, Shield, Globe } from 'lucide-react';
 import { STATS_ITEMS, CREDENTIALS_ITEMS, SUBJECTS_ITEMS, TESTIMONIALS_ITEMS } from '../data';
@@ -65,17 +60,17 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
       <HeroSlideshow 
         slides={[
           {
-            image: "./90BC0280-743E-496C-AD5A-10DB96ED68C9.png",
+            image: "/90BC0280-743E-496C-AD5A-10DB96ED68C9.png",
             title: "Live. Personal. Ancient Wisdom.",
             subtitle: "Disconnect from the noise. Learn Vedas, Vyakarana, Advaita Vedanta, and Bhagavad Gita directly from a dedicated scholar with 7 years of full residential Gurukula training."
           },
           {
-            image: "./BE39A249-BCEF-417F-B31A-70D71B6A709D.jpeg",
+            image: "/BE39A249-BCEF-417F-B31A-70D71B6A709D.jpeg",
             title: "Authentic Gurukula Tradition.",
             subtitle: "Immerse yourself in the exact pedagogy preserved for millennia, tailored for the modern seeker."
           },
           {
-            image: "./C2A70D39-41A8-4BC8-B4C6-E11D27F21CA5.png",
+            image: "/C2A70D39-41A8-4BC8-B4C6-E11D27F21CA5.png",
             title: "Global Community of Seekers.",
             subtitle: "Join dedicated students from across the world in small, interactive cohorts focused on deep learning."
           }
@@ -107,7 +102,8 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
       </FadeInSection>
 
       {/* SECTION 3 - Acharya Introduction (The Trust Layer) */}
-      <section className="max-w-7xl mx-auto px-4 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 lg:gap-12 items-center">
+      <FadeInSection>
+        <section className="max-w-7xl mx-auto px-4 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 lg:gap-12 items-center">
         {/* Left Column - Large Image or Styled Board */}
         <div className="lg:col-span-5 relative">
           <FadeInSection delay={100} direction="right">
@@ -115,7 +111,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
             <div className="p-2 bg-surface-2 border border-gold-mid rounded-2xl shadow-xl relative z-10 overflow-hidden group">
               <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-[#0E0B07] border border-gold-dim">
                 <img 
-                  src="./acharya-photo.jpeg" 
+                  src="/acharya-photo.jpeg" 
                   alt="Acharya Vishweshwara" 
                   className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out" 
                 />
@@ -126,7 +122,6 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
                   <span className="font-mono text-[10px] tracking-widest text-text-gold uppercase block">Academic credentials</span>
                   <h3 className="font-serif text-2xl text-text-primary font-medium tracking-wide">Acharya Vishweshwara</h3>
                   <div className="flex flex-wrap items-center gap-2 pt-2">
-                    <span className="font-mono text-[9px] tracking-widest text-text-tertiary uppercase border border-gold-dim/50 px-2 py-1 rounded bg-black/40 backdrop-blur">Veda Vijnana Gurukulam</span>
                   </div>
                 </div>
               </div>
@@ -194,9 +189,11 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
           </FadeInSection>
         </div>
       </section>
+      </FadeInSection>
 
       {/* SECTION 4 - Teachings Bento Grid */}
-      <section className="max-w-7xl mx-auto px-4 md:px-12 text-center space-y-8 md:space-y-12">
+      <FadeInSection>
+        <section className="max-w-7xl mx-auto px-4 md:px-12 text-center space-y-8 md:space-y-12">
         <FadeInSection>
           <div className="space-y-3 max-w-2xl mx-auto">
             <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase block">
@@ -265,9 +262,11 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
           </div>
         </FadeInSection>
       </section>
+      </FadeInSection>
 
       {/* SECTION 5 - The Difference (Split Layout) */}
-      <section className="bg-surface-1 border-y border-gold-mid py-12 md:py-20 px-4 md:px-12 relative overflow-hidden">
+      <FadeInSection>
+        <section className="bg-surface-1 border-y border-gold-mid py-12 md:py-20 px-4 md:px-12 relative overflow-hidden">
         <div className="absolute top-1/2 left-0 -translate-y-1/2 w-64 h-64 rounded-full bg-ruby-mid/5 blur-3xl pointer-events-none"></div>
 
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 lg:gap-12 items-center text-left">
@@ -329,9 +328,11 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
           </div>
         </div>
       </section>
+      </FadeInSection>
 
       {/* SECTION 6 - Testimonials Grid (Direct Credibility) */}
-      <section className="max-w-7xl mx-auto px-4 md:px-12 text-center space-y-8 md:space-y-12">
+      <FadeInSection>
+        <section className="max-w-7xl mx-auto px-4 md:px-12 text-center space-y-8 md:space-y-12">
         <FadeInSection>
           <div className="space-y-3 max-w-2xl mx-auto">
             <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase block">
@@ -390,6 +391,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
           </div>
         </FadeInSection>
       </section>
+      </FadeInSection>
 
       {/* SECTION 7 - Guru Dakshina Teaser (Minimal band) */}
       <FadeInSection>
@@ -412,7 +414,9 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
       </FadeInSection>
 
       {/* SECTION 8 - Frequently Asked Questions */}
-      <FAQ />
+      <FadeInSection>
+        <FAQ />
+      </FadeInSection>
 
       {/* SECTION 9 - Global Reach (Country flag pills) */}
       <FadeInSection>

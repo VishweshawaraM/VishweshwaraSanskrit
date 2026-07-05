@@ -72,6 +72,34 @@ async function startServer() {
     }
   });
 
+  app.post("/api/admin/check", async (req, res) => {
+    try {
+      const { email } = req.body;
+      const adminEmail = process.env.ADMIN_EMAIL || "visanskrit.solopreneur@gmail.com";
+      if (email === adminEmail) {
+        return res.json({ isAdmin: true });
+      }
+      return res.json({ isAdmin: false });
+    } catch (error: any) {
+      console.error("Admin check error:", error);
+      res.status(500).json({ error: error.message || "Failed to check admin status" });
+    }
+  });
+
+  app.post("/api/admin/verify-password", async (req, res) => {
+    try {
+      const { password } = req.body;
+      const adminPassword = process.env.ADMIN_PASSWORD || "admin";
+      if (password === adminPassword) {
+        return res.json({ success: true });
+      }
+      return res.json({ success: false, error: "Invalid password" });
+    } catch (error: any) {
+      console.error("Admin check error:", error);
+      res.status(500).json({ error: error.message || "Failed to check password" });
+    }
+  });
+
   // API route for Image Generation
   app.post("/api/generate-image", async (req, res) => {
     try {

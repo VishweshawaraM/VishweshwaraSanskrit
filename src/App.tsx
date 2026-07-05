@@ -1,11 +1,7 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
-import React, { useEffect, useMemo } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
+import React, { useEffect, useMemo, useState } from 'react';
+import { HashRouter, Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
+import { Loader2 } from 'lucide-react';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { MobileBottomBar } from './components/MobileBottomBar';
@@ -22,6 +18,7 @@ import { LandingView } from './views/LandingView';
 import { AdminView } from './views/AdminView';
 import { PageView } from './types';
 import { MetaTagsManager } from './components/MetaTagsManager';
+import { ProtectedAdminRoute } from './components/ProtectedAdminRoute';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -34,6 +31,16 @@ const ScrollToTop = () => {
 const AppContent = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [isNavigating, setIsNavigating] = useState(false);
+
+  // Trigger brief preloader on route change
+  useEffect(() => {
+    setIsNavigating(true);
+    const timer = setTimeout(() => {
+      setIsNavigating(false);
+    }, 400); // 400ms preloader duration
+    return () => clearTimeout(timer);
+  }, [location.pathname]);
 
   // Helper to map old string routes to navigate
   const handleViewChange = (view: PageView) => {
@@ -59,6 +66,21 @@ const AppContent = () => {
       <ScrollToTop />
       <MetaTagsManager />
       
+      {/* Preloader Overlay */}
+      <AnimatePresence>
+        {isNavigating && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-ground/80 backdrop-blur-sm pointer-events-none"
+          >
+            <Loader2 className="w-8 h-8 text-gold-base animate-spin" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* 1. Header */}
       {showStandardChrome && (
         <Header currentView={currentView} onViewChange={handleViewChange} />
@@ -83,7 +105,7 @@ const AppContent = () => {
               <Route path="/testimonials" element={<TestimonialsView onViewChange={handleViewChange} />} />
               <Route path="/begin" element={<BeginView onViewChange={handleViewChange} />} />
               <Route path="/landing" element={<LandingView onViewChange={handleViewChange} />} />
-              <Route path="/admin" element={<AdminView onViewChange={handleViewChange} />} />
+              <Route path="/admin" element={<ProtectedAdminRoute><AdminView onViewChange={handleViewChange} /></ProtectedAdminRoute>} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
             {showStandardChrome && (
@@ -116,8 +138,8 @@ const AppContent = () => {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <AppContent />
-    </BrowserRouter>
+    </HashRouter>
   );
 }

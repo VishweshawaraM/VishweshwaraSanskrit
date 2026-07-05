@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-const APP_URL = (import.meta as any).env?.VITE_APP_URL || window.location.origin;
+const APP_URL = (import.meta as any).env?.VITE_APP_URL || 'https://vishweshwarasanskrit.com';
 
 export const PAGE_META: Record<string, { title: string; description: string; image?: string }> = {
   '/': {
@@ -44,7 +44,7 @@ export function MetaTagsManager() {
   useEffect(() => {
     const meta = PAGE_META[pathname] || PAGE_META['/'];
     const currentUrl = `${APP_URL}${pathname}`;
-    const defaultImage = `${APP_URL}/og-image.jpg`; // A placeholder or actual image URL
+    const defaultImage = 'https://vishweshwarasanskrit.com/acharya-photo.jpeg'; // A placeholder or actual image URL
     const image = meta.image || defaultImage;
 
     // 1. Update Title
