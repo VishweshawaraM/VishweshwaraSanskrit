@@ -89,7 +89,7 @@ async function startServer() {
   app.post("/api/admin/verify-password", async (req, res) => {
     try {
       const { password } = req.body;
-      const adminPassword = process.env.ADMIN_PASSWORD || "admin";
+      const adminPassword = process.env.ADMIN_PASSWORD || "Admin@V12";
       if (password === adminPassword) {
         return res.json({ success: true });
       }
