@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, Suspense } from 'react';
 import { HashRouter, Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { Loader2 } from 'lucide-react';
@@ -8,17 +8,18 @@ import { MobileBottomBar } from './components/MobileBottomBar';
 import { CommonCTA } from './components/CommonCTA';
 import { WhatsAppWidget } from './components/WhatsAppWidget';
 import { PageNavigation } from './components/PageNavigation';
-import { HomeView } from './views/HomeView';
-import { AboutView } from './views/AboutView';
-import { TeachingsView } from './views/TeachingsView';
-import { DakshinaView } from './views/DakshinaView';
-import { TestimonialsView } from './views/TestimonialsView';
-import { BeginView } from './views/BeginView';
-import { LandingView } from './views/LandingView';
-import { AdminView } from './views/AdminView';
 import { PageView } from './types';
 import { MetaTagsManager } from './components/MetaTagsManager';
 import { ProtectedAdminRoute } from './components/ProtectedAdminRoute';
+
+const HomeView = React.lazy(() => import('./views/HomeView').then(module => ({ default: module.HomeView })));
+const AboutView = React.lazy(() => import('./views/AboutView').then(module => ({ default: module.AboutView })));
+const TeachingsView = React.lazy(() => import('./views/TeachingsView').then(module => ({ default: module.TeachingsView })));
+const DakshinaView = React.lazy(() => import('./views/DakshinaView').then(module => ({ default: module.DakshinaView })));
+const TestimonialsView = React.lazy(() => import('./views/TestimonialsView').then(module => ({ default: module.TestimonialsView })));
+const BeginView = React.lazy(() => import('./views/BeginView').then(module => ({ default: module.BeginView })));
+const LandingView = React.lazy(() => import('./views/LandingView').then(module => ({ default: module.LandingView })));
+const AdminView = React.lazy(() => import('./views/AdminView').then(module => ({ default: module.AdminView })));
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -97,17 +98,19 @@ const AppContent = () => {
             transition={{ duration: 0.35, ease: [0.23, 1, 0.32, 1] }}
             className={showStandardChrome ? "pb-12" : ""}
           >
-            <Routes location={location}>
-              <Route path="/" element={<HomeView onViewChange={handleViewChange} />} />
-              <Route path="/about" element={<AboutView onViewChange={handleViewChange} />} />
-              <Route path="/teachings" element={<TeachingsView onViewChange={handleViewChange} />} />
-              <Route path="/dakshina" element={<DakshinaView onViewChange={handleViewChange} />} />
-              <Route path="/testimonials" element={<TestimonialsView onViewChange={handleViewChange} />} />
-              <Route path="/begin" element={<BeginView onViewChange={handleViewChange} />} />
-              <Route path="/landing" element={<LandingView onViewChange={handleViewChange} />} />
-              <Route path="/admin" element={<ProtectedAdminRoute><AdminView onViewChange={handleViewChange} /></ProtectedAdminRoute>} />
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
+            <Suspense fallback={<div className="flex items-center justify-center min-h-[50vh]"><Loader2 className="w-8 h-8 text-gold-base animate-spin" /></div>}>
+              <Routes location={location}>
+                <Route path="/" element={<HomeView onViewChange={handleViewChange} />} />
+                <Route path="/about" element={<AboutView onViewChange={handleViewChange} />} />
+                <Route path="/teachings" element={<TeachingsView onViewChange={handleViewChange} />} />
+                <Route path="/dakshina" element={<DakshinaView onViewChange={handleViewChange} />} />
+                <Route path="/testimonials" element={<TestimonialsView onViewChange={handleViewChange} />} />
+                <Route path="/begin" element={<BeginView onViewChange={handleViewChange} />} />
+                <Route path="/landing" element={<LandingView onViewChange={handleViewChange} />} />
+                <Route path="/admin" element={<ProtectedAdminRoute><AdminView onViewChange={handleViewChange} /></ProtectedAdminRoute>} />
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </Suspense>
             {showStandardChrome && (
               <PageNavigation />
             )}
