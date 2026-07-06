@@ -47,3 +47,40 @@ export const deleteLead = async (id: string): Promise<void> => {
     throw e;
   }
 };
+
+export interface AdminLog {
+  id?: string;
+  action: string;
+  status: 'success' | 'failure';
+  details?: string;
+  ip?: string;
+  createdAt: Timestamp | Date;
+}
+
+export const logAdminActivity = async (log: Omit<AdminLog, 'id' | 'createdAt'>) => {
+  try {
+    const docRef = await addDoc(collection(db, 'adminLogs'), {
+      ...log,
+      createdAt: serverTimestamp()
+    });
+    return docRef.id;
+  } catch (e) {
+    console.error("Error logging admin activity: ", e);
+    // Don't throw to avoid breaking the main flow
+  }
+};
+
+export const getAdminLogs = async (limitCount = 50): Promise<AdminLog[]> => {
+  try {
+    // using limit for safety if requested, although imported limit would be needed
+    const q = query(collection(db, 'adminLogs'), orderBy('createdAt', 'desc'));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    } as AdminLog));
+  } catch (e) {
+    console.error("Error fetching admin logs: ", e);
+    return [];
+  }
+};

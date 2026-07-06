@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { ArrowLeft, RefreshCw, FileSpreadsheet, Mail, Calendar, FileText, Loader2, TrendingUp, Download, Trash2 } from 'lucide-react';
+import { ArrowLeft, RefreshCw, FileSpreadsheet, Mail, Calendar, FileText, Loader2, TrendingUp, Download, Trash2, Activity, Shield, Users } from 'lucide-react';
 import { PageView } from '../types';
 import { Button } from '../components/Button';
-import { getLeads, Lead, deleteLead } from '../lib/firebase';
+import { getLeads, Lead, deleteLead, getAdminLogs, AdminLog } from '../lib/firebase';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 interface AdminViewProps {
@@ -10,7 +10,9 @@ interface AdminViewProps {
 }
 
 export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
+  const [activeTab, setActiveTab] = useState<'inquiries' | 'activity'>('inquiries');
   const [leads, setLeads] = useState<Lead[]>([]);
+  const [adminLogs, setAdminLogs] = useState<AdminLog[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
   const [activeActionId, setActiveActionId] = useState<string | null>(null);
@@ -44,14 +46,18 @@ export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
-    fetchLeads();
+    fetchData();
   }, []);
 
-  const fetchLeads = async () => {
+  const fetchData = async () => {
     setIsLoading(true);
     try {
-      const data = await getLeads();
-      setLeads(data);
+      const [leadsData, logsData] = await Promise.all([
+        getLeads(),
+        getAdminLogs(100)
+      ]);
+      setLeads(leadsData);
+      setAdminLogs(logsData);
     } catch (err) {
       console.error(err);
     } finally {
@@ -207,7 +213,7 @@ export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
         </div>
         <div className="flex items-center gap-3 w-full md:w-auto">
           <Button 
-            onClick={fetchLeads} 
+            onClick={fetchData} 
             variant="secondary" 
             disabled={isLoading}
             className="flex-1 md:flex-none"
@@ -218,7 +224,7 @@ export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
           <Button 
             onClick={handleSyncToSheets} 
             variant="outline" 
-            disabled={isSyncing || leads.length === 0}
+            disabled={isSyncing || leads.length === 0 || activeTab === 'activity'}
             className="flex-1 md:flex-none"
           >
             {isSyncing ? (
@@ -238,134 +244,206 @@ export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
         </div>
       </div>
 
-      {chartData.length > 0 && (
-        <div className="bg-surface-1/50 backdrop-blur-md border border-gold-dim/40 p-6 md:p-8 rounded-2xl shadow-2xl">
-          <div className="flex items-center gap-3 mb-6">
-            <TrendingUp className="w-5 h-5 text-gold-base" />
-            <h2 className="font-serif text-xl text-text-primary">Inquiry Growth Trend</h2>
+      <div className="flex items-center gap-2 border-b border-gold-dim/30">
+        <button
+          onClick={() => setActiveTab('inquiries')}
+          className={`px-4 py-3 font-mono tracking-widest text-xs uppercase flex items-center gap-2 border-b-2 transition-colors ${activeTab === 'inquiries' ? 'border-gold-base text-gold-base' : 'border-transparent text-text-secondary hover:text-text-primary'}`}
+        >
+          <Users className="w-4 h-4" />
+          Inquiries
+        </button>
+        <button
+          onClick={() => setActiveTab('activity')}
+          className={`px-4 py-3 font-mono tracking-widest text-xs uppercase flex items-center gap-2 border-b-2 transition-colors ${activeTab === 'activity' ? 'border-gold-base text-gold-base' : 'border-transparent text-text-secondary hover:text-text-primary'}`}
+        >
+          <Shield className="w-4 h-4" />
+          Activity Log
+        </button>
+      </div>
+
+      {activeTab === 'inquiries' && (
+        <>
+          {chartData.length > 0 && (
+            <div className="bg-surface-1/50 backdrop-blur-md border border-gold-dim/40 p-6 md:p-8 rounded-2xl shadow-2xl">
+              <div className="flex items-center gap-3 mb-6">
+                <TrendingUp className="w-5 h-5 text-gold-base" />
+                <h2 className="font-serif text-xl text-text-primary">Inquiry Growth Trend</h2>
+              </div>
+              <div className="h-72 w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                    <defs>
+                      <linearGradient id="colorInquiries" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#C8860A" stopOpacity={0.3}/>
+                        <stop offset="95%" stopColor="#C8860A" stopOpacity={0}/>
+                      </linearGradient>
+                    </defs>
+                    <XAxis 
+                      dataKey="date" 
+                      stroke="#8B7B61" 
+                      fontSize={12}
+                      tickLine={false}
+                      axisLine={false}
+                      dy={10}
+                    />
+                    <YAxis 
+                      stroke="#8B7B61" 
+                      fontSize={12}
+                      tickLine={false}
+                      axisLine={false}
+                      allowDecimals={false}
+                    />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#251E13" vertical={false} />
+                    <Tooltip 
+                      contentStyle={{ 
+                        backgroundColor: '#0E0B07', 
+                        border: '1px solid rgba(200, 134, 10, 0.3)',
+                        borderRadius: '8px',
+                        color: '#F5F5F5'
+                      }} 
+                      itemStyle={{ color: '#E0A32E' }}
+                    />
+                    <Area 
+                      type="monotone" 
+                      dataKey="inquiries" 
+                      stroke="#C8860A" 
+                      strokeWidth={2}
+                      fillOpacity={1} 
+                      fill="url(#colorInquiries)" 
+                      name="Inquiries"
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          )}
+
+          <div className="bg-surface-1/50 backdrop-blur-md border border-gold-dim/40 rounded-2xl overflow-hidden shadow-2xl">
+            {isLoading && leads.length === 0 ? (
+              <div className="p-20 text-center flex flex-col items-center justify-center space-y-4">
+                <Loader2 className="w-8 h-8 text-gold-base animate-spin opacity-50" />
+                <p className="text-text-secondary font-mono text-sm uppercase tracking-widest">Loading leads...</p>
+              </div>
+            ) : leads.length === 0 ? (
+              <div className="p-20 text-center flex flex-col items-center justify-center space-y-4">
+                <FileText className="w-8 h-8 text-gold-dim opacity-50" />
+                <p className="text-text-secondary font-mono text-sm uppercase tracking-widest">No leads found.</p>
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="bg-surface-2/80 border-b border-gold-dim/50 backdrop-blur-sm">
+                      <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Date</th>
+                      <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Name</th>
+                      <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Email</th>
+                      <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Phone</th>
+                      <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Subject</th>
+                      <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Timezone</th>
+                      <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest text-right whitespace-nowrap">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gold-dim/20">
+                    {leads.map((lead) => (
+                      <tr key={lead.id} className="hover:bg-surface-2/60 transition-colors group">
+                        <td className="p-5 font-mono text-xs text-text-secondary whitespace-nowrap opacity-70 group-hover:opacity-100 transition-opacity">
+                          {lead.createdAt instanceof Date ? lead.createdAt.toLocaleDateString() : (lead.createdAt as any)?.toDate?.()?.toLocaleDateString()}
+                        </td>
+                        <td className="p-5 font-sans text-sm text-text-primary font-medium whitespace-nowrap">{lead.name}</td>
+                        <td className="p-5 font-sans text-xs text-text-secondary whitespace-nowrap">{lead.email || '-'}</td>
+                        <td className="p-5 font-sans text-xs text-text-secondary whitespace-nowrap">{lead.phone || '-'}</td>
+                        <td className="p-5 font-sans text-xs text-text-secondary whitespace-nowrap">{lead.subject}</td>
+                        <td className="p-5 font-sans text-xs text-text-secondary whitespace-nowrap">
+                          <span className="bg-surface-3/50 px-2 py-1 rounded text-[10px] font-mono tracking-wider">{lead.timezone}</span>
+                        </td>
+                        <td className="p-5 flex items-center justify-end gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
+                          <Button
+                            variant="secondary"
+                            onClick={() => handleSendEmail(lead)}
+                            disabled={!lead.email || activeActionId === `email-${lead.id}`}
+                            className="!p-2 !h-auto hover:text-gold-bright hover:border-gold-bright transition-colors"
+                            title="Send Welcome Email"
+                          >
+                            {activeActionId === `email-${lead.id}` ? <Loader2 className="w-4 h-4 animate-spin text-text-secondary" /> : <Mail className="w-4 h-4" />}
+                          </Button>
+                          <Button
+                            variant="secondary"
+                            onClick={() => handleSchedule(lead)}
+                            disabled={!lead.email || activeActionId === `cal-${lead.id}`}
+                            className="!p-2 !h-auto hover:text-gold-bright hover:border-gold-bright transition-colors"
+                            title="Schedule Diagnostic Call"
+                          >
+                            {activeActionId === `cal-${lead.id}` ? <Loader2 className="w-4 h-4 animate-spin text-text-secondary" /> : <Calendar className="w-4 h-4" />}
+                          </Button>
+                          <Button
+                            variant="secondary"
+                            onClick={() => confirmDelete(lead.id!)}
+                            className="!p-2 !h-auto hover:text-red-400 hover:border-red-400/50 transition-colors"
+                            title="Delete Lead"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
-          <div className="h-72 w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                <defs>
-                  <linearGradient id="colorInquiries" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#C8860A" stopOpacity={0.3}/>
-                    <stop offset="95%" stopColor="#C8860A" stopOpacity={0}/>
-                  </linearGradient>
-                </defs>
-                <XAxis 
-                  dataKey="date" 
-                  stroke="#8B7B61" 
-                  fontSize={12}
-                  tickLine={false}
-                  axisLine={false}
-                  dy={10}
-                />
-                <YAxis 
-                  stroke="#8B7B61" 
-                  fontSize={12}
-                  tickLine={false}
-                  axisLine={false}
-                  allowDecimals={false}
-                />
-                <CartesianGrid strokeDasharray="3 3" stroke="#251E13" vertical={false} />
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: '#0E0B07', 
-                    border: '1px solid rgba(200, 134, 10, 0.3)',
-                    borderRadius: '8px',
-                    color: '#F5F5F5'
-                  }} 
-                  itemStyle={{ color: '#E0A32E' }}
-                />
-                <Area 
-                  type="monotone" 
-                  dataKey="inquiries" 
-                  stroke="#C8860A" 
-                  strokeWidth={2}
-                  fillOpacity={1} 
-                  fill="url(#colorInquiries)" 
-                  name="Inquiries"
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
+        </>
       )}
 
-      <div className="bg-surface-1/50 backdrop-blur-md border border-gold-dim/40 rounded-2xl overflow-hidden shadow-2xl">
-        {isLoading && leads.length === 0 ? (
-          <div className="p-20 text-center flex flex-col items-center justify-center space-y-4">
-            <Loader2 className="w-8 h-8 text-gold-base animate-spin opacity-50" />
-            <p className="text-text-secondary font-mono text-sm uppercase tracking-widest">Loading leads...</p>
-          </div>
-        ) : leads.length === 0 ? (
-          <div className="p-20 text-center flex flex-col items-center justify-center space-y-4">
-            <FileText className="w-8 h-8 text-gold-dim opacity-50" />
-            <p className="text-text-secondary font-mono text-sm uppercase tracking-widest">No leads found.</p>
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-surface-2/80 border-b border-gold-dim/50 backdrop-blur-sm">
-                  <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Date</th>
-                  <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Name</th>
-                  <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Email</th>
-                  <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Phone</th>
-                  <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Subject</th>
-                  <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Timezone</th>
-                  <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest text-right whitespace-nowrap">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gold-dim/20">
-                {leads.map((lead) => (
-                  <tr key={lead.id} className="hover:bg-surface-2/60 transition-colors group">
-                    <td className="p-5 font-mono text-xs text-text-secondary whitespace-nowrap opacity-70 group-hover:opacity-100 transition-opacity">
-                      {lead.createdAt instanceof Date ? lead.createdAt.toLocaleDateString() : (lead.createdAt as any)?.toDate?.()?.toLocaleDateString()}
-                    </td>
-                    <td className="p-5 font-sans text-sm text-text-primary font-medium whitespace-nowrap">{lead.name}</td>
-                    <td className="p-5 font-sans text-xs text-text-secondary whitespace-nowrap">{lead.email || '-'}</td>
-                    <td className="p-5 font-sans text-xs text-text-secondary whitespace-nowrap">{lead.phone || '-'}</td>
-                    <td className="p-5 font-sans text-xs text-text-secondary whitespace-nowrap">{lead.subject}</td>
-                    <td className="p-5 font-sans text-xs text-text-secondary whitespace-nowrap">
-                      <span className="bg-surface-3/50 px-2 py-1 rounded text-[10px] font-mono tracking-wider">{lead.timezone}</span>
-                    </td>
-                    <td className="p-5 flex items-center justify-end gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
-                      <Button
-                        variant="secondary"
-                        onClick={() => handleSendEmail(lead)}
-                        disabled={!lead.email || activeActionId === `email-${lead.id}`}
-                        className="!p-2 !h-auto hover:text-gold-bright hover:border-gold-bright transition-colors"
-                        title="Send Welcome Email"
-                      >
-                        {activeActionId === `email-${lead.id}` ? <Loader2 className="w-4 h-4 animate-spin text-text-secondary" /> : <Mail className="w-4 h-4" />}
-                      </Button>
-                      <Button
-                        variant="secondary"
-                        onClick={() => handleSchedule(lead)}
-                        disabled={!lead.email || activeActionId === `cal-${lead.id}`}
-                        className="!p-2 !h-auto hover:text-gold-bright hover:border-gold-bright transition-colors"
-                        title="Schedule Diagnostic Call"
-                      >
-                        {activeActionId === `cal-${lead.id}` ? <Loader2 className="w-4 h-4 animate-spin text-text-secondary" /> : <Calendar className="w-4 h-4" />}
-                      </Button>
-                      <Button
-                        variant="secondary"
-                        onClick={() => confirmDelete(lead.id!)}
-                        className="!p-2 !h-auto hover:text-red-400 hover:border-red-400/50 transition-colors"
-                        title="Delete Lead"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    </td>
+      {activeTab === 'activity' && (
+        <div className="bg-surface-1/50 backdrop-blur-md border border-gold-dim/40 rounded-2xl overflow-hidden shadow-2xl">
+          {isLoading && adminLogs.length === 0 ? (
+            <div className="p-20 text-center flex flex-col items-center justify-center space-y-4">
+              <Loader2 className="w-8 h-8 text-gold-base animate-spin opacity-50" />
+              <p className="text-text-secondary font-mono text-sm uppercase tracking-widest">Loading logs...</p>
+            </div>
+          ) : adminLogs.length === 0 ? (
+            <div className="p-20 text-center flex flex-col items-center justify-center space-y-4">
+              <Activity className="w-8 h-8 text-gold-dim opacity-50" />
+              <p className="text-text-secondary font-mono text-sm uppercase tracking-widest">No activity found.</p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-surface-2/80 border-b border-gold-dim/50 backdrop-blur-sm">
+                    <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Time</th>
+                    <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Action</th>
+                    <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Status</th>
+                    <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap w-full">Details</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
+                </thead>
+                <tbody className="divide-y divide-gold-dim/20">
+                  {adminLogs.map((log) => (
+                    <tr key={log.id} className="hover:bg-surface-2/60 transition-colors group">
+                      <td className="p-5 font-mono text-xs text-text-secondary whitespace-nowrap opacity-70 group-hover:opacity-100 transition-opacity">
+                        {log.createdAt instanceof Date ? log.createdAt.toLocaleString() : (log.createdAt as any)?.toDate?.()?.toLocaleString()}
+                      </td>
+                      <td className="p-5 font-sans text-sm text-text-primary font-medium whitespace-nowrap uppercase tracking-wider text-xs">
+                        {log.action}
+                      </td>
+                      <td className="p-5 font-sans text-xs whitespace-nowrap">
+                        <span className={`px-2 py-1 rounded text-[10px] font-mono tracking-wider ${
+                          log.status === 'success' 
+                            ? 'bg-green-500/10 text-green-400 border border-green-500/20' 
+                            : 'bg-red-500/10 text-red-400 border border-red-500/20'
+                        }`}>
+                          {log.status}
+                        </span>
+                      </td>
+                      <td className="p-5 font-sans text-xs text-text-secondary">{log.details || '-'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Delete Confirmation Modal */}
       {leadToDelete && (
