@@ -137,7 +137,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
               More than language learning.<br/>
               A deeper connection to culture, discipline, confidence, and authentic Indian wisdom.
               <br/><br/>
-              Learn Sanskrit through personalized one-to-one guidance rooted in the traditional Gurukula system.
+              Learn Sanskrit through personalized one-to-one guidance rooted in the traditional system.
             </p>
           </FadeInSection>
 
@@ -175,16 +175,16 @@ export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
       <section className="py-16 px-4 md:px-12 max-w-4xl mx-auto text-left md:text-center space-y-12">
         <FadeInSection>
           <div className="space-y-4 mb-10">
-            <h2 className="font-serif text-2xl md:text-3xl text-text-primary font-medium">Learn Directly From A Gurukula-Trained Educator</h2>
+            <h2 className="font-serif text-2xl md:text-3xl text-text-primary font-medium">Learn Directly From A Traditionally Trained Educator</h2>
             <p className="text-text-secondary">Learn under the guidance of <strong>Vishweshwara M.</strong></p>
-            <p className="text-text-secondary">A traditional Gurukula-trained educator dedicated to preserving authentic Indian knowledge traditions for modern learners worldwide.</p>
+            <p className="text-text-secondary">A traditional traditionally trained educator dedicated to preserving authentic Indian knowledge traditions for modern learners worldwide.</p>
           </div>
           
           <div className="bg-surface-2 p-6 md:p-8 rounded-xl border border-gold-dim inline-block text-left w-full max-w-2xl mx-auto">
             <h3 className="font-serif text-xl text-text-gold mb-6">Why this learning experience is different:</h3>
             <ul className="space-y-4">
               {[
-                'Traditional Gurukula learning approach',
+                'Traditional learning approach',
                 'Personalized one-to-one guidance',
                 'Correct pronunciation and chanting foundation',
                 'Strong cultural understanding',
@@ -459,7 +459,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
       {/* MINIMAL AD FOOTER */}
       <footer className="border-t border-gold-dim/20 py-8 text-center text-[10px] font-mono text-text-tertiary px-6 pb-24 md:pb-8">
         <p>© {new Date().getFullYear()} Vishweshwara Sanskrit. Campaign Landing Experience.</p>
-        <p className="mt-1 uppercase tracking-widest text-[#C8860A]/30">Live Online Cohort Study • Gurukula Heritage</p>
+        <p className="mt-1 uppercase tracking-widest text-[#C8860A]/30">Live Online Cohort Study • Traditional Heritage</p>
       </footer>
 
       {/* Mobile Sticky Action Bar */}

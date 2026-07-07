@@ -25,7 +25,7 @@ export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
   });
 
   useEffect(() => {
-    const saved = localStorage.getItem('beginViewFormData');
+    const saved = sessionStorage.getItem('beginViewFormData');
     if (saved) {
       try {
         setFormData(JSON.parse(saved));
@@ -36,7 +36,7 @@ export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('beginViewFormData', JSON.stringify(formData));
+    sessionStorage.setItem('beginViewFormData', JSON.stringify(formData));
   }, [formData]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -167,6 +167,8 @@ export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
                     try {
                       const { saveLead } = await import('../lib/firebase');
                       await saveLead(data);
+                      const { sendNotificationEmail } = await import("../lib/emailjs");
+                      await sendNotificationEmail(data);
 
                       setIsSubmitted(true);
                       
@@ -188,7 +190,7 @@ export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
                         background: '',
                         message: ''
                       });
-                      localStorage.removeItem('beginViewFormData');
+                      sessionStorage.removeItem('beginViewFormData');
                     } catch (error: any) {
                       console.error('Submission error:', error);
                       alert('Failed to submit inquiry: ' + error.message);

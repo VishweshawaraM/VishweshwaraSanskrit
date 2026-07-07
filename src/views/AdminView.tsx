@@ -123,33 +123,30 @@ export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
     
     setActiveActionId(`email-${lead.id}`);
     try {
-      const response = await fetch('/api/email', {
+      const { sendNotificationEmail } = await import("../lib/emailjs");
+      await sendNotificationEmail({ name: lead.name, email: lead.email, subject: "Admin Outreach", message: "Admin sent an email to the lead." });
+      /* fetch('/api/email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           to: lead.email,
-          subject: 'Welcome to Vishweshwara Sanskrit Gurukula',
+          subject: 'Welcome to Vishweshwara Sanskrit',
           html: `
             <div style="font-family: sans-serif; max-w: 600px; margin: 0 auto; color: #333;">
               <h2 style="color: #C8860A;">Hari Om ${lead.name},</h2>
-              <p>Thank you for your interest in joining the Gurukula.</p>
+              <p>Thank you for your interest in joining.</p>
               <p>We have received your inquiry regarding "${lead.subject}".</p>
               <p>Acharya will review your application and we will get back to you shortly to schedule a diagnostic call.</p>
               <br/>
               <p>In service of the tradition,</p>
-              <p><strong>Vishweshwara Sanskrit Gurukula</strong></p>
+              <p><strong>Vishweshwara Sanskrit</strong></p>
             </div>
           `
         })
-      });
+      }); */
 
-      const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to send email');
-      }
 
       alert('Welcome email sent successfully!');
     } catch (error: any) {

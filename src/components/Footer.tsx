@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, Phone, MapPin, ArrowUp, Send, Instagram, Facebook } from 'lucide-react';
+import { Mail, Phone, MapPin, ArrowUp, Send, Instagram, Facebook, Star } from 'lucide-react';
 import { Logo } from './Logo';
 import { PageView } from '../types';
 import { Button } from './Button';
@@ -32,7 +32,7 @@ export const Footer: React.FC<FooterProps> = ({ onViewChange }) => {
         <div className="md:col-span-1 space-y-4">
           <Logo variant="horizontal" size={38} />
           <p className="font-sans text-xs text-text-secondary leading-relaxed max-w-sm mt-3">
-            A Living Gurukula brought into the digital era, dedicated to the uncompromising oral & analytical transmission of Vedas, Vyakarana, and Shastras.
+            A Living tradition brought into the digital era, dedicated to the uncompromising oral & analytical transmission of Vedas, Vyakarana, and Shastras.
           </p>
           <div className="pt-2 flex items-center space-x-3">
             <span className="font-mono text-[10px] tracking-[0.15em] text-text-gold uppercase">Traditional Lineage</span>
@@ -136,6 +136,21 @@ export const Footer: React.FC<FooterProps> = ({ onViewChange }) => {
             >
               <Facebook className="w-4 h-4" />
             </a>
+            <a 
+              href="https://share.google/YJDHCZgoFpiePUgA6" 
+              target="_blank" 
+              rel="noreferrer" 
+              className="text-text-tertiary hover:text-text-gold transition-colors p-1.5 bg-surface-2 rounded border border-gold-dim/40 hover:border-text-gold"
+              aria-label="Google My Business"
+              title="Review us on Google"
+            >
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+                <path d="M21.5 12.2c0-.8-.1-1.6-.2-2.3H12v4.4h5.4c-.2 1.4-.8 2.6-1.9 3.4v2.8h3.1c1.8-1.7 2.9-4.1 2.9-7.3z" fill="currentColor" stroke="none" />
+                <path d="M12 22c2.7 0 4.9-.9 6.6-2.4l-3.1-2.8c-.9.6-2.1.9-3.4.9-2.6 0-4.9-1.8-5.7-4.2H3.2v2.9C4.9 19.8 8.2 22 12 22z" fill="currentColor" stroke="none" />
+                <path d="M6.3 13.5c-.2-.6-.3-1.2-.3-1.9s.1-1.3.3-1.9V6.8H3.2c-.6 1.3-1 2.7-1 4.3s.4 3 1 4.3l3.1-2.9z" fill="currentColor" stroke="none" />
+                <path d="M12 5.5c1.4 0 2.7.5 3.8 1.5l2.8-2.8C16.9 2.5 14.7 1.6 12 1.6 8.2 1.6 4.9 3.8 3.2 7.1l3.1 2.9c.8-2.4 3.1-4.2 5.7-4.2z" fill="currentColor" stroke="none" />
+              </svg>
+            </a>
             <Share className="p-1.5 bg-surface-2 rounded border border-gold-dim/40 hover:border-text-gold !text-text-tertiary hover:!text-text-gold" />
           </div>
           <div className="pt-2">
@@ -165,7 +180,7 @@ export const Footer: React.FC<FooterProps> = ({ onViewChange }) => {
       <div className="max-w-7xl mx-auto pt-6 border-t border-gold-dim/40 flex flex-col md:flex-row items-center justify-between text-center md:text-left gap-4">
         <div className="space-y-1">
           <p className="font-sans text-[10px] text-text-tertiary tracking-wider">
-            &copy; {currentYear} Vishweshwara Sanskrit. Built strictly with Gurukula purity and digital precision.
+            &copy; {currentYear} Vishweshwara Sanskrit. Built strictly with traditional purity and digital precision.
           </p>
           <p className="font-mono text-[9px] text-[#C8860A]/40 uppercase tracking-[0.2em]">
             Advaita Vedanta ✦ Taittiriya Samhita ✦ Laghu Kaumudi

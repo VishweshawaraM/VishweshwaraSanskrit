@@ -6,6 +6,17 @@ import { PageView } from '../types';
 import confetti from 'canvas-confetti';
 import { playChime } from '../lib/audio';
 
+const CURRENT_SEEKERS = [
+  { name: 'Active Seeker', subject: 'Sanskrit', location: 'United States (Texas)', flag: '🇺🇸' },
+  { name: 'Active Seeker', subject: 'Sanskrit', location: 'United States (Texas)', flag: '🇺🇸' },
+  { name: 'Active Seeker', subject: 'Sanskrit & Veda', location: 'Abu Dhabi, UAE', flag: '🇦🇪' },
+  { name: 'Active Seeker', subject: 'Sanskrit', location: 'Bengaluru, Karnataka', flag: '🇮🇳' },
+  { name: 'Active Seeker', subject: 'Sanskrit', location: 'Australia', flag: '🇦🇺' },
+  { name: 'Active Seeker', subject: 'Veda', location: 'Bengaluru, Karnataka', flag: '🇮🇳' },
+  { name: 'Active Seeker', subject: 'Veda', location: 'India', flag: '🇮🇳' },
+  { name: 'Active Seeker', subject: 'Veda', location: 'Bengaluru, Karnataka', flag: '🇮🇳' },
+];
+
 interface TestimonialsViewProps {
   onViewChange: (view: PageView) => void;
 }
@@ -140,6 +151,47 @@ export const TestimonialsView: React.FC<TestimonialsViewProps> = ({ onViewChange
         </div>
       </section>
 
+      {/* SECTION 4.5 - Current Seekers Table */}
+      <section className="max-w-7xl mx-auto px-4 md:px-12 space-y-8 select-none text-left">
+        <div className="flex items-center justify-between border-b border-gold-dim/30 pb-2">
+          <h3 className="font-serif text-2xl tracking-widest text-text-gold uppercase font-bold">
+            ✦ Global Seekers Network
+          </h3>
+          <Users className="w-5 h-5 text-gold-base/60" />
+        </div>
+        <div className="bg-surface-2/50 backdrop-blur-sm border border-gold-dim/40 rounded-xl overflow-hidden shadow-xl">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-surface-1/80 border-b border-gold-dim/50">
+                  <th className="p-4 md:px-6 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Profile</th>
+                  <th className="p-4 md:px-6 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Subject</th>
+                  <th className="p-4 md:px-6 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">From</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gold-dim/20">
+                {CURRENT_SEEKERS.map((seeker, index) => (
+                  <tr key={index} className="hover:bg-surface-2 transition-colors group">
+                    <td className="p-4 md:px-6 font-sans text-sm text-text-primary font-medium whitespace-nowrap group-hover:text-gold-bright transition-colors">
+                      {seeker.name}
+                    </td>
+                    <td className="p-4 md:px-6 font-sans text-xs text-text-secondary whitespace-nowrap">
+                      <span className="bg-surface-3/30 border border-gold-dim/20 px-2.5 py-1 rounded-full text-[10px] font-mono tracking-wider">
+                        {seeker.subject}
+                      </span>
+                    </td>
+                    <td className="p-4 md:px-6 font-sans text-xs text-text-tertiary whitespace-nowrap flex items-center gap-2">
+                      <span className="text-base" title={seeker.location}>{seeker.flag}</span>
+                      <span>{seeker.location}</span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
       {/* SECTION 5 - General Testimonials Filtered List */}
       <section className="max-w-7xl mx-auto px-4 md:px-12 space-y-8 select-none text-left">
         <h3 className="font-serif text-2xl tracking-widest text-text-gold uppercase font-bold border-b border-gold-dim/30 pb-2">
@@ -240,13 +292,35 @@ export const TestimonialsView: React.FC<TestimonialsViewProps> = ({ onViewChange
       {/* SECTION 7 - Submit Testimonial Form */}
       <section className="max-w-3xl mx-auto px-4 md:px-12 pb-32 text-left select-none">
         <div className="bg-surface-2 border border-gold-mid rounded-xl p-8 md:p-10 shadow-xl relative min-h-[300px] flex flex-col justify-center">
-          <div className="text-center space-y-2 mb-8">
+          <div className="text-center space-y-4 mb-8">
             <h3 className="font-serif text-2xl tracking-widest text-text-gold uppercase font-bold">
               ✦ Share Your Experience
             </h3>
             <p className="font-sans text-sm text-text-secondary">
               Have you studied with Acharya? We would love to hear about your transformation.
             </p>
+            <div className="pt-2 flex justify-center">
+              <a 
+                href="https://share.google/YJDHCZgoFpiePUgA6"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center space-x-2 bg-surface-1 border border-gold-dim hover:border-gold-base px-6 py-3 rounded-full text-text-primary hover:text-gold-base transition-colors"
+              >
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21.5 12.2c0-.8-.1-1.6-.2-2.3H12v4.4h5.4c-.2 1.4-.8 2.6-1.9 3.4v2.8h3.1c1.8-1.7 2.9-4.1 2.9-7.3z" fill="currentColor" stroke="none" />
+                  <path d="M12 22c2.7 0 4.9-.9 6.6-2.4l-3.1-2.8c-.9.6-2.1.9-3.4.9-2.6 0-4.9-1.8-5.7-4.2H3.2v2.9C4.9 19.8 8.2 22 12 22z" fill="currentColor" stroke="none" />
+                  <path d="M6.3 13.5c-.2-.6-.3-1.2-.3-1.9s.1-1.3.3-1.9V6.8H3.2c-.6 1.3-1 2.7-1 4.3s.4 3 1 4.3l3.1-2.9z" fill="currentColor" stroke="none" />
+                  <path d="M12 5.5c1.4 0 2.7.5 3.8 1.5l2.8-2.8C16.9 2.5 14.7 1.6 12 1.6 8.2 1.6 4.9 3.8 3.2 7.1l3.1 2.9c.8-2.4 3.1-4.2 5.7-4.2z" fill="currentColor" stroke="none" />
+                </svg>
+                <span className="font-mono text-xs uppercase tracking-wider">Review us on Google</span>
+              </a>
+            </div>
+            
+            <div className="flex items-center justify-center py-4">
+              <div className="h-px bg-gold-dim/30 w-full max-w-xs"></div>
+              <span className="px-4 font-mono text-[10px] text-text-tertiary uppercase">Or submit below</span>
+              <div className="h-px bg-gold-dim/30 w-full max-w-xs"></div>
+            </div>
           </div>
           
           {isSubmitted ? (

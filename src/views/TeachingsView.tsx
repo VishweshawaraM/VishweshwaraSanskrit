@@ -68,7 +68,7 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
         <div className="max-w-7xl mx-auto text-left space-y-6 relative z-10">
           <FadeInSection direction="up" delay={100}>
             <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5" /> THE TRANSMISSION ARCHITECTURE • GURUKULA METHOD
+              <Sparkles className="w-3.5 h-3.5" /> THE TRANSMISSION ARCHITECTURE • TRADITIONAL METHOD
             </span>
           </FadeInSection>
           <FadeInSection direction="up" delay={200}>
@@ -90,7 +90,7 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
         
         <div className="lg:col-span-5 space-y-6 text-left relative z-10">
           <FadeInSection direction="left" delay={100}>
-            <span className="font-mono text-xs tracking-[0.2em] text-text-gold uppercase">✦ THE GURUKULA APPROACH</span>
+            <span className="font-mono text-xs tracking-[0.2em] text-text-gold uppercase">✦ THE TRADITIONAL APPROACH</span>
             <h2 className="font-display text-3xl md:text-4xl font-light text-text-primary tracking-tight mt-2">
               How Wisdom Is <br />
               <span className="font-medium">Purified and Transmitted</span>
@@ -326,14 +326,17 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
                   
                   try {
                     const { saveLead } = await import('../lib/firebase');
-                    await saveLead({
+                    const leadData = {
                       name: 'Assessment Request',
                       email: email,
                       subject: 'Syllabus Assessment',
                       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown',
                       background: 'Requested via Teaching View',
                       message: 'Requested a free syllabus assessment call.'
-                    });
+                    };
+                    await saveLead(leadData);
+                    const { sendNotificationEmail } = await import("../lib/emailjs");
+                    await sendNotificationEmail(leadData);
 
                     setIsSubmitted(true);
                     

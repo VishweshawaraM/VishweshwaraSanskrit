@@ -60,17 +60,17 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
       <HeroSlideshow 
         slides={[
           {
-            image: "/90BC0280-743E-496C-AD5A-10DB96ED68C9.png",
+            image: "/hero-1.png",
             title: "Live. Personal. Ancient Wisdom.",
-            subtitle: "Disconnect from the noise. Learn Vedas, Vyakarana, Advaita Vedanta, and Bhagavad Gita directly from a dedicated scholar with 7 years of full residential Gurukula training."
+            subtitle: "Disconnect from the noise. Learn Vedas, Vyakarana, Advaita Vedanta, and Bhagavad Gita directly from a dedicated scholar with 7 years of full residential training."
           },
           {
-            image: "/BE39A249-BCEF-417F-B31A-70D71B6A709D.jpeg",
-            title: "Authentic Gurukula Tradition.",
+            image: "/hero-2.jpeg",
+            title: "Authentic Tradition.",
             subtitle: "Immerse yourself in the exact pedagogy preserved for millennia, tailored for the modern seeker."
           },
           {
-            image: "/C2A70D39-41A8-4BC8-B4C6-E11D27F21CA5.png",
+            image: "/hero-3.png",
             title: "Global Community of Seekers.",
             subtitle: "Join dedicated students from across the world in small, interactive cohorts focused on deep learning."
           }
@@ -145,7 +145,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
 
           <FadeInSection delay={300}>
             <p className="font-sans text-base text-text-secondary leading-relaxed">
-              In the traditional Gurukula framework, knowledge is not merely read from a text—it is lived. Undergoing seven years of continuous residential residency, Vishweshwara mastered the nuances of Vedic phonetics (Taittiriya Samhita) and the systems of Indian epistemology (Nyaya & Advaita Vedanta). 
+              In the traditional framework, knowledge is not merely read from a text—it is lived. Undergoing seven years of continuous residential residency, Vishweshwara mastered the nuances of Vedic phonetics (Taittiriya Samhita) and the systems of Indian epistemology (Nyaya & Advaita Vedanta). 
             </p>
           </FadeInSection>
 
@@ -400,7 +400,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
             <div className="text-left space-y-1">
               <span className="font-mono text-[9px] tracking-[0.2em] text-text-gold uppercase block">THE SACRED TRADITION</span>
               <h3 className="font-serif text-xl md:text-2xl text-text-primary font-medium">Uncompromising Knowledge. Self-Determined Guru Dakshina.</h3>
-              <p className="font-sans text-xs text-text-secondary">We do not sell ancient scripture. Seekers support our gurukula livelihood through self-determined offerings.</p>
+              <p className="font-sans text-xs text-text-secondary">We do not sell ancient scripture. Seekers support our livelihood through self-determined offerings.</p>
             </div>
             <Link
               to="/dakshina"

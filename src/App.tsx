@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState, Suspense } from 'react';
-import { HashRouter, Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { Loader2 } from 'lucide-react';
 import { Header } from './components/Header';
@@ -11,6 +11,7 @@ import { PageNavigation } from './components/PageNavigation';
 import { PageView } from './types';
 import { MetaTagsManager } from './components/MetaTagsManager';
 import { ProtectedAdminRoute } from './components/ProtectedAdminRoute';
+import { AmbientParticles } from './components/AmbientParticles';
 
 const HomeView = React.lazy(() => import('./views/HomeView').then(module => ({ default: module.HomeView })));
 const AboutView = React.lazy(() => import('./views/AboutView').then(module => ({ default: module.AboutView })));
@@ -64,6 +65,7 @@ const AppContent = () => {
 
   return (
     <div className="bg-ground min-h-screen text-text-primary selection:bg-gold-base selection:text-ground flex flex-col justify-between overflow-x-hidden w-full">
+      <AmbientParticles />
       <ScrollToTop />
       <MetaTagsManager />
       
@@ -141,8 +143,8 @@ const AppContent = () => {
 
 export default function App() {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <AppContent />
-    </HashRouter>
+    </BrowserRouter>
   );
 }

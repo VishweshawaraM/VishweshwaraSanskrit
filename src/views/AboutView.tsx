@@ -37,8 +37,8 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange }) => {
   const aboutFaqData = [
     {
       id: 'faq1',
-      question: 'What does the traditional Gurukula format entail?',
-      answer: 'The traditional Gurukula format is an immersive, highly disciplined learning environment. It emphasizes an unaltered oral transmission (Parampara) of knowledge, strict adherence to daily rituals, and a deep, continuous engagement with the shastras under the direct guidance of an Acharya.'
+      question: 'What does the traditional format entail?',
+      answer: 'The traditional format is an immersive, highly disciplined learning environment. It emphasizes an unaltered oral transmission (Parampara) of knowledge, strict adherence to daily rituals, and a deep, continuous engagement with the shastras under the direct guidance of an Acharya.'
     },
     {
       id: 'faq2',
@@ -68,7 +68,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange }) => {
               <span className="font-medium text-text-gold">Vishweshwara M</span>
             </h1>
             <p className="font-sans text-base sm:text-lg text-text-secondary leading-relaxed max-w-2xl">
-              An Indologist, Sanskritist, and traditional educator who spent seven continuous years under residential vow at Traditional Gurukulam, undergoing strict, unaltered Vedic lineages.
+              An Indologist, Sanskritist, and traditional educator who spent seven continuous years under residential vow at a traditional setting, undergoing strict, unaltered Vedic lineages.
             </p>
           </div>
 
@@ -110,11 +110,11 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange }) => {
         </h2>
 
         <p className="font-sans text-lg text-text-secondary leading-relaxed font-light">
-          At age eighteen, while his contemporaries integrated into corporate colleges, Vishweshwara chose a different path—the residential vow of a Gurukula resident. For seven continuous years, he resided within the peaceful bounds of Traditional Gurukulam, living a highly disciplined lifestyle governed by early rising (Brahma Muhurta), daily worship, and intensive shastra adhyayana (academic focus).
+          At age eighteen, while his contemporaries integrated into corporate colleges, Vishweshwara chose a different path—the residential vow. For seven continuous years, he resided within the peaceful bounds of a traditional setting, living a highly disciplined lifestyle governed by early rising (Brahma Muhurta), daily worship, and intensive shastra adhyayana (academic focus).
         </p>
 
         <p className="font-sans text-base text-text-secondary leading-relaxed">
-          The instruction at Gurukula follows an unaltered oral chain of transmission dating back to Adi Shankaracharya. This structure demands total precision. Chanting Vedas requires literal phonetic training where every pitch deviation (Svara) alters the cosmic significance of a mantra. Pairwise with oral chants, Vishweshwara studied Paninian grammar (Vyakarana) to understand how Sanskrit structures itself, and Indian logic systems (Nyaya) to construct sound arguments.
+          The instruction follows an unaltered oral chain of transmission dating back to Adi Shankaracharya. This structure demands total precision. Chanting Vedas requires literal phonetic training where every pitch deviation (Svara) alters the cosmic significance of a mantra. Pairwise with oral chants, Vishweshwara studied Paninian grammar (Vyakarana) to understand how Sanskrit structures itself, and Indian logic systems (Nyaya) to construct sound arguments.
         </p>
 
         <p className="font-sans text-base text-text-secondary leading-relaxed">
@@ -164,7 +164,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange }) => {
             Unpacking the <span className="font-medium">Curriculum of Mastery</span>
           </h2>
           <p className="font-sans text-xs md:text-sm text-text-secondary max-w-xl mx-auto">
-            Traditional Gurukula learning is split into intense phases. Below are the actual areas of shastra research and practice completed by Vishweshwara:
+            Traditional learning is split into intense phases. Below are the actual areas of shastra research and practice completed by Vishweshwara:
           </p>
         </div>
 
@@ -230,10 +230,10 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange }) => {
         <div className="max-w-2xl mx-auto space-y-6 relative z-10">
           <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase block">VISION FOR 2026 & BEYOND</span>
           <h2 className="font-display text-3xl md:text-5xl font-light text-text-primary tracking-tight">
-            Building the <span className="font-medium text-text-gold">Digital Gurukula</span>
+            Building the <span className="font-medium text-text-gold">Digital Sanctuary</span>
           </h2>
           <p className="font-sans text-sm md:text-base text-text-secondary leading-relaxed">
-            "My ultimate vision is to bridge the gap between ancient rigorous Gurukula disciplines and modern digital convenience. I desire to create an online sanctuary where any earnest seeker, regardless of corporate location, can access unaltered Sanskrit texts with absolute purity and trust."
+            "My ultimate vision is to bridge the gap between ancient rigorous disciplines and modern digital convenience. I desire to create an online sanctuary where any earnest seeker, regardless of corporate location, can access unaltered Sanskrit texts with absolute purity and trust."
           </p>
           <div className="pt-4">
             <Link

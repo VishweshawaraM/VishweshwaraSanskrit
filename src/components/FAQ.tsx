@@ -11,7 +11,7 @@ const FAQ_DATA = [
   {
     id: '2',
     question: 'What is the teaching philosophy?',
-    answer: 'We strictly follow the traditional Gurukula pedagogy, focusing on exact word-by-word analysis, proper phonetic vibration (Svara), and lived experience rather than mere academic study.'
+    answer: 'We strictly follow the traditional pedagogy, focusing on exact word-by-word analysis, proper phonetic vibration (Svara), and lived experience rather than mere academic study.'
   },
   {
     id: '3',

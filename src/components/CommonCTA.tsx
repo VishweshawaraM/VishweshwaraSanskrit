@@ -16,7 +16,7 @@ export const CommonCTA: React.FC<CommonCTAProps> = ({
   onViewChange,
   title = "Begin Your Shastra Journey",
   subtitle = "ONLINE CLASSES • PERSONAL MENTORSHIP • AUTHENTIC LINEAGE",
-  description = "Join a global community of dedicated seekers. Learn Vedas, Vyakarana, Advaita Vedanta, and Bhagavad Gita directly from a traditionally trained Gurukula scholar.",
+  description = "Join a global community of dedicated seekers. Learn Vedas, Vyakarana, Advaita Vedanta, and Bhagavad Gita directly from a traditionally trained scholar.",
   ctaText = "Request Free Personal Consultation"
 }) => {
   const handleCTAClick = () => {

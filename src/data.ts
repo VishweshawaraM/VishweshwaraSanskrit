@@ -1,7 +1,7 @@
 import { StatItem, CredentialItem, SubjectItem, TestimonialItem, TimelineItem, FAQItem } from './types';
 
 export const STATS_ITEMS: StatItem[] = [
-  { id: '1', value: '7', label: 'Years Gurukula\nFormation', subtext: '' },
+  { id: '1', value: '7', label: 'Years Traditional\nFormation', subtext: '' },
   { id: '2', value: '6+', label: 'Countries •\nStudents Worldwide', subtext: '' },
   { id: '3', value: '500+', label: 'Sessions\nDelivered', subtext: '' },
   { id: '4', value: '6', label: 'Sacred Subjects\nTaught', subtext: '' }
@@ -24,7 +24,7 @@ export const CREDENTIALS_ITEMS: CredentialItem[] = [
   },
   {
     id: '3',
-    title: '7-Year Gurukula Residency',
+    title: '7-Year Traditional Residency',
     institution: 'Traditional Gurukulam',
     year: '2018 - 2025',
     description: 'Immersive residential training in Krishnayajurveda (Samhita & Brahmana), Advaita Vedanta, Vyakarana (Laghu and Siddhanta Kaumudi), Nyaya (Tarkasangraha), Mimamsa, and Yoga.'
@@ -161,14 +161,14 @@ export const TIMELINE_ITEMS: TimelineItem[] = [
     year: '2024',
     title: 'Shastri (Graduation & Initiation)',
     subtitle: 'B.A. in Shastri & Teaching',
-    description: 'Successfully graduated with a First Class Shastri degree. Commenced mentoring younger Gurukula students in Sanskrit literature and teaching neighborhood workshops.'
+    description: 'Successfully graduated with a First Class Shastri degree. Commenced mentoring younger students in Sanskrit literature and teaching neighborhood workshops.'
   },
   {
     id: 't5',
     year: '2025',
     title: 'Vistarana (Spreading the Light)',
-    subtitle: 'Digital Gurukula Inception',
-    description: 'Completed 7 years of full residential Gurukula training. Commenced postgraduate studies (M.A. Acharya) and established a digital classroom to bring unaltered traditional wisdom to global seekers.'
+    subtitle: 'Digital Sanctuary Inception',
+    description: 'Completed 7 years of full residential training. Commenced postgraduate studies (M.A. Acharya) and established a digital classroom to bring unaltered traditional wisdom to global seekers.'
   }
 ];
 

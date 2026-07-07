@@ -97,7 +97,7 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
             Guru <span className="font-medium text-transparent bg-clip-text bg-gradient-to-r from-gold-base to-gold-glow">Dakshina</span>
           </h1>
           <p className="font-sans text-base sm:text-lg text-text-secondary leading-relaxed max-w-2xl mx-auto font-light">
-            Lineage wisdom cannot be packaged as a commercial commodity. We offer high-fidelity shastra studies without upfront commercial fees, continuing the ancient Gurukula tradition of self-determined, capabilities-based Guru Dakshina.
+            Lineage wisdom cannot be packaged as a commercial commodity. We offer high-fidelity shastra studies without upfront commercial fees, continuing the ancient tradition of self-determined, capabilities-based Guru Dakshina.
           </p>
         </div>
       </section>
@@ -205,7 +205,7 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
           <div className="space-y-2">
             <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase block">OFFERING HUB</span>
             <h2 className="font-display text-2xl md:text-4xl font-light text-text-primary tracking-tight">
-              Support the <span className="font-medium text-text-gold">Gurukula Livelihood</span>
+              Support the <span className="font-medium text-text-gold">Livelihood</span>
             </h2>
             <p className="font-sans text-xs sm:text-sm text-text-secondary leading-relaxed">
               Students and well-wishers can make their monthly or term offerings directly through the details below. Scan the UPI QR code or copy the payment credentials.
