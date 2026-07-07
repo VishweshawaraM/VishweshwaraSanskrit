@@ -11,11 +11,6 @@ interface AdminViewProps {
 
 export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
   const [activeTab, setActiveTab] = useState<'inquiries' | 'activity'>('inquiries');
-  // Security: password gate
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [passwordInput, setPasswordInput] = useState('');
-  const [authError, setAuthError] = useState(false);
-  const ADMIN_PWD = 'vishweshwara2025';
   const [leads, setLeads] = useState<Lead[]>([]);
   const [adminLogs, setAdminLogs] = useState<AdminLog[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -201,55 +196,6 @@ export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
       setIsDeleting(false);
     }
   };
-
-  // Password gate UI
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen bg-ground flex items-center justify-center px-4">
-        <div className="bg-surface-2 border border-gold-mid rounded-xl p-8 w-full max-w-sm space-y-6 shadow-2xl">
-          <div className="text-center space-y-2">
-            <span className="font-devanagari text-3xl text-text-gold block">ॐ</span>
-            <h2 className="font-serif text-2xl text-text-primary">Admin Access</h2>
-            <p className="font-mono text-xs text-text-tertiary uppercase tracking-wider">Vishweshwara Sanskrit</p>
-          </div>
-          <div className="space-y-3">
-            <input
-              type="password"
-              value={passwordInput}
-              onChange={(e) => { setPasswordInput(e.target.value); setAuthError(false); }}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  if (passwordInput === ADMIN_PWD) {
-                    setIsAuthenticated(true);
-                  } else {
-                    setAuthError(true);
-                  }
-                }
-              }}
-              placeholder="Enter admin password"
-              className="w-full bg-surface-3 border border-gold-dim rounded-lg px-4 py-3 text-sm text-text-primary focus:outline-none focus:border-gold-base transition-colors"
-            />
-            {authError && (
-              <p className="text-xs text-red-400 font-mono">Incorrect password. Access denied.</p>
-            )}
-            <button
-              onClick={() => {
-                if (passwordInput === ADMIN_PWD) {
-                  setIsAuthenticated(true);
-                } else {
-                  setAuthError(true);
-                }
-              }}
-              className="w-full py-3 rounded-lg bg-gradient-to-r from-gold-base to-gold-bright text-ground font-mono text-xs tracking-widest uppercase font-semibold"
-            >
-              Enter
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
 
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-12 py-24 space-y-12">
