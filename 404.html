@@ -6,9 +6,9 @@
     <script type="text/javascript">
       var l = window.location;
       l.replace(
-        l.protocol + "//" + l.hostname + (l.port ? ":" + l.port : "") +
-        "/?p=" + l.pathname.slice(1).replace(/&/g, "~and~") +
-        (l.search ? "&q=" + l.search.slice(1).replace(/&/g, "~and~") : "") +
+        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+        '/?p=' + l.pathname.slice(1).replace(/&/g, '~and~') +
+        (l.search ? '&q=' + l.search.slice(1).replace(/&/g, '~and~') : '') +
         l.hash
       );
     </script>
