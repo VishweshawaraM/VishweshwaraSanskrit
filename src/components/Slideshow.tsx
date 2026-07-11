@@ -15,7 +15,7 @@ interface HeroSlideshowProps {
   onExploreClick: () => void;
 }
 
-export function HeroSlideshow({ slides, interval = 6000, onBeginClick, onExploreClick }: HeroSlideshowProps) {
+export function HeroSlideshow({ slides, interval = 5000, onBeginClick, onExploreClick }: HeroSlideshowProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   const [isPlaying, setIsPlaying] = useState(true);
