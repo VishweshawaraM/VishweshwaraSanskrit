@@ -60,17 +60,17 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
       <HeroSlideshow 
         slides={[
           {
-            image: "/hero-1.png",
+            image: "/hero-1.PNG",
             title: "Live. Personal. Ancient Wisdom.",
             subtitle: "Disconnect from the noise. Learn Vedas, Vyakarana, Advaita Vedanta, and Bhagavad Gita directly from a dedicated scholar with 7 years of full residential training."
           },
           {
-            image: "/hero-2.jpeg",
+            image: "/hero-2.PNG",
             title: "Authentic Tradition.",
             subtitle: "Immerse yourself in the exact pedagogy preserved for millennia, tailored for the modern seeker."
           },
           {
-            image: "/hero-3.png",
+            image: "/hero-3.PNG",
             title: "Global Community of Seekers.",
             subtitle: "Join dedicated students from across the world in small, interactive cohorts focused on deep learning."
           }
