@@ -1,65 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { ArrowLeft, RefreshCw, FileSpreadsheet, Mail, Calendar, FileText, Loader2, TrendingUp, Download, Trash2, Activity, Shield, Users, Lock } from 'lucide-react';
-import { PageView } from '../types';
-import { Button } from '../components/Button';
-import { getLeads, Lead, deleteLead, getAdminLogs, AdminLog } from '../lib/firebase';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-
-// ─── Password Gate ───────────────────────────────────────────────
-const ADMIN_PASSWORD = 'vishu2026';
-
-function AdminPasswordGate({ onUnlock }: { onUnlock: () => void }) {
-  const [input, setInput] = useState('');
-  const [error, setError] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (input === ADMIN_PASSWORD) {
-      localStorage.setItem('admin_auth_token', 'authenticated');
-      onUnlock();
-    } else {
-      setError(true);
-      setInput('');
-      setTimeout(() => setError(false), 2000);
-    }
-  };
-
-  return (
-    <div className="min-h-screen bg-ground flex items-center justify-center px-4">
-      <div className="w-full max-w-sm bg-surface-2 border border-gold-dim rounded-xl p-8 shadow-2xl space-y-6 text-center">
-        <div className="flex justify-center">
-          <div className="w-14 h-14 rounded-full bg-gold-dim/20 border border-gold-mid flex items-center justify-center">
-            <Lock className="w-7 h-7 text-text-gold" />
-          </div>
-        </div>
-        <div className="space-y-1">
-          <h2 className="font-serif text-xl text-text-primary font-semibold">Admin Access</h2>
-          <p className="font-sans text-xs text-text-tertiary">Enter your password to continue</p>
-        </div>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="password"
-            value={input}
-            onChange={e => setInput(e.target.value)}
-            placeholder="Password"
-            autoFocus
-            className={`w-full bg-ground border rounded-lg px-4 py-3 text-sm text-text-primary focus:outline-none transition-colors ${
-              error ? 'border-red-500 shake' : 'border-gold-dim focus:border-gold-base'
-            }`}
-          />
-          {error && <p className="text-xs text-red-400 font-mono">Incorrect password</p>}
-          <button
-            type="submit"
-            className="w-full px-6 py-3 rounded bg-gradient-to-r from-gold-base to-gold-bright text-ground font-mono text-xs tracking-widest uppercase font-semibold transition-all active:scale-95"
-          >
-            Enter
-          </button>
-        </form>
-      </div>
-    </div>
-  );
-}
-// ─────────────────────────────────────────────────────────────────
+import { ArrowLeft, RefreshCw, FileSpreadsheet, Mail, Calendar, FileText, Loader2, TrendingUp, Download, Trash2, Activity, Shield, Users } from 'lucide-react';
 import { PageView } from '../types';
 import { Button } from '../components/Button';
 import { getLeads, Lead, deleteLead, getAdminLogs, AdminLog } from '../lib/firebase';
@@ -70,9 +10,6 @@ interface AdminViewProps {
 }
 
 export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    return localStorage.getItem('admin_auth_token') === 'authenticated';
-  });
   const [activeTab, setActiveTab] = useState<'inquiries' | 'activity'>('inquiries');
   const [leads, setLeads] = useState<Lead[]>([]);
   const [adminLogs, setAdminLogs] = useState<AdminLog[]>([]);
@@ -130,12 +67,8 @@ export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
 
   const handleLogout = () => {
     localStorage.removeItem('admin_auth_token');
-    setIsAuthenticated(false);
+    onViewChange('home');
   };
-
-  if (!isAuthenticated) {
-    return <AdminPasswordGate onUnlock={() => setIsAuthenticated(true)} />;
-  }
 
   const handleSyncToSheets = async () => {
     const confirmed = window.confirm(
