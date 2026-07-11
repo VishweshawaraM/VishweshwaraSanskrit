@@ -1,6 +1,6 @@
 # Vishweshwara Sanskrit
 
-A digital Gurukula preserving and transmitting authentic Sanskrit, Vedas, Bhagavad Gita, and Advaita Vedanta through the Guru-Shishya Parampara.
+A virtual Gurukula preserving and transmitting authentic Sanskrit, Vedas, Bhagavad Gita, and Advaita Vedanta through the Guru-Shishya Parampara.
 
 **Live site:** https://vishweshwarasanskrit.com
 
