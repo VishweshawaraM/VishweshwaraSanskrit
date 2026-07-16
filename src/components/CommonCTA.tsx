@@ -76,7 +76,7 @@ export const CommonCTA: React.FC<CommonCTAProps> = ({
         {/* Minimal Sanskrit footer ornament */}
         <div className="pt-6">
           <p className="font-serif text-xs italic text-text-tertiary">
-            "Sa Vidya Ya Vimuktaye" — True education is that which liberates.
+            "Yaa Vidya Saa Vimukthaye" — True education is that which liberates.
           </p>
         </div>
       </div>
