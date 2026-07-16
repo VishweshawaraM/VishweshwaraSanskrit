@@ -188,14 +188,6 @@ export const Footer: React.FC<FooterProps> = ({ onViewChange }) => {
         </div>
 
         <div className="flex items-center space-x-6 text-[10px] font-mono tracking-wider uppercase">
-          <Link to="/landing" onClick={scrollToTop} className="text-text-tertiary hover:text-text-gold transition-colors">
-            Ads Campaign Preview
-          </Link>
-          <span className="text-[#C8860A]/20">|</span>
-          <Link to="/admin" onClick={scrollToTop} className="text-text-tertiary hover:text-text-gold transition-colors">
-            Admin Access
-          </Link>
-          <span className="text-[#C8860A]/20">|</span>
           <button onClick={scrollToTop} className="text-text-gold hover:text-gold-bright transition-colors flex items-center space-x-1">
             <span>Scroll Top</span>
             <ArrowUp className="w-3 h-3" />
