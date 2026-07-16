@@ -296,8 +296,8 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
                 {
-                  title: 'No Tech-Larping / AI-Slop',
-                  desc: 'We strictly avoid fake status markers, complex mock dashboards, or simulated telemetry. Just pure, ancient wisdom and real human mentorship.'
+                  title: 'Authentic Human Mentorship',
+                  desc: 'Every session is live, personal, and guided directly by the Acharya. No recordings, no AI tools, no automated pathways — just the ancient Guru-Shishya tradition.'
                 },
                 {
                   title: 'Exact Word-by-Word Analysis',
