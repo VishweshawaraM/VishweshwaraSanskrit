@@ -1,34 +1,34 @@
 export const PAGE_META: Record<string, { title: string; description: string; image?: string }> = {
   '/': {
-    title: 'Vishweshwara Sanskrit | Authentic Online Sanskrit Classes',
-    description: 'Master Vedas, Vyakarana, Advaita Vedanta, and Bhagavad Gita at Vishweshwara Sanskrit. Authentic online Sanskrit classes taught by a traditional Acharya.',
+    title: 'Vishweshwara Sanskrit | Learn Sanskrit & Vedas Online',
+    description: 'Master Sanskrit, Bhagavad Gita, Veda Chanting and Advaita Vedanta with Gurukula-trained Acharya Vishweshwara N M. Live one-to-one classes for students worldwide.',
   },
   '/about': {
     title: 'About the Acharya | Vishweshwara Sanskrit',
-    description: 'Learn about Acharya Vishweshwara N M, his traditional lineage, and his dedication to teaching Sanskrit, Vedanta, and traditional wisdom.',
+    description: 'Acharya Vishweshwara N M — 7 years residential Gurukula training in Krishna Yajur Veda, Advaita Vedanta, and Sanskrit. Traditional lineage, modern teaching.',
   },
   '/teachings': {
-    title: 'Curriculum & Teachings | Vishweshwara Sanskrit',
-    description: 'Explore our curriculum including Sanskrit Grammar (Vyakarana), Bhagavad Gita, Advaita Vedanta, and Vedic Chanting.',
+    title: 'Courses | Sanskrit, Bhagavad Gita & Vedic Studies',
+    description: 'Explore courses in Sanskrit Language, Bhagavad Gita with Shankara Bhashya, Veda Chanting, Advaita Vedanta, Stotras, and Puja Vidhi — live online classes.',
   },
   '/dakshina': {
     title: 'Guru Dakshina | Vishweshwara Sanskrit',
-    description: 'Information regarding Guru Dakshina and offerings for learning at Vishweshwara Sanskrit.',
+    description: 'The ancient tradition of Guru Dakshina — a self-determined offering in gratitude for authentic knowledge. Learn how this sacred practice works at Vishweshwara Sanskrit.',
   },
   '/testimonials': {
-    title: 'Student Voices | Vishweshwara Sanskrit',
-    description: 'Read testimonials from students worldwide who have studied Sanskrit and Vedanta under Acharya Vishweshwara.',
+    title: 'Student Testimonials | Vishweshwara Sanskrit',
+    description: 'Read what students from India, USA, Australia, UAE, UK and more say about learning Sanskrit and Vedanta with Acharya Vishweshwara.',
   },
   '/begin': {
-    title: 'Begin Your Journey | Vishweshwara Sanskrit',
-    description: 'Start your journey of learning Sanskrit, chanting, and Vedanta. Join the modern digital sanctuary today.',
+    title: 'Contact Us | Enquire About Sanskrit Classes',
+    description: 'Begin your journey in Sanskrit, Bhagavad Gita, or Vedic studies. Send an enquiry and Acharya Vishweshwara will personally respond to discuss your learning path.',
   },
   '/landing': {
-    title: 'Welcome | Vishweshwara Sanskrit',
-    description: 'Vishweshwara Sanskrit is a modern digital sanctuary dedicated to preserving and transmitting authentic Indian wisdom traditions.',
+    title: 'Vishweshwara Sanskrit | Digital Gurukula',
+    description: 'A living tradition brought into the digital age. Authentic Sanskrit, Vedas, and Vedanta for the modern seeker.',
   },
   '/admin': {
-    title: 'Admin Panel | Vishweshwara Sanskrit',
-    description: 'Administration area for Vishweshwara Sanskrit.',
+    title: 'Admin | Vishweshwara Sanskrit',
+    description: 'Administration panel.',
   },
 };
