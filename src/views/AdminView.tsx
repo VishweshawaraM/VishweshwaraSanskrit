@@ -2,7 +2,8 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { ArrowLeft, RefreshCw, FileSpreadsheet, Mail, Calendar, FileText, Loader2, TrendingUp, Download, Trash2, Activity, Shield, Users } from 'lucide-react';
 import { PageView } from '../types';
 import { Button } from '../components/Button';
-import { getLeads, Lead, deleteLead, getAdminLogs, AdminLog } from '../lib/firebase';
+import { getLeads, Lead, deleteLead, getAdminLogs, AdminLog, auth } from '../lib/firebase';
+import { signOut } from 'firebase/auth';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 interface AdminViewProps {
@@ -65,8 +66,8 @@ export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('admin_auth_token');
+  const handleLogout = async () => {
+    await signOut(auth);
     onViewChange('home');
   };
 
