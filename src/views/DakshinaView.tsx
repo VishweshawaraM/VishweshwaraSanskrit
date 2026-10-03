@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { HelpCircle, ChevronDown, CheckCircle2, ShieldCheck, HeartHandshake, Copy, QrCode } from 'lucide-react';
+import { HelpCircle, ChevronDown, CheckCircle2, ShieldCheck, HeartHandshake, Copy, QrCode, Zap } from 'lucide-react';
 import { FAQ_ITEMS } from '../data';
 import { PageView } from '../types';
 import { Button } from '../components/Button';
+// --- RAZORPAY INTEGRATION: added component import ---
+import { RazorpayButton } from '../components/RazorpayButton';
+// --- END RAZORPAY INTEGRATION (import) ---
 
 interface DakshinaViewProps {
   onViewChange: (view: PageView) => void;
@@ -14,6 +17,11 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
   const [openFAQ, setOpenFAQ] = useState<string | null>('faq1');
 
   const upiId = 'vishweshwara.sanskrit@slc';
+
+  // --- RAZORPAY INTEGRATION: button ID ---
+  // From the Acharya's Razorpay Dashboard Payment Button embed snippet.
+  const razorpayButtonId = 'pl_TjADBpB8KlpY2D';
+  // --- END RAZORPAY INTEGRATION (button ID) ---
 
   const handleCopyUpi = () => {
     navigator.clipboard.writeText(upiId);
@@ -200,7 +208,7 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
 
       {/* SECTION 5 - QR Payment Panel (Interactive hub) */}
       <section className="max-w-7xl mx-auto px-4 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center select-none">
-        {/* Left Column: QR and Bank Details */}
+        {/* Left Column: Razorpay + QR and Bank Details */}
         <div className="lg:col-span-6 space-y-6 text-left">
           <div className="space-y-2">
             <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase block">OFFERING HUB</span>
@@ -208,11 +216,38 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
               Support the <span className="font-medium text-text-gold">Livelihood</span>
             </h2>
             <p className="font-sans text-xs sm:text-sm text-text-secondary leading-relaxed">
-              Students and well-wishers can make their monthly or term offerings directly through the details below. Scan the UPI QR code or copy the payment credentials.
+              Students and well-wishers can make their monthly or term offerings directly through the details below. Pay instantly online, or scan the UPI QR code and copy the payment credentials.
             </p>
           </div>
 
-          <div className="bg-surface-2 p-5 border border-gold-dim rounded-lg space-y-4">
+          <div className="bg-surface-2 p-5 border border-gold-dim rounded-lg space-y-5">
+
+            {/* --- RAZORPAY INTEGRATION: start ---
+                Instant online payment option, placed above the manual UPI
+                flow since it's the faster path for most students. Uses the
+                same card/heading pattern as the UPI block below so it reads
+                as one cohesive design, not a bolted-on widget. */}
+            <div className="space-y-3">
+              <h4 className="font-serif text-sm font-semibold text-text-primary border-b border-gold-dim/30 pb-2 flex items-center gap-1.5">
+                <Zap className="w-4.5 h-4.5 text-text-gold" /> Pay Instantly Online
+              </h4>
+              <p className="font-sans text-xs text-text-secondary">
+                Card, UPI apps, netbanking and wallets — secured by Razorpay.
+              </p>
+              <RazorpayButton
+                paymentButtonId={razorpayButtonId}
+                className="w-full flex justify-center [&_button]:w-full"
+              />
+            </div>
+
+            {/* Divider between the two payment paths */}
+            <div className="flex items-center gap-3 py-1">
+              <div className="h-px flex-1 bg-gold-dim/30"></div>
+              <span className="font-mono text-[10px] tracking-widest text-text-tertiary uppercase">or pay manually</span>
+              <div className="h-px flex-1 bg-gold-dim/30"></div>
+            </div>
+            {/* --- END RAZORPAY INTEGRATION --- */}
+
             <h4 className="font-serif text-sm font-semibold text-text-primary border-b border-gold-dim/30 pb-2 flex items-center gap-1.5">
               <QrCode className="w-4.5 h-4.5 text-text-gold" /> UPI Payment Details
             </h4>
