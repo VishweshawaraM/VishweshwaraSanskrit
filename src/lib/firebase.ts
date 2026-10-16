@@ -4,7 +4,11 @@ import { getAuth } from 'firebase/auth';
 import firebaseConfig from '../../firebase-applet-config.json';
 
 const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
+// DATABASE FIX: this Firebase project has ONE Firestore database, named below
+// (created by AI Studio). There is no "(default)" database, so getFirestore(app)
+// pointed at a database that does not exist and every lead save/read failed.
+const FIRESTORE_DATABASE_ID = 'ai-studio-vishweshwarasans-efdc7654-2f2a-425c-adc3-80166c75f625';
+export const db = getFirestore(app, FIRESTORE_DATABASE_ID);
 export const auth = getAuth(app);
 
 export interface Lead {
