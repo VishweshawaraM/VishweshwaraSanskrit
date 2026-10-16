@@ -227,25 +227,15 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
                 flow since it's the faster path for most students. Uses the
                 same card/heading pattern as the UPI block below so it reads
                 as one cohesive design, not a bolted-on widget. */}
-            <div className="space-y-3">
-              <h4 className="font-serif text-sm font-semibold text-text-primary border-b border-gold-dim/30 pb-2 flex items-center gap-1.5">
-                <Zap className="w-4.5 h-4.5 text-text-gold" /> Pay Instantly Online
-              </h4>
-              <p className="font-sans text-xs text-text-secondary">
-                Card, UPI apps, netbanking and wallets — secured by Razorpay.
-              </p>
-              <RazorpayButton
-                paymentButtonId={razorpayButtonId}
-                className="w-full flex justify-center [&_button]:w-full"
-              />
-            </div>
-
-            {/* Divider between the two payment paths */}
-            <div className="flex items-center gap-3 py-1">
-              <div className="h-px flex-1 bg-gold-dim/30"></div>
-              <span className="font-mono text-[10px] tracking-widest text-text-tertiary uppercase">or pay manually</span>
-              <div className="h-px flex-1 bg-gold-dim/30"></div>
-            </div>
+            <div class="razorpay-embed-btn" data-url="https://pages.razorpay.com/pl_ToWav8G26DGiAC/view" data-text="Guru Dakshinam" data-color="#528FF0" data-size="large">
+  <script>
+    (function(){
+      var d=document; var x=!d.getElementById('razorpay-embed-btn-js')
+      if(x){ var s=d.createElement('script'); s.defer=!0;s.id='razorpay-embed-btn-js';
+      s.src='https://cdn.razorpay.com/static/embed_btn/bundle.js';d.body.appendChild(s);} else{var rzp=window['__rzp__'];
+      rzp && rzp.init && rzp.init()}})();
+  </script>
+</div>
             {/* --- END RAZORPAY INTEGRATION --- */}
 
             <h4 className="font-serif text-sm font-semibold text-text-primary border-b border-gold-dim/30 pb-2 flex items-center gap-1.5">
