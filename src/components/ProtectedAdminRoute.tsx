@@ -4,8 +4,35 @@ import { Button } from './Button';
 import { DecorativeBorder } from './Motif';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { onAuthStateChanged, signInWithEmailAndPassword, User } from 'firebase/auth';
+import { onAuthStateChanged, signInWithEmailAndPassword, signOut, User } from 'firebase/auth';
 import { auth, logAdminActivity } from '../lib/firebase';
+
+// ADMIN FIX: only the Acharya's account may see the dashboard. This is a UX gate;
+// the real enforcement is in firestore.rules (UID check), so a stranger who
+// self-registers on the public Firebase API still cannot read or delete leads.
+const ACHARYA_EMAIL = 'visanskrit.solopreneur@gmail.com';
+
+// ADMIN FIX: tell the Acharya the REAL reason a login failed instead of always
+// saying "Incorrect email or password".
+const describeAuthError = (code?: string): string => {
+  switch (code) {
+    case 'auth/invalid-credential':
+    case 'auth/wrong-password':
+    case 'auth/user-not-found':
+    case 'auth/invalid-email':
+      return 'Incorrect email or password. If this account was never created, add it in Firebase Console → Authentication → Users.';
+    case 'auth/operation-not-allowed':
+      return 'Email/Password sign-in is switched off. Enable it in Firebase Console → Authentication → Sign-in method.';
+    case 'auth/too-many-requests':
+      return 'Too many attempts. Wait a few minutes, or reset the password in the Firebase Console.';
+    case 'auth/network-request-failed':
+      return 'Network problem. Check your connection and try again.';
+    case 'auth/user-disabled':
+      return 'This account has been disabled in Firebase.';
+    default:
+      return `Sign-in failed (${code || 'unknown error'}).`;
+  }
+};
 
 interface ProtectedAdminRouteProps {
   children: React.ReactNode;
@@ -24,6 +51,14 @@ export const ProtectedAdminRoute: React.FC<ProtectedAdminRouteProps> = ({ childr
   // not a string sitting in localStorage.
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      // ADMIN FIX: a signed-in user who is not the Acharya is signed straight back out.
+      if (firebaseUser && firebaseUser.email?.toLowerCase() !== ACHARYA_EMAIL) {
+        signOut(auth);
+        setUser(null);
+        setError('This account is not authorised for the admin dashboard.');
+        setCheckingSession(false);
+        return;
+      }
       setUser(firebaseUser);
       setCheckingSession(false);
     });
@@ -38,8 +73,10 @@ export const ProtectedAdminRoute: React.FC<ProtectedAdminRouteProps> = ({ childr
       await signInWithEmailAndPassword(auth, email.trim(), password);
       logAdminActivity({ action: 'login', status: 'success', details: 'Admin authenticated' });
     } catch (err: any) {
-      setError('Incorrect email or password.');
-      logAdminActivity({ action: 'login', status: 'failure', details: err?.code || 'unknown error' });
+      // ADMIN FIX: failed logins happen before sign-in, so Firestore rules (correctly)
+      // refuse to let an anonymous visitor write to adminLogs. Firebase Auth keeps its
+      // own record of failed sign-ins, so we no longer try to log them from the browser.
+      setError(describeAuthError(err?.code));
     } finally {
       setIsLoading(false);
     }
