@@ -34,7 +34,7 @@ export function MetaTagsManager() {
   useEffect(() => {
     const meta = PAGE_META[pathname] || PAGE_META['/'];
     const currentUrl = `${APP_URL}${pathname}`;
-    const defaultImage = 'https://vishweshwarasanskrit.com/acharya-photo.jpeg';
+    const defaultImage = 'https://vishweshwarasanskrit.com/og-image.jpg';
     const image = meta.image || defaultImage;
 
     // 1. Title
