@@ -17,6 +17,8 @@ export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
   const [activeActionId, setActiveActionId] = useState<string | null>(null);
+  // ADMIN FIX: surface load failures instead of silently showing "No leads found."
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   // Calculate dashboard stats
   const chartData = useMemo(() => {
@@ -52,6 +54,7 @@ export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
 
   const fetchData = async () => {
     setIsLoading(true);
+    setLoadError(null);
     try {
       const [leadsData, logsData] = await Promise.all([
         getLeads(),
@@ -59,8 +62,13 @@ export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
       ]);
       setLeads(leadsData);
       setAdminLogs(logsData);
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
+      setLoadError(
+        err?.code === 'permission-denied'
+          ? 'Firestore refused to load inquiries (permission-denied). Publish the updated firestore.rules with your Acharya UID in the Firebase Console.'
+          : `Could not load inquiries: ${err?.message || 'unknown error'}`
+      );
     } finally {
       setIsLoading(false);
     }
@@ -89,14 +97,20 @@ export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
             ? lead.createdAt.toLocaleDateString() 
             : (lead.createdAt as any)?.toDate?.()?.toLocaleDateString() || '';
           
+          // ADMIN FIX: escape quotes in EVERY column, and stop Excel/Sheets from running
+          // a cell that starts with = + - @ as a formula (a visitor controls these values).
+          const cell = (v: string) => {
+            const safe = /^[=+\-@]/.test(v) ? `'${v}` : v;
+            return `"${safe.replace(/"/g, '""')}"`;
+          };
           return [
-            `"${date}"`,
-            `"${lead.name || ''}"`,
-            `"${lead.email || ''}"`,
-            `"${lead.phone || ''}"`,
-            `"${lead.subject || ''}"`,
-            `"${lead.timezone || ''}"`,
-            `"${(lead.message || '').replace(/"/g, '""')}"`
+            cell(date),
+            cell(lead.name || ''),
+            cell(lead.email || ''),
+            cell(lead.phone || ''),
+            cell(lead.subject || ''),
+            cell(lead.timezone || ''),
+            cell(lead.message || '')
           ].join(',');
         })
       ].join('\n');
@@ -119,43 +133,21 @@ export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
     }
   };
 
-  const handleSendEmail = async (lead: Lead) => {
+  // ADMIN FIX: the old button called sendNotificationEmail(), which always mails the
+  // ACHARYA's own inbox (the EmailJS template's recipient), then alerted "Welcome email
+  // sent successfully!". The student received nothing. This now opens a real, pre-written
+  // email to the student in the Acharya's own mail app, so nothing is claimed that didn't happen.
+  const handleSendEmail = (lead: Lead) => {
     if (!lead.email) return;
-    
     setActiveActionId(`email-${lead.id}`);
-    try {
-      const { sendNotificationEmail } = await import("../lib/emailjs");
-      await sendNotificationEmail({ name: lead.name, email: lead.email, subject: "Admin Outreach", message: "Admin sent an email to the lead." });
-      /* fetch('/api/email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          to: lead.email,
-          subject: 'Welcome to Vishweshwara Sanskrit',
-          html: `
-            <div style="font-family: sans-serif; max-w: 600px; margin: 0 auto; color: #333;">
-              <h2 style="color: #C8860A;">Hari Om ${lead.name},</h2>
-              <p>Thank you for your interest in joining.</p>
-              <p>We have received your inquiry regarding "${lead.subject}".</p>
-              <p>Acharya will review your application and we will get back to you shortly to schedule a diagnostic call.</p>
-              <br/>
-              <p>In service of the tradition,</p>
-              <p><strong>Vishweshwara Sanskrit</strong></p>
-            </div>
-          `
-        })
-      }); */
 
+    const subject = encodeURIComponent('Welcome to Vishweshwara Sanskrit');
+    const body = encodeURIComponent(
+      `Hari Om ${lead.name},\n\nThank you for your interest in joining. We have received your inquiry regarding "${lead.subject}".\n\nI will review it and we will schedule a short call to understand your goals.\n\nIn service of the tradition,\nAcharya Vishweshwara N M\nVishweshwara Sanskrit`
+    );
+    window.location.href = `mailto:${lead.email}?subject=${subject}&body=${body}`;
 
-      alert('Welcome email sent successfully!');
-    } catch (error: any) {
-      console.error('Error sending email:', error);
-      alert(`Error: ${error.message}`);
-    } finally {
-      setActiveActionId(null);
-    }
+    setTimeout(() => setActiveActionId(null), 1000);
   };
 
   const handleSchedule = (lead: Lead) => {
@@ -190,9 +182,13 @@ export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
       await deleteLead(leadToDelete);
       setLeads(leads.filter(l => l.id !== leadToDelete));
       setLeadToDelete(null);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Failed to delete lead:', err);
-      alert('Failed to delete lead. Check console for details.');
+      alert(
+        err?.code === 'permission-denied'
+          ? 'Delete was refused by Firestore (permission-denied). Publish the updated firestore.rules in the Firebase Console.'
+          : `Failed to delete lead: ${err?.message || 'unknown error'}`
+      );
     } finally {
       setIsDeleting(false);
     }
@@ -316,6 +312,13 @@ export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
             </div>
           )}
 
+          {/* ADMIN FIX: visible error banner instead of a silent empty list */}
+          {loadError && (
+            <div role="alert" className="text-red-400 text-sm bg-red-400/10 p-4 rounded-xl border border-red-400/20">
+              {loadError}
+            </div>
+          )}
+
           <div className="bg-surface-1/50 backdrop-blur-md border border-gold-dim/40 rounded-2xl overflow-hidden shadow-2xl">
             {isLoading && leads.length === 0 ? (
               <div className="p-20 text-center flex flex-col items-center justify-center space-y-4">
@@ -360,7 +363,7 @@ export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
                             onClick={() => handleSendEmail(lead)}
                             disabled={!lead.email || activeActionId === `email-${lead.id}`}
                             className="!p-2 !h-auto hover:text-gold-bright hover:border-gold-bright transition-colors"
-                            title="Send Welcome Email"
+                            title="Email this student"
                           >
                             {activeActionId === `email-${lead.id}` ? <Loader2 className="w-4 h-4 animate-spin text-text-secondary" /> : <Mail className="w-4 h-4" />}
                           </Button>
