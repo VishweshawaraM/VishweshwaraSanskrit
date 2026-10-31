@@ -5,7 +5,7 @@ import { FAQ_ITEMS } from '../data';
 import { PageView } from '../types';
 import { Button } from '../components/Button';
 // --- RAZORPAY INTEGRATION: added component import ---
-import { RazorpayEmbedButton } from '../components/RazorpayEmbedButton';
+import { RazorpayButton } from '../components/RazorpayButton';
 // --- END RAZORPAY INTEGRATION (import) ---
 
 interface DakshinaViewProps {
@@ -218,7 +218,7 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
           <div className="bg-surface-2 p-5 border border-gold-dim rounded-lg space-y-5">
 
             {/* --- RAZORPAY INTEGRATION: start ---
-                Instant online Guru Dakshina via the Razorpay Payment Page, placed above
+                Instant online Guru Dakshina via the Razorpay Payment Button, placed above
                 the manual UPI flow. Same card/heading pattern as the UPI block below. */}
             <div className="space-y-3">
               <h4 className="font-serif text-sm font-semibold text-text-primary border-b border-gold-dim/30 pb-2 flex items-center gap-1.5">
@@ -227,7 +227,10 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
               <p className="font-sans text-xs text-text-secondary">
                 Card, UPI apps, netbanking and wallets — secured by Razorpay.
               </p>
-              <RazorpayEmbedButton pageUrl="https://pages.razorpay.com/pl_ToWav8G26DGiAC/view" text="Guru Dakshinam" />
+              <RazorpayButton
+                paymentButtonId="pl_TuMHNIL8VVm7oe"
+                className="w-full flex justify-center [&_button]:w-full"
+              />
             </div>
 
             {/* Divider between the two payment paths */}
