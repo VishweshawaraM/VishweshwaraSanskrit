@@ -28,11 +28,22 @@ const BREADCRUMBS: Record<string, Array<{ name: string; item: string }>> = {
   ],
 };
 
+const NOINDEX_PATHS = new Set(['/admin', '/landing']);
+const INDEX_ROBOTS = 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
+
 export function MetaTagsManager() {
-  const { pathname } = useLocation();
+  const { pathname: rawPath } = useLocation();
+  // '/about/' and '/about' are the same page
+  const pathname = rawPath.length > 1 ? rawPath.replace(/\/+$/, '') : rawPath;
 
   useEffect(() => {
-    const meta = PAGE_META[pathname] || PAGE_META['/'];
+    const isKnown = Object.prototype.hasOwnProperty.call(PAGE_META, pathname);
+    const meta = isKnown
+      ? PAGE_META[pathname]
+      : {
+          title: 'Page not found | Vishweshwara Sanskrit',
+          description: 'This page could not be found. Explore Sanskrit, Bhagavad Gita and Vedic courses with Acharya Vishweshwara N M.',
+        };
     const currentUrl = `${APP_URL}${pathname}`;
     const defaultImage = 'https://vishweshwarasanskrit.com/og-image.jpg';
     const image = meta.image || defaultImage;
@@ -52,6 +63,8 @@ export function MetaTagsManager() {
 
     // 2. Standard Meta
     setMetaTag('name', 'description', meta.description);
+    // Unknown URLs (404) and non-public pages must not be indexed
+    setMetaTag('name', 'robots', isKnown && !NOINDEX_PATHS.has(pathname) ? INDEX_ROBOTS : 'noindex, follow');
 
     // 3. Open Graph
     setMetaTag('property', 'og:title', meta.title);

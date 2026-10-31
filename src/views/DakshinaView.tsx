@@ -5,7 +5,7 @@ import { FAQ_ITEMS } from '../data';
 import { PageView } from '../types';
 import { Button } from '../components/Button';
 // --- RAZORPAY INTEGRATION: added component import ---
-import { RazorpayButton } from '../components/RazorpayButton';
+import { RazorpayEmbedButton } from '../components/RazorpayEmbedButton';
 // --- END RAZORPAY INTEGRATION (import) ---
 
 interface DakshinaViewProps {
@@ -17,11 +17,6 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
   const [openFAQ, setOpenFAQ] = useState<string | null>('faq1');
 
   const upiId = 'vishweshwara.sanskrit@slc';
-
-  // --- RAZORPAY INTEGRATION: button ID ---
-  // From the Acharya's Razorpay Dashboard Payment Button embed snippet.
-  const razorpayButtonId = 'pl_TjADBpB8KlpY2D';
-  // --- END RAZORPAY INTEGRATION (button ID) ---
 
   const handleCopyUpi = () => {
     navigator.clipboard.writeText(upiId);
@@ -223,19 +218,24 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
           <div className="bg-surface-2 p-5 border border-gold-dim rounded-lg space-y-5">
 
             {/* --- RAZORPAY INTEGRATION: start ---
-                Instant online payment option, placed above the manual UPI
-                flow since it's the faster path for most students. Uses the
-                same card/heading pattern as the UPI block below so it reads
-                as one cohesive design, not a bolted-on widget. */}
-            <div class="razorpay-embed-btn" data-url="https://pages.razorpay.com/pl_ToWav8G26DGiAC/view" data-text="Guru Dakshinam" data-color="#528FF0" data-size="large">
-  <script>
-    (function(){
-      var d=document; var x=!d.getElementById('razorpay-embed-btn-js')
-      if(x){ var s=d.createElement('script'); s.defer=!0;s.id='razorpay-embed-btn-js';
-      s.src='https://cdn.razorpay.com/static/embed_btn/bundle.js';d.body.appendChild(s);} else{var rzp=window['__rzp__'];
-      rzp && rzp.init && rzp.init()}})();
-  </script>
-</div>
+                Instant online Guru Dakshina via the Razorpay Payment Page, placed above
+                the manual UPI flow. Same card/heading pattern as the UPI block below. */}
+            <div className="space-y-3">
+              <h4 className="font-serif text-sm font-semibold text-text-primary border-b border-gold-dim/30 pb-2 flex items-center gap-1.5">
+                <Zap className="w-4.5 h-4.5 text-text-gold" /> Pay Instantly Online
+              </h4>
+              <p className="font-sans text-xs text-text-secondary">
+                Card, UPI apps, netbanking and wallets — secured by Razorpay.
+              </p>
+              <RazorpayEmbedButton pageUrl="https://pages.razorpay.com/pl_ToWav8G26DGiAC/view" text="Guru Dakshinam" />
+            </div>
+
+            {/* Divider between the two payment paths */}
+            <div className="flex items-center gap-3 py-1">
+              <div className="h-px flex-1 bg-gold-dim/30"></div>
+              <span className="font-mono text-[10px] tracking-widest text-text-tertiary uppercase">or pay manually</span>
+              <div className="h-px flex-1 bg-gold-dim/30"></div>
+            </div>
             {/* --- END RAZORPAY INTEGRATION --- */}
 
             <h4 className="font-serif text-sm font-semibold text-text-primary border-b border-gold-dim/30 pb-2 flex items-center gap-1.5">
@@ -247,7 +247,12 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
               <div className="p-3 bg-white rounded-lg flex items-center justify-center shrink-0 border border-gold-mid">
                 <img 
                   src="/qr-code.jpeg" 
-                  alt="UPI QR Code" 
+                  alt="UPI QR code for Guru Dakshina offering" 
+                  loading="lazy"
+                  decoding="async"
+                  width={1130}
+                  height={1130}
+                  
                   className="w-32 h-32 object-contain"
                 />
               </div>

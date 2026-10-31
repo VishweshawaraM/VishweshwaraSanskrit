@@ -57,20 +57,24 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
       {/* Background ambient gradient */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gold-base/10 via-surface-1 to-surface-1 pointer-events-none -z-10" />
       
+      <h1 className="sr-only">Learn Sanskrit, Vedas &amp; Bhagavad Gita Online with a Gurukula-Trained Acharya</h1>
       <HeroSlideshow 
         slides={[
           {
             image: "/hero-1.webp",
+            alt: "Ancient Sanskrit palm-leaf manuscripts beside a lit brass oil lamp",
             title: "Live. Personal. Ancient Wisdom.",
             subtitle: "Disconnect from the noise. Learn Vedas, Vyakarana, Advaita Vedanta, and Bhagavad Gita directly from a dedicated scholar with 7 years of full residential training."
           },
           {
             image: "/hero-2.webp",
+            alt: "Silhouette of Krishna and Arjuna on a chariot, the scene of the Bhagavad Gita",
             title: "Authentic Tradition.",
             subtitle: "Immerse yourself in the exact pedagogy preserved for millennia, tailored for the modern seeker."
           },
           {
             image: "/hero-3.webp",
+            alt: "Silhouette of Arjuna drawing his bow, glowing in golden light",
             title: "Global Community of Seekers.",
             subtitle: "Join dedicated students from across the world in small, interactive cohorts focused on deep learning."
           }
@@ -112,7 +116,12 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
               <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-[#0E0B07] border border-gold-dim">
                 <img 
                   src="/acharya-photo.jpeg" 
-                  alt="Acharya Vishweshwara" 
+                  alt="Acharya Vishweshwara N M, Gurukula-trained Sanskrit and Vedic teacher" 
+                  loading="lazy"
+                  decoding="async"
+                  width={1024}
+                  height={1365}
+                  
                   className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out" 
                 />
                 

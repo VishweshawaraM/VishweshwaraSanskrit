@@ -9,6 +9,7 @@ export const AmbientParticles: React.FC = () => {
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     let animationFrameId: number;
     let particles: Array<{ x: number; y: number; radius: number; vx: number; vy: number; alpha: number; maxAlpha: number; phase: number }> = [];

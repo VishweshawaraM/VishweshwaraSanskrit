@@ -10,7 +10,6 @@ import { WhatsAppWidget } from './components/WhatsAppWidget';
 import { PageNavigation } from './components/PageNavigation';
 import { PageView } from './types';
 import { MetaTagsManager } from './components/MetaTagsManager';
-import { ProtectedAdminRoute } from './components/ProtectedAdminRoute';
 import { AmbientParticles } from './components/AmbientParticles';
 
 const HomeView = React.lazy(() => import('./views/HomeView').then(module => ({ default: module.HomeView })));
@@ -18,6 +17,8 @@ const AboutView = React.lazy(() => import('./views/AboutView').then(module => ({
 const TeachingsView = React.lazy(() => import('./views/TeachingsView').then(module => ({ default: module.TeachingsView })));
 const DakshinaView = React.lazy(() => import('./views/DakshinaView').then(module => ({ default: module.DakshinaView })));
 const TestimonialsView = React.lazy(() => import('./views/TestimonialsView').then(module => ({ default: module.TestimonialsView })));
+const ProtectedAdminRoute = React.lazy(() => import('./components/ProtectedAdminRoute').then(module => ({ default: module.ProtectedAdminRoute })));
+const NotFoundView = React.lazy(() => import('./views/NotFoundView').then(module => ({ default: module.NotFoundView })));
 const BeginView = React.lazy(() => import('./views/BeginView').then(module => ({ default: module.BeginView })));
 const LandingView = React.lazy(() => import('./views/LandingView').then(module => ({ default: module.LandingView })));
 const AdminView = React.lazy(() => import('./views/AdminView').then(module => ({ default: module.AdminView })));
@@ -110,7 +111,7 @@ const AppContent = () => {
                 <Route path="/begin" element={<BeginView onViewChange={handleViewChange} />} />
                 <Route path="/landing" element={<LandingView onViewChange={handleViewChange} />} />
                 <Route path="/admin" element={<ProtectedAdminRoute><AdminView onViewChange={handleViewChange} /></ProtectedAdminRoute>} />
-                <Route path="*" element={<Navigate to="/" replace />} />
+                <Route path="*" element={<NotFoundView />} />
               </Routes>
             </Suspense>
             {showStandardChrome && (

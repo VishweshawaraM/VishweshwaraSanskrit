@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react';
 
 interface Slide {
   image: string;
+  alt?: string;
   title: React.ReactNode;
   subtitle: React.ReactNode;
 }
@@ -18,7 +19,7 @@ interface HeroSlideshowProps {
 export function HeroSlideshow({ slides, interval = 5000, onBeginClick, onExploreClick }: HeroSlideshowProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(1);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(() => typeof window === 'undefined' || !window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
   const { scrollY } = useScroll();
   const yParallax = useTransform(scrollY, [0, 1000], ['0%', '20%']);
@@ -60,7 +61,11 @@ export function HeroSlideshow({ slides, interval = 5000, onBeginClick, onExplore
             exit={{ opacity: 0 }}
             transition={{ duration: 1.5, ease: "easeInOut" }}
             className="absolute inset-0 w-full h-full object-cover object-center"
-            alt={`Slide ${currentIndex + 1}`}
+            alt={slides[currentIndex].alt ?? ''}
+            width={1672}
+            height={941}
+            decoding="async"
+            fetchPriority={currentIndex === 0 ? 'high' : 'auto'}
           />
         </AnimatePresence>
       </motion.div>
@@ -82,9 +87,9 @@ export function HeroSlideshow({ slides, interval = 5000, onBeginClick, onExplore
               exit={{ opacity: 0, x: direction === 1 ? -40 : 40 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
-              <h1 className="font-display text-4xl sm:text-5xl md:text-7xl lg:text-[69px] font-bold text-white tracking-tight leading-[1.1] md:leading-[1.05] md:-mb-3 md:-mr-[10px] md:ml-[1px] mt-0 pb-0 pr-0 md:border-[#c98400] drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] text-center md:text-right px-2 md:px-0">
+              <h2 className="font-display text-4xl sm:text-5xl md:text-7xl lg:text-[69px] font-bold text-white tracking-tight leading-[1.1] md:leading-[1.05] md:-mb-3 md:-mr-[10px] md:ml-[1px] mt-0 pb-0 pr-0 md:border-[#c98400] drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] text-center md:text-right px-2 md:px-0">
                 {slides[currentIndex].title}
-              </h1>
+              </h2>
               <div className="font-sans text-[15px] sm:text-base md:text-lg text-white/90 leading-relaxed w-full md:w-[725px] max-w-full md:mb-[5px] font-normal drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] text-center md:text-right md:ml-auto mt-4 md:mt-0 px-4 md:px-0">
                 {slides[currentIndex].subtitle}
               </div>
@@ -113,6 +118,7 @@ export function HeroSlideshow({ slides, interval = 5000, onBeginClick, onExplore
           <div className="flex items-center">
             <button 
               onClick={togglePlay}
+              aria-label={isPlaying ? 'Pause slideshow' : 'Play slideshow'}
               className="flex items-center justify-center w-10 h-10 md:w-8 md:h-8 bg-black/40 backdrop-blur-sm border border-white/20 text-white rounded-full hover:bg-gold-base hover:border-gold-base transition-colors"
             >
               {isPlaying ? <Pause className="w-4 h-4 md:w-3 md:h-3" /> : <Play className="w-4 h-4 md:w-3 md:h-3 ml-0.5" />}
@@ -123,12 +129,14 @@ export function HeroSlideshow({ slides, interval = 5000, onBeginClick, onExplore
           <div className="flex items-center gap-2 bg-black/40 backdrop-blur-sm px-1.5 py-1.5 rounded-full border border-white/10">
             <button 
               onClick={prevSlide}
+              aria-label="Previous slide"
               className="p-2 md:p-1.5 rounded-full bg-transparent text-white hover:bg-gold-base transition-colors"
             >
               <ChevronLeft size={18} className="md:w-[14px] md:h-[14px]" />
             </button>
             <button 
               onClick={nextSlide}
+              aria-label="Next slide"
               className="p-2 md:p-1.5 rounded-full bg-transparent text-white hover:bg-gold-base transition-colors"
             >
               <ChevronRight size={18} className="md:w-[14px] md:h-[14px]" />

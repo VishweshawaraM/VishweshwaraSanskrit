@@ -1,10 +1,55 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+
+    // ───────────────────────────────────────────────────────────────
+    // STEP 1: paste the Acharya's Firebase Auth UID below.
+    // Firebase Console → Authentication → Users → copy the "User UID"
+    // column for visanskrit.solopreneur@gmail.com.
+    // A UID cannot be faked or self-registered, unlike an email check.
+    // ───────────────────────────────────────────────────────────────
+    function isAcharya() {
+      return request.auth != null
+          && request.auth.uid == 'h2cr2yBFauW9pcdjzGxniQI3HcS2';
+    }
+
+    // A string field must be missing/null or a string under the size limit.
+    function okStr(field, max) {
+      let v = request.resource.data.get(field, null);
+      return v == null || (v is string && v.size() <= max);
+    }
+
     match /leads/{leadId} {
-      allow read: if true;
-      allow create: if true;
+      // Anyone may submit an enquiry (all four site forms), with a strict shape.
+      allow create: if request.resource.data.keys().hasOnly(
+                         ['name','email','phone','subject','timezone',
+                          'background','message','createdAt'])
+                    && request.resource.data.keys().hasAll(['name','email','createdAt'])
+                    && request.resource.data.name is string
+                    && request.resource.data.name.size() <= 200
+                    && request.resource.data.email is string
+                    && request.resource.data.email.size() <= 254
+                    && okStr('phone', 40)
+                    && okStr('subject', 200)
+                    && okStr('timezone', 100)
+                    && okStr('background', 1000)
+                    && okStr('message', 5000)
+                    && request.resource.data.createdAt == request.time;
+
+      // Only the Acharya can read or delete. Nobody edits.
+      allow read, delete: if isAcharya();
+      allow update: if false;
+    }
+
+    // Admin activity log: only the signed-in Acharya, both ways.
+    match /adminLogs/{logId} {
+      allow read, create: if isAcharya();
       allow update, delete: if false;
+    }
+
+    // Everything else is closed.
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }

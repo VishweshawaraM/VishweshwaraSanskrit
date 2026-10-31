@@ -89,7 +89,11 @@ async function startServer() {
   app.post("/api/admin/verify-password", async (req, res) => {
     try {
       const { password } = req.body;
-      const adminPassword = process.env.ADMIN_PASSWORD || "Admin@V12";
+      // No hardcoded fallback: if ADMIN_PASSWORD is not set, this endpoint refuses everything.
+      const adminPassword = process.env.ADMIN_PASSWORD;
+      if (!adminPassword) {
+        return res.status(503).json({ success: false, error: "Admin password is not configured" });
+      }
       if (password === adminPassword) {
         return res.json({ success: true });
       }
