@@ -72,7 +72,7 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
   return (
     <div className="space-y-16 md:space-y-32">
       {/* SECTION 1 - Cinematic Hero with Mandala (slow spin) */}
-      <section className="relative min-h-[75vh] flex items-center justify-center pt-32 pb-16 on-maroon bg-ground border-b border-gold-mid overflow-hidden px-6 text-center select-none">
+      <section className="relative min-h-[75vh] flex items-center justify-center pt-32 pb-16 bg-[#060504] border-b border-gold-mid overflow-hidden px-6 text-center select-none">
         
         {/* Animated Concentric CSS Mandala Rings */}
         <div className="absolute inset-0 flex items-center justify-center opacity-15 pointer-events-none select-none">
@@ -95,7 +95,7 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[500px] h-[300px] md:h-[500px] rounded-full bg-gold-base/5 blur-[120px] pointer-events-none"></div>
 
         <div className="max-w-3xl mx-auto space-y-6 relative z-10">
-          <span className="font-label text-xs tracking-[0.25em] text-text-gold uppercase block">THE SACRED OFFERING TRADITION</span>
+          <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase block">THE SACRED OFFERING TRADITION</span>
           <h1 className="font-display text-4xl sm:text-5xl md:text-7xl font-light text-text-primary tracking-tight leading-none">
             Guru <span className="font-medium text-transparent bg-clip-text bg-gradient-to-r from-gold-base to-gold-glow">Dakshina</span>
           </h1>
@@ -108,7 +108,7 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
       {/* SECTION 2 - Meaning & Comparison Table */}
       <section className="max-w-7xl mx-auto px-4 md:px-12 space-y-12 select-none">
         <div className="space-y-3 text-center">
-          <span className="font-label text-xs tracking-[0.25em] text-text-gold uppercase block">THE CORE PHILOSOPHY</span>
+          <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase block">THE CORE PHILOSOPHY</span>
           <h2 className="font-display text-3xl md:text-5xl font-light text-text-primary tracking-tight">
             A Covenant of <span className="font-medium text-text-gold">Trust & Reciprocity</span>
           </h2>
@@ -119,7 +119,7 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
 
         {/* Comparison Table */}
         <div className="bg-surface-2 border border-gold-mid/40 rounded-xl overflow-hidden shadow-lg">
-          <div className="grid grid-cols-1 md:grid-cols-12 bg-surface-3 py-4 px-6 border-b border-gold-dim font-label text-xs text-text-gold uppercase font-bold tracking-wider text-left">
+          <div className="grid grid-cols-1 md:grid-cols-12 bg-surface-3 py-4 px-6 border-b border-gold-dim font-mono text-xs text-text-gold uppercase font-bold tracking-wider text-left">
             <div className="md:col-span-3">Feature</div>
             <div className="md:col-span-4 mt-2 md:mt-0">Commercial Video Courses</div>
             <div className="md:col-span-5 mt-2 md:mt-0">Guru Dakshina Model</div>
@@ -142,7 +142,7 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
       {/* SECTION 3 - Three Step Process */}
       <section className="max-w-7xl mx-auto px-4 md:px-12 space-y-12 select-none">
         <div className="space-y-3 text-center">
-          <span className="font-label text-xs tracking-[0.25em] text-text-gold uppercase block">THE PROCESS OF RELATIONSHIP</span>
+          <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase block">THE PROCESS OF RELATIONSHIP</span>
           <h2 className="font-display text-3xl md:text-5xl font-light text-text-primary tracking-tight">
             How Guru Dakshina <span className="font-medium">Unfolds</span>
           </h2>
@@ -156,7 +156,7 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
               className="bg-surface-2 border border-gold-dim p-6 rounded-lg shadow-md hover:border-gold-mid transition-all duration-220 flex flex-col justify-between group min-h-[200px]"
             >
               <div className="space-y-4">
-                <span className="font-label text-sm tracking-widest text-gold-base/70 font-bold group-hover:text-text-gold transition-colors">
+                <span className="font-mono text-sm tracking-widest text-[#C8860A]/40 font-bold group-hover:text-text-gold transition-colors">
                   {step.num}
                 </span>
                 <h3 className="font-serif text-lg text-text-primary font-bold">{step.title}</h3>
@@ -206,7 +206,7 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
         {/* Left Column: Razorpay + QR and Bank Details */}
         <div className="lg:col-span-6 space-y-6 text-left">
           <div className="space-y-2">
-            <span className="font-label text-xs tracking-[0.25em] text-text-gold uppercase block">OFFERING HUB</span>
+            <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase block">OFFERING HUB</span>
             <h2 className="font-display text-2xl md:text-4xl font-light text-text-primary tracking-tight">
               Support the <span className="font-medium text-text-gold">Livelihood</span>
             </h2>
@@ -236,7 +236,7 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
             {/* Divider between the two payment paths */}
             <div className="flex items-center gap-3 py-1">
               <div className="h-px flex-1 bg-gold-dim/30"></div>
-              <span className="font-label text-[10px] tracking-widest text-text-tertiary uppercase">or pay manually</span>
+              <span className="font-mono text-[10px] tracking-widest text-text-tertiary uppercase">or pay manually</span>
               <div className="h-px flex-1 bg-gold-dim/30"></div>
             </div>
             {/* --- END RAZORPAY INTEGRATION --- */}
@@ -265,13 +265,13 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
                   Scan the UPI code manually using your bank app to make your offering.
                 </p>
                 <div className="flex items-center justify-between p-2.5 rounded bg-surface-3 border border-gold-dim">
-                  <span className="font-label text-xs text-text-secondary break-all">{upiId}</span>
+                  <span className="font-mono text-xs text-text-secondary break-all">{upiId}</span>
                   <button
                     onClick={handleCopyUpi}
                     className="p-1.5 rounded hover:bg-surface-4 text-text-gold shrink-0 transition-colors"
                     title="Copy UPI ID"
                   >
-                    {copiedUpi ? <span className="text-[10px] uppercase font-label font-bold text-emerald-500">Copied</span> : <Copy className="w-4 h-4" />}
+                    {copiedUpi ? <span className="text-[10px] uppercase font-mono font-bold text-emerald-500">Copied</span> : <Copy className="w-4 h-4" />}
                   </button>
                 </div>
               </div>
@@ -282,7 +282,7 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
         {/* Right Column: Screenshot Upload instructions */}
         <div className="lg:col-span-6 bg-surface-2 p-8 border border-gold-mid rounded-xl shadow-lg text-left space-y-6">
           <div className="space-y-1">
-            <span className="font-label text-[10px] tracking-widest text-text-gold uppercase block">STUDENT WORKFLOW</span>
+            <span className="font-mono text-[10px] tracking-widest text-text-gold uppercase block">STUDENT WORKFLOW</span>
             <h4 className="font-serif text-xl text-text-primary font-semibold">Share Offering Receipt</h4>
             <p className="font-sans text-xs text-text-secondary">
               If you have performed a monthly Guru Dakshina transfer, please share the screenshot or transaction receipt with us via WhatsApp or Email to update your student files.
@@ -313,7 +313,7 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
       {/* SECTION 6 - FAQ Accordion */}
       <section className="max-w-4xl mx-auto px-4 md:px-12 space-y-8 select-none">
         <div className="space-y-3 text-center">
-          <span className="font-label text-xs tracking-[0.25em] text-text-gold uppercase block">SOLVING AMBIGUITY</span>
+          <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase block">SOLVING AMBIGUITY</span>
           <h2 className="font-display text-2xl md:text-4xl font-light text-[#FAF6EE] tracking-tight">
             Dakshina <span className="font-medium text-text-gold">Frequently Asked Questions</span>
           </h2>

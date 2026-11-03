@@ -98,7 +98,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
         
         <button
           onClick={scrollToForm}
-          className="px-3 md:px-4 py-2 rounded bg-gradient-to-r from-gold-base to-gold-bright text-gold-ink font-label text-[10px] md:text-xs tracking-wider uppercase font-semibold active:scale-95 transition-transform"
+          className="px-3 md:px-4 py-2 rounded bg-gradient-to-r from-gold-base to-gold-bright text-ground font-mono text-[10px] md:text-xs tracking-wider uppercase font-semibold active:scale-95 transition-transform"
         >
           Free Consultation
         </button>
@@ -112,10 +112,10 @@ export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
         </div>
 
         <div className="absolute top-20 left-10 hidden lg:block opacity-20">
-          <Motif size={80} color="#C9A04A" />
+          <Motif size={80} color="#C8860A" />
         </div>
         <div className="absolute bottom-20 right-10 hidden lg:block opacity-20">
-          <Motif size={120} color="#C9A04A" />
+          <Motif size={120} color="#C8860A" />
         </div>
 
         <div className="max-w-3xl mx-auto space-y-6 relative z-10 mt-4 md:mt-8">
@@ -125,7 +125,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
               </span>
-              <span className="font-label text-[10px] text-text-gold tracking-widest uppercase font-medium">Accepting New Students</span>
+              <span className="font-mono text-[10px] text-text-gold tracking-widest uppercase font-medium">Accepting New Students</span>
             </div>
             <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl text-text-primary leading-[1.15] font-medium tracking-tight">
               Give Your Child Access To <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-base to-gold-bright">India's Timeless Knowledge</span> Tradition
@@ -160,7 +160,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
       <section className="bg-surface-1 py-16 px-4 md:px-12 border-y border-gold-dim text-center">
         <div className="max-w-3xl mx-auto space-y-8">
           <FadeInSection>
-            <span className="font-label text-xs tracking-widest text-text-gold uppercase block mb-4">Why This Matters</span>
+            <span className="font-mono text-xs tracking-widest text-text-gold uppercase block mb-4">Why This Matters</span>
             <div className="space-y-6 text-text-secondary text-base md:text-lg leading-relaxed font-serif">
               <p>Today, many children know technology.</p>
               <p>But very few remain connected to the wisdom traditions that shaped our civilization.</p>
@@ -228,7 +228,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
           <FadeInSection delay={200}>
             <div className="space-y-6">
               <h3 className="font-serif text-2xl text-text-primary border-b border-gold-dim pb-4">Who This Is For</h3>
-              <p className="text-text-gold text-sm font-medium uppercase tracking-wider font-label">This learning path is ideal for:</p>
+              <p className="text-text-gold text-sm font-medium uppercase tracking-wider font-mono">This learning path is ideal for:</p>
               <ul className="space-y-3">
                 {[
                   'Children aged 6+',
@@ -248,7 +248,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
       </section>
 
       {/* TESTIMONIAL CAROUSEL */}
-      <section className="py-20 px-4 md:px-12 bg-surface-1 text-center overflow-hidden border-b border-gold-dim">
+      <section className="py-20 px-4 md:px-12 bg-[#0E0B07] text-center overflow-hidden border-b border-gold-dim">
         <FadeInSection>
           <div className="max-w-3xl mx-auto space-y-8 relative">
             <Quote className="w-10 h-10 text-gold-base/30 mx-auto" />
@@ -265,7 +265,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
                   <p className="font-sans text-base md:text-lg text-text-secondary italic mb-4 max-w-2xl px-4">
                     "{LANDING_TESTIMONIALS[activeTestimonial].quote}"
                   </p>
-                  <div className="font-label text-[10px] md:text-xs tracking-wider text-text-gold uppercase">
+                  <div className="font-mono text-[10px] md:text-xs tracking-wider text-text-gold uppercase">
                     — {LANDING_TESTIMONIALS[activeTestimonial].author}, {LANDING_TESTIMONIALS[activeTestimonial].location}
                   </div>
                 </motion.div>
@@ -378,17 +378,17 @@ export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
               >
               <div className="space-y-2">
                 <label className="text-xs font-medium text-text-secondary uppercase tracking-wider block">Name *</label>
-                <input type="text" name="name" required className="w-full bg-surface-2 border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-text-primary focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner" placeholder="Your name" />
+                <input type="text" name="name" required className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner" placeholder="Your name" />
               </div>
               
               <div className="space-y-2">
                 <label className="text-xs font-medium text-text-secondary uppercase tracking-wider block">Child Age *</label>
-                <input type="number" name="childAge" min="6" max="18" required className="w-full bg-surface-2 border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-text-primary focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner" placeholder="e.g. 8" />
+                <input type="number" name="childAge" min="6" max="18" required className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner" placeholder="e.g. 8" />
               </div>
 
               <div className="space-y-2">
                 <label className="text-xs font-medium text-text-secondary uppercase tracking-wider block">Country *</label>
-                <input type="text" name="country" required className="w-full bg-surface-2 border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-text-primary focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner" placeholder="e.g. United States" />
+                <input type="text" name="country" required className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner" placeholder="e.g. United States" />
               </div>
 
               <div className="space-y-2">
@@ -398,7 +398,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
                   name="email" 
                   value={emailValue}
                   onChange={handleEmailChange}
-                  className={`w-full bg-surface-2 border rounded-lg px-4 py-3 text-sm text-text-primary focus:outline-none focus:ring-1 transition-all shadow-inner ${emailError ? 'border-red-500/50 focus:border-red-500 focus:ring-red-500/50' : 'border-gold-dim/50 focus:border-gold-base focus:ring-gold-base/50'}`} 
+                  className={`w-full bg-[#0E0B07] border rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:ring-1 transition-all shadow-inner ${emailError ? 'border-red-500/50 focus:border-red-500 focus:ring-red-500/50' : 'border-gold-dim/50 focus:border-gold-base focus:ring-gold-base/50'}`} 
                   placeholder="email@example.com" 
                 />
                 {emailError && <p className="text-xs text-red-400 mt-1">{emailError}</p>}
@@ -412,7 +412,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
                   required 
                   value={phoneValue}
                   onChange={handlePhoneChange}
-                  className={`w-full bg-surface-2 border rounded-lg px-4 py-3 text-sm text-text-primary focus:outline-none focus:ring-1 transition-all shadow-inner ${phoneError ? 'border-red-500/50 focus:border-red-500 focus:ring-red-500/50' : 'border-gold-dim/50 focus:border-gold-base focus:ring-gold-base/50'}`} 
+                  className={`w-full bg-[#0E0B07] border rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:ring-1 transition-all shadow-inner ${phoneError ? 'border-red-500/50 focus:border-red-500 focus:ring-red-500/50' : 'border-gold-dim/50 focus:border-gold-base focus:ring-gold-base/50'}`} 
                   placeholder="+1 (234) 567-8900" 
                 />
                 {phoneError && <p className="text-xs text-red-400 mt-1">{phoneError}</p>}
@@ -420,7 +420,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
 
               <div className="space-y-2">
                 <label className="text-xs font-medium text-text-secondary uppercase tracking-wider block">Why do you wish your child to learn Sanskrit? *</label>
-                <textarea name="reason" required rows={3} className="w-full bg-surface-2 border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-text-primary focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner resize-none" placeholder="Briefly describe your goals..." />
+                <textarea name="reason" required rows={3} className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner resize-none" placeholder="Briefly describe your goals..." />
               </div>
 
               <div className="flex items-start gap-3 mt-4 mb-2">
@@ -430,7 +430,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
                     name="emailNotifications"
                     type="checkbox"
                     defaultChecked
-                    className="w-4 h-4 rounded border-gold-dim/50 bg-surface-2 text-gold-base focus:ring-gold-base focus:ring-1 focus:ring-offset-0 cursor-pointer"
+                    className="w-4 h-4 rounded border-gold-dim/50 bg-[#0E0B07] text-gold-base focus:ring-gold-base focus:ring-1 focus:ring-offset-0 cursor-pointer"
                   />
                 </div>
                 <div className="text-xs text-text-secondary">
@@ -457,9 +457,9 @@ export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
       </section>
 
       {/* MINIMAL AD FOOTER */}
-      <footer className="border-t border-gold-dim/20 py-8 text-center text-[10px] font-label text-text-tertiary px-6 pb-24 md:pb-8">
+      <footer className="border-t border-gold-dim/20 py-8 text-center text-[10px] font-mono text-text-tertiary px-6 pb-24 md:pb-8">
         <p>© {new Date().getFullYear()} Vishweshwara Sanskrit. Campaign Landing Experience.</p>
-        <p className="mt-1 uppercase tracking-widest text-gold-base/70">Live Online Cohort Study • Traditional Heritage</p>
+        <p className="mt-1 uppercase tracking-widest text-[#C8860A]/30">Live Online Cohort Study • Traditional Heritage</p>
       </footer>
 
       {/* Mobile Sticky Action Bar */}

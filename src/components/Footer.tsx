@@ -23,8 +23,9 @@ export const Footer: React.FC<FooterProps> = ({ onViewChange }) => {
   };
 
   return (
-    <footer className="on-maroon bg-ground border-t-2 border-gold-base pt-16 pb-8 px-4 md:px-12 relative overflow-hidden">
+    <footer className="bg-surface-1 border-t border-gold-mid pt-16 pb-8 px-4 md:px-12 relative overflow-hidden">
       {/* Decorative Background Elements */}
+      <div className="absolute right-0 bottom-0 translate-x-1/4 translate-y-1/4 w-96 h-96 rounded-full bg-[#C8860A]/2 blur-[120px] pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-8 mb-12">
         {/* Column 1 - Brand Identity */}
@@ -34,14 +35,14 @@ export const Footer: React.FC<FooterProps> = ({ onViewChange }) => {
             A Living tradition brought into the digital era, dedicated to the uncompromising oral & analytical transmission of Vedas, Vyakarana, and Shastras.
           </p>
           <div className="pt-2 flex items-center space-x-3">
-            <span className="font-label text-[10px] tracking-[0.15em] text-text-gold uppercase">Traditional Lineage</span>
+            <span className="font-mono text-[10px] tracking-[0.15em] text-text-gold uppercase">Traditional Lineage</span>
             <span className="w-1.5 h-1.5 rounded-full bg-gold-bright animate-pulse-slow"></span>
           </div>
         </div>
 
         {/* Column 2 - Shastra Traditions */}
         <div className="space-y-4">
-          <h4 className="font-label text-xs tracking-[0.15em] text-text-gold uppercase font-semibold">
+          <h4 className="font-mono text-xs tracking-[0.15em] text-text-gold uppercase font-semibold">
             Traditions
           </h4>
           <ul className="space-y-2.5">
@@ -61,7 +62,7 @@ export const Footer: React.FC<FooterProps> = ({ onViewChange }) => {
 
         {/* Column 3 - Navigation */}
         <div className="space-y-4">
-          <h4 className="font-label text-xs tracking-[0.15em] text-text-gold uppercase font-semibold">
+          <h4 className="font-mono text-xs tracking-[0.15em] text-text-gold uppercase font-semibold">
             Institutional
           </h4>
           <ul className="space-y-2.5">
@@ -95,7 +96,7 @@ export const Footer: React.FC<FooterProps> = ({ onViewChange }) => {
 
         {/* Column 4 - Contact Details */}
         <div className="space-y-4">
-          <h4 className="font-label text-xs tracking-[0.15em] text-text-gold uppercase font-semibold">
+          <h4 className="font-mono text-xs tracking-[0.15em] text-text-gold uppercase font-semibold">
             Enquiry & Communication
           </h4>
           <ul className="space-y-3 font-sans text-xs text-text-tertiary">
@@ -181,12 +182,12 @@ export const Footer: React.FC<FooterProps> = ({ onViewChange }) => {
           <p className="font-sans text-[10px] text-text-tertiary tracking-wider">
             &copy; {currentYear} Vishweshwara Sanskrit. Built strictly with traditional purity and digital precision.
           </p>
-          <p className="font-label text-[9px] text-gold-base/70 uppercase tracking-[0.2em]">
+          <p className="font-mono text-[9px] text-[#C8860A]/40 uppercase tracking-[0.2em]">
             Advaita Vedanta ✦ Taittiriya Samhita ✦ Laghu Kaumudi
           </p>
         </div>
 
-        <div className="flex items-center space-x-6 text-[10px] font-label tracking-wider uppercase">
+        <div className="flex items-center space-x-6 text-[10px] font-mono tracking-wider uppercase">
           <button onClick={scrollToTop} className="text-text-gold hover:text-gold-bright transition-colors flex items-center space-x-1">
             <span>Scroll Top</span>
             <ArrowUp className="w-3 h-3" />

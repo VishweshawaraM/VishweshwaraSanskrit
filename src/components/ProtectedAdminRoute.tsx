@@ -100,7 +100,7 @@ export const ProtectedAdminRoute: React.FC<ProtectedAdminRouteProps> = ({ childr
           )}
           <form onSubmit={handleLogin} className="space-y-4 text-left">
             <div className="space-y-1">
-              <label className="text-xs font-label tracking-wider text-text-secondary uppercase">Email</label>
+              <label className="text-xs font-mono tracking-wider text-text-secondary uppercase">Email</label>
               <input
                 type="email"
                 value={email}
@@ -112,7 +112,7 @@ export const ProtectedAdminRoute: React.FC<ProtectedAdminRouteProps> = ({ childr
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs font-label tracking-wider text-text-secondary uppercase">Password</label>
+              <label className="text-xs font-mono tracking-wider text-text-secondary uppercase">Password</label>
               <input
                 type="password"
                 value={password}
@@ -166,7 +166,7 @@ export const ProtectedAdminRoute: React.FC<ProtectedAdminRouteProps> = ({ childr
           <div className="pt-4 border-t border-gold-dim/20">
             <Link
               to="/"
-              className="text-xs font-label tracking-wider text-text-tertiary uppercase hover:text-text-primary flex items-center justify-center"
+              className="text-xs font-mono tracking-wider text-text-tertiary uppercase hover:text-text-primary flex items-center justify-center"
             >
               <ArrowLeft className="w-3 h-3 mr-2" /> Return Home
             </Link>

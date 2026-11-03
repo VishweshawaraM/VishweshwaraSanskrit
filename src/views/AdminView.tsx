@@ -241,14 +241,14 @@ export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
       <div className="flex items-center gap-2 border-b border-gold-dim/30">
         <button
           onClick={() => setActiveTab('inquiries')}
-          className={`px-4 py-3 font-label tracking-widest text-xs uppercase flex items-center gap-2 border-b-2 transition-colors ${activeTab === 'inquiries' ? 'border-gold-base text-gold-base' : 'border-transparent text-text-secondary hover:text-text-primary'}`}
+          className={`px-4 py-3 font-mono tracking-widest text-xs uppercase flex items-center gap-2 border-b-2 transition-colors ${activeTab === 'inquiries' ? 'border-gold-base text-gold-base' : 'border-transparent text-text-secondary hover:text-text-primary'}`}
         >
           <Users className="w-4 h-4" />
           Inquiries
         </button>
         <button
           onClick={() => setActiveTab('activity')}
-          className={`px-4 py-3 font-label tracking-widest text-xs uppercase flex items-center gap-2 border-b-2 transition-colors ${activeTab === 'activity' ? 'border-gold-base text-gold-base' : 'border-transparent text-text-secondary hover:text-text-primary'}`}
+          className={`px-4 py-3 font-mono tracking-widest text-xs uppercase flex items-center gap-2 border-b-2 transition-colors ${activeTab === 'activity' ? 'border-gold-base text-gold-base' : 'border-transparent text-text-secondary hover:text-text-primary'}`}
         >
           <Shield className="w-4 h-4" />
           Activity Log
@@ -323,31 +323,31 @@ export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
             {isLoading && leads.length === 0 ? (
               <div className="p-20 text-center flex flex-col items-center justify-center space-y-4">
                 <Loader2 className="w-8 h-8 text-gold-base animate-spin opacity-50" />
-                <p className="text-text-secondary font-label text-sm uppercase tracking-widest">Loading leads...</p>
+                <p className="text-text-secondary font-mono text-sm uppercase tracking-widest">Loading leads...</p>
               </div>
             ) : leads.length === 0 ? (
               <div className="p-20 text-center flex flex-col items-center justify-center space-y-4">
                 <FileText className="w-8 h-8 text-gold-dim opacity-50" />
-                <p className="text-text-secondary font-label text-sm uppercase tracking-widest">No leads found.</p>
+                <p className="text-text-secondary font-mono text-sm uppercase tracking-widest">No leads found.</p>
               </div>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
                     <tr className="bg-surface-2/80 border-b border-gold-dim/50 backdrop-blur-sm">
-                      <th className="p-5 font-label text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Date</th>
-                      <th className="p-5 font-label text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Name</th>
-                      <th className="p-5 font-label text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Email</th>
-                      <th className="p-5 font-label text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Phone</th>
-                      <th className="p-5 font-label text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Subject</th>
-                      <th className="p-5 font-label text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Timezone</th>
-                      <th className="p-5 font-label text-[10px] uppercase text-text-gold tracking-widest text-right whitespace-nowrap">Actions</th>
+                      <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Date</th>
+                      <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Name</th>
+                      <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Email</th>
+                      <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Phone</th>
+                      <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Subject</th>
+                      <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Timezone</th>
+                      <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest text-right whitespace-nowrap">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gold-dim/20">
                     {leads.map((lead) => (
                       <tr key={lead.id} className="hover:bg-surface-2/60 transition-colors group">
-                        <td className="p-5 font-label text-xs text-text-secondary whitespace-nowrap opacity-70 group-hover:opacity-100 transition-opacity">
+                        <td className="p-5 font-mono text-xs text-text-secondary whitespace-nowrap opacity-70 group-hover:opacity-100 transition-opacity">
                           {lead.createdAt instanceof Date ? lead.createdAt.toLocaleDateString() : (lead.createdAt as any)?.toDate?.()?.toLocaleDateString()}
                         </td>
                         <td className="p-5 font-sans text-sm text-text-primary font-medium whitespace-nowrap">{lead.name}</td>
@@ -355,7 +355,7 @@ export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
                         <td className="p-5 font-sans text-xs text-text-secondary whitespace-nowrap">{lead.phone || '-'}</td>
                         <td className="p-5 font-sans text-xs text-text-secondary whitespace-nowrap">{lead.subject}</td>
                         <td className="p-5 font-sans text-xs text-text-secondary whitespace-nowrap">
-                          <span className="bg-surface-3/50 px-2 py-1 rounded text-[10px] font-label tracking-wider">{lead.timezone}</span>
+                          <span className="bg-surface-3/50 px-2 py-1 rounded text-[10px] font-mono tracking-wider">{lead.timezone}</span>
                         </td>
                         <td className="p-5 flex items-center justify-end gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
                           <Button
@@ -400,35 +400,35 @@ export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
           {isLoading && adminLogs.length === 0 ? (
             <div className="p-20 text-center flex flex-col items-center justify-center space-y-4">
               <Loader2 className="w-8 h-8 text-gold-base animate-spin opacity-50" />
-              <p className="text-text-secondary font-label text-sm uppercase tracking-widest">Loading logs...</p>
+              <p className="text-text-secondary font-mono text-sm uppercase tracking-widest">Loading logs...</p>
             </div>
           ) : adminLogs.length === 0 ? (
             <div className="p-20 text-center flex flex-col items-center justify-center space-y-4">
               <Activity className="w-8 h-8 text-gold-dim opacity-50" />
-              <p className="text-text-secondary font-label text-sm uppercase tracking-widest">No activity found.</p>
+              <p className="text-text-secondary font-mono text-sm uppercase tracking-widest">No activity found.</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-surface-2/80 border-b border-gold-dim/50 backdrop-blur-sm">
-                    <th className="p-5 font-label text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Time</th>
-                    <th className="p-5 font-label text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Action</th>
-                    <th className="p-5 font-label text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Status</th>
-                    <th className="p-5 font-label text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap w-full">Details</th>
+                    <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Time</th>
+                    <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Action</th>
+                    <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Status</th>
+                    <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap w-full">Details</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gold-dim/20">
                   {adminLogs.map((log) => (
                     <tr key={log.id} className="hover:bg-surface-2/60 transition-colors group">
-                      <td className="p-5 font-label text-xs text-text-secondary whitespace-nowrap opacity-70 group-hover:opacity-100 transition-opacity">
+                      <td className="p-5 font-mono text-xs text-text-secondary whitespace-nowrap opacity-70 group-hover:opacity-100 transition-opacity">
                         {log.createdAt instanceof Date ? log.createdAt.toLocaleString() : (log.createdAt as any)?.toDate?.()?.toLocaleString()}
                       </td>
                       <td className="p-5 font-sans text-sm text-text-primary font-medium whitespace-nowrap uppercase tracking-wider text-xs">
                         {log.action}
                       </td>
                       <td className="p-5 font-sans text-xs whitespace-nowrap">
-                        <span className={`px-2 py-1 rounded text-[10px] font-label tracking-wider ${
+                        <span className={`px-2 py-1 rounded text-[10px] font-mono tracking-wider ${
                           log.status === 'success' 
                             ? 'bg-green-500/10 text-green-400 border border-green-500/20' 
                             : 'bg-red-500/10 text-red-400 border border-red-500/20'

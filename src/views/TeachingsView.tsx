@@ -26,17 +26,17 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
     {
       title: 'School & University Students',
       desc: 'Build strong character, double memorization capacities, and acquire sharp intellectual focus. Students start from basic letter formations and move to chanting classical stotras.',
-      accent: 'border-l-2 border-gold-base bg-surface-2'
+      accent: 'border-l-2 border-gold-base bg-[#0E0B07]'
     },
     {
       title: 'Working Professionals',
       desc: 'Decompress from corporate fatigue, explore mental clarity, and read original source texts for Yoga and meditation. We focus on late evening slots supporting PST/EST/CET schedules.',
-      accent: 'border-l-2 border-gold-bright bg-surface-2'
+      accent: 'border-l-2 border-gold-bright bg-[#0E0B07]'
     },
     {
       title: 'Retired Seekers',
       desc: 'Deepen spiritual practice, connect with traditional Vedic heritage, and understand the intricate commentaries (Bhashyas) of Adi Shankaracharya and Upanishads word-by-word.',
-      accent: 'border-l-2 border-ruby-base bg-surface-2'
+      accent: 'border-l-2 border-ruby-base bg-[#0E0B07]'
     }
   ];
 
@@ -58,16 +58,16 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
   return (
     <div className="space-y-16 md:space-y-32">
       {/* SECTION 1 - Page Hero */}
-      <section className="relative on-maroon pt-32 pb-16 bg-ground border-b border-gold-mid overflow-hidden px-4 md:px-12 select-none">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,#7A2A30_0%,transparent_100%)] opacity-60 pointer-events-none"></div>
+      <section className="relative pt-32 pb-16 bg-[#0E0B07] border-b border-gold-mid overflow-hidden px-4 md:px-12 select-none">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,#1F160D_0%,transparent_100%)] opacity-30 pointer-events-none"></div>
 
         <div className="absolute top-0 right-0 opacity-10">
-          <Motif size={250} color="#C9A04A" />
+          <Motif size={250} color="#C8860A" />
         </div>
 
         <div className="max-w-7xl mx-auto text-left space-y-6 relative z-10">
           <FadeInSection direction="up" delay={100}>
-            <span className="font-label text-xs tracking-[0.25em] text-text-gold uppercase flex items-center gap-1.5">
+            <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase flex items-center gap-1.5">
               <Sparkles className="w-3.5 h-3.5" /> THE TRANSMISSION ARCHITECTURE • TRADITIONAL METHOD
             </span>
           </FadeInSection>
@@ -90,7 +90,7 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
         
         <div className="lg:col-span-5 space-y-6 text-left relative z-10">
           <FadeInSection direction="left" delay={100}>
-            <span className="font-label text-xs tracking-[0.2em] text-text-gold uppercase">✦ THE TRADITIONAL APPROACH</span>
+            <span className="font-mono text-xs tracking-[0.2em] text-text-gold uppercase">✦ THE TRADITIONAL APPROACH</span>
             <h2 className="font-display text-3xl md:text-4xl font-light text-text-primary tracking-tight mt-2">
               How Wisdom Is <br />
               <span className="font-medium">Purified and Transmitted</span>
@@ -109,7 +109,7 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
           {approaches.map((app, idx) => (
             <FadeInSection key={idx} direction="up" delay={200 + (idx * 100)}>
               <div className="flex gap-4 p-4 rounded bg-surface-2 border border-gold-dim/40 hover:border-gold-mid transition-colors">
-                <div className="h-8 w-8 rounded-full bg-[#1F160D] border border-gold-mid flex items-center justify-center font-label text-xs text-text-gold font-bold shrink-0">
+                <div className="h-8 w-8 rounded-full bg-[#1F160D] border border-gold-mid flex items-center justify-center font-mono text-xs text-text-gold font-bold shrink-0">
                   {idx + 1}
                 </div>
                 <div className="space-y-1">
@@ -125,14 +125,14 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
       {/* SECTION 3 - Six Subjects Bento Grid */}
       <section className="max-w-7xl mx-auto px-4 md:px-12 space-y-12 select-none relative">
         <div className="absolute top-1/2 left-0 opacity-10">
-          <Motif size={150} color="#C9A04A" />
+          <Motif size={150} color="#C8860A" />
         </div>
         <div className="absolute top-1/2 right-0 opacity-10">
-          <Motif size={150} color="#C9A04A" />
+          <Motif size={150} color="#C8860A" />
         </div>
         <div className="space-y-3 text-center relative z-10">
           <FadeInSection direction="up" delay={100}>
-            <span className="font-label text-xs tracking-[0.25em] text-text-gold uppercase block">Syllabus details</span>
+            <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase block">Syllabus details</span>
             <h2 className="font-display text-3xl md:text-5xl font-light text-text-primary tracking-tight">
               Comprehensive <span className="font-medium text-text-gold">Study Pathways</span>
             </h2>
@@ -150,13 +150,13 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
                 className="bg-surface-2 border border-gold-dim rounded-lg p-8 text-left shadow-lg relative overflow-hidden flex flex-col justify-between min-h-[420px] hover:-translate-y-2 hover:border-gold-mid transition-all duration-220 group h-full"
               >
               {/* Devanagari background watermark at 10-15% opacity */}
-              <div className="absolute right-3 top-3 font-devanagari text-7xl text-gold-base/20 select-none font-bold">
+              <div className="absolute right-3 top-3 font-devanagari text-7xl text-[#C8860A]/8 select-none font-bold">
                 {sub.devanagari}
               </div>
 
               <div className="space-y-4 relative z-10">
                 <div className="space-y-1">
-                  <span className="font-label text-[9px] tracking-[0.2em] text-text-gold uppercase block">Syllabus Core</span>
+                  <span className="font-mono text-[9px] tracking-[0.2em] text-text-gold uppercase block">Syllabus Core</span>
                   <h3 className="font-serif text-2xl text-text-primary font-semibold group-hover:text-text-gold transition-colors">
                     {sub.title}
                   </h3>
@@ -167,11 +167,11 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
                 </p>
 
                 <div className="space-y-2 pt-2">
-                  <span className="font-label text-[9px] tracking-wider text-text-gold uppercase block">Key Topics Covered:</span>
+                  <span className="font-mono text-[9px] tracking-wider text-text-gold uppercase block">Key Topics Covered:</span>
                   <ul className="space-y-1.5">
                     {sub.topics.map((topic, index) => (
                       <li key={index} className="flex items-start space-x-2 text-xs font-sans text-text-secondary">
-                        <CheckCircle className="w-3.5 h-3.5 text-gold-base shrink-0 mt-0.5" />
+                        <CheckCircle className="w-3.5 h-3.5 text-[#C8860A] shrink-0 mt-0.5" />
                         <span>{topic}</span>
                       </li>
                     ))}
@@ -181,13 +181,13 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
 
               <div className="pt-6 border-t border-gold-dim/40 flex items-center justify-between mt-6 relative z-10">
                 <div>
-                  <span className="font-label text-[8px] text-text-tertiary uppercase block">Standard Duration</span>
+                  <span className="font-mono text-[8px] text-text-tertiary uppercase block">Standard Duration</span>
                   <span className="font-sans text-xs text-text-secondary font-medium flex items-center gap-1 mt-0.5">
                     <Clock className="w-3 h-3 text-text-gold" /> {sub.duration}
                   </span>
                 </div>
                 <div>
-                  <span className="font-label text-[8px] text-text-tertiary uppercase block">Commitment</span>
+                  <span className="font-mono text-[8px] text-text-tertiary uppercase block">Commitment</span>
                   <span className="font-sans text-xs text-text-secondary font-medium flex items-center gap-1 mt-0.5">
                     <Globe className="w-3 h-3 text-text-gold" /> {sub.frequency}
                   </span>
@@ -202,7 +202,7 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
       {/* SECTION 4 - Who This Is For (Persona Cards) */}
       <section className="bg-surface-1 border-y border-gold-mid py-20 px-4 md:px-12 text-center space-y-12 select-none">
         <div className="space-y-3 max-w-xl mx-auto">
-          <span className="font-label text-xs tracking-[0.25em] text-text-gold uppercase block">SUPPORTING ALL MOTIVATIONS</span>
+          <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase block">SUPPORTING ALL MOTIVATIONS</span>
           <h2 className="font-display text-3xl md:text-4xl font-light text-text-primary tracking-tight">
             Tailored for Diverse <span className="font-medium">Levels of Seekers</span>
           </h2>
@@ -226,7 +226,7 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
               <Link
                 to="/begin"
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                className="mt-6 flex items-center space-x-1.5 font-label text-[10px] tracking-wider text-text-gold uppercase w-fit"
+                className="mt-6 flex items-center space-x-1.5 font-mono text-[10px] tracking-wider text-text-gold uppercase w-fit"
               >
                 <span>Request Custom Syllabus</span>
                 <ArrowRight className="w-3 h-3" />
@@ -240,7 +240,7 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
       <section className="max-w-7xl mx-auto px-4 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 select-none">
         {/* Left Column */}
         <div className="lg:col-span-5 space-y-6 text-left">
-          <span className="font-label text-xs tracking-[0.2em] text-text-gold uppercase">✦ COHORT PARAMETERS</span>
+          <span className="font-mono text-xs tracking-[0.2em] text-text-gold uppercase">✦ COHORT PARAMETERS</span>
           <h2 className="font-display text-3xl md:text-4xl font-light text-text-primary tracking-tight">
             Class Structure <br />
             <span className="font-medium text-text-gold">& Timing Protocols</span>
@@ -268,14 +268,14 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
           {/* Box 1 - Weekend Cohorts */}
           <div className="p-6 bg-surface-2 border border-gold-mid/40 rounded-lg space-y-4 shadow-md flex flex-col justify-between">
             <div className="space-y-2">
-              <span className="font-label text-[10px] tracking-wider text-text-gold uppercase block">BATCH A</span>
+              <span className="font-mono text-[10px] tracking-wider text-text-gold uppercase block">BATCH A</span>
               <h4 className="font-serif text-lg text-text-primary font-semibold">Weekend Intensive Cohorts</h4>
               <p className="font-sans text-xs text-text-secondary leading-relaxed">
                 Ideal for busy corporate workers and students. Deep sessions with collaborative readings.
               </p>
             </div>
             <div className="border-t border-gold-dim pt-3">
-              <span className="font-label text-[9px] text-text-tertiary block uppercase">Schedules available</span>
+              <span className="font-mono text-[9px] text-text-tertiary block uppercase">Schedules available</span>
               <p className="font-sans text-xs text-text-secondary font-medium">Saturday & Sunday slots</p>
             </div>
           </div>
@@ -283,14 +283,14 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
           {/* Box 2 - Weekday slots */}
           <div className="p-6 bg-surface-2 border border-gold-mid/40 rounded-lg space-y-4 shadow-md flex flex-col justify-between">
             <div className="space-y-2">
-              <span className="font-label text-[10px] tracking-wider text-text-gold uppercase block">BATCH B</span>
+              <span className="font-mono text-[10px] tracking-wider text-text-gold uppercase block">BATCH B</span>
               <h4 className="font-serif text-lg text-text-primary font-semibold">Weekday Evening Slots</h4>
               <p className="font-sans text-xs text-text-secondary leading-relaxed">
                 Perfect for retired seekers and scholars who seek structured weekday discipline.
               </p>
             </div>
             <div className="border-t border-gold-dim pt-3">
-              <span className="font-label text-[9px] text-text-tertiary block uppercase">Schedules available</span>
+              <span className="font-mono text-[9px] text-text-tertiary block uppercase">Schedules available</span>
               <p className="font-sans text-xs text-text-secondary font-medium">Tuesday & Thursday slots</p>
             </div>
           </div>
@@ -367,7 +367,7 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-6 py-3 rounded bg-gradient-to-r from-gold-base to-gold-bright text-gold-ink font-label text-xs tracking-widest uppercase font-semibold active:scale-95 transition-all shadow-md shrink-0 hover:brightness-110 disabled:opacity-50"
+                  className="px-6 py-3 rounded bg-gradient-to-r from-gold-base to-gold-bright text-ground font-mono text-xs tracking-widest uppercase font-semibold active:scale-95 transition-all shadow-md shrink-0 hover:brightness-110 disabled:opacity-50"
                 >
                   {isSubmitting ? 'Sending...' : 'Request Call'}
                 </button>

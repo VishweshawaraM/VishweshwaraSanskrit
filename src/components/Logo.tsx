@@ -60,7 +60,7 @@ export const Logo: React.FC<LogoProps> = ({ variant = 'horizontal', className = 
       <img 
         src="/horizontal-logo.webp" 
         alt="Vishweshwara Horizontal Logo" 
-        className={`w-auto [.on-maroon_&]:brightness-[1.5] [.on-maroon_&]:saturate-125 ${size ? '' : 'h-9 md:h-12'}`}
+        className={`w-auto ${size ? '' : 'h-8 md:h-12'}`}
         style={size ? { height: size } : {}}
         onError={(e) => {
           e.currentTarget.style.display = 'none';

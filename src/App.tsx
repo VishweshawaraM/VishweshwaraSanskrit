@@ -10,6 +10,7 @@ import { WhatsAppWidget } from './components/WhatsAppWidget';
 import { PageNavigation } from './components/PageNavigation';
 import { PageView } from './types';
 import { MetaTagsManager } from './components/MetaTagsManager';
+import { AmbientParticles } from './components/AmbientParticles';
 
 const HomeView = React.lazy(() => import('./views/HomeView').then(module => ({ default: module.HomeView })));
 const AboutView = React.lazy(() => import('./views/AboutView').then(module => ({ default: module.AboutView })));
@@ -64,7 +65,8 @@ const AppContent = () => {
   const showStandardChrome = !isLandingView && !isBeginView && !isAdminView;
 
   return (
-    <div className={`bg-ground min-h-screen text-text-primary ${isAdminView ? 'on-maroon' : ''} selection:bg-gold-base selection:text-gold-ink flex flex-col justify-between overflow-x-hidden w-full`}>
+    <div className="bg-ground min-h-screen text-text-primary selection:bg-gold-base selection:text-ground flex flex-col justify-between overflow-x-hidden w-full">
+      <AmbientParticles />
       <ScrollToTop />
       <MetaTagsManager />
       

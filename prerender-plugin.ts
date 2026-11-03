@@ -124,8 +124,8 @@ function render(template: string, route: Route): string {
   html = html.replace(/(<link rel="canonical" href=")[^"]*(")/, (_m, a, b) => a + url + b);
 
   const shell =
-    '<style>#prerender{max-width:860px;margin:0 auto;padding:96px 20px 48px;line-height:1.65;color:#2B1A17}' +
-    '#prerender a{color:#7A5A1E}#prerender h1,#prerender h2,#prerender h3{font-weight:500;line-height:1.25}</style>' +
+    '<style>#prerender{max-width:860px;margin:0 auto;padding:96px 20px 48px;line-height:1.65;color:#FAF6EE}' +
+    '#prerender a{color:#E0A32E}#prerender h1,#prerender h2,#prerender h3{font-weight:500;line-height:1.25}</style>' +
     `<main id="prerender">${nav}<h1>${esc(route.h1)}</h1>${route.body()}</main>`;
   return html.replace('<div id="root"></div>', () => `<div id="root">${shell}</div>`);
 }

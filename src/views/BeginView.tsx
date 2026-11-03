@@ -86,7 +86,7 @@ export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
           </Button>
           
           <div className="mt-12 max-w-3xl space-y-4">
-            <span className="font-label text-xs tracking-[0.25em] text-text-gold uppercase block">INITIATE STUDY</span>
+            <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase block">INITIATE STUDY</span>
             <h1 className="font-display text-4xl md:text-6xl font-light text-text-primary tracking-tight">
               Begin Your <span className="font-medium text-text-gold">Sadhana</span>
             </h1>
@@ -107,7 +107,7 @@ export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
                 {steps.map((st, i) => (
                   <div key={i} className="flex space-x-4">
                     <div className="flex flex-col items-center">
-                      <div className="w-8 h-8 rounded-full bg-surface-2 border border-gold-mid flex items-center justify-center font-label text-xs text-text-gold">
+                      <div className="w-8 h-8 rounded-full bg-surface-2 border border-gold-mid flex items-center justify-center font-mono text-xs text-text-gold">
                         {st.step}
                       </div>
                       {i !== steps.length - 1 && (
@@ -129,7 +129,7 @@ export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
           <FadeInSection delay={300}>
             <div className="bg-surface-2 border border-gold-mid p-6 rounded-xl shadow-lg space-y-5 hover:border-gold-bright transition-all duration-300 relative min-h-[300px]">
               <div className="space-y-2">
-                <div className="h-10 w-10 rounded bg-gold-base/15 border border-gold-mid flex items-center justify-center">
+                <div className="h-10 w-10 rounded bg-[#C8860A]/10 border border-gold-mid flex items-center justify-center">
                   <MessageSquareCode className="w-5 h-5 text-text-gold" />
                 </div>
                 <h3 className="font-serif text-xl text-text-primary font-semibold">Enrollment Inquiry</h3>
@@ -211,7 +211,7 @@ export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
                         placeholder="Your full name" 
                         required
                         disabled={isSubmitting}
-                        className="w-full bg-surface-2 border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-text-primary focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner disabled:opacity-50"
+                        className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner disabled:opacity-50"
                       />
                     </div>
                     <div className="space-y-1">
@@ -224,7 +224,7 @@ export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
                         placeholder="email@example.com" 
                         required
                         disabled={isSubmitting}
-                        className="w-full bg-surface-2 border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-text-primary focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner disabled:opacity-50"
+                        className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner disabled:opacity-50"
                       />
                     </div>
                   </div>
@@ -238,7 +238,7 @@ export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
                         onChange={handleInputChange}
                         placeholder="+1 (234) 567-8900" 
                         disabled={isSubmitting}
-                        className="w-full bg-surface-2 border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-text-primary focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner disabled:opacity-50"
+                        className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner disabled:opacity-50"
                       />
                     </div>
                     <div className="space-y-1">
@@ -249,7 +249,7 @@ export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
                         value={formData.subject}
                         onChange={handleInputChange}
                         disabled={isSubmitting}
-                        className="w-full bg-surface-2 border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-text-primary focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner appearance-none disabled:opacity-50"
+                        className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner appearance-none disabled:opacity-50"
                       >
                         <option value="" disabled>Select Subject</option>
                         <option value="Sanskrit Grammar">Sanskrit Grammar</option>
@@ -271,7 +271,7 @@ export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
                         placeholder="e.g. IST, EST" 
                         required
                         disabled={isSubmitting}
-                        className="w-full bg-surface-2 border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-text-primary focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner disabled:opacity-50"
+                        className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner disabled:opacity-50"
                       />
                     </div>
                     <div className="space-y-1">
@@ -282,7 +282,7 @@ export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
                         value={formData.background}
                         onChange={handleInputChange}
                         disabled={isSubmitting}
-                        className="w-full bg-surface-2 border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-text-primary focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner appearance-none disabled:opacity-50"
+                        className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner appearance-none disabled:opacity-50"
                       >
                         <option value="" disabled>Select Level</option>
                         <option value="Complete Beginner">Complete Beginner</option>
@@ -302,7 +302,7 @@ export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
                       required
                       rows={3}
                       disabled={isSubmitting}
-                      className="w-full bg-surface-2 border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-text-primary focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner resize-none disabled:opacity-50"
+                      className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner resize-none disabled:opacity-50"
                     />
                   </div>
                   <Button
@@ -334,7 +334,7 @@ export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
           <FadeInSection delay={200}>
             <div className="bg-surface-2 border border-gold-mid rounded-xl p-8 shadow-xl space-y-8">
               <div className="space-y-3">
-                <div className="inline-flex items-center space-x-2 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1.5 rounded-full text-[10px] font-label text-emerald-400 uppercase tracking-widest">
+                <div className="inline-flex items-center space-x-2 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1.5 rounded-full text-[10px] font-mono text-emerald-400 uppercase tracking-widest">
                   <Clock className="w-3 h-3" />
                   <span>Direct Calendly Booking</span>
                 </div>
@@ -344,17 +344,17 @@ export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
                 </p>
               </div>
 
-              <div className="w-full bg-surface-2 rounded-lg overflow-hidden border border-gold-dim">
+              <div className="w-full bg-[#0E0B07] rounded-lg overflow-hidden border border-gold-dim">
                 <InlineWidget 
                   url="https://calendly.com/visanskrit-solopreneur/30min" 
                   styles={{ height: '700px', width: '100%', minWidth: '320px' }}
                   pageSettings={{
-                    backgroundColor: 'FFFDF7',
+                    backgroundColor: '0E0B07',
                     hideEventTypeDetails: true,
                     hideLandingPageDetails: true,
                     hideGdprBanner: true,
-                    primaryColor: '5E1A1F',
-                    textColor: '2B1A17'
+                    primaryColor: 'C8860A',
+                    textColor: 'FAF6EE'
                   }}
                 />
               </div>
