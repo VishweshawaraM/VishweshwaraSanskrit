@@ -48,10 +48,10 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => 
   return (
     <>
       <header
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-out ${
+        className={`on-maroon fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-out ${
           isScrolled
-            ? 'bg-[#060504]/75 backdrop-blur-xl border-b border-gold-mid/60 shadow-lg py-3'
-            : 'bg-gradient-to-b from-[#060504]/80 to-transparent py-5'
+            ? 'bg-ground/95 backdrop-blur-xl border-b border-gold-mid shadow-lg py-2.5'
+            : 'bg-ground/90 backdrop-blur-md border-b border-gold-dim py-4'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 md:px-12 flex items-center justify-between">
@@ -69,7 +69,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => 
               onMouseLeave={() => setIsTeachingsDropdownOpen(false)}
             >
               <button
-                className={`flex items-center space-x-1 font-mono text-xs tracking-[0.12em] uppercase transition-colors py-2 px-3 rounded-lg hover:text-text-gold ${
+                className={`flex items-center space-x-1 font-label text-xs tracking-[0.12em] uppercase transition-colors py-2 px-3 rounded-lg hover:text-text-gold ${
                   currentView === 'teachings' ? 'text-text-gold font-semibold' : 'text-text-secondary'
                 }`}
               >
@@ -85,16 +85,16 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => 
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 8, scale: 0.98 }}
                     transition={{ duration: 0.15, ease: 'easeOut' }}
-                    className="absolute left-1/2 -translate-x-1/2 mt-1 w-[480px] bg-[#0E0B07] border border-gold-mid rounded-lg p-5 shadow-2xl z-50 backdrop-blur-md"
+                    className="absolute left-1/2 -translate-x-1/2 mt-1 w-[480px] bg-surface-1 border border-gold-mid rounded-lg p-5 shadow-2xl z-50 backdrop-blur-md"
                   >
                     <div className="flex items-center justify-between mb-3 pb-2 border-b border-gold-dim">
-                      <span className="font-mono text-[10px] tracking-widest text-text-gold uppercase flex items-center gap-1">
+                      <span className="font-label text-[10px] tracking-widest text-text-gold uppercase flex items-center gap-1">
                         <Sparkles className="w-3 h-3" /> Core Subjects
                       </span>
                       <Link
                         to="/teachings"
                         onClick={() => { setIsMobileMenuOpen(false); setIsTeachingsDropdownOpen(false); }}
-                        className="text-[10px] font-mono tracking-wider text-text-tertiary hover:text-text-gold transition-colors"
+                        className="text-[10px] font-label tracking-wider text-text-tertiary hover:text-text-gold transition-colors"
                       >
                         View Teaching Approach →
                       </Link>
@@ -122,7 +122,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => 
                       <Link
                         to="/teachings"
                         onClick={() => { setIsMobileMenuOpen(false); setIsTeachingsDropdownOpen(false); }}
-                        className="inline-flex items-center justify-center space-x-1 font-mono text-[10px] tracking-wider text-text-gold hover:text-gold-bright transition-colors uppercase"
+                        className="inline-flex items-center justify-center space-x-1 font-label text-[10px] tracking-wider text-text-gold hover:text-gold-bright transition-colors uppercase"
                       >
                         <GraduationCap className="w-3 h-3" />
                         <span>Explore Curriculum details</span>
@@ -137,7 +137,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => 
             <Link
               to="/about"
               onClick={() => { setIsMobileMenuOpen(false); setIsTeachingsDropdownOpen(false); }}
-              className={`font-mono text-xs tracking-[0.12em] uppercase transition-colors hover:text-text-gold ${
+              className={`font-label text-xs tracking-[0.12em] uppercase transition-colors hover:text-text-gold ${
                 currentView === 'about' ? 'text-text-gold font-semibold' : 'text-text-secondary'
               }`}
             >
@@ -148,7 +148,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => 
             <Link
               to="/testimonials"
               onClick={() => { setIsMobileMenuOpen(false); setIsTeachingsDropdownOpen(false); }}
-              className={`font-mono text-xs tracking-[0.12em] uppercase transition-colors hover:text-text-gold ${
+              className={`font-label text-xs tracking-[0.12em] uppercase transition-colors hover:text-text-gold ${
                 currentView === 'testimonials' ? 'text-text-gold font-semibold' : 'text-text-secondary'
               }`}
             >
@@ -159,7 +159,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => 
             <Link
               to="/dakshina"
               onClick={() => { setIsMobileMenuOpen(false); setIsTeachingsDropdownOpen(false); }}
-              className={`font-mono text-xs tracking-[0.12em] uppercase transition-colors hover:text-text-gold ${
+              className={`font-label text-xs tracking-[0.12em] uppercase transition-colors hover:text-text-gold ${
                 currentView === 'dakshina' ? 'text-text-gold font-semibold' : 'text-text-secondary'
               }`}
             >
@@ -208,7 +208,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => 
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
-              className="fixed inset-y-0 right-0 w-[85%] max-w-[340px] bg-[#0E0B07] border-l border-gold-mid z-[60] flex flex-col p-6 shadow-2xl backdrop-blur-md overflow-y-auto"
+              className="fixed inset-y-0 right-0 w-[85%] max-w-[340px] bg-surface-1 border-l border-gold-mid z-[60] flex flex-col p-6 shadow-2xl backdrop-blur-md overflow-y-auto"
             >
               {/* Top Logo / Spacer */}
               <div className="flex justify-between items-center -mt-2 shrink-0">

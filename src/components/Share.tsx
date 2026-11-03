@@ -74,7 +74,7 @@ export const Share: React.FC<ShareProps> = ({ className = '', url, title }) => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-surface-2 border border-gold-dim text-text-primary text-[10px] font-mono rounded shadow-lg whitespace-nowrap"
+            className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-surface-2 border border-gold-dim text-text-primary text-[10px] font-label rounded shadow-lg whitespace-nowrap"
           >
             Link Copied!
           </motion.span>

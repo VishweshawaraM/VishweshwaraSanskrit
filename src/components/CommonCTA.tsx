@@ -25,24 +25,21 @@ export const CommonCTA: React.FC<CommonCTAProps> = ({
   };
 
   return (
-    <section className="relative py-20 md:py-28 bg-surface-1 border-t border-gold-mid overflow-hidden text-center px-4 md:px-12 select-none">
+    <section className="on-maroon relative py-24 md:py-32 bg-ground border-t border-gold-mid overflow-hidden text-center px-4 md:px-12 select-none">
       {/* Absolute OM Watermark (Sanskrit placement rule) */}
-      <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none select-none">
+      <div className="absolute inset-0 flex items-center justify-center opacity-[0.07] pointer-events-none select-none">
         <span className="font-devanagari text-[18rem] md:text-[32rem] text-gold-base leading-none">
           ॐ
         </span>
       </div>
 
-      {/* Decorative Glows */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] md:w-[600px] h-[350px] md:h-[600px] rounded-full bg-gold-base/5 blur-[120px] pointer-events-none"></div>
-
       <div className="max-w-3xl mx-auto relative z-10 space-y-6 md:space-y-8">
         <div className="space-y-3">
           {/* Section micro-label (MONO • GOLD • SMALL) */}
-          <span className="font-mono text-[10px] md:text-xs tracking-[0.25em] text-text-gold uppercase block">
+          <span className="font-label text-[10px] md:text-xs tracking-[0.25em] text-text-gold uppercase block">
             ✦ {subtitle} ✦
           </span>
-          <h2 className="font-display text-3xl md:text-5xl font-medium text-text-primary tracking-tight leading-tight max-w-2xl mx-auto">
+          <h2 className="font-display text-3xl md:text-5xl font-normal text-text-primary tracking-tight leading-tight max-w-2xl mx-auto">
             {title}
           </h2>
         </div>

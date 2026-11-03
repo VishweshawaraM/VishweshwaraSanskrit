@@ -45,11 +45,11 @@ export const TestimonialsView: React.FC<TestimonialsViewProps> = ({ onViewChange
   return (
     <div className="space-y-16 md:space-y-32">
       {/* SECTION 1 - Page Hero */}
-      <section className="relative pt-32 pb-16 bg-[#0E0B07] border-b border-gold-mid overflow-hidden px-4 md:px-12 select-none">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,#1F160D_0%,transparent_100%)] opacity-30 pointer-events-none"></div>
+      <section className="relative on-maroon pt-32 pb-16 bg-ground border-b border-gold-mid overflow-hidden px-4 md:px-12 select-none">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,#7A2A30_0%,transparent_100%)] opacity-60 pointer-events-none"></div>
 
         <div className="max-w-7xl mx-auto text-left space-y-4">
-          <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase flex items-center gap-1.5">
+          <span className="font-label text-xs tracking-[0.25em] text-text-gold uppercase flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5" /> TESTIMONIALS & TRUST • SINCERE SEEKERS
           </span>
           <h1 className="font-display text-4xl sm:text-5xl md:text-7xl font-light text-text-primary tracking-tight leading-none">
@@ -69,9 +69,9 @@ export const TestimonialsView: React.FC<TestimonialsViewProps> = ({ onViewChange
             <button
               key={f.id}
               onClick={() => setActiveFilter(f.id)}
-              className={`px-4.5 py-2 rounded-full font-mono text-xs tracking-wider uppercase transition-all duration-150 ${
+              className={`px-4.5 py-2 rounded-full font-label text-xs tracking-wider uppercase transition-all duration-150 ${
                 activeFilter === f.id
-                  ? 'bg-gradient-to-r from-gold-base to-gold-bright text-ground font-semibold shadow'
+                  ? 'bg-gradient-to-r from-gold-base to-gold-bright text-gold-ink font-semibold shadow'
                   : 'text-text-secondary hover:text-text-gold bg-surface-2 border border-gold-dim/30'
               }`}
             >
@@ -88,7 +88,7 @@ export const TestimonialsView: React.FC<TestimonialsViewProps> = ({ onViewChange
           
           <div className="space-y-1">
             <h4 className="font-display text-3xl md:text-4xl font-semibold text-text-gold">100%</h4>
-            <p className="font-mono text-xs tracking-widest text-text-primary uppercase">Direct Mentorship</p>
+            <p className="font-label text-xs tracking-widest text-text-primary uppercase">Direct Mentorship</p>
             <p className="font-sans text-xs text-text-tertiary">Every session is live with Acharya</p>
           </div>
 
@@ -97,13 +97,13 @@ export const TestimonialsView: React.FC<TestimonialsViewProps> = ({ onViewChange
             <div className="flex justify-center space-x-1 text-text-gold py-1">
               {[...Array(5)].map((_, i) => <Star key={i} className="w-3.5 h-3.5 fill-current" />)}
             </div>
-            <p className="font-mono text-xs tracking-widest text-text-primary uppercase">Average Rating</p>
+            <p className="font-label text-xs tracking-widest text-text-primary uppercase">Average Rating</p>
             <p className="font-sans text-xs text-text-tertiary">Verified by continuous student cohorts</p>
           </div>
 
           <div className="space-y-1">
             <h4 className="font-display text-3xl md:text-4xl font-semibold text-text-gold">8+</h4>
-            <p className="font-mono text-xs tracking-widest text-text-primary uppercase">Countries Reached</p>
+            <p className="font-label text-xs tracking-widest text-text-primary uppercase">Countries Reached</p>
             <p className="font-sans text-xs text-text-tertiary">Sanskrit spreading globally across oceans</p>
           </div>
         </div>
@@ -121,10 +121,10 @@ export const TestimonialsView: React.FC<TestimonialsViewProps> = ({ onViewChange
               key={item.id}
               className="bg-surface-2 border border-gold-mid p-8 rounded-xl shadow-xl space-y-6 relative overflow-hidden group hover:border-gold-bright transition-all duration-220 flex flex-col justify-between min-h-[300px]"
             >
-              <Quote className="w-12 h-12 text-[#C8860A]/8 absolute top-4 right-4" />
+              <Quote className="w-12 h-12 text-gold-base/20 absolute top-4 right-4" />
               
               <div className="space-y-4">
-                <span className="font-mono text-[9px] tracking-widest text-text-gold uppercase block">Verified Scholar Review</span>
+                <span className="font-label text-[9px] tracking-widest text-text-gold uppercase block">Verified Scholar Review</span>
                 <p className="font-sans text-sm md:text-base text-text-secondary leading-relaxed italic">
                   "{item.content}"
                 </p>
@@ -138,7 +138,7 @@ export const TestimonialsView: React.FC<TestimonialsViewProps> = ({ onViewChange
                   <h4 className="font-serif text-base text-text-primary font-semibold">{item.name}</h4>
                   <p className="font-sans text-xs text-text-tertiary">{item.role}</p>
                   <div className="flex items-center space-x-1 text-xs mt-0.5">
-                    <span className="text-[10px] font-mono text-text-gold uppercase tracking-wider bg-gold-dim px-2 py-0.5 rounded border border-gold-dim">
+                    <span className="text-[10px] font-label text-text-gold uppercase tracking-wider bg-gold-dim px-2 py-0.5 rounded border border-gold-dim">
                       {item.subject}
                     </span>
                     <span className="text-text-tertiary">•</span>
@@ -164,9 +164,9 @@ export const TestimonialsView: React.FC<TestimonialsViewProps> = ({ onViewChange
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-surface-1/80 border-b border-gold-dim/50">
-                  <th className="p-4 md:px-6 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Profile</th>
-                  <th className="p-4 md:px-6 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Subject</th>
-                  <th className="p-4 md:px-6 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">From</th>
+                  <th className="p-4 md:px-6 font-label text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Profile</th>
+                  <th className="p-4 md:px-6 font-label text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Subject</th>
+                  <th className="p-4 md:px-6 font-label text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">From</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gold-dim/20">
@@ -176,7 +176,7 @@ export const TestimonialsView: React.FC<TestimonialsViewProps> = ({ onViewChange
                       {seeker.name}
                     </td>
                     <td className="p-4 md:px-6 font-sans text-xs text-text-secondary whitespace-nowrap">
-                      <span className="bg-surface-3/30 border border-gold-dim/20 px-2.5 py-1 rounded-full text-[10px] font-mono tracking-wider">
+                      <span className="bg-surface-3/30 border border-gold-dim/20 px-2.5 py-1 rounded-full text-[10px] font-label tracking-wider">
                         {seeker.subject}
                       </span>
                     </td>
@@ -212,7 +212,7 @@ export const TestimonialsView: React.FC<TestimonialsViewProps> = ({ onViewChange
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="font-mono text-[9px] tracking-wider text-text-gold uppercase bg-gold-dim px-2 py-0.5 rounded border border-gold-dim">
+                    <span className="font-label text-[9px] tracking-wider text-text-gold uppercase bg-gold-dim px-2 py-0.5 rounded border border-gold-dim">
                       {item.subject}
                     </span>
                     <span className="text-xs">{item.flag}</span>
@@ -242,7 +242,7 @@ export const TestimonialsView: React.FC<TestimonialsViewProps> = ({ onViewChange
       <section className="max-w-5xl mx-auto px-4 md:px-12 select-none">
         <div className="bg-surface-2 border border-gold-mid rounded-xl p-8 space-y-6 text-center shadow-2xl relative overflow-hidden">
           <div className="space-y-1.5">
-            <span className="font-mono text-xs tracking-widest text-text-gold uppercase block">AUDITORY INTEGRITY</span>
+            <span className="font-label text-xs tracking-widest text-text-gold uppercase block">AUDITORY INTEGRITY</span>
             <h4 className="font-serif text-xl md:text-2xl text-text-primary font-medium">Hear the Precision of Chant Recitations</h4>
             <p className="font-sans text-xs text-text-secondary max-w-md mx-auto">
               Sanskrit is a vibrational language. Tap below to listen to a brief demo of the traditional oral Svara chanting and Paninian structural breakdowns:
@@ -265,12 +265,12 @@ export const TestimonialsView: React.FC<TestimonialsViewProps> = ({ onViewChange
                     ></motion.div>
                   ))}
                 </div>
-                <p className="font-mono text-xs text-text-gold uppercase tracking-[0.15em] animate-pulse-slow">
+                <p className="font-label text-xs text-text-gold uppercase tracking-[0.15em] animate-pulse-slow">
                   Chanting: Taittiriya Upanishad Shiksha Valli (Live Demonstration)
                 </p>
                 <button
                   onClick={() => setIsPlayingVideo(false)}
-                  className="px-4 py-1.5 rounded border border-gold-dim text-xs font-mono text-text-secondary hover:text-text-gold hover:border-text-gold transition-colors"
+                  className="px-4 py-1.5 rounded border border-gold-dim text-xs font-label text-text-secondary hover:text-text-gold hover:border-text-gold transition-colors"
                 >
                   Stop Recording
                 </button>
@@ -281,7 +281,7 @@ export const TestimonialsView: React.FC<TestimonialsViewProps> = ({ onViewChange
                   <PlayCircle className="w-16 h-16 text-text-gold hover:text-gold-bright transition-colors cursor-pointer" />
                 </button>
                 <div className="space-y-0.5">
-                  <p className="font-mono text-xs text-text-primary uppercase tracking-wider">Taittiriya Upanishad Chanting Recitation</p>
+                  <p className="font-label text-xs text-text-primary uppercase tracking-wider">Taittiriya Upanishad Chanting Recitation</p>
                   <p className="font-sans text-[10px] text-text-tertiary">Live recording by Acharya • 1 min audio preview</p>
                 </div>
               </div>
@@ -312,13 +312,13 @@ export const TestimonialsView: React.FC<TestimonialsViewProps> = ({ onViewChange
                   <path d="M6.3 13.5c-.2-.6-.3-1.2-.3-1.9s.1-1.3.3-1.9V6.8H3.2c-.6 1.3-1 2.7-1 4.3s.4 3 1 4.3l3.1-2.9z" fill="currentColor" stroke="none" />
                   <path d="M12 5.5c1.4 0 2.7.5 3.8 1.5l2.8-2.8C16.9 2.5 14.7 1.6 12 1.6 8.2 1.6 4.9 3.8 3.2 7.1l3.1 2.9c.8-2.4 3.1-4.2 5.7-4.2z" fill="currentColor" stroke="none" />
                 </svg>
-                <span className="font-mono text-xs uppercase tracking-wider">Review us on Google</span>
+                <span className="font-label text-xs uppercase tracking-wider">Review us on Google</span>
               </a>
             </div>
             
             <div className="flex items-center justify-center py-4">
               <div className="h-px bg-gold-dim/30 w-full max-w-xs"></div>
-              <span className="px-4 font-mono text-[10px] text-text-tertiary uppercase">Or submit below</span>
+              <span className="px-4 font-label text-[10px] text-text-tertiary uppercase">Or submit below</span>
               <div className="h-px bg-gold-dim/30 w-full max-w-xs"></div>
             </div>
           </div>
@@ -383,46 +383,46 @@ export const TestimonialsView: React.FC<TestimonialsViewProps> = ({ onViewChange
             >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="text-xs font-mono text-text-secondary uppercase tracking-wider block">Full Name *</label>
+                  <label className="text-xs font-label text-text-secondary uppercase tracking-wider block">Full Name *</label>
                   <input 
                     type="text" 
                     name="name"
                     required
                     disabled={isSubmitting}
-                    className="w-full bg-[#0E0B07] border border-gold-dim rounded px-4 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors disabled:opacity-50"
+                    className="w-full bg-surface-2 border border-gold-dim rounded px-4 py-2 text-sm text-text-primary focus:outline-none focus:border-gold-base transition-colors disabled:opacity-50"
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-xs font-mono text-text-secondary uppercase tracking-wider block">Email Address *</label>
+                  <label className="text-xs font-label text-text-secondary uppercase tracking-wider block">Email Address *</label>
                   <input 
                     type="email" 
                     name="email"
                     required
                     disabled={isSubmitting}
-                    className="w-full bg-[#0E0B07] border border-gold-dim rounded px-4 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors disabled:opacity-50"
+                    className="w-full bg-surface-2 border border-gold-dim rounded px-4 py-2 text-sm text-text-primary focus:outline-none focus:border-gold-base transition-colors disabled:opacity-50"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="text-xs font-mono text-text-secondary uppercase tracking-wider block">Location (City, Country) *</label>
+                  <label className="text-xs font-label text-text-secondary uppercase tracking-wider block">Location (City, Country) *</label>
                   <input 
                     type="text" 
                     name="location"
                     required
                     disabled={isSubmitting}
-                    className="w-full bg-[#0E0B07] border border-gold-dim rounded px-4 py-2 text-sm text-white focus:outline-none focus:border-gold-base transition-colors disabled:opacity-50"
+                    className="w-full bg-surface-2 border border-gold-dim rounded px-4 py-2 text-sm text-text-primary focus:outline-none focus:border-gold-base transition-colors disabled:opacity-50"
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-xs font-mono text-text-secondary uppercase tracking-wider block">Course/Subject Studied *</label>
+                  <label className="text-xs font-label text-text-secondary uppercase tracking-wider block">Course/Subject Studied *</label>
                   <select 
                     name="subject"
                     required
                     defaultValue=""
                     disabled={isSubmitting}
-                    className="w-full bg-[#0E0B07] border border-gold-dim rounded px-4 py-2.5 text-sm text-white focus:outline-none focus:border-gold-base transition-colors appearance-none disabled:opacity-50"
+                    className="w-full bg-surface-2 border border-gold-dim rounded px-4 py-2.5 text-sm text-text-primary focus:outline-none focus:border-gold-base transition-colors appearance-none disabled:opacity-50"
                   >
                     <option value="" disabled>Select Subject</option>
                     <option value="Sanskrit Language">Sanskrit Language</option>
@@ -436,21 +436,21 @@ export const TestimonialsView: React.FC<TestimonialsViewProps> = ({ onViewChange
               </div>
               
               <div className="space-y-1">
-                <label className="text-xs font-mono text-text-secondary uppercase tracking-wider block">Your Testimony *</label>
+                <label className="text-xs font-label text-text-secondary uppercase tracking-wider block">Your Testimony *</label>
                 <textarea 
                   name="testimony"
                   required
                   rows={4}
                   disabled={isSubmitting}
                   placeholder="Share how the teachings have impacted your life..."
-                  className="w-full bg-[#0E0B07] border border-gold-dim rounded px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base transition-colors resize-none disabled:opacity-50"
+                  className="w-full bg-surface-2 border border-gold-dim rounded px-4 py-3 text-sm text-text-primary focus:outline-none focus:border-gold-base transition-colors resize-none disabled:opacity-50"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full mt-2 px-6 py-3 rounded bg-gradient-to-r from-gold-base to-gold-bright text-ground font-mono text-sm tracking-widest uppercase font-semibold active:scale-95 transition-all shadow-md hover:brightness-110 disabled:opacity-50"
+                className="w-full mt-2 px-6 py-3 rounded bg-gradient-to-r from-gold-base to-gold-bright text-gold-ink font-label text-sm tracking-widest uppercase font-semibold active:scale-95 transition-all shadow-md hover:brightness-110 disabled:opacity-50"
               >
                 {isSubmitting ? 'Submitting...' : 'Submit Testimonial'}
               </button>

@@ -51,7 +51,7 @@ export const FAQ: React.FC<FAQProps> = ({ data = FAQ_DATA }) => {
     <section className="max-w-4xl mx-auto px-4 md:px-12 w-full">
       <FadeInSection>
         <div className="space-y-3 text-center mb-8 md:mb-12">
-          <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase block">
+          <span className="font-label text-xs tracking-[0.25em] text-text-gold uppercase block">
             ✦ COMMON INQUIRIES
           </span>
           <h2 className="font-display text-3xl md:text-5xl font-light text-text-primary tracking-tight">

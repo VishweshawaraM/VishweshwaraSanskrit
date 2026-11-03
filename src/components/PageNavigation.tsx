@@ -32,7 +32,7 @@ export const PageNavigation = () => {
             onClick={() => navigate(prevPage.path)}
             className="group flex flex-col items-start w-full sm:w-1/2 p-6 rounded-xl bg-surface-2/30 hover:bg-surface-2 border border-transparent hover:border-gold-dim/50 transition-all text-left"
           >
-            <span className="font-mono text-[10px] md:text-xs text-text-tertiary uppercase tracking-wider mb-2 flex items-center">
+            <span className="font-label text-[10px] md:text-xs text-text-tertiary uppercase tracking-wider mb-2 flex items-center">
               <ArrowLeft className="w-3.5 h-3.5 mr-2 group-hover:-translate-x-1 transition-transform" /> Previous Page
             </span>
             <span className="font-serif text-lg md:text-xl text-text-primary group-hover:text-gold-base transition-colors">
@@ -48,7 +48,7 @@ export const PageNavigation = () => {
             onClick={() => navigate(nextPage.path)}
             className="group flex flex-col items-end w-full sm:w-1/2 p-6 rounded-xl bg-surface-2/30 hover:bg-surface-2 border border-transparent hover:border-gold-dim/50 transition-all text-right"
           >
-            <span className="font-mono text-[10px] md:text-xs text-text-tertiary uppercase tracking-wider mb-2 flex items-center">
+            <span className="font-label text-[10px] md:text-xs text-text-tertiary uppercase tracking-wider mb-2 flex items-center">
               Next Page <ArrowRight className="w-3.5 h-3.5 ml-2 group-hover:translate-x-1 transition-transform" />
             </span>
             <span className="font-serif text-lg md:text-xl text-text-primary group-hover:text-gold-base transition-colors">

@@ -1,54 +1,61 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
-  --font-display: "Bricolage Grotesque", sans-serif;
-  --font-serif: "Cormorant Garamond", Georgia, serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
-  --font-devanagari: "Noto Serif Devanagari", serif;
-  --font-samarkan: "SAMARKAN", cursive;
+  /* Typography: Fraunces (display + serif), Work Sans (body + labels), Tiro Devanagari (Sanskrit) */
+  --font-sans: "Work Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-serif: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-label: "Work Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-devanagari: "Tiro Devanagari Sanskrit", "Noto Serif Devanagari", serif;
 
-  --color-ground: #060504;
-  --color-surface-1: #0E0B07;
-  --color-surface-2: #161008;
-  --color-surface-3: #1F160D;
-  --color-surface-4: #2A1E12;
+  /* LIGHT (default): warm cream paper, deep brown ink */
+  --color-ground: #FBF6EA;
+  --color-surface-1: #F6EEDB;
+  --color-surface-2: #FFFDF7;
+  --color-surface-3: #F2E8D0;
+  --color-surface-4: #E9DDBF;
 
-  --color-gold-dim: rgba(200, 134, 10, 0.12);
-  --color-gold-mid: rgba(200, 134, 10, 0.35);
-  --color-gold-base: #C8860A;
-  --color-gold-bright: #E8A820;
-  --color-gold-glow: #F2C84B;
-  --color-gold-text: #D4940C;
+  --color-gold-dim: rgba(176, 138, 62, 0.18);
+  --color-gold-mid: rgba(176, 138, 62, 0.45);
+  --color-gold-base: #B08A3E;
+  --color-gold-bright: #C9A04A;
+  --color-gold-glow: #E0BE7C;
+  --color-gold-text: #7A5A1E;
+  --color-gold-ink: #3A0E12;
 
-  --color-ruby-deep: #3D0A0A;
-  --color-ruby-mid: #6B1212;
-  --color-ruby-base: #8B1A1A;
+  --color-ruby-deep: #431015;
+  --color-ruby-mid: #5E1A1F;
+  --color-ruby-base: #7A2A30;
 
-  --color-text-primary: #FAF6EE;
-  --color-text-secondary: rgba(250, 246, 238, 0.68);
-  --color-text-tertiary: rgba(250, 246, 238, 0.42);
-  --color-text-disabled: rgba(250, 246, 238, 0.25);
-  --color-text-gold: #D4940C;
+  --color-text-primary: #2B1A17;
+  --color-text-secondary: rgba(43, 26, 23, 0.76);
+  --color-text-tertiary: rgba(43, 26, 23, 0.62);
+  --color-text-disabled: rgba(43, 26, 23, 0.35);
+  --color-text-gold: #7A5A1E;
+
+  /* Primary button: maroon on cream */
+  --color-btn: #5E1A1F;
+  --color-btn-hover: #431015;
+  --color-btn-ink: #FBF6EA;
 
   --text-2xs: 0.65rem;
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
   --text-base: 1.0625rem;
   --text-md: 1.2rem;
-  --text-lg: 1.5rem;
-  --text-xl: 2rem;
-  --text-2xl: 2.75rem;
-  --text-3xl: 3.75rem;
-  --text-4xl: 5rem;
-  --text-5xl: 7rem;
-  --text-display: clamp(3rem, 8vw, 8rem);
+  --text-lg: 1.25rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 2rem;
+  --text-3xl: 2.5rem;
+  --text-4xl: 3.25rem;
+  --text-5xl: 4rem;
+  --text-display: clamp(2.75rem, 6vw, 5.5rem);
 
-  --radius-sm: 8px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
-  --radius-xl: 36px;
-  --radius-2xl: 48px;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 28px;
+  --radius-2xl: 40px;
   --radius-full: 9999px;
 
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
@@ -60,6 +67,47 @@
   --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
+/* MAROON BAND: any element with .on-maroon flips the tokens to the dark palette,
+   so every component inside (text, cards, buttons) restyles automatically.
+   Used for the header, hero, page banners, call-to-action bands and footer. */
+.on-maroon,
+.maroon-tokens {
+  --color-ground: #431015;
+  --color-surface-1: #4F161B;
+  --color-surface-2: #5A1C22;
+  --color-surface-3: #6A262C;
+  --color-surface-4: #7A3238;
+
+  --color-gold-dim: rgba(224, 190, 124, 0.20);
+  --color-gold-mid: rgba(224, 190, 124, 0.45);
+  --color-gold-base: #C9A04A;
+  --color-gold-bright: #E0BE7C;
+  --color-gold-glow: #F0D79B;
+  --color-gold-text: #E0BE7C;
+
+  --color-text-primary: #FBF6EA;
+  --color-text-secondary: rgba(251, 246, 234, 0.82);
+  --color-text-tertiary: rgba(251, 246, 234, 0.66);
+  --color-text-disabled: rgba(251, 246, 234, 0.4);
+  --color-text-gold: #E0BE7C;
+
+  --color-btn: #C9A04A;
+  --color-btn-hover: #E0BE7C;
+  --color-btn-ink: #3A0E12;
+}
+.on-maroon {
+  background-color: var(--color-ground);
+  color: var(--color-text-primary);
+}
+
+/* Temple-border edge: a row of gold triangles, used at the base of the hero and banners */
+.temple-edge {
+  height: 12px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='12' viewBox='0 0 28 12'><path d='M0 12 L14 0 L28 12 Z' fill='%23C9A04A'/></svg>");
+  background-repeat: repeat-x;
+  background-position: bottom left;
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
@@ -67,35 +115,36 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #060504;
+  background: #F6EEDB;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1F160D;
+  background: #D9C79A;
   border-radius: 4px;
-  border: 2px solid #060504;
+  border: 2px solid #F6EEDB;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #C8860A;
+  background: #B08A3E;
 }
 
 body {
-  background-color: #060504;
-  color: #FAF6EE;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+  background-color: #FBF6EA;
+  color: #2B1A17;
+  font-family: "Work Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
 /* Smooth active focus styles */
 :focus-visible {
-  outline: 3px solid #C8860A;
+  outline: 3px solid #7A5A1E;
   outline-offset: 2px;
 }
 
 /* Custom styles for premium layout ornaments */
 .text-stroke-gold {
-  -webkit-text-stroke: 1px rgba(200, 134, 10, 0.2);
+  -webkit-text-stroke: 1px rgba(176, 138, 62, 0.35);
   color: transparent;
 }
 

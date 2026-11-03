@@ -54,9 +54,6 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
 
   return (
     <div className="space-y-16 md:space-y-32 relative">
-      {/* Background ambient gradient */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gold-base/10 via-surface-1 to-surface-1 pointer-events-none -z-10" />
-      
       <h1 className="sr-only">Learn Sanskrit, Vedas &amp; Bhagavad Gita Online with a Gurukula-Trained Acharya</h1>
       <HeroSlideshow 
         slides={[
@@ -83,20 +80,17 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
         onExploreClick={() => handleNavClick('teachings')}
       />
 
-      {/* SECTION 2 - Stats Strip (Animated Counters) */}
+      {/* SECTION 2 - Stats strip */}
       <FadeInSection>
-        <section className="max-w-[1200px] mx-auto px-4 sm:px-4 md:px-12 -mt-4 md:-mt-10 relative z-30">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
+        <section className="max-w-6xl mx-auto px-5 md:px-12" aria-label="Gurukula at a glance">
+          <div className="grid grid-cols-2 md:grid-cols-4 border-y border-gold-mid divide-gold-dim md:divide-x">
             {STATS_ITEMS.map((stat, idx) => (
-              <div
-                key={stat.id}
-                className="bg-[#120F0C] border border-[#C8860A]/20 p-4 md:p-10 rounded-[10px] text-center flex flex-col justify-center items-center shadow-2xl"
-              >
-                <p className="font-[Times_New_Roman] text-[32px] sm:text-[40px] md:text-[60px] lg:text-[75px] leading-tight font-bold text-[#C8860A] text-center bg-black/50 px-2 rounded-xl">
+              <div key={stat.id} className="py-8 md:py-10 px-3 text-center">
+                <p className="font-display text-5xl md:text-6xl font-light text-ruby-mid leading-none tabular-nums">
                   {counters[idx]}
-                  {stat.value.includes('+') ? '+' : stat.value.includes('%') ? '%' : ''}
+                  <span className="text-gold-base">{stat.value.includes('+') ? '+' : stat.value.includes('%') ? '%' : ''}</span>
                 </p>
-                <p className="font-mono text-[9px] sm:text-[10px] md:text-[11px] font-bold tracking-[0.1em] md:tracking-[0.2em] text-[#8B867D] uppercase mt-2 md:mt-4 whitespace-pre-line leading-relaxed">
+                <p className="font-label text-[10px] md:text-[11px] font-semibold tracking-[0.18em] text-text-tertiary uppercase mt-4 whitespace-pre-line leading-relaxed">
                   {stat.label}
                 </p>
               </div>
@@ -113,7 +107,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
           <FadeInSection delay={100} direction="right">
             <div className="absolute inset-0 bg-gradient-to-tr from-gold-base/5 to-transparent rounded-2xl pointer-events-none translate-x-4 translate-y-4"></div>
             <div className="p-2 bg-surface-2 border border-gold-mid rounded-2xl shadow-xl relative z-10 overflow-hidden group">
-              <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-[#0E0B07] border border-gold-dim">
+              <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-surface-3 border border-gold-dim">
                 <img 
                   src="/acharya-photo.jpeg" 
                   alt="Acharya Vishweshwara N M, Gurukula-trained Sanskrit and Vedic teacher" 
@@ -125,10 +119,10 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
                   className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out" 
                 />
                 
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0E0B07] via-[#0E0B07]/20 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-ruby-deep/90 via-ruby-deep/15 to-transparent"></div>
                 
-                <div className="absolute bottom-0 left-0 right-0 p-6 space-y-1 text-left">
-                  <span className="font-mono text-[10px] tracking-widest text-text-gold uppercase block">Academic credentials</span>
+                <div className="maroon-tokens absolute bottom-0 left-0 right-0 p-6 space-y-1 text-left">
+                  <span className="font-label text-[10px] tracking-widest text-text-gold uppercase block">Academic credentials</span>
                   <h3 className="font-serif text-2xl text-text-primary font-medium tracking-wide">Acharya Vishweshwara</h3>
                   <div className="flex flex-wrap items-center gap-2 pt-2">
                   </div>
@@ -142,12 +136,12 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
         <div className="lg:col-span-7 space-y-8 text-left">
           <FadeInSection delay={200}>
             <div className="space-y-3">
-              <span className="font-mono text-xs tracking-[0.2em] text-text-gold uppercase block">
+              <span className="font-label text-xs tracking-[0.2em] text-text-gold uppercase block">
                 ✦ AUTHORITY & CREDIBILITY
               </span>
-              <h2 className="font-display text-3xl md:text-5xl font-light text-text-primary tracking-tight">
+              <h2 className="font-display text-3xl md:text-5xl font-light text-text-primary tracking-[-0.015em] leading-[1.1]">
                 A Lifelong Dedication to <br />
-                <span className="font-medium text-text-gold">Traditional Lineage</span>
+                <span className="font-normal italic text-text-gold">Traditional Lineage</span>
               </h2>
             </div>
           </FadeInSection>
@@ -166,13 +160,13 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
                 >
                   <div className="flex items-center space-x-2">
                     <CheckCircle2 className="w-4 h-4 text-text-gold shrink-0" />
-                    <h4 className="font-mono text-xs tracking-wider text-text-primary uppercase font-bold">
+                    <h4 className="font-label text-xs tracking-wider text-text-primary uppercase font-bold">
                       {cred.title}
                     </h4>
                   </div>
                   <p className="font-serif text-sm text-text-gold">{cred.institution}</p>
                   {cred.year && (
-                    <span className="inline-block text-[10px] font-mono tracking-wider text-text-tertiary border border-gold-dim px-2 py-0.5 rounded">
+                    <span className="inline-block text-[10px] font-label tracking-wider text-text-tertiary border border-gold-dim px-2 py-0.5 rounded">
                       {cred.year}
                     </span>
                   )}
@@ -205,11 +199,11 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
         <section className="max-w-7xl mx-auto px-4 md:px-12 text-center space-y-8 md:space-y-12">
         <FadeInSection>
           <div className="space-y-3 max-w-2xl mx-auto">
-            <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase block">
+            <span className="font-label text-xs tracking-[0.25em] text-text-gold uppercase block">
               ✦ CHOOSE YOUR STUDY PATHWAY
             </span>
-            <h2 className="font-display text-3xl md:text-5xl font-light text-text-primary tracking-tight">
-              Six Sacred <span className="font-medium">Subjects of Study</span>
+            <h2 className="font-display text-3xl md:text-5xl font-light text-text-primary tracking-[-0.015em] leading-[1.1]">
+              Six Sacred <span className="font-normal italic text-text-gold">Subjects of Study</span>
             </h2>
             <p className="font-sans text-sm md:text-base text-text-secondary max-w-xl mx-auto leading-relaxed">
               Every seeker requires a different entry point. Whether you desire linguistic mastery, Vedic vibrational resonance, or non-dual wisdom, find your path here.
@@ -225,12 +219,12 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
                 className="w-full bg-surface-2 border border-gold-dim rounded-lg p-6 text-left shadow-lg relative overflow-hidden flex flex-col justify-between min-h-[300px] hover:-translate-y-2 hover:border-gold-mid transition-all duration-220 group"
               >
                 {/* Devanagari Background Watermark (Strategic placement) */}
-                <div className="absolute right-2 top-2 font-devanagari text-6xl text-[#C8860A]/5 select-none font-bold group-hover:text-[#C8860A]/12 transition-colors duration-220">
+                <div className="absolute right-2 top-2 font-devanagari text-6xl text-gold-base/15 select-none group-hover:text-gold-base/25 transition-colors duration-220">
                   {sub.devanagari}
                 </div>
 
                 <div className="space-y-3 relative z-10">
-                  <span className="font-mono text-[10px] tracking-[0.2em] text-text-gold uppercase block">
+                  <span className="font-label text-[10px] tracking-[0.2em] text-text-gold uppercase block">
                     {sub.devanagari} • SUBJECT
                   </span>
                   <h3 className="font-serif text-2xl text-text-primary font-medium group-hover:text-text-gold transition-colors">
@@ -243,7 +237,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
 
                 <div className="pt-6 border-t border-gold-dim/40 flex items-center justify-between mt-auto">
                   <div>
-                    <span className="font-mono text-[9px] text-text-tertiary uppercase block">Frequency</span>
+                    <span className="font-label text-[9px] text-text-tertiary uppercase block">Frequency</span>
                     <span className="font-sans text-xs text-text-secondary font-medium">{sub.frequency}</span>
                   </div>
                   <Link
@@ -275,7 +269,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
 
       {/* SECTION 5 - The Difference (Split Layout) */}
       <FadeInSection>
-        <section className="bg-surface-1 border-y border-gold-mid py-12 md:py-20 px-4 md:px-12 relative overflow-hidden">
+        <section className="bg-surface-1 border-y border-gold-dim py-16 md:py-24 px-4 md:px-12 relative overflow-hidden">
         <div className="absolute top-1/2 left-0 -translate-y-1/2 w-64 h-64 rounded-full bg-ruby-mid/5 blur-3xl pointer-events-none"></div>
 
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 lg:gap-12 items-center text-left">
@@ -289,7 +283,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
                 "We do not teach for marks or certificates; <span className="font-medium italic text-text-gold">we teach for life transformation</span>."
               </h3>
               <div className="space-y-1 mt-6">
-                <p className="font-mono text-xs tracking-wider text-text-gold uppercase font-bold">Vishweshwara Sanskrit</p>
+                <p className="font-label text-xs tracking-wider text-text-gold uppercase font-bold">Vishweshwara Sanskrit</p>
                 <p className="font-sans text-xs text-text-tertiary">Mission Statement & Operational Principle</p>
               </div>
             </FadeInSection>
@@ -298,7 +292,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
           {/* Right Checklist Column */}
           <div className="lg:col-span-7 space-y-6">
             <FadeInSection delay={200}>
-              <h4 className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase">
+              <h4 className="font-label text-xs tracking-[0.25em] text-text-gold uppercase">
                 ✦ WHY WE ARE DIFFERENT
               </h4>
             </FadeInSection>
@@ -344,11 +338,11 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
         <section className="max-w-7xl mx-auto px-4 md:px-12 text-center space-y-8 md:space-y-12">
         <FadeInSection>
           <div className="space-y-3 max-w-2xl mx-auto">
-            <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase block">
+            <span className="font-label text-xs tracking-[0.25em] text-text-gold uppercase block">
               ✦ STUDENT TRUST VOICES
             </span>
-            <h2 className="font-display text-3xl md:text-5xl font-light text-text-primary tracking-tight">
-              Transformed by <span className="font-medium">Direct Mentorship</span>
+            <h2 className="font-display text-3xl md:text-5xl font-light text-text-primary tracking-[-0.015em] leading-[1.1]">
+              Transformed by <span className="font-normal italic text-text-gold">Direct Mentorship</span>
             </h2>
             <p className="font-sans text-sm md:text-base text-text-secondary max-w-xl mx-auto leading-relaxed">
               Read how busy working professionals, university scholars, and deep seekers integrate traditional Sanskrit learning into their modern lives.
@@ -371,7 +365,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
                 </p>
 
                 <div className="flex items-center space-x-3 pt-4 border-t border-gold-dim/40 mt-auto relative z-10">
-                  <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-[#2A1E12] to-[#1F160D] border border-gold-dim flex items-center justify-center font-serif text-text-gold font-bold text-sm shrink-0">
+                  <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-surface-3 to-surface-4 border border-gold-dim flex items-center justify-center font-serif text-text-gold font-bold text-sm shrink-0">
                     {test.name.charAt(0)}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -392,7 +386,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
             <Link
               to="/testimonials"
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="inline-flex items-center space-x-2 font-mono text-xs tracking-widest uppercase text-text-gold hover:text-gold-bright transition-colors active:scale-95"
+              className="inline-flex items-center space-x-2 font-label text-xs tracking-widest uppercase text-text-gold hover:text-gold-bright transition-colors active:scale-95"
             >
               <span>See Global Student Map & All Testimonials</span>
               <ArrowRight className="w-4 h-4" />
@@ -404,17 +398,17 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
 
       {/* SECTION 7 - Guru Dakshina Teaser (Minimal band) */}
       <FadeInSection>
-        <section className="bg-[#0E0B07] border-y border-gold-mid py-8 md:py-12 text-center px-4 md:px-12">
+        <section className="on-maroon bg-ground border-y border-gold-mid py-10 md:py-14 text-center px-4 md:px-12">
           <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="text-left space-y-1">
-              <span className="font-mono text-[9px] tracking-[0.2em] text-text-gold uppercase block">THE SACRED TRADITION</span>
+              <span className="font-label text-[9px] tracking-[0.2em] text-text-gold uppercase block">THE SACRED TRADITION</span>
               <h3 className="font-serif text-xl md:text-2xl text-text-primary font-medium">Uncompromising Knowledge. Self-Determined Guru Dakshina.</h3>
               <p className="font-sans text-xs text-text-secondary">We do not sell ancient scripture. Seekers support our livelihood through self-determined offerings.</p>
             </div>
             <Link
               to="/dakshina"
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="inline-block text-center w-full md:w-auto px-6 py-3 rounded bg-surface-2 hover:bg-surface-3 border border-gold-mid text-text-gold font-mono text-xs tracking-widest uppercase transition-colors shrink-0 active:scale-95"
+              className="inline-block text-center w-full md:w-auto px-6 py-3 rounded bg-surface-2 hover:bg-surface-3 border border-gold-mid text-text-gold font-label text-xs tracking-widest uppercase transition-colors shrink-0 active:scale-95"
             >
               How Dakshina Works →
             </Link>
@@ -431,11 +425,11 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
       <FadeInSection>
         <section className="max-w-7xl mx-auto px-4 md:px-12 text-center space-y-8 pb-12">
           <div className="space-y-3">
-            <span className="font-mono text-xs tracking-[0.25em] text-text-gold uppercase block">
+            <span className="font-label text-xs tracking-[0.25em] text-text-gold uppercase block">
               ✦ SAMPRADAYA EXPANSION
             </span>
             <h2 className="font-display text-2xl md:text-4xl font-light text-text-primary tracking-tight">
-              Connecting Seekers <span className="font-medium">Across Oceans</span>
+              Connecting Seekers <span className="font-normal italic text-text-gold">Across Oceans</span>
             </h2>
             <p className="font-sans text-xs md:text-sm text-text-secondary max-w-xl mx-auto">
               Traditional learning knows no geographical boundaries. Join our current family of active online students dialing in live from diverse locations:
@@ -450,7 +444,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
                   className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-surface-2 border border-gold-dim hover:border-gold-mid transition-colors shadow-sm select-none"
                 >
                   <span className="text-base">{country.flag}</span>
-                  <span className="font-mono text-xs tracking-wider text-text-secondary uppercase">{country.name}</span>
+                  <span className="font-label text-xs tracking-wider text-text-secondary uppercase">{country.name}</span>
                 </div>
               </FadeInSection>
             ))}
