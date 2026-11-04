@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Quote, Sparkles, Star, Users, MapPin, PlayCircle, MessageSquare, Heart, CheckCircle } from 'lucide-react';
 import { TESTIMONIALS_ITEMS } from '../data';
+import { GoogleVerified } from '../components/GoogleVerified';
 import { PageView } from '../types';
 import confetti from 'canvas-confetti';
 import { playChime } from '../lib/audio';
@@ -136,6 +137,7 @@ export const TestimonialsView: React.FC<TestimonialsViewProps> = ({ onViewChange
                 </div>
                 <div>
                   <h4 className="font-serif text-base text-text-primary font-semibold">{item.name}</h4>
+                  {item.source === 'google' && <GoogleVerified className="mt-0.5" />}
                   <p className="font-sans text-xs text-text-tertiary">{item.role}</p>
                   <div className="flex items-center space-x-1 text-xs mt-0.5">
                     <span className="text-[10px] font-mono text-text-gold uppercase tracking-wider bg-gold-dim px-2 py-0.5 rounded border border-gold-dim">
@@ -228,6 +230,7 @@ export const TestimonialsView: React.FC<TestimonialsViewProps> = ({ onViewChange
                   </div>
                   <div>
                     <h4 className="font-serif text-sm text-text-primary font-medium">{item.name}</h4>
+                    {item.source === 'google' && <GoogleVerified className="mt-0.5" />}
                     <p className="font-sans text-[10px] text-text-tertiary">{item.role}</p>
                     <p className="font-sans text-[9px] text-text-tertiary">{item.location}</p>
                   </div>

@@ -35,6 +35,7 @@ export interface TestimonialItem {
   content: string;
   subject: string;
   featured?: boolean;
+  source?: 'google';
 }
 
 export interface TimelineItem {

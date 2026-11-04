@@ -103,6 +103,17 @@ export const SUBJECTS_ITEMS: SubjectItem[] = [
 
 export const TESTIMONIALS_ITEMS: TestimonialItem[] = [
   {
+    id: 'g1',
+    name: 'Marlene',
+    role: 'Sanskrit and Vedic chanting student',
+    location: 'Online student',
+    flag: '',
+    content: "I've really enjoyed my lessons so far. He is very kind, patient, and always willing to help. I really appreciate his gentle and respectful way of teaching. The lessons are very enjoyable, and I always feel comfortable asking questions or asking him to explain something again. What I appreciate most is his genuine passion for knowledge and teaching. This makes the lessons even more interesting and inspiring. I'm very happy with the lessons and grateful to have found such a kind and dedicated teacher. I would definitely recommend him to anyone who wants to learn Sanskrit online in a patient and supportive environment.",
+    subject: 'Samskrita',
+    featured: true,
+    source: 'google'
+  },
+  {
     id: '1',
     name: 'Nagaraj',
     role: 'Parent of Agastheswara Sharma',
@@ -131,6 +142,16 @@ export const TESTIMONIALS_ITEMS: TestimonialItem[] = [
     content: 'Myself and my 8-year-old son Avyukta are taking Mantra & Shloka classes from Guruji. I was able to understand in-depth about the Mantras and Sookthas with meaning. This is not only a new learning but also a great value addition coming out of corporate life pressure, especially with the personal attention given to each person by Guruji.',
     subject: 'Stotra',
     featured: true
+  },
+  {
+    id: 'g2',
+    name: 'Srujan Dudda',
+    role: 'Sanskrit student',
+    location: 'Online student',
+    flag: '',
+    content: 'I like the class because I am learning a lot and improving very well.',
+    subject: 'Samskrita',
+    source: 'google'
   }
 ];
 

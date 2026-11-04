@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, CheckCircle2, Award, Sparkles, BookOpen, Quote, Shield, Globe } from 'lucide-react';
 import { STATS_ITEMS, CREDENTIALS_ITEMS, SUBJECTS_ITEMS, TESTIMONIALS_ITEMS } from '../data';
+import { GoogleVerified } from '../components/GoogleVerified';
 import { PageView } from '../types';
 import { FadeInSection } from '../components/FadeInSection';
 import { Button } from '../components/Button';
@@ -376,6 +377,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
                   </div>
                   <div className="flex-1 min-w-0">
                     <h4 className="font-serif text-sm text-text-primary font-medium truncate">{test.name}</h4>
+                    {test.source === 'google' && <GoogleVerified className="mt-0.5" />}
                     <div className="flex items-center space-x-1.5 mt-0.5">
                       <span className="text-[10px] text-text-tertiary truncate block">{test.role}</span>
                       <span className="text-xs shrink-0">{test.flag}</span>
