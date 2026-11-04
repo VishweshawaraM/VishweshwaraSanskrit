@@ -27,6 +27,36 @@ const FAQ_DATA = [
     id: '5',
     question: 'Are the classes pre-recorded or live?',
     answer: 'All our sessions are conducted live. Ancient wisdom requires direct mentorship and immediate correction of pronunciation and understanding, which cannot be achieved through pre-recorded videos.'
+  },
+  {
+    id: '6',
+    question: "Can children learn Sanskrit online?",
+    answer: "Yes. The Samskrita Foundation Program teaches children aged 8 to 14 in a small live online group, Monday and Friday, 6 to 7 PM IST. Children also learn shlokas and correct pronunciation in one-to-one classes."
+  },
+  {
+    id: '7',
+    question: "Do you teach Bhagavad Gita classes online?",
+    answer: "Yes. Bhagavad Gita classes are live and one to one: correct chanting, memorising chapters such as 12 and 15, word-by-word meaning, the teachings of karma, bhakti and jnana yoga, and applying the Gita in daily life. Advanced students study the Gita Bhashya of Adi Shankaracharya."
+  },
+  {
+    id: '8',
+    question: "Can I learn Vedic chanting online, such as Sri Suktam and Rudram?",
+    answer: "Yes. Krishna Yajurveda chanting is taught live, one to one, with correction of every svara. Students progress from the Shanti Mantras and Ganapati Suktam to Sri Suktam, Purusha Suktam, Sri Rudram, Chamakam and the Upanishad vallis."
+  },
+  {
+    id: '9',
+    question: "Do you teach Sanskrit grammar such as Laghu Siddhanta Kaumudi?",
+    answer: "Yes. Sanskrit grammar (Vyakarana) is the backbone of the course: sandhi, samasa, karaka and the vibhaktis, leading to the study of Laghu Siddhanta Kaumudi, the traditional Paninian grammar text."
+  },
+  {
+    id: '10',
+    question: "I live in the USA, UK, Australia or UAE. Can I join?",
+    answer: "Yes. Classes are online and scheduled across time zones, so students in the USA, Canada, the UK, Europe, Australia and the Gulf learn live with the Acharya from home."
+  },
+  {
+    id: '11',
+    question: "Is there an online Advaita Vedanta course?",
+    answer: "Yes. Advaita Vedanta is taught online from the introductory prakarana granthas to Vedanta Paribhasha and the Prasthanatraya with Shankara Bhashya, in the traditional Gurukula way."
   }
 ];
 

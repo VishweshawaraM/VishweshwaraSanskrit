@@ -1,15 +1,15 @@
 export const PAGE_META: Record<string, { title: string; description: string; image?: string }> = {
   '/': {
-    title: 'Vishweshwara Sanskrit | Learn Sanskrit & Vedas Online',
-    description: 'Master Sanskrit, Bhagavad Gita, Veda Chanting and Advaita Vedanta with Gurukula-trained Acharya Vishweshwara N M. Live one-to-one classes for students worldwide.',
+    title: 'Learn Sanskrit Online · Live 1:1 Classes | Vishweshwara Sanskrit',
+    description: 'Live one-to-one online Sanskrit classes for kids and adults: Sanskrit grammar, Bhagavad Gita, Vedic chanting and Advaita Vedanta with a Gurukula-trained Acharya.',
   },
   '/about': {
-    title: 'About the Acharya | Vishweshwara Sanskrit',
+    title: 'Sanskrit Acharya Vishweshwara N M | Gurukula-Trained Teacher',
     description: 'Acharya Vishweshwara N M — 7 years residential Gurukula training in Krishna Yajur Veda, Advaita Vedanta, and Sanskrit. Traditional lineage, modern teaching.',
   },
   '/teachings': {
-    title: 'Courses | Sanskrit, Bhagavad Gita & Vedic Studies',
-    description: 'Explore courses in Sanskrit Language, Bhagavad Gita with Shankara Bhashya, Veda Chanting, Advaita Vedanta, Stotras, and Puja Vidhi — live online classes.',
+    title: 'Online Sanskrit, Bhagavad Gita & Vedic Chanting Courses',
+    description: 'Sanskrit for beginners, Laghu Siddhanta Kaumudi grammar, Bhagavad Gita classes, Vedic chanting (Sri Suktam, Rudram) and Advaita Vedanta. Live one-to-one online.',
   },
   '/dakshina': {
     title: 'Guru Dakshina | Vishweshwara Sanskrit',
@@ -20,8 +20,8 @@ export const PAGE_META: Record<string, { title: string; description: string; ima
     description: 'Read what students from India, USA, Australia, UAE, UK and more say about learning Sanskrit and Vedanta with Acharya Vishweshwara.',
   },
   '/begin': {
-    title: 'Contact Us | Enquire About Sanskrit Classes',
-    description: 'Begin your journey in Sanskrit, Bhagavad Gita, or Vedic studies. Send an enquiry and Acharya Vishweshwara will personally respond to discuss your learning path.',
+    title: 'Book a Free Sanskrit Class Consultation | Vishweshwara Sanskrit',
+    description: 'Request a free consultation for online Sanskrit, Bhagavad Gita or Vedic chanting classes. Students join live from India, the USA, UK, Australia and the UAE.',
   },
   '/landing': {
     title: 'Vishweshwara Sanskrit | Digital Gurukula',
