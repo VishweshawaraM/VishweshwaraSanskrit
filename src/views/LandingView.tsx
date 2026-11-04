@@ -176,7 +176,7 @@ export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
         <FadeInSection>
           <div className="space-y-4 mb-10">
             <h2 className="font-serif text-2xl md:text-3xl text-text-primary font-medium">Learn Directly From A Traditionally Trained Educator</h2>
-            <p className="text-text-secondary">Learn under the guidance of <strong>Vishweshwara M.</strong></p>
+            <p className="text-text-secondary">Learn under the guidance of <strong>Acharya Vishweshwara N M</strong>.</p>
             <p className="text-text-secondary">A traditional traditionally trained educator dedicated to preserving authentic Indian knowledge traditions for modern learners worldwide.</p>
           </div>
           

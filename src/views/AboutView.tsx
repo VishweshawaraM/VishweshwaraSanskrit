@@ -17,7 +17,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange }) => {
   };
 
   const stage1Studies = [
-    { label: 'Yajur Veda', desc: 'Krishnayajurveda (Aranyaka Recital) & Pujavidhi rituals.' },
+    { label: 'Yajur Veda', desc: 'Krishnayajurveda (Aranyaka Recital).' },
     { label: 'Yoga Shastra', desc: 'Asanani postures, Pranayama breath controls, Meditation & Kriyas.' },
     { label: 'Vedanta Intro', desc: 'Foundational Prakaranagranthah (Tattva Bodha, Atma Bodha, Vivekacudamani).' },
     { label: 'Vyakarana', desc: 'Sanskrit Grammar basics via Paninian rules in Laghukaumudi.' },
@@ -65,7 +65,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onViewChange }) => {
             </span>
             <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-light text-text-primary tracking-tight leading-tight">
               Meet the Scholar: <br />
-              <span className="font-medium text-text-gold">Vishweshwara M</span>
+              <span className="font-medium text-text-gold">Acharya Vishweshwara N M</span>
             </h1>
             <p className="font-sans text-base sm:text-lg text-text-secondary leading-relaxed max-w-2xl">
               An Indologist, Sanskritist, and traditional educator who spent seven continuous years under residential vow at a traditional setting, undergoing strict, unaltered Vedic lineages.

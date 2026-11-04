@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { BookOpen, HelpCircle, ArrowRight, Sparkles, CheckCircle, Clock, Globe, ShieldCheck } from 'lucide-react';
 import { SUBJECTS_ITEMS } from '../data';
+import { courseSlugForSubject } from '../courses';
 import { PageView } from '../types';
 import { Motif, DecorativeBorder } from '../components/Motif';
 import { FadeInSection } from '../components/FadeInSection';
@@ -177,6 +178,13 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
                     ))}
                   </ul>
                 </div>
+                <Link
+                  to={`/courses/${courseSlugForSubject(sub.id) ?? ''}`}
+                  className="inline-flex items-center gap-1.5 pt-2 font-mono text-[10px] tracking-widest uppercase text-text-gold hover:text-gold-bright transition-colors"
+                >
+                  <span>See the full course</span>
+                  <ArrowRight className="w-3 h-3" />
+                </Link>
               </div>
 
               <div className="pt-6 border-t border-gold-dim/40 flex items-center justify-between mt-6 relative z-10">
@@ -304,7 +312,7 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
             Ready to explore? Get a <span className="font-medium text-text-gold">Free Syllabus Assessment</span>
           </h3>
           <p className="font-sans text-xs text-text-secondary leading-relaxed">
-            Not sure which path fits your background? Connect directly with Acharya Vishweshwara. Discuss your background and interest over a free 15-minute diagnostic call.
+            Not sure which path fits your background? Connect directly with Acharya Vishweshwara N M. Discuss your background and interest over a free 15-minute diagnostic call.
           </p>
           <div className="max-w-md mx-auto pt-4 relative min-h-[50px]">
             {isSubmitted ? (

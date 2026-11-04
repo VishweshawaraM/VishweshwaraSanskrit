@@ -1,3 +1,5 @@
+import { COURSES } from '../courses';
+
 export const PAGE_META: Record<string, { title: string; description: string; image?: string }> = {
   '/': {
     title: 'Learn Sanskrit Online · Live 1:1 Classes | Vishweshwara Sanskrit',
@@ -17,7 +19,7 @@ export const PAGE_META: Record<string, { title: string; description: string; ima
   },
   '/testimonials': {
     title: 'Student Testimonials | Vishweshwara Sanskrit',
-    description: 'Read what students from India, USA, Australia, UAE, UK and more say about learning Sanskrit and Vedanta with Acharya Vishweshwara.',
+    description: 'Read what students from India, USA, Australia, UAE, UK and more say about learning Sanskrit and Vedanta with Acharya Vishweshwara N M.',
   },
   '/begin': {
     title: 'Book a Free Sanskrit Class Consultation | Vishweshwara Sanskrit',
@@ -27,6 +29,7 @@ export const PAGE_META: Record<string, { title: string; description: string; ima
     title: 'Vishweshwara Sanskrit | Digital Gurukula',
     description: 'A living tradition brought into the digital age. Authentic Sanskrit, Vedas, and Vedanta for the modern seeker.',
   },
+  ...Object.fromEntries(COURSES.map(c => [`/courses/${c.slug}`, c.meta])),
   '/admin': {
     title: 'Admin | Vishweshwara Sanskrit',
     description: 'Administration panel.',

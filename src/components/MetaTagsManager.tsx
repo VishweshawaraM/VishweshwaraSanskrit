@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { PAGE_META } from '../utils/seoData';
+import { COURSES } from '../courses';
 
 const APP_URL = (import.meta as any).env?.VITE_APP_URL || 'https://vishweshwarasanskrit.com';
 
@@ -26,6 +27,11 @@ const BREADCRUMBS: Record<string, Array<{ name: string; item: string }>> = {
     { name: 'Home', item: APP_URL + '/' },
     { name: 'Guru Dakshina', item: APP_URL + '/dakshina' },
   ],
+  ...Object.fromEntries(COURSES.map(c => [`/courses/${c.slug}`, [
+    { name: 'Home', item: APP_URL + '/' },
+    { name: 'Courses', item: APP_URL + '/teachings' },
+    { name: c.title, item: `${APP_URL}/courses/${c.slug}` },
+  ]])),
 };
 
 const NOINDEX_PATHS = new Set(['/admin', '/landing']);

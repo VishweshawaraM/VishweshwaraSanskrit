@@ -33,7 +33,7 @@ export const TestimonialsView: React.FC<TestimonialsViewProps> = ({ onViewChange
     { id: 'Samskrita', label: 'Sanskrit Language' },
     { id: 'Gita', label: 'Bhagavad Gita' },
     { id: 'Veda', label: 'Veda Chanting' },
-    { id: 'Puja', label: 'Puja Vidhi' },
+    { id: 'Stotra', label: 'Stotras' },
     { id: 'Vedanta', label: 'Advaita Vedanta' }
   ];
 
@@ -431,7 +431,7 @@ export const TestimonialsView: React.FC<TestimonialsViewProps> = ({ onViewChange
                     <option value="Sanskrit Language">Sanskrit Language</option>
                     <option value="Bhagavad Gita">Bhagavad Gita</option>
                     <option value="Veda Chanting">Veda Chanting</option>
-                    <option value="Puja Vidhi">Puja Vidhi</option>
+                    <option value="Stotras">Stotras</option>
                     <option value="Advaita Vedanta">Advaita Vedanta</option>
                     <option value="Other">Other</option>
                   </select>

@@ -46,10 +46,10 @@ export const Footer: React.FC<FooterProps> = ({ onViewChange }) => {
             Traditions
           </h4>
           <ul className="space-y-2.5">
-            {['Samskrita Language', 'Bhagavad Gita', 'Veda Mantra Chanting', 'Advaita Vedanta', 'Puja Vidhi & Rituals'].map((item) => (
+            {([['Sanskrit', 'sanskrit'], ['Bhagavad Gita', 'bhagavad-gita'], ['Krishna Yajurveda', 'krishna-yajurveda'], ['Advaita Vedanta', 'advaita-vedanta'], ['Stotras', 'stotras']] as const).map(([item, slug]) => (
               <li key={item}>
                 <Link
-                  to="/teachings"
+                  to={`/courses/${slug}`}
                   onClick={scrollToTop}
                   className="font-sans text-xs text-text-tertiary hover:text-text-gold transition-colors text-left"
                 >

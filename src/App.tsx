@@ -20,6 +20,7 @@ const TestimonialsView = React.lazy(() => import('./views/TestimonialsView').the
 const ProtectedAdminRoute = React.lazy(() => import('./components/ProtectedAdminRoute').then(module => ({ default: module.ProtectedAdminRoute })));
 const NotFoundView = React.lazy(() => import('./views/NotFoundView').then(module => ({ default: module.NotFoundView })));
 const BeginView = React.lazy(() => import('./views/BeginView').then(module => ({ default: module.BeginView })));
+const CourseView = React.lazy(() => import('./views/CourseView').then(module => ({ default: module.CourseView })));
 const LandingView = React.lazy(() => import('./views/LandingView').then(module => ({ default: module.LandingView })));
 const AdminView = React.lazy(() => import('./views/AdminView').then(module => ({ default: module.AdminView })));
 
@@ -108,6 +109,7 @@ const AppContent = () => {
                 <Route path="/teachings" element={<TeachingsView onViewChange={handleViewChange} />} />
                 <Route path="/dakshina" element={<DakshinaView onViewChange={handleViewChange} />} />
                 <Route path="/testimonials" element={<TestimonialsView onViewChange={handleViewChange} />} />
+                <Route path="/courses/:slug" element={<CourseView />} />
                 <Route path="/begin" element={<BeginView onViewChange={handleViewChange} />} />
                 <Route path="/landing" element={<LandingView onViewChange={handleViewChange} />} />
                 <Route path="/admin" element={<ProtectedAdminRoute><AdminView onViewChange={handleViewChange} /></ProtectedAdminRoute>} />

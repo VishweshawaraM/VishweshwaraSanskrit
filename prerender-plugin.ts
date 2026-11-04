@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import type { Plugin } from 'vite';
 import { PAGE_META } from './src/utils/seoData';
+import { COURSES, ACHARYA_NAME, whatsappLink } from './src/courses';
 import { SUBJECTS_ITEMS, STATS_ITEMS, CREDENTIALS_ITEMS, TESTIMONIALS_ITEMS, TIMELINE_ITEMS, FAQ_ITEMS } from './src/data';
 
 /**
@@ -29,6 +30,7 @@ const esc = (s: string) =>
 const nav =
   '<nav aria-label="Main"><a href="/">Home</a> · <a href="/about">About the Acharya</a> · ' +
   '<a href="/teachings">Courses</a> · <a href="/testimonials">Testimonials</a> · ' +
+  COURSES.map(c => `<a href="/courses/${c.slug}">${c.title}</a> · `).join('') +
   '<a href="/dakshina">Guru Dakshina</a> · <a href="/begin">Begin</a></nav>';
 
 const faq = (count?: number) =>
@@ -104,6 +106,26 @@ const ROUTES: Route[] = [
       '<p><a href="https://wa.me/919482698612">WhatsApp</a> · <a href="mailto:namaste@vishweshwarasanskrit.com">namaste@vishweshwarasanskrit.com</a></p>' +
       faq(),
   },
+  ...COURSES.map((c): Route => ({
+    path: `/courses/${c.slug}`, file: `courses/${c.slug}.html`,
+    h1: `${c.title} (${c.devanagari}) with ${ACHARYA_NAME}`,
+    body: () =>
+      `<p><a href="/teachings">All courses</a> › ${esc(c.title)}</p>` +
+      `<p><em>${esc(c.tagline)}</em></p>` + c.intro.map(p => `<p>${esc(p)}</p>`).join('') +
+      `<h2>${esc(c.methodTitle)}</h2>` +
+      (c.verse ? `<blockquote><p lang="sa">${c.verse.devanagari.map(esc).join('<br>')}</p><p><em>${esc(c.verse.iast)}</em></p><p>${esc(c.verse.meaning)}</p><footer>${esc(c.verse.source)}</footer></blockquote>` : '') + c.method.map(m => `<h3>${esc(m.title)}</h3><p>${esc(m.text)}</p>`).join('') +
+      (c.audiences ?? []).map(a =>
+        `<h2>${esc(a.label)}: ${esc(a.title)}</h2><p>${esc(a.text)}</p><ul>${a.points.map(x => `<li>${esc(x)}</li>`).join('')}</ul>`).join('') +
+      `<h2>${esc(c.pathTitle)}</h2>` + (c.pathIntro ? `<p>${esc(c.pathIntro)}</p>` : '') +
+      c.path.map(s =>
+        `<h3>${esc(s.label)}: ${esc(s.title)}${s.duration ? ` (${esc(s.duration)})` : ''}</h3><p>${esc(s.text)}</p>` +
+        `<ul>${s.items.map(x => `<li>${esc(x)}</li>`).join('')}</ul>`).join('') +
+      '<h2>Ways to learn</h2>' + (c.formatsNote ? `<p>${esc(c.formatsNote)}</p>` : '') +
+      c.formats.map(f =>
+        `<h3>${esc(f.title)}</h3><p>${esc(f.text)}</p><ul>${f.points.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` +
+        `<p><a href="${esc(whatsappLink(f.message))}">Chat with ${esc(ACHARYA_NAME)} on WhatsApp</a></p>`).join('') +
+      '<p><a href="/begin">Send an enquiry</a></p>',
+  })),
 ];
 
 const setMeta = (html: string, attr: 'name' | 'property', name: string, value: string) =>
@@ -147,7 +169,11 @@ export function prerenderPlugin(): Plugin {
           console.warn('[prerender] root div not found, skipped');
           return;
         }
-        for (const route of ROUTES) fs.writeFileSync(path.join(outDir, route.file), render(template, route));
+        for (const route of ROUTES) {
+          const file = path.join(outDir, route.file);
+          fs.mkdirSync(path.dirname(file), { recursive: true });
+          fs.writeFileSync(file, render(template, route));
+        }
         console.log(`[prerender] wrote ${ROUTES.length} static page shells`);
       } catch (err) {
         console.warn('[prerender] skipped:', err);

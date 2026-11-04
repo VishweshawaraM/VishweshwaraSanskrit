@@ -6,6 +6,7 @@ import { Logo } from './Logo';
 import { PageView } from '../types';
 import { Button } from './Button';
 import { WhatsAppIcon } from './WhatsAppIcon';
+import { courseSlugForSubject } from '../courses';
 
 interface HeaderProps {
   currentView: PageView;
@@ -34,7 +35,6 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => 
     { id: 'samskrita', name: 'Sanskrit Language', desc: 'Foundations & Conversational Grammar' },
     { id: 'veda', name: 'Veda Chanting', desc: 'Vedic Phonetics & Svara Chanting' },
     { id: 'vedanta', name: 'Advaita Vedanta', desc: 'Prakarana Granthas & Upanishads' },
-    { id: 'puja', name: 'Puja Vidhi', desc: 'Science & Art of Ritual Worship' },
     { id: 'stotra', name: 'Stotras and Suktams', desc: 'Devotional Metric Verses' },
   ];
 
@@ -70,7 +70,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => 
             >
               <button
                 className={`flex items-center space-x-1 font-mono text-xs tracking-[0.12em] uppercase transition-colors py-2 px-3 rounded-lg hover:text-text-gold ${
-                  currentView === 'teachings' ? 'text-text-gold font-semibold' : 'text-text-secondary'
+                  (currentView === 'teachings' || currentView.startsWith('courses/')) ? 'text-text-gold font-semibold' : 'text-text-secondary'
                 }`}
               >
                 <span>Teachings</span>
@@ -103,7 +103,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => 
                     <div className="grid grid-cols-2 gap-x-6 gap-y-3">
                       {subjects.map((sub) => (
                         <Link
-                          to="/teachings"
+                          to={`/courses/${courseSlugForSubject(sub.id) ?? ''}`}
                           key={sub.id}
                           onClick={() => { setIsMobileMenuOpen(false); setIsTeachingsDropdownOpen(false); }}
                           className="group flex flex-col p-2.5 rounded-md hover:bg-surface-3 transition-all duration-150 cursor-pointer border border-transparent hover:border-gold-dim"
@@ -238,7 +238,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => 
                 to="/teachings"
                 onClick={() => { setIsMobileMenuOpen(false); setIsTeachingsDropdownOpen(false); }}
                 className={`font-serif text-xl tracking-wide text-left py-3 hover:text-text-gold transition-colors ${
-                  currentView === 'teachings' ? 'text-text-gold' : 'text-text-secondary'
+                  (currentView === 'teachings' || currentView.startsWith('courses/')) ? 'text-text-gold' : 'text-text-secondary'
                 }`}
               >
                 Teachings

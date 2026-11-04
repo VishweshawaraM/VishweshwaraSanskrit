@@ -80,16 +80,6 @@ export const SUBJECTS_ITEMS: SubjectItem[] = [
     color: 'from-[#161008] to-[#1F160D]'
   },
   {
-    id: 'puja',
-    title: 'Puja Vidhi & Rituals',
-    devanagari: 'पूजा',
-    description: 'Understand the science and steps of traditional worship. Learn the mantras, shodashopachara (16 steps) ritual sequences, and inner significance of external offerings.',
-    duration: '4 Months',
-    frequency: '1 Session / Week',
-    topics: ['Inner meaning of rituals', 'Daily Panchayatan puja steps', 'Ganapati & Devi puja sequences', 'Sacred offerings & mudras'],
-    color: 'from-[#1F160D] to-[#2A1E12]'
-  },
-  {
     id: 'vedanta',
     title: 'Advaita Vedanta',
     devanagari: 'वेदान्तः',
