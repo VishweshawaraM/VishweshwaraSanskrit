@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, CheckCircle2, Award, Sparkles, BookOpen, Quote, Shield, Globe } from 'lucide-react';
 import { STATS_ITEMS, CREDENTIALS_ITEMS, SUBJECTS_ITEMS, TESTIMONIALS_ITEMS } from '../data';
+import { courseSlugForSubject } from '../courses';
 import { GoogleVerified } from '../components/GoogleVerified';
 import { PageView } from '../types';
 import { FadeInSection } from '../components/FadeInSection';
@@ -210,7 +211,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
               ✦ CHOOSE YOUR STUDY PATHWAY
             </span>
             <h2 className="font-display text-3xl md:text-5xl font-light text-text-primary tracking-tight">
-              Six Sacred <span className="font-medium">Subjects of Study</span>
+              Five Sacred <span className="font-medium">Subjects of Study</span>
             </h2>
             <p className="font-sans text-sm md:text-base text-text-secondary max-w-xl mx-auto leading-relaxed">
               Every seeker requires a different entry point. Whether you desire linguistic mastery, Vedic vibrational resonance, or non-dual wisdom, find your path here.
@@ -222,7 +223,9 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
         <div className="relative md:grid md:grid-cols-3 gap-6 flex overflow-x-auto snap-x snap-mandatory scrollbar-none pb-4 md:pb-0 scroll-smooth">
           {SUBJECTS_ITEMS.map((sub, idx) => (
             <FadeInSection key={sub.id} delay={100 + (idx * 100)} className="flex-shrink-0 w-[85vw] md:w-auto snap-center flex">
-              <div
+              <Link
+                to={`/courses/${courseSlugForSubject(sub.id) ?? ''}`}
+                aria-label={`${sub.title}: see the full course`}
                 className="w-full bg-surface-2 border border-gold-dim rounded-lg p-6 text-left shadow-lg relative overflow-hidden flex flex-col justify-between min-h-[300px] hover:-translate-y-2 hover:border-gold-mid transition-all duration-220 group"
               >
                 {/* Devanagari Background Watermark (Strategic placement) */}
@@ -247,15 +250,14 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
                     <span className="font-mono text-[9px] text-text-tertiary uppercase block">Frequency</span>
                     <span className="font-sans text-xs text-text-secondary font-medium">{sub.frequency}</span>
                   </div>
-                  <Link
-                    to="/teachings"
-                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                    className="flex p-2 rounded-full border border-gold-dim text-text-gold hover:bg-text-gold hover:text-ground transition-all active:scale-95 items-center justify-center"
+                  <span
+                    className="flex p-2 rounded-full border border-gold-dim text-text-gold group-hover:bg-text-gold group-hover:text-ground transition-all items-center justify-center"
+                    aria-hidden="true"
                   >
                     <ArrowRight className="w-4 h-4" />
-                  </Link>
+                  </span>
                 </div>
-              </div>
+              </Link>
             </FadeInSection>
           ))}
         </div>

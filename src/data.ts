@@ -4,7 +4,7 @@ export const STATS_ITEMS: StatItem[] = [
   { id: '1', value: '7', label: 'Years Traditional\nFormation', subtext: '' },
   { id: '2', value: '8+', label: 'Countries •\nStudents Worldwide', subtext: '' },
   { id: '3', value: '500+', label: 'Sessions\nDelivered', subtext: '' },
-  { id: '4', value: '6', label: 'Sacred Subjects\nTaught', subtext: '' }
+  { id: '4', value: '5', label: 'Sacred Subjects\nTaught', subtext: '' }
 ];
 
 export const CREDENTIALS_ITEMS: CredentialItem[] = [

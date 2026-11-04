@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X, ArrowRight, ChevronDown, Sparkles, GraduationCap } from 'lucide-react';
@@ -17,6 +17,18 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => 
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isTeachingsDropdownOpen, setIsTeachingsDropdownOpen] = useState(false);
+  // Hover opens the Teachings menu for a mouse; a tap toggles it on touch screens.
+  const teachingsRef = useRef<HTMLDivElement>(null);
+  const lastPointerType = useRef<string>('');
+
+  useEffect(() => {
+    if (!isTeachingsDropdownOpen) return;
+    const closeOnOutside = (e: PointerEvent) => {
+      if (teachingsRef.current && !teachingsRef.current.contains(e.target as Node)) setIsTeachingsDropdownOpen(false);
+    };
+    document.addEventListener('pointerdown', closeOnOutside);
+    return () => document.removeEventListener('pointerdown', closeOnOutside);
+  }, [isTeachingsDropdownOpen]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -64,11 +76,20 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => 
           <nav className="hidden md:flex items-center space-x-8">
             {/* Teachings Dropdown Trigger */}
             <div
+              ref={teachingsRef}
               className="relative"
-              onMouseEnter={() => setIsTeachingsDropdownOpen(true)}
-              onMouseLeave={() => setIsTeachingsDropdownOpen(false)}
+              onPointerEnter={(e) => { if (e.pointerType === 'mouse') setIsTeachingsDropdownOpen(true); }}
+              onPointerLeave={(e) => { if (e.pointerType === 'mouse') setIsTeachingsDropdownOpen(false); }}
             >
               <button
+                type="button"
+                aria-expanded={isTeachingsDropdownOpen}
+                aria-haspopup="true"
+                onPointerDown={(e) => { lastPointerType.current = e.pointerType; }}
+                onClick={() => {
+                  if (lastPointerType.current !== 'mouse') setIsTeachingsDropdownOpen(open => !open);
+                  lastPointerType.current = '';
+                }}
                 className={`flex items-center space-x-1 font-mono text-xs tracking-[0.12em] uppercase transition-colors py-2 px-3 rounded-lg hover:text-text-gold ${
                   (currentView === 'teachings' || currentView.startsWith('courses/')) ? 'text-text-gold font-semibold' : 'text-text-secondary'
                 }`}
@@ -243,6 +264,18 @@ export const Header: React.FC<HeaderProps> = ({ currentView, onViewChange }) => 
               >
                 Teachings
               </Link>
+              <div className="flex flex-col pl-4 -mt-2 border-l border-gold-dim">
+                {subjects.map(sub => (
+                  <Link
+                    key={sub.id}
+                    to={`/courses/${courseSlugForSubject(sub.id) ?? ''}`}
+                    onClick={() => { setIsMobileMenuOpen(false); setIsTeachingsDropdownOpen(false); }}
+                    className="font-sans text-sm text-text-tertiary hover:text-text-gold transition-colors py-2"
+                  >
+                    {sub.name}
+                  </Link>
+                ))}
+              </div>
               <Link
                 to="/about"
                 onClick={() => { setIsMobileMenuOpen(false); setIsTeachingsDropdownOpen(false); }}

@@ -123,7 +123,7 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
         </div>
       </section>
 
-      {/* SECTION 3 - Six Subjects Bento Grid */}
+      {/* SECTION 3 - Subjects Bento Grid */}
       <section className="max-w-7xl mx-auto px-4 md:px-12 space-y-12 select-none relative">
         <div className="absolute top-1/2 left-0 opacity-10">
           <Motif size={150} color="#C8860A" />
@@ -147,7 +147,9 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative z-10">
           {SUBJECTS_ITEMS.map((sub, idx) => (
             <FadeInSection key={sub.id} direction="up" delay={300 + (idx * 50)}>
-              <div
+              <Link
+                to={`/courses/${courseSlugForSubject(sub.id) ?? ''}`}
+                aria-label={`${sub.title}: see the full course`}
                 className="bg-surface-2 border border-gold-dim rounded-lg p-8 text-left shadow-lg relative overflow-hidden flex flex-col justify-between min-h-[420px] hover:-translate-y-2 hover:border-gold-mid transition-all duration-220 group h-full"
               >
               {/* Devanagari background watermark at 10-15% opacity */}
@@ -178,13 +180,10 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
                     ))}
                   </ul>
                 </div>
-                <Link
-                  to={`/courses/${courseSlugForSubject(sub.id) ?? ''}`}
-                  className="inline-flex items-center gap-1.5 pt-2 font-mono text-[10px] tracking-widest uppercase text-text-gold hover:text-gold-bright transition-colors"
-                >
+                <span className="inline-flex items-center gap-1.5 pt-2 font-mono text-[10px] tracking-widest uppercase text-text-gold group-hover:text-gold-bright transition-colors">
                   <span>See the full course</span>
                   <ArrowRight className="w-3 h-3" />
-                </Link>
+                </span>
               </div>
 
               <div className="pt-6 border-t border-gold-dim/40 flex items-center justify-between mt-6 relative z-10">
@@ -201,7 +200,7 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
                   </span>
                 </div>
               </div>
-            </div>
+            </Link>
             </FadeInSection>
           ))}
         </div>
