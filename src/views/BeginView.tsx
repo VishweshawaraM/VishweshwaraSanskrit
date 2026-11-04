@@ -3,7 +3,6 @@ import { ArrowLeft, MessageSquareCode, Mail, ArrowRight, Clock, ShieldCheck, Che
 import { PageView } from '../types';
 import { FadeInSection } from '../components/FadeInSection';
 import { Button } from '../components/Button';
-import { InlineWidget } from 'react-calendly';
 import confetti from 'canvas-confetti';
 import { playChime } from '../lib/audio';
 
@@ -126,7 +125,21 @@ export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
             </div>
           </FadeInSection>
 
-          <FadeInSection delay={300}>
+          
+          <FadeInSection delay={400}>
+             <div className="flex items-center space-x-3 p-4 rounded-lg border border-gold-dim bg-surface-2">
+                <Clock className="w-5 h-5 text-text-gold shrink-0" />
+                <div>
+                  <h4 className="font-sans text-sm text-text-primary font-semibold">Active Operating Timings</h4>
+                  <p className="font-sans text-xs text-text-secondary mt-0.5">Weekdays (Evening) & Weekends (Full-Day)</p>
+                </div>
+             </div>
+          </FadeInSection>
+        </div>
+
+        {/* RIGHT COLUMN: Enrollment Inquiry form */}
+        <div className="lg:col-span-7">
+          <FadeInSection delay={200}>
             <div className="bg-surface-2 border border-gold-mid p-6 rounded-xl shadow-lg space-y-5 hover:border-gold-bright transition-all duration-300 relative min-h-[300px]">
               <div className="space-y-2">
                 <div className="h-10 w-10 rounded bg-[#C8860A]/10 border border-gold-mid flex items-center justify-center">
@@ -315,49 +328,6 @@ export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
                   </Button>
                 </form>
               )}
-            </div>
-          </FadeInSection>
-          
-          <FadeInSection delay={400}>
-             <div className="flex items-center space-x-3 p-4 rounded-lg border border-gold-dim bg-surface-2">
-                <Clock className="w-5 h-5 text-text-gold shrink-0" />
-                <div>
-                  <h4 className="font-sans text-sm text-text-primary font-semibold">Active Operating Timings</h4>
-                  <p className="font-sans text-xs text-text-secondary mt-0.5">Weekdays (Evening) & Weekends (Full-Day)</p>
-                </div>
-             </div>
-          </FadeInSection>
-        </div>
-
-        {/* RIGHT COLUMN: Smart Form */}
-        <div className="lg:col-span-7">
-          <FadeInSection delay={200}>
-            <div className="bg-surface-2 border border-gold-mid rounded-xl p-8 shadow-xl space-y-8">
-              <div className="space-y-3">
-                <div className="inline-flex items-center space-x-2 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1.5 rounded-full text-[10px] font-mono text-emerald-400 uppercase tracking-widest">
-                  <Clock className="w-3 h-3" />
-                  <span>Direct Calendly Booking</span>
-                </div>
-                <h3 className="font-serif text-3xl text-text-primary font-semibold">Diagnostic Call Booking</h3>
-                <p className="font-sans text-sm text-text-secondary leading-relaxed">
-                  Select a convenient time below to lock in your 15-minute diagnostic call with the Acharya. 
-                </p>
-              </div>
-
-              <div className="w-full bg-[#0E0B07] rounded-lg overflow-hidden border border-gold-dim">
-                <InlineWidget 
-                  url="https://calendly.com/visanskrit-solopreneur/30min" 
-                  styles={{ height: '700px', width: '100%', minWidth: '320px' }}
-                  pageSettings={{
-                    backgroundColor: '0E0B07',
-                    hideEventTypeDetails: true,
-                    hideLandingPageDetails: true,
-                    hideGdprBanner: true,
-                    primaryColor: 'C8860A',
-                    textColor: 'FAF6EE'
-                  }}
-                />
-              </div>
             </div>
           </FadeInSection>
         </div>
