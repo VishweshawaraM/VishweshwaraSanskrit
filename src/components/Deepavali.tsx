@@ -71,8 +71,156 @@ export const Diya: React.FC<{ delay?: number; size?: number; className?: string 
   );
 };
 
-/* ── Deepa Pankti: a row of lamps that light one after another ─────────── */
-export const DeepaPankti: React.FC = () => {
+/* ── Fireworks engine (canvas, no libraries) ────────────────────────────── */
+const FW_COLORS = ['#FFFDF5', '#FFE08A', '#FFD36B', '#E0A32E', '#C8860A'];
+type FwSpark = { x: number; y: number; vx: number; vy: number; life: number; decay: number; color: string; size: number; trail: [number, number][] };
+type FwRocket = { x: number; y: number; vy: number; targetY: number; at: number; burst: boolean; trail: [number, number][] };
+
+/** Returns launch(origins): rockets rise from each origin (canvas coordinates) and burst. */
+const useFireworks = (canvasRef: React.RefObject<HTMLCanvasElement | null>) => {
+  const launchRef = useRef<(origins: { x: number; y: number }[]) => void>(() => {});
+
+  useEffect(() => {
+    if (prefersReducedMotion()) return;
+    const canvas = canvasRef.current;
+    const ctx = canvas?.getContext('2d');
+    if (!canvas || !ctx) return;
+
+    let w = 0, h = 0, raf = 0, running = false;
+    let rockets: FwRocket[] = [];
+    let sparks: FwSpark[] = [];
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const phone = () => window.innerWidth < 640;
+    const resize = () => {
+      w = canvas.clientWidth; h = canvas.clientHeight;
+      canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    resize();
+    window.addEventListener('resize', resize);
+
+    const burst = (x: number, y: number) => {
+      const n = phone() ? 30 : 64;
+      const main = FW_COLORS[Math.floor(Math.random() * 3) + 1];
+      for (let i = 0; i < n; i++) {
+        const a = (Math.PI * 2 * i) / n + Math.random() * 0.15;
+        const sp = (phone() ? 2.6 : 3.6) + Math.random() * (phone() ? 1.6 : 2.6);
+        sparks.push({ x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, life: 1, decay: 0.011 + Math.random() * 0.008,
+          color: Math.random() < 0.3 ? '#FFFDF5' : main, size: 1.2 + Math.random() * 1.3, trail: [] });
+      }
+    };
+
+    const frame = (now: number) => {
+      ctx.clearRect(0, 0, w, h);
+      ctx.globalCompositeOperation = 'lighter';
+      for (const r of rockets) {
+        if (r.burst || now < r.at) continue;
+        r.trail.push([r.x, r.y]); if (r.trail.length > 6) r.trail.shift();
+        r.y += r.vy; r.vy *= 0.982; r.x += Math.sin(r.y * 0.05) * 0.25;
+        const [tx0, ty0] = r.trail[0];
+        const tail = ctx.createLinearGradient(tx0, ty0, r.x, r.y);
+        tail.addColorStop(0, 'rgba(224,163,46,0)'); tail.addColorStop(1, 'rgba(255,224,138,0.9)');
+        ctx.strokeStyle = tail; ctx.lineWidth = 1.6; ctx.lineCap = 'round';
+        ctx.beginPath(); ctx.moveTo(tx0, ty0); ctx.lineTo(r.x, r.y); ctx.stroke();
+        ctx.fillStyle = '#FFFDF5'; ctx.beginPath(); ctx.arc(r.x, r.y, 1.8, 0, Math.PI * 2); ctx.fill();
+        if (r.y <= r.targetY || r.vy > -1.2) { r.burst = true; burst(r.x, r.y); }
+      }
+      for (const s of sparks) {
+        s.trail.push([s.x, s.y]); if (s.trail.length > 5) s.trail.shift();
+        s.vx *= 0.975; s.vy = s.vy * 0.975 + 0.035; s.x += s.vx; s.y += s.vy; s.life -= s.decay;
+        if (s.life <= 0) continue;
+        ctx.globalAlpha = s.life * 0.55;
+        ctx.strokeStyle = s.color; ctx.lineWidth = s.size; ctx.lineCap = 'round'; ctx.beginPath();
+        s.trail.forEach(([tx, ty], i) => (i ? ctx.lineTo(tx, ty) : ctx.moveTo(tx, ty))); ctx.lineTo(s.x, s.y); ctx.stroke();
+        ctx.globalAlpha = s.life;
+        const g = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.size * 3.2);
+        g.addColorStop(0, '#FFFDF5'); g.addColorStop(0.35, s.color); g.addColorStop(1, 'rgba(224,163,46,0)');
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(s.x, s.y, s.size * 3.2, 0, Math.PI * 2); ctx.fill();
+      }
+      ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+      sparks = sparks.filter(s => s.life > 0);
+      if (rockets.every(r => r.burst) && sparks.length === 0) { running = false; ctx.clearRect(0, 0, w, h); return; }
+      if (!document.hidden) raf = requestAnimationFrame(frame); else running = false;
+    };
+
+    launchRef.current = (origins) => {
+      resize();
+      const now = performance.now();
+      rockets = origins.map((o, i) => ({
+        x: o.x, y: o.y, vy: -(7 + Math.random() * 2.5),
+        targetY: Math.max(70, o.y * (0.18 + Math.random() * 0.32)),
+        at: now + i * 380 + Math.random() * 120, burst: false, trail: [],
+      }));
+      sparks = [];
+      if (!running) { running = true; raf = requestAnimationFrame(frame); }
+    };
+    const onVis = () => { if (!document.hidden && !running && (rockets.some(r => !r.burst) || sparks.length)) { running = true; raf = requestAnimationFrame(frame); } };
+    document.addEventListener('visibilitychange', onVis);
+    return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', resize); document.removeEventListener('visibilitychange', onVis); };
+  }, [canvasRef]);
+
+  return launchRef;
+};
+
+/* ── Hero: a line of lamps on the bottom row; fireworks on the first scroll ── */
+export const HeroFireworks: React.FC<{ lampsRef: React.RefObject<HTMLDivElement | null> }> = ({ lampsRef }) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const launchRef = useFireworks(canvasRef);
+  const [greet, setGreet] = useState<'hidden' | 'shown' | 'leaving'>('hidden');
+
+  useEffect(() => {
+    if (prefersReducedMotion()) return;
+    let fired = false;
+    const fire = () => {
+      if (fired) return;
+      const canvas = canvasRef.current, lamps = lampsRef.current;
+      if (!canvas || !lamps) return;
+      const c = canvas.getBoundingClientRect();
+      if (c.bottom < window.innerHeight * 0.4) return; // hero mostly gone: skip
+      fired = true;
+      const all = Array.from(lamps.querySelectorAll('[data-lamp]'));
+      const pick = window.innerWidth < 640 ? [0, 2, 4, 1] : [0, 2, 4, 6, 8, 3];
+      const origins = pick.filter(i => all[i]).map(i => {
+        const r = all[i].getBoundingClientRect();
+        return { x: r.left + r.width / 2 - c.left, y: r.top - c.top + 4 };
+      });
+      launchRef.current(origins);
+      // The greeting appears with the first burst and fades as the sky clears.
+      timers.push(window.setTimeout(() => setGreet('shown'), 1100));
+      timers.push(window.setTimeout(() => setGreet('leaving'), 1100 + 5600));
+      timers.push(window.setTimeout(() => setGreet('hidden'), 1100 + 5600 + 1400));
+      cleanup();
+    };
+    const timers: number[] = [];
+    const events: (keyof WindowEventMap)[] = ['scroll', 'wheel', 'touchmove'];
+    const cleanup = () => events.forEach(ev => window.removeEventListener(ev, fire));
+    events.forEach(ev => window.addEventListener(ev, fire, { passive: true }));
+    return () => { cleanup(); timers.forEach(clearTimeout); };
+  }, [lampsRef, launchRef]);
+
+  return (
+    <>
+      <canvas ref={canvasRef} className="pointer-events-none absolute inset-0 w-full h-full z-[25]" aria-hidden="true" />
+      {greet !== 'hidden' && (
+        <div
+          role="status"
+          className={`pointer-events-none fixed md:absolute z-[56] md:z-[26] left-4 right-4 top-[38%] md:right-auto md:left-[6%] md:top-[26%] px-5 py-4 md:p-0 rounded-2xl bg-black/75 md:bg-transparent border border-gold-dim md:border-0 backdrop-blur-sm md:backdrop-blur-none text-center md:text-left transition-all duration-[1400ms] ease-out ${
+            greet === 'shown' ? 'opacity-100' : 'opacity-0'
+          }`}
+        >
+          <p className="deepa-sky-greeting font-devanagari text-gold-bright leading-tight whitespace-nowrap text-[1.75rem] sm:text-[2.2rem] lg:text-[3rem]">
+            दीपावलीपर्वणः शुभाशयाः
+          </p>
+          <p className="mt-1 font-mono text-[10px] md:text-[11px] tracking-[0.3em] uppercase text-text-primary/90 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+            Happy Deepavali
+          </p>
+        </div>
+      )}
+    </>
+  );
+};
+
+export const HeroLampLine = React.forwardRef<HTMLDivElement>((_props, ref) => {
   const [count, setCount] = useState(9);
   useEffect(() => {
     const set = () => setCount(window.innerWidth < 640 ? 5 : window.innerWidth < 1024 ? 7 : 9);
@@ -80,29 +228,17 @@ export const DeepaPankti: React.FC = () => {
     window.addEventListener('resize', set);
     return () => window.removeEventListener('resize', set);
   }, []);
-
   return (
-    <div className="pointer-events-none absolute inset-x-0 top-[78px] md:top-[100px] z-20 flex flex-col items-center px-4">
-      <div className="flex items-end justify-center gap-3 sm:gap-6 md:gap-9">
-        {Array.from({ length: count }).map((_, i) => {
-          const mid = (count - 1) / 2;
-          const lift = Math.round(Math.abs(i - mid) * 3); // gentle arc, like lamps on a parapet
-          return (
-            <div key={i} style={{ transform: `translateY(${-lift}px)` }}>
-              <Diya delay={300 + i * 260} size={count === 5 ? 32 : 46} />
-            </div>
-          );
-        })}
-      </div>
-      <p
-        className="deepa-greeting hidden md:block mt-2 font-devanagari text-lg md:text-2xl text-gold-bright tracking-wide drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]"
-        style={{ ['--deepa-delay' as string]: `${300 + count * 260}ms` }}
-      >
-        शुभदीपावलिः
-      </p>
+    <div ref={ref} className="pointer-events-none flex-1 min-w-0 flex items-end justify-center gap-2 sm:gap-5 md:gap-9 px-2" aria-hidden="true">
+      {Array.from({ length: count }).map((_, i) => (
+        <div key={i} data-lamp>
+          <Diya delay={300 + i * 220} size={count === 5 ? 30 : 42} />
+        </div>
+      ))}
     </div>
   );
-};
+});
+HeroLampLine.displayName = 'HeroLampLine';
 
 /* ── Rising golden sparks across the page ───────────────────────────────── */
 export const FestiveSparks: React.FC = () => {

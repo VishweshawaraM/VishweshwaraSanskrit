@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import { ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react';
 import { WhatsAppIcon } from './WhatsAppIcon';
-import { DeepaPankti, isDeepavaliSeason } from './Deepavali';
+import { HeroLampLine, HeroFireworks, isDeepavaliSeason } from './Deepavali';
 import { WHATSAPP_COMMUNITY_URL } from '../courses';
 
 interface Slide {
@@ -20,6 +20,8 @@ interface HeroSlideshowProps {
 }
 
 export function HeroSlideshow({ slides, interval = 5000, onBeginClick, onExploreClick }: HeroSlideshowProps) {
+  const festive = isDeepavaliSeason();
+  const lampsRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   const [isPlaying, setIsPlaying] = useState(() => typeof window === 'undefined' || !window.matchMedia('(prefers-reduced-motion: reduce)').matches);
@@ -52,7 +54,7 @@ export function HeroSlideshow({ slides, interval = 5000, onBeginClick, onExplore
 
   return (
     <div className="relative w-full min-h-[100svh] overflow-hidden bg-[#0E0B07] text-white">
-      {isDeepavaliSeason() && <DeepaPankti />}
+      {festive && <HeroFireworks lampsRef={lampsRef} />}
       {/* Background Image Slideshow with Parallax */}
       <motion.div style={{ y: yParallax }} className="absolute inset-[-10%] w-[120%] h-[120%] z-0 pointer-events-none">
         <AnimatePresence mode="popLayout" initial={false} custom={direction}>
@@ -139,6 +141,9 @@ export function HeroSlideshow({ slides, interval = 5000, onBeginClick, onExplore
               {isPlaying ? <Pause className="w-4 h-4 md:w-3 md:h-3" /> : <Play className="w-4 h-4 md:w-3 md:h-3 ml-0.5" />}
             </button>
           </div>
+
+          {/* Deepavali: a line of lamps between the controls */}
+          {festive && <HeroLampLine ref={lampsRef} />}
 
           {/* Slider Navigation Arrows */}
           <div className="flex items-center gap-2 bg-black/40 backdrop-blur-sm px-1.5 py-1.5 rounded-full border border-white/10">
