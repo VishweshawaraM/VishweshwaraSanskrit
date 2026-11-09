@@ -139,10 +139,10 @@ export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
           </FadeInSection>
 
           <FadeInSection delay={500}>
-            <div className="p-6 rounded-lg border border-[#25D366]/30 bg-surface-2 space-y-4">
+            <div className="p-6 rounded-lg border border-gold-mid bg-surface-2 space-y-4">
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-full bg-[#25D366]/10 border border-[#25D366]/40 flex items-center justify-center shrink-0">
-                  <WhatsAppIcon className="w-5 h-5 text-[#25D366]" aria-hidden="true" />
+                <div className="h-10 w-10 rounded-full bg-[#C8860A]/10 border border-gold-mid flex items-center justify-center shrink-0">
+                  <WhatsAppIcon className="w-5 h-5 text-text-gold" aria-hidden="true" />
                 </div>
                 <h4 className="font-serif text-lg text-text-primary font-semibold">Join the WhatsApp Community</h4>
               </div>
@@ -153,7 +153,7 @@ export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
                 href={WHATSAPP_COMMUNITY_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-[#25D366] hover:brightness-110 text-[#0A0805] font-mono text-[11px] tracking-widest uppercase font-semibold transition-all"
+                className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-gradient-to-r from-gold-base to-gold-bright hover:brightness-110 text-ground font-mono text-[11px] tracking-widest uppercase font-semibold transition-all"
               >
                 <WhatsAppIcon className="w-4 h-4" aria-hidden="true" />
                 <span>Join the Community</span>

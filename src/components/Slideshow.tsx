@@ -114,9 +114,9 @@ export function HeroSlideshow({ slides, interval = 5000, onBeginClick, onExplore
                   href={WHATSAPP_COMMUNITY_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black/40 backdrop-blur-sm border border-[#25D366]/40 hover:border-[#25D366] text-white/90 hover:text-white font-mono text-[11px] tracking-widest uppercase transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black/40 backdrop-blur-sm border border-gold-mid hover:border-gold-bright text-white/90 hover:text-gold-bright font-mono text-[11px] tracking-widest uppercase transition-colors"
                 >
-                  <WhatsAppIcon className="w-4 h-4 text-[#25D366]" aria-hidden="true" />
+                  <WhatsAppIcon className="w-4 h-4 text-gold-bright" aria-hidden="true" />
                   <span>Join our WhatsApp Community</span>
                 </a>
               </div>
