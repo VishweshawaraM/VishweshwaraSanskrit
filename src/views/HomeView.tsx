@@ -117,12 +117,12 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
             <div className="p-2 bg-surface-2 border border-gold-mid rounded-2xl shadow-xl relative z-10 overflow-hidden group">
               <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-[#0E0B07] border border-gold-dim">
                 <img 
-                  src="/acharya-photo.jpeg" 
+                  src="/acharya-photo.webp" 
                   alt="Acharya Vishweshwara N M, Gurukula-trained Sanskrit and Vedic teacher" 
                   loading="lazy"
                   decoding="async"
-                  width={1024}
-                  height={1365}
+                  width={720}
+                  height={960}
                   
                   className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out" 
                 />

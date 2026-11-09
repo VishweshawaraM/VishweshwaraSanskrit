@@ -120,8 +120,8 @@ export const COURSES: Course[] = [
       },
     ],
     meta: {
-      title: 'Learn Sanskrit Online from Scratch · Beginner to Advanced | Vishweshwara Sanskrit',
-      description: 'Live online Sanskrit classes with Acharya Vishweshwara N M: pronunciation, Devanagari, grammar and Laghu Siddhanta Kaumudi. 18-month course for kids, one-to-one for adults.',
+      title: 'Learn Sanskrit Online from Scratch | Vishweshwara Sanskrit',
+      description: 'Live online Sanskrit classes with Acharya Vishweshwara N M: pronunciation, Devanagari, grammar, Laghu Siddhanta Kaumudi. 18-month kids course; 1:1 for adults.',
     },
   },
   {
@@ -174,8 +174,8 @@ export const COURSES: Course[] = [
       },
     ],
     meta: {
-      title: 'Bhagavad Gita Classes Online · Word by Word, for Kids and Adults | Vishweshwara Sanskrit',
-      description: 'Learn the Bhagavad Gita word by word with Acharya Vishweshwara N M: chanting, padaccheda, anvaya, meaning and Shankara Bhashya. Separate classes for children and adults.',
+      title: 'Bhagavad Gita Word by Word Online | Vishweshwara Sanskrit',
+      description: 'Learn the Bhagavad Gita word by word with Acharya Vishweshwara N M: chanting, anvaya, meaning, Shankara Bhashya. Stories for kids, real life for adults.',
     },
   },
   {
@@ -221,8 +221,8 @@ export const COURSES: Course[] = [
       oneToOne('Krishna Yajurveda chanting', ['Best if you want to go faster or deeper']),
     ],
     meta: {
-      title: 'Learn Vedic Chanting Online · Krishna Yajurveda | Vishweshwara Sanskrit',
-      description: 'Traditional Krishna Yajurveda chanting with Acharya Vishweshwara N M: svara, pronunciation, Sri Suktam, Purusha Suktam, Sri Rudram and Upanishads. Groups of 4–5 or one-to-one.',
+      title: 'Krishna Yajurveda Chanting Online | Vishweshwara Sanskrit',
+      description: 'Traditional Krishna Yajurveda chanting with Acharya Vishweshwara N M: svara, Shiksha, Suktams, Sri Rudram, Upanishads. Groups of 4–5 or one-to-one.',
     },
   },
   {
@@ -253,7 +253,7 @@ export const COURSES: Course[] = [
     formatsNote: 'Advaita Vedanta is taught one-to-one only.',
     formats: [oneToOne('Advaita Vedanta', ['Texts read in Sanskrit, with explanation'])],
     meta: {
-      title: 'Advaita Vedanta Classes Online · One-to-One | Vishweshwara Sanskrit',
+      title: 'Advaita Vedanta Classes One-to-One | Vishweshwara Sanskrit',
       description: 'Study Advaita Vedanta one-to-one with Acharya Vishweshwara N M: Tattva Bodha, Vedantasara, Upanishads and Shankara Bhashya, read from the Sanskrit texts.',
     },
   },
@@ -293,8 +293,8 @@ export const COURSES: Course[] = [
       },
     ],
     meta: {
-      title: 'Learn Vishnu Sahasranama, Lalita Sahasranama & Stotras Online | Vishweshwara Sanskrit',
-      description: 'Learn to chant Vishnu Sahasranama, Lalita Sahasranama and other stotras with Acharya Vishweshwara N M: correct pronunciation, metre and meaning. One-to-one or group.',
+      title: 'Learn Vishnu & Lalita Sahasranama | Vishweshwara Sanskrit',
+      description: 'Learn Vishnu Sahasranama, Lalita Sahasranama and other stotras with Acharya Vishweshwara N M: clean pronunciation, metre and meaning. 1:1 or group.',
     },
   },
 ];

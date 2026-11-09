@@ -7,6 +7,7 @@ import { FAQ } from '../components/FAQ';
 import { FadeInSection } from '../components/FadeInSection';
 import { WhatsAppIcon } from '../components/WhatsAppIcon';
 import { GOOGLE_REVIEWS_URL } from '../components/GoogleVerified';
+import { ABOUT_STORY, ABOUT_STUDIES, ABOUT_DEGREES, ABOUT_FAQ } from '../aboutContent';
 import { ACHARYA_NAME, WHATSAPP_COMMUNITY_URL, whatsappLink } from '../courses';
 
 interface AboutViewProps {
@@ -33,13 +34,7 @@ const ways = [
   { icon: Sunrise, title: 'Gurukula discipline', text: 'Regular practice, respect for the text, steady habits. Taught with warmth, never with fear.' },
 ];
 
-const studies = [
-  { subject: 'Krishna Yajurveda', detail: 'Taittiriya Samhita and Brahmana, chanted with svara' },
-  { subject: 'Vyakarana', detail: 'Laghu Siddhanta Kaumudi and Siddhanta Kaumudi' },
-  { subject: 'Advaita Vedanta', detail: 'Upanishads, Gita and Brahma Sutra with Shankara Bhashya' },
-  { subject: 'Nyaya', detail: 'Tarka Sangraha with Dipika, Muktavali and Dinakari' },
-  { subject: 'Mimamsa', detail: 'Nyaya Prakasha' },
-];
+
 
 const teachTiles = [
   { slug: 'sanskrit', title: 'Sanskrit', devanagari: 'संस्कृतम्', note: 'Beginner to advanced · kids & adults', tone: 'dark' },
@@ -47,23 +42,7 @@ const teachTiles = [
   { slug: 'krishna-yajurveda', title: 'Krishna\nYajurveda', devanagari: 'वेदः', note: 'Traditional chanting · groups of 4–5', tone: 'dark' },
 ] as const;
 
-const aboutFaqData = [
-  {
-    id: 'faq1',
-    question: 'Is this suitable for my child?',
-    answer: 'Yes. Children from about eight years old do very well. I teach them through shlokas, stories and simple sentences, with the same careful pronunciation and grammar underneath. Older students and adults are taught differently, at a deeper level.',
-  },
-  {
-    id: 'faq2',
-    question: 'How are classes held?',
-    answer: 'All classes are live and online. You can learn one-to-one at a time that suits your time zone, or join a small group. Advaita Vedanta is taught one-to-one only.',
-  },
-  {
-    id: 'faq3',
-    question: 'What do you expect from a student?',
-    answer: 'Regular attendance and a little practice every day. Sanskrit and the Veda reward steady effort more than talent. I will guide the rest.',
-  },
-];
+
 
 export const AboutView: React.FC<AboutViewProps> = () => {
   return (
@@ -266,15 +245,7 @@ export const AboutView: React.FC<AboutViewProps> = () => {
                 A Gurukula shapes a person, <span className="text-gold-bright">not only a mind.</span>
               </h2>
               <div className="space-y-4 font-sans text-[15px] text-text-secondary leading-relaxed">
-                <p>
-                  At eighteen, when my friends went to college, I went to the Gurukula. I studied for seven years at
-                  Veda Vijnana Gurukulam in Bengaluru. We woke before sunrise, chanted, studied and served, every single day.
-                </p>
-                <p>
-                  That life gave me more than knowledge. It gave me discipline, patience and a quiet confidence.
-                  When a parent trusts me with their child, that is what I hope to pass on, together with clean Sanskrit
-                  and a real love for our texts.
-                </p>
+                {ABOUT_STORY.map(p => <p key={p.slice(0, 24)}>{p}</p>)}
               </div>
               <p className="font-serif italic text-[2.5rem] text-gold-bright pt-2" aria-label="Signed, Vishweshwara">Vishweshwara</p>
             </div>
@@ -294,7 +265,7 @@ export const AboutView: React.FC<AboutViewProps> = () => {
             <div className="lg:col-span-4 text-left lg:border-l border-gold-dim lg:pl-10 space-y-6 lg:col-start-9">
               <Label>What I studied</Label>
               <ul className="space-y-5">
-                {studies.map(s => (
+                {ABOUT_STUDIES.map(s => (
                   <li key={s.subject} className="space-y-1.5">
                     <div className="flex items-baseline justify-between gap-3">
                       <span className="font-display font-bold uppercase text-sm tracking-wide text-text-primary">{s.subject}</span>
@@ -305,7 +276,7 @@ export const AboutView: React.FC<AboutViewProps> = () => {
                 ))}
               </ul>
               <div className="pt-2 flex flex-wrap gap-2">
-                {['Shastri (B.A.), First Class', 'M.A. (Acharya)'].map(d => (
+                {ABOUT_DEGREES.map(d => (
                   <span key={d} className="px-3 py-1.5 border border-gold-mid font-mono text-[10px] tracking-[0.12em] uppercase text-text-primary">{d}</span>
                 ))}
               </div>
@@ -351,7 +322,7 @@ export const AboutView: React.FC<AboutViewProps> = () => {
         </section>
 
         {/* ── 8. FAQ ──────────────────────────────────────────── */}
-        <FAQ data={aboutFaqData} />
+        <FAQ data={ABOUT_FAQ} />
 
         {/* ── 9. LET'S BEGIN ──────────────────────────────────── */}
         <section className="px-4 md:px-12 pb-24">

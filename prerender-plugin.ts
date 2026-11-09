@@ -3,6 +3,7 @@ import path from 'path';
 import type { Plugin } from 'vite';
 import { PAGE_META } from './src/utils/seoData';
 import { COURSES, ACHARYA_NAME, whatsappLink } from './src/courses';
+import { ABOUT_STORY, ABOUT_STUDIES, ABOUT_DEGREES, ABOUT_FAQ } from './src/aboutContent';
 import { SUBJECTS_ITEMS, STATS_ITEMS, CREDENTIALS_ITEMS, TESTIMONIALS_ITEMS, TIMELINE_ITEMS, FAQ_ITEMS } from './src/data';
 
 /**
@@ -64,7 +65,60 @@ const testimonials = () =>
     `<blockquote><p>${esc(t.content)}</p><footer>${esc(t.name)}, ${esc(t.role)}, ${esc(t.location)}</footer></blockquote>`
   ).join('');
 
-interface Route { path: string; file: string; h1: string; body: () => string; }
+interface Route { path: string; file: string; h1: string; body: () => string; schema?: () => object[]; }
+
+// ── Per-page structured data (JSON-LD) ──────────────────────────────────────
+const ORG_ID = SITE + '/#organization';
+const PERSON_ID = SITE + '/about#acharya';
+
+const person = () => ({
+  '@type': 'Person',
+  '@id': PERSON_ID,
+  name: 'Vishweshwara N M',
+  honorificPrefix: 'Acharya',
+  jobTitle: 'Sanskrit and Vedic teacher (Acharya)',
+  description: 'Gurukula-trained Sanskrit Acharya who studied for seven years (2018–2025) at Veda Vijnana Gurukulam, Bengaluru, and teaches Sanskrit, Krishna Yajurveda, Bhagavad Gita and Advaita Vedanta online.',
+  image: SITE + '/acharya-portrait.webp',
+  url: SITE + '/about',
+  worksFor: { '@id': ORG_ID },
+  alumniOf: { '@type': 'EducationalOrganization', name: 'Veda Vijnana Gurukulam', address: { '@type': 'PostalAddress', addressLocality: 'Bengaluru', addressCountry: 'IN' } },
+  hasCredential: ABOUT_DEGREES.map(d => ({ '@type': 'EducationalOccupationalCredential', credentialCategory: 'degree', name: d })),
+  knowsAbout: ['Sanskrit', 'Vyakarana', 'Krishna Yajurveda', 'Vedic chanting', 'Bhagavad Gita', 'Advaita Vedanta', 'Nyaya', 'Mimamsa', 'Shankara Bhashya'],
+  knowsLanguage: ['sa', 'en', 'kn', 'hi'],
+  homeLocation: { '@type': 'Place', name: 'Bengaluru, Karnataka, India' },
+  sameAs: ['https://www.instagram.com/vishweshwara_sanskrit', 'https://www.facebook.com/share/18inj2iS8o/', 'https://share.google/YJDHCZgoFpiePUgA6'],
+});
+
+const faqPage = (items: { question: string; answer: string }[]) => ({
+  '@type': 'FAQPage',
+  mainEntity: items.map(f => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } })),
+});
+
+const breadcrumbs = (trail: [string, string][]) => ({
+  '@type': 'BreadcrumbList',
+  itemListElement: trail.map(([name, p], i) => ({ '@type': 'ListItem', position: i + 1, name, item: SITE + p })),
+});
+
+const courseSchema = (c: typeof COURSES[number]) => ({
+  '@type': 'Course',
+  '@id': `${SITE}/courses/${c.slug}#course`,
+  name: `${c.title} with ${ACHARYA_NAME}`,
+  description: c.meta.description,
+  url: `${SITE}/courses/${c.slug}`,
+  inLanguage: 'en',
+  educationalLevel: c.path.map(s => s.label).join(' · '),
+  teaches: c.path.flatMap(s => s.items).slice(0, 12),
+  provider: { '@id': ORG_ID },
+  instructor: { '@id': PERSON_ID },
+  hasCourseInstance: c.formats.map(f => ({
+    '@type': 'CourseInstance',
+    name: f.title,
+    courseMode: 'online',
+    instructor: { '@id': PERSON_ID },
+    courseWorkload: f.kind === 'group' ? 'Live small-group classes' : 'Live one-to-one classes',
+  })),
+});
+
 
 const ROUTES: Route[] = [
   {
@@ -77,12 +131,23 @@ const ROUTES: Route[] = [
   {
     path: '/about', file: 'about.html',
     h1: 'About Acharya Vishweshwara N M',
-    body: () => `<p>${esc(PAGE_META['/about'].description)}</p>` + credentials() + timeline(),
+    body: () =>
+      `<p>${esc(PAGE_META['/about'].description)}</p>` +
+      '<h2>My story</h2>' + ABOUT_STORY.map(p => `<p>${esc(p)}</p>`).join('') +
+      '<h2>What I studied</h2><ul>' + ABOUT_STUDIES.map(s => `<li><strong>${esc(s.subject)}</strong>: ${esc(s.detail)}</li>`).join('') + '</ul>' +
+      `<p>${ABOUT_DEGREES.map(esc).join(' · ')}</p>` + timeline() +
+      '<h2>Questions parents ask</h2>' + ABOUT_FAQ.map(f => `<h3>${esc(f.question)}</h3><p>${esc(f.answer)}</p>`).join(''),
+    schema: () => [
+      { '@type': 'ProfilePage', '@id': SITE + '/about#page', url: SITE + '/about', name: PAGE_META['/about'].title, mainEntity: { '@id': PERSON_ID } },
+      person(),
+      faqPage(ABOUT_FAQ),
+      breadcrumbs([['Home', '/'], ['About', '/about']]),
+    ],
   },
   {
     path: '/teachings', file: 'teachings.html',
     h1: 'Courses: Sanskrit, Bhagavad Gita & Vedic Studies',
-    body: () => `<p>${esc(PAGE_META['/teachings'].description)}</p>` + subjects() + faq(),
+    body: () => `<p>${esc(PAGE_META['/teachings'].description)}</p>` + subjects(),
   },
   {
     path: '/testimonials', file: 'testimonials.html',
@@ -108,6 +173,7 @@ const ROUTES: Route[] = [
   },
   ...COURSES.map((c): Route => ({
     path: `/courses/${c.slug}`, file: `courses/${c.slug}.html`,
+    schema: () => [courseSchema(c), person(), breadcrumbs([['Home', '/'], ['Courses', '/teachings'], [c.title, `/courses/${c.slug}`]])],
     h1: `${c.title} (${c.devanagari}) with ${ACHARYA_NAME}`,
     body: () =>
       `<p><a href="/teachings">All courses</a> › ${esc(c.title)}</p>` +
@@ -144,6 +210,15 @@ function render(template: string, route: Route): string {
   html = setMeta(html, 'name', 'twitter:title', meta.title);
   html = setMeta(html, 'name', 'twitter:description', meta.description);
   html = html.replace(/(<link rel="canonical" href=")[^"]*(")/, (_m, a, b) => a + url + b);
+
+  // The home FAQ schema must only sit on pages that actually show that FAQ.
+  if (route.path !== '/') {
+    html = html.replace(/\s*<script type="application\/ld\+json">(?:(?!<\/script>)[\s\S])*?"FAQPage"[\s\S]*?<\/script>/, '');
+  }
+  if (route.schema) {
+    const ld = JSON.stringify({ '@context': 'https://schema.org', '@graph': route.schema() }).replace(/</g, '\\u003c');
+    html = html.replace('</head>', () => `    <script type="application/ld+json">${ld}</script>\n  </head>`);
+  }
 
   const shell =
     '<style>#prerender{max-width:860px;margin:0 auto;padding:96px 20px 48px;line-height:1.65;color:#FAF6EE}' +

@@ -1,19 +1,42 @@
 # Vishweshwara Sanskrit
 
-> Vishweshwara Sanskrit is a traditional online Gurukula for Sanskrit, the Vedas and the Bhagavad Gita, led by Acharya Vishweshwara N M (Bangalore, Karnataka, India). Classes are live and online for students worldwide, with a focus on authentic pronunciation, grammar, Indian culture and values.
+> Vishweshwara Sanskrit is an online Gurukula led by Acharya Vishweshwara N M, a Sanskrit and Vedic teacher based in Bengaluru, India. He studied for seven years (2018–2025) at Veda Vijnana Gurukulam, Bengaluru, and teaches Sanskrit, Krishna Yajurveda chanting, the Bhagavad Gita, Advaita Vedanta and stotras in live online classes to children and adults in India, the USA, Australia, the UAE and other countries.
 
 ## Key pages
-- [Home](https://vishweshwarasanskrit.com/): Overview of the Gurukula and its teaching approach
-- [About the Acharya](https://vishweshwarasanskrit.com/about): Background, training and lineage of Acharya Vishweshwara
-- [Teachings](https://vishweshwarasanskrit.com/teachings): Sanskrit, Bhagavad Gita and Krishna Yajurveda programmes
-- [Samskrita Foundation Program, Cohort 2026](https://vishweshwarasanskrit.com/cohort-november-2026/): Live online Sanskrit for children aged 8 to 14
-- [Begin your journey](https://vishweshwarasanskrit.com/begin): Enquiry and enrolment
-- [Testimonials](https://vishweshwarasanskrit.com/testimonials): Student and parent feedback
-- [Guru Dakshina](https://vishweshwarasanskrit.com/dakshina): Support the Gurukula
+- [Home](https://vishweshwarasanskrit.com/): overview of the Gurukula and how it teaches
+- [About Acharya Vishweshwara N M](https://vishweshwarasanskrit.com/about): his Gurukula training, what he studied, and how he teaches
+- [All courses](https://vishweshwarasanskrit.com/teachings): the five subjects
+- [Sanskrit](https://vishweshwarasanskrit.com/courses/sanskrit): beginner to advanced; 18-month course for children aged 8–14
+- [Bhagavad Gita](https://vishweshwarasanskrit.com/courses/bhagavad-gita): word by word; stories for children, real-life application for adults
+- [Krishna Yajurveda](https://vishweshwarasanskrit.com/courses/krishna-yajurveda): traditional Vedic chanting following Shiksha; groups of 4–5 or one-to-one
+- [Advaita Vedanta](https://vishweshwarasanskrit.com/courses/advaita-vedanta): one-to-one only, from the Sanskrit texts in the tradition of Shankaracharya
+- [Stotras](https://vishweshwarasanskrit.com/courses/stotras): Vishnu Sahasranama, Lalita Sahasranama and other stotras
+- [Testimonials](https://vishweshwarasanskrit.com/testimonials): student and parent reviews, including verified Google reviews
+- [Begin / enquiry](https://vishweshwarasanskrit.com/begin): enquiry form, WhatsApp and the WhatsApp Community
+
+## Quick answers
+
+### Who is Acharya Vishweshwara N M?
+Acharya Vishweshwara N M is a Gurukula-trained Sanskrit and Vedic teacher based in Bengaluru, India. From 2018 to 2025 he lived and studied at Veda Vijnana Gurukulam in Bengaluru, learning Krishna Yajurveda (Taittiriya Samhita and Brahmana with svara), Vyakarana (Laghu Siddhanta Kaumudi and Siddhanta Kaumudi), Advaita Vedanta with Shankara Bhashya, Nyaya (Tarka Sangraha) and Mimamsa. He holds a Shastri (B.A.) degree with first class and an M.A. (Acharya). Today he teaches live online under the name Vishweshwara Sanskrit, to children and adults in India, the USA, Australia, the UAE and elsewhere. His teaching puts pronunciation first, reads texts word by word in the original, and keeps classes one-to-one or in small groups so every student is heard and corrected.
+
+### How can I learn Sanskrit online from scratch?
+At Vishweshwara Sanskrit, students start with sounds and the Devanagari script, then build sentences, then learn noun forms (shabda rupa) and verb forms (dhatu rupa), then sandhi, samasa and karaka, and finally read the Laghu Siddhanta Kaumudi. The path has three levels (beginner, intermediate, advanced) across six stages and usually takes 18 to 24 months. Classes are live and online. Adults can learn one-to-one at their own pace; children aged 8 to 14 can join the 18-month Samskrita Foundation Program in a live batch. Every class corrects pronunciation on the spot, and students write Devanagari by hand.
+
+### Where can my child learn Sanskrit or the Bhagavad Gita online?
+Acharya Vishweshwara N M teaches children from about eight years old, live and online. The Samskrita Foundation Program is an 18-month Sanskrit course for ages 8 to 14 with shlokas, stories, everyday words and careful grammar. For the Bhagavad Gita, children learn through stories from the Mahabharata, chant the verses clearly and learn them by heart, while adults study the same text word by word and apply it to real situations. Classes are one-to-one or in small groups, and parents can contact the Acharya on WhatsApp to find the right fit.
+
+### How is Krishna Yajurveda chanting taught here?
+Krishna Yajurveda is taught the traditional way, by mouth and ear, following Shiksha as stated in the Taittiriya Upanishad (Shikshavalli 1.2): varna (the letter), svara (pitch), matra (length), bala (effort), sama (evenness) and santana (the joining of sounds). The teacher says a line, the student repeats it, and it is corrected until it is right. Students move from the Shanti mantras and Ganapati Suktam to the major Suktams (Sri, Purusha, Durga, Medha and others), then Sri Rudram, Chamakam and Aruna Prashna, and finally the Taittiriya Upanishad and Maha Narayana Upanishad. Groups are limited to four or five students, or students can learn one-to-one.
+
+### Can I study Advaita Vedanta one-to-one online?
+Yes. Acharya Vishweshwara N M teaches Advaita Vedanta one-to-one only, reading the Sanskrit texts in the tradition of Adi Shankaracharya. Study begins with the foundations (pramana, anubandha chatushtaya, sadhana chatushtaya, jiva, Ishvara and jagat), moves through introductory texts such as Tattva Bodha, Atma Bodha, Vedantasara and Vedanta Paribhasha, and can continue to the Bhagavad Gita, the Upanishads and the Brahma Sutras with Shankara Bhashya. Tarka Sangraha and the Sanskrit grammar needed for Vedanta are studied alongside.
 
 ## Facts
-- Teacher: Acharya Vishweshwara N M, trained for 7+ years in the traditional Gurukula system; M.A. in Sanskrit
-- Subjects: Sanskrit language, Bhagavad Gita, Krishna Yajurveda, Vedanta, Upanishads, Shankara Bhashya
-- Format: live online classes, small batches
-- Location: Bangalore, India; students from India, USA, Australia, UAE and other countries
-- Contact: namaste@vishweshwarasanskrit.com
+- Teacher: Acharya Vishweshwara N M
+- Training: Veda Vijnana Gurukulam, Bengaluru, 2018–2025 (seven years, residential Gurukula)
+- Degrees: Shastri (B.A.), First Class; M.A. (Acharya)
+- Subjects: Sanskrit, Bhagavad Gita, Krishna Yajurveda chanting, Advaita Vedanta, stotras
+- Format: live online classes; one-to-one or small groups (Vedic chanting groups of 4–5; Advaita Vedanta one-to-one only)
+- Students: India, USA, Australia, UAE and other countries
+- Contact: namaste@vishweshwarasanskrit.com · WhatsApp +91 94826 98612
+- Reviews: https://share.google/YJDHCZgoFpiePUgA6
