@@ -4,6 +4,7 @@
 
 export const ACHARYA_NAME = 'Acharya Vishweshwara N M';
 export const WHATSAPP_NUMBER = '919482698612';
+export const WHATSAPP_COMMUNITY_URL = 'https://chat.whatsapp.com/K3vetutKPWf2uMfv04K9dZ';
 
 export const whatsappLink = (message: string) =>
   `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;

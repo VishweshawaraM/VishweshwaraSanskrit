@@ -3,6 +3,8 @@ import { ArrowLeft, MessageSquareCode, Mail, ArrowRight, Clock, ShieldCheck, Che
 import { PageView } from '../types';
 import { FadeInSection } from '../components/FadeInSection';
 import { Button } from '../components/Button';
+import { WhatsAppIcon } from '../components/WhatsAppIcon';
+import { WHATSAPP_COMMUNITY_URL } from '../courses';
 import confetti from 'canvas-confetti';
 import { playChime } from '../lib/audio';
 
@@ -134,6 +136,29 @@ export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
                   <p className="font-sans text-xs text-text-secondary mt-0.5">Weekdays (Evening) & Weekends (Full-Day)</p>
                 </div>
              </div>
+          </FadeInSection>
+
+          <FadeInSection delay={500}>
+            <div className="p-6 rounded-lg border border-[#25D366]/30 bg-surface-2 space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-10 rounded-full bg-[#25D366]/10 border border-[#25D366]/40 flex items-center justify-center shrink-0">
+                  <WhatsAppIcon className="w-5 h-5 text-[#25D366]" aria-hidden="true" />
+                </div>
+                <h4 className="font-serif text-lg text-text-primary font-semibold">Join the WhatsApp Community</h4>
+              </div>
+              <p className="font-sans text-sm text-text-secondary leading-relaxed">
+                Hear first about free open classes, new batches and short teachings from the Acharya. Tap below and it opens in WhatsApp; just press Join.
+              </p>
+              <a
+                href={WHATSAPP_COMMUNITY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-[#25D366] hover:brightness-110 text-[#0A0805] font-mono text-[11px] tracking-widest uppercase font-semibold transition-all"
+              >
+                <WhatsAppIcon className="w-4 h-4" aria-hidden="true" />
+                <span>Join the Community</span>
+              </a>
+            </div>
           </FadeInSection>
         </div>
 

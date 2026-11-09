@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import { ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react';
+import { WhatsAppIcon } from './WhatsAppIcon';
+import { WHATSAPP_COMMUNITY_URL } from '../courses';
 
 interface Slide {
   image: string;
@@ -106,6 +108,17 @@ export function HeroSlideshow({ slides, interval = 5000, onBeginClick, onExplore
                 >
                   Explore Teachings
                 </button>
+              </div>
+              <div className="flex justify-center md:justify-end mt-5 px-4 md:px-0">
+                <a
+                  href={WHATSAPP_COMMUNITY_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black/40 backdrop-blur-sm border border-[#25D366]/40 hover:border-[#25D366] text-white/90 hover:text-white font-mono text-[11px] tracking-widest uppercase transition-colors"
+                >
+                  <WhatsAppIcon className="w-4 h-4 text-[#25D366]" aria-hidden="true" />
+                  <span>Join our WhatsApp Community</span>
+                </a>
               </div>
             </motion.div>
           </AnimatePresence>
