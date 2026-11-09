@@ -167,6 +167,9 @@ export const HeroFireworks: React.FC<{ lampsRef: React.RefObject<HTMLDivElement 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const launchRef = useFireworks(canvasRef);
   const [greet, setGreet] = useState<'hidden' | 'shown' | 'leaving'>('hidden');
+  const [sky, setSky] = useState(false); // the whole screen turns into a night sky
+  // bright copies of the lamps, drawn above the night sky so they keep glowing
+  const [glowLamps, setGlowLamps] = useState<{ x: number; y: number; s: number }[]>([]);
 
   useEffect(() => {
     if (prefersReducedMotion()) return;
@@ -185,6 +188,12 @@ export const HeroFireworks: React.FC<{ lampsRef: React.RefObject<HTMLDivElement 
         return { x: r.left + r.width / 2 - c.left, y: r.top - c.top + 4 };
       });
       launchRef.current(origins);
+      setGlowLamps(all.map(el => {
+        const r = el.getBoundingClientRect();
+        return { x: r.left - c.left, y: r.top - c.top, s: r.width };
+      }));
+      setSky(true);
+      timers.push(window.setTimeout(() => setSky(false), 1100 + 5800));
       // The greeting appears with the first burst and fades as the sky clears.
       timers.push(window.setTimeout(() => setGreet('shown'), 1100));
       timers.push(window.setTimeout(() => setGreet('leaving'), 1100 + 5600));
@@ -200,11 +209,25 @@ export const HeroFireworks: React.FC<{ lampsRef: React.RefObject<HTMLDivElement 
 
   return (
     <>
-      <canvas ref={canvasRef} className="pointer-events-none absolute inset-0 w-full h-full z-[25]" aria-hidden="true" />
+      {/* night sky: dims the whole screen while the fireworks play */}
+      <div
+        className={`deepa-night pointer-events-none fixed inset-0 z-[57] transition-opacity duration-[900ms] ease-in-out ${sky ? 'opacity-100' : 'opacity-0'}`}
+        aria-hidden="true"
+      />
+      {glowLamps.length > 0 && (
+        <div className={`pointer-events-none absolute inset-0 z-[58] transition-opacity duration-[900ms] ${sky ? 'opacity-100' : 'opacity-0'}`} aria-hidden="true">
+          {glowLamps.map((l, i) => (
+            <div key={i} className="absolute" style={{ left: l.x, top: l.y }}>
+              <Diya size={l.s} delay={0} />
+            </div>
+          ))}
+        </div>
+      )}
+      <canvas ref={canvasRef} className="pointer-events-none absolute inset-0 w-full h-full z-[58]" aria-hidden="true" />
       {greet !== 'hidden' && (
         <div
           role="status"
-          className={`pointer-events-none fixed md:absolute z-[56] md:z-[26] left-4 right-4 top-[38%] md:right-auto md:left-[6%] md:top-[26%] px-5 py-4 md:p-0 rounded-2xl bg-black/75 md:bg-transparent border border-gold-dim md:border-0 backdrop-blur-sm md:backdrop-blur-none text-center md:text-left transition-all duration-[1400ms] ease-out ${
+          className={`pointer-events-none fixed md:absolute z-[59] left-4 right-4 top-[38%] md:right-auto md:left-[6%] md:top-[26%] px-5 py-4 md:p-0 rounded-2xl bg-black/75 md:bg-transparent border border-gold-dim md:border-0 backdrop-blur-sm md:backdrop-blur-none text-center md:text-left transition-all duration-[1400ms] ease-out ${
             greet === 'shown' ? 'opacity-100' : 'opacity-0'
           }`}
         >
