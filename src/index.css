@@ -3,6 +3,7 @@
 @theme {
   --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
   --font-display: "Bricolage Grotesque", sans-serif;
+  --font-condensed: "Anton", "Bricolage Grotesque", Impact, sans-serif;
   --font-serif: "Cormorant Garamond", Georgia, serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
   --font-devanagari: "Noto Serif Devanagari", serif;
