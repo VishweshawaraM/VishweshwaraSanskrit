@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import { ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react';
 import { WhatsAppIcon } from './WhatsAppIcon';
+import { DeepaPankti, isDeepavaliSeason } from './Deepavali';
 import { WHATSAPP_COMMUNITY_URL } from '../courses';
 
 interface Slide {
@@ -51,6 +52,7 @@ export function HeroSlideshow({ slides, interval = 5000, onBeginClick, onExplore
 
   return (
     <div className="relative w-full min-h-[100svh] overflow-hidden bg-[#0E0B07] text-white">
+      {isDeepavaliSeason() && <DeepaPankti />}
       {/* Background Image Slideshow with Parallax */}
       <motion.div style={{ y: yParallax }} className="absolute inset-[-10%] w-[120%] h-[120%] z-0 pointer-events-none">
         <AnimatePresence mode="popLayout" initial={false} custom={direction}>

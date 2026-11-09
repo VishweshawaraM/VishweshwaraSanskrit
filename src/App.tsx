@@ -7,6 +7,7 @@ import { Footer } from './components/Footer';
 import { MobileBottomBar } from './components/MobileBottomBar';
 import { CommonCTA } from './components/CommonCTA';
 import { WhatsAppWidget } from './components/WhatsAppWidget';
+import { FestiveSparks, DeepavaliGreeting, isDeepavaliSeason } from './components/Deepavali';
 import { PageNavigation } from './components/PageNavigation';
 import { PageView } from './types';
 import { MetaTagsManager } from './components/MetaTagsManager';
@@ -140,6 +141,14 @@ const AppContent = () => {
 
       {/* 6. Global WhatsApp Floating Widget */}
       <WhatsAppWidget />
+
+      {/* 7. Deepavali 2026 (switches itself off after 15 Nov) */}
+      {isDeepavaliSeason() && showStandardChrome && (
+        <>
+          <FestiveSparks />
+          <DeepavaliGreeting />
+        </>
+      )}
     </div>
   );
 };

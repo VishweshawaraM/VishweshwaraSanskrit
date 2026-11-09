@@ -112,3 +112,35 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* ── Deepavali 2026 (auto-hidden after 15 Nov; see components/Deepavali.tsx) ── */
+.deepa-flame, .deepa-glow { opacity: 0; transform-box: fill-box; }
+.deepa-greeting { opacity: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .deepa-flame {
+    animation: deepa-light 0.7s ease-out var(--deepa-delay, 0ms) forwards,
+               deepa-flicker 1.6s ease-in-out calc(var(--deepa-delay, 0ms) + 0.7s) infinite alternate;
+    transform-origin: 50% 100%;
+  }
+  .deepa-glow {
+    animation: deepa-glow-in 0.9s ease-out var(--deepa-delay, 0ms) forwards,
+               deepa-breathe 2.4s ease-in-out calc(var(--deepa-delay, 0ms) + 0.9s) infinite alternate;
+    transform-origin: 50% 50%;
+  }
+  .deepa-greeting { animation: deepa-fade 1.2s ease-out var(--deepa-delay, 0ms) forwards; }
+  .deepa-card { animation: deepa-rise 0.6s cubic-bezier(.2,.8,.2,1) both; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .deepa-flame, .deepa-glow, .deepa-greeting { opacity: 1; }
+}
+@keyframes deepa-light { from { opacity: 0; transform: scale(0.2, 0.1); } to { opacity: 1; transform: scale(1, 1); } }
+@keyframes deepa-flicker {
+  0% { transform: scale(1, 1) skewX(0deg); }
+  30% { transform: scale(0.96, 1.05) skewX(2deg); }
+  60% { transform: scale(1.03, 0.97) skewX(-2deg); }
+  100% { transform: scale(0.98, 1.04) skewX(1deg); }
+}
+@keyframes deepa-glow-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes deepa-breathe { from { opacity: 0.75; transform: scale(0.94); } to { opacity: 1; transform: scale(1.06); } }
+@keyframes deepa-fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes deepa-rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
