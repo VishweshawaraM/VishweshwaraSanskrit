@@ -3,6 +3,7 @@ import path from 'path';
 import type { Plugin } from 'vite';
 import { PAGE_META } from './src/utils/seoData';
 import { COURSES, ACHARYA_NAME, whatsappLink } from './src/courses';
+import { SP, SP_FREE_CLASSES, SP_GAINS, SP_HOW, SP_DAKSHINA, SP_COMMUNITY, SP_FAQ } from './src/samskaraPravesha';
 import { ABOUT_STORY, ABOUT_STUDIES, ABOUT_DEGREES, ABOUT_FAQ } from './src/aboutContent';
 import { SUBJECTS_ITEMS, STATS_ITEMS, CREDENTIALS_ITEMS, TESTIMONIALS_ITEMS, TIMELINE_ITEMS, FAQ_ITEMS } from './src/data';
 
@@ -170,6 +171,30 @@ const ROUTES: Route[] = [
       '<p>Request a free 15-minute consultation by WhatsApp or the enquiry form on this page.</p>' +
       '<p><a href="https://wa.me/919482698612">WhatsApp</a> · <a href="mailto:namaste@vishweshwarasanskrit.com">namaste@vishweshwarasanskrit.com</a></p>' +
       faq(),
+  },
+  {
+    path: '/samskara-pravesha', file: 'samskara-pravesha.html',
+    h1: `${SP.name}: Sanskrit for children aged ${SP.ages}`,
+    body: () =>
+      `<p lang="kn">${esc(SP.kannadaLine)}</p><p>${esc(PAGE_META['/samskara-pravesha'].description)}</p>` +
+      `<p>Starts ${esc(SP.start)} · ${esc(SP.schedule)} · ${SP.levels} levels × ${SP.sessionsPerLevel} classes · ${SP.months} months. ${esc(SP.breakNote)}</p>` +
+      '<h2>What your child gains</h2>' + SP_GAINS.map(g => `<h3>${esc(g.title)}</h3><p>${esc(g.text)}</p>`).join('') +
+      '<h2>How classes run</h2>' + SP_HOW.map(h => `<h3>${esc(h.title)}</h3><p>${esc(h.text)}</p>`).join('') +
+      '<h2>Free open classes</h2><ul>' + SP_FREE_CLASSES.map(c => `<li>${esc(c.long)}</li>`).join('') + '</ul>' +
+      '<h2>Guru Dakshina</h2><ul>' + SP_DAKSHINA.map(d => `<li>${esc(d.title)}: ${esc(d.amount)}${d.was ? ` (instead of ${esc(d.was)})` : ''}, ${esc(d.note)}</li>`).join('') + `<li>${esc(SP_COMMUNITY.note)}: ${esc(SP_COMMUNITY.amount)}</li></ul>` +
+      '<h2>Questions parents ask</h2>' + SP_FAQ.map(f => `<h3>${esc(f.question)}</h3><p>${esc(f.answer)}</p>`).join(''),
+    schema: () => [
+      {
+        '@type': 'Course', '@id': SITE + '/samskara-pravesha#course', name: SP.name,
+        description: PAGE_META['/samskara-pravesha'].description, url: SITE + '/samskara-pravesha',
+        inLanguage: ['kn', 'en', 'sa'], provider: { '@id': ORG_ID }, instructor: { '@id': PERSON_ID },
+        audience: { '@type': 'EducationalAudience', educationalRole: 'student', audienceType: 'Children aged 8–14' },
+        hasCourseInstance: { '@type': 'CourseInstance', courseMode: 'online', startDate: '2026-12-07', courseSchedule: { '@type': 'Schedule', byDay: ['https://schema.org/Monday', 'https://schema.org/Friday'], startTime: '18:00', endTime: '19:00', scheduleTimezone: 'Asia/Kolkata', repeatFrequency: 'P1W' }, instructor: { '@id': PERSON_ID } },
+      },
+      person(),
+      faqPage(SP_FAQ),
+      breadcrumbs([['Home', '/'], ['Samskrita Samskara Pravesha', '/samskara-pravesha']]),
+    ],
   },
   ...COURSES.map((c): Route => ({
     path: `/courses/${c.slug}`, file: `courses/${c.slug}.html`,

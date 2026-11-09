@@ -1,0 +1,349 @@
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowRight, ArrowUpRight, CalendarDays, CheckCircle, Clock, Users, Languages, Loader2 } from 'lucide-react';
+import { FadeInSection } from '../components/FadeInSection';
+import { FAQ } from '../components/FAQ';
+import { WhatsAppIcon } from '../components/WhatsAppIcon';
+import { ACHARYA_NAME, WHATSAPP_COMMUNITY_URL, whatsappLink } from '../courses';
+import { SP, SP_FREE_CLASSES, SP_GAINS, SP_HOW, SP_DAKSHINA, SP_COMMUNITY, SP_FAQ } from '../samskaraPravesha';
+
+const Label: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => (
+  <span className={`font-mono text-[10px] md:text-xs tracking-[0.22em] uppercase text-text-gold block ${className}`}>{children}</span>
+);
+
+const field = 'w-full bg-surface-2 border border-gold-dim focus:border-gold-bright outline-none rounded-lg px-4 py-3 font-sans text-sm text-text-primary placeholder:text-text-tertiary transition-colors';
+
+const RegisterForm: React.FC = () => {
+  const [state, setState] = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
+  const [choice, setChoice] = useState<string>(SP_FREE_CLASSES[0].id);
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const f = new FormData(e.currentTarget);
+    if ((f.get('website') as string)?.trim()) { setState('done'); return; } // quiet spam trap
+
+    const freeClass = SP_FREE_CLASSES.find(c => c.id === choice);
+    const wants = choice === 'enrol' ? 'Enrol directly in Level 1' : `Free open class: ${freeClass?.long ?? choice}`;
+    const data = {
+      name: (f.get('parent') as string).trim(),
+      email: (f.get('email') as string).trim(),
+      phone: (f.get('phone') as string).trim(),
+      subject: `${SP.name} · ${choice === 'enrol' ? 'Enrol' : 'Free class'}`,
+      timezone: ((f.get('city') as string) || '').trim(),
+      background: [
+        `Child: ${(f.get('child') as string).trim()}, age ${f.get('age')}`,
+        `Language: ${f.get('language')}`,
+        `Preferred time: ${f.get('slot')}`,
+      ].join(' · '),
+      message: wants,
+    };
+
+    setState('sending');
+    try {
+      const { saveLead } = await import('../lib/firebase');
+      await saveLead(data);
+      const { sendNotificationEmail } = await import('../lib/emailjs');
+      await sendNotificationEmail(data);
+      setState('done');
+    } catch {
+      setState('error');
+    }
+  };
+
+  if (state === 'done') {
+    const enrolling = choice === 'enrol';
+    return (
+      <div className="p-8 md:p-10 rounded-2xl border border-gold-mid bg-surface-1 text-left space-y-5" role="status">
+        <p className="font-devanagari text-3xl text-gold-bright">धन्यवादः</p>
+        <h3 className="font-serif text-2xl md:text-3xl text-text-primary font-semibold">Thank you. Your request has reached the Acharya.</h3>
+        <p className="font-sans text-sm text-text-secondary leading-relaxed">
+          {enrolling
+            ? 'You will receive a WhatsApp message within a day with the class link and details. You can also offer the Guru Dakshina for Level 1 now to confirm a Founding seat.'
+            : 'You will receive a WhatsApp message within a day with the link for your free open class. Please keep your child’s notebook and pencil ready.'}
+        </p>
+        <div className="flex flex-col sm:flex-row gap-3">
+          {enrolling && (
+            <a href={SP.razorpay} target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg bg-gradient-to-r from-gold-base to-gold-bright text-ground font-mono text-[11px] tracking-widest uppercase font-semibold hover:brightness-110">
+              Offer Guru Dakshina <ArrowUpRight className="w-4 h-4" />
+            </a>
+          )}
+          <a href={WHATSAPP_COMMUNITY_URL} target="_blank" rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg border border-gold-mid text-text-primary hover:text-gold-bright hover:border-gold-bright font-mono text-[11px] tracking-widest uppercase">
+            <WhatsAppIcon className="w-4 h-4 text-gold-bright" aria-hidden="true" /> Join the WhatsApp Community
+          </a>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={onSubmit} className="p-6 md:p-10 rounded-2xl border border-gold-mid bg-surface-1 text-left space-y-6">
+      <fieldset className="space-y-3">
+        <legend className="font-mono text-[10px] tracking-[0.2em] uppercase text-text-gold mb-3">I would like to</legend>
+        <div className="grid grid-cols-2 gap-2">
+          {SP_FREE_CLASSES.map(c => (
+            <label key={c.id} className={`cursor-pointer rounded-lg border px-3 py-3 text-center font-sans text-sm transition-colors ${choice === c.id ? 'border-gold-bright bg-gold-base/15 text-text-primary' : 'border-gold-dim text-text-secondary hover:border-gold-mid'}`}>
+              <input type="radio" name="choice" value={c.id} checked={choice === c.id} onChange={() => setChoice(c.id)} className="sr-only" />
+              Free class · {c.label}
+            </label>
+          ))}
+        </div>
+        <label className={`cursor-pointer block rounded-lg border px-3 py-3 text-center font-sans text-sm transition-colors ${choice === 'enrol' ? 'border-gold-bright bg-gold-base/15 text-text-primary' : 'border-gold-dim text-text-secondary hover:border-gold-mid'}`}>
+          <input type="radio" name="choice" value="enrol" checked={choice === 'enrol'} onChange={() => setChoice('enrol')} className="sr-only" />
+          Enrol directly in Level 1 (starts {SP.startShort})
+        </label>
+      </fieldset>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <label className="space-y-1.5"><span className="font-sans text-xs text-text-secondary">Parent’s name *</span><input name="parent" required maxLength={120} className={field} autoComplete="name" /></label>
+        <label className="space-y-1.5"><span className="font-sans text-xs text-text-secondary">WhatsApp number *</span><input name="phone" required type="tel" maxLength={20} pattern="[0-9+ ()-]{8,20}" placeholder="+91" className={field} autoComplete="tel" /></label>
+        <label className="space-y-1.5 sm:col-span-2"><span className="font-sans text-xs text-text-secondary">Email *</span><input name="email" required type="email" maxLength={200} className={field} autoComplete="email" /></label>
+        <label className="space-y-1.5"><span className="font-sans text-xs text-text-secondary">Child’s name *</span><input name="child" required maxLength={80} className={field} /></label>
+        <label className="space-y-1.5"><span className="font-sans text-xs text-text-secondary">Child’s age *</span>
+          <select name="age" required defaultValue="" className={field}>
+            <option value="" disabled>Select</option>
+            {[8, 9, 10, 11, 12, 13, 14, 15].map(a => <option key={a} value={a}>{a}</option>)}
+          </select>
+        </label>
+        <label className="space-y-1.5"><span className="font-sans text-xs text-text-secondary">Language at home</span>
+          <select name="language" defaultValue="Kannada" className={field}>
+            <option>Kannada</option><option>English</option><option>Kannada and English</option><option>Other</option>
+          </select>
+        </label>
+        <label className="space-y-1.5"><span className="font-sans text-xs text-text-secondary">City</span><input name="city" maxLength={80} className={field} autoComplete="address-level2" /></label>
+        <label className="space-y-1.5 sm:col-span-2"><span className="font-sans text-xs text-text-secondary">Which class time suits your child?</span>
+          <select name="slot" defaultValue="Mon & Fri, 6–7 PM IST" className={field}>
+            <option>Mon & Fri, 6–7 PM IST</option><option>Weekend morning</option><option>Either is fine</option>
+          </select>
+        </label>
+      </div>
+      {/* spam trap: real people never see or fill this */}
+      <input name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
+
+      {state === 'error' && (
+        <p className="font-sans text-sm text-text-primary border border-gold-mid rounded-lg p-3">
+          Sorry, that didn’t go through. Please try again, or message the Acharya directly on WhatsApp at +91 94826 98612.
+        </p>
+      )}
+      <button type="submit" disabled={state === 'sending'}
+        className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-lg bg-gradient-to-r from-gold-base to-gold-bright text-ground font-mono text-xs tracking-widest uppercase font-semibold hover:brightness-110 disabled:opacity-60">
+        {state === 'sending' ? <><Loader2 className="w-4 h-4 animate-spin" /> Sending…</> : <>{choice === 'enrol' ? 'Reserve a Founding seat' : 'Book the free class'} <ArrowRight className="w-4 h-4" /></>}
+      </button>
+      <p className="font-sans text-[11px] text-text-tertiary text-center">Your details are used only to contact you about this programme.</p>
+    </form>
+  );
+};
+
+export const SamskaraPraveshaView: React.FC = () => {
+  const facts = [
+    { icon: CalendarDays, k: 'Starts', v: SP.startShort + ' 2026' },
+    { icon: Clock, k: 'Classes', v: 'Mon & Fri · 6–7 PM IST' },
+    { icon: Users, k: `${SP.cohort} cohort`, v: SP.seatsLeft === SP.seats ? `Only ${SP.seats} seats` : `${SP.seatsLeft} seats left` },
+    { icon: Languages, k: 'Taught in', v: 'Kannada & English' },
+  ];
+
+  return (
+    <div className="overflow-x-clip">
+      {/* ── HERO ── */}
+      <section className="relative pt-28 md:pt-32 pb-14 px-4 md:px-12 bg-ground border-b border-gold-mid">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_60%_at_80%_40%,rgba(224,163,46,0.12),transparent_70%)] pointer-events-none" />
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative">
+          <div className="lg:col-span-7 text-left space-y-6">
+            <FadeInSection direction="up" delay={50}>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-2 pl-1.5 pr-4 py-1.5 rounded-full bg-gold-bright text-ground font-mono text-[10px] md:text-[11px] tracking-[0.14em] uppercase font-bold">
+                  <span className="w-6 h-6 rounded-full bg-ground text-gold-bright grid place-items-center text-xs" aria-hidden="true">★</span>
+                  {SP.cohort} cohort · {SP.seatsLeft === SP.seats ? `Only ${SP.seats} seats` : `${SP.seatsLeft} seats left`}
+                </span>
+                <span className="px-3 py-1.5 rounded-full border border-gold-mid font-mono text-[10px] md:text-[11px] tracking-[0.14em] uppercase text-text-primary">Ages {SP.ages} · Live online</span>
+              </div>
+            </FadeInSection>
+            <FadeInSection direction="up" delay={120}>
+              <h1 className="space-y-1">
+                <span className="block font-serif font-bold text-text-primary text-[clamp(2.6rem,7vw,5.2rem)] leading-[0.95]">Don’t just memorise shlokas.</span>
+                <span className="block font-serif italic font-semibold text-gold-bright text-[clamp(2.6rem,7vw,5.2rem)] leading-[0.95]">Understand Sanskrit.</span>
+              </h1>
+            </FadeInSection>
+            <FadeInSection direction="up" delay={200}>
+              <div className="space-y-2">
+                <p className="font-kannada font-bold text-xl md:text-2xl text-text-primary">{SP.kannadaLine}</p>
+                <p className="font-sans text-sm md:text-base text-text-secondary leading-relaxed max-w-xl">
+                  <strong className="text-text-primary font-semibold">{SP.name}</strong> is an 18-month Sanskrit programme for children,
+                  with the Bhagavad Gita and value shlokas woven in, taught live by {ACHARYA_NAME}.
+                </p>
+              </div>
+            </FadeInSection>
+            <FadeInSection direction="up" delay={260}>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <a href="#register" className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-lg bg-gradient-to-r from-gold-base to-gold-bright text-ground font-mono text-xs tracking-widest uppercase font-semibold hover:brightness-110">
+                  Book a free class <ArrowRight className="w-4 h-4" />
+                </a>
+                <a href={whatsappLink(`Hari Om Acharya ji, I would like to know about ${SP.name} for my child.`)} target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-lg border border-gold-mid text-text-primary hover:border-gold-bright hover:text-gold-bright font-mono text-xs tracking-widest uppercase">
+                  <WhatsAppIcon className="w-4 h-4 text-gold-bright" aria-hidden="true" /> Ask on WhatsApp
+                </a>
+              </div>
+            </FadeInSection>
+          </div>
+
+          <div className="lg:col-span-5 relative h-[380px] sm:h-[460px]">
+            <div className="absolute right-0 top-0 bottom-0 w-[70%] bg-gold-base rounded-t-sm" aria-hidden="true" />
+            <p className="absolute right-3 top-3 sm:right-4 sm:top-4 font-devanagari text-ground/80 text-sm sm:text-lg" aria-hidden="true">{SP.devanagari}</p>
+            <img src="/acharya-portrait.webp" alt={ACHARYA_NAME} width={1024} height={1065} fetchPriority="high"
+              className="absolute bottom-0 right-0 h-[94%] w-auto max-w-none object-contain object-bottom drop-shadow-[0_20px_40px_rgba(0,0,0,0.55)]" />
+          </div>
+        </div>
+
+        <div className="max-w-7xl mx-auto mt-12 grid grid-cols-2 md:grid-cols-4 border border-gold-mid bg-surface-1">
+          {facts.map((f, i) => (
+            <div key={f.k} className={`p-5 md:p-6 text-left flex gap-3 items-start ${i % 2 ? 'border-l border-gold-dim' : ''} ${i >= 2 ? 'border-t md:border-t-0 border-gold-dim' : ''} ${i === 2 ? 'md:border-l' : ''}`}>
+              <f.icon className="w-5 h-5 text-gold-bright shrink-0 mt-0.5" aria-hidden="true" />
+              <div className="min-w-0">
+                <p className="font-mono text-[10px] tracking-[0.18em] uppercase text-text-tertiary">{f.k}</p>
+                <p className="font-sans text-sm md:text-base text-text-primary font-semibold mt-1">{f.v}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <div className="space-y-24 md:space-y-28 pt-20 md:pt-24">
+        {/* ── GAINS ── */}
+        <section className="px-4 md:px-12">
+          <div className="max-w-7xl mx-auto space-y-10">
+            <div className="text-left max-w-2xl space-y-3">
+              <Label>What your child gains</Label>
+              <h2 className="font-serif font-bold text-[clamp(2.2rem,5vw,3.4rem)] text-text-primary leading-[1]">Sanskrit, shlokas <span className="italic font-semibold text-gold-bright">and samskara.</span></h2>
+              <p className="font-sans text-sm md:text-base text-text-secondary leading-relaxed">After 18 months, your child speaks simple Sanskrit with confidence, chants correctly, and carries shlokas and their meaning for life.</p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {SP_GAINS.map((g, i) => (
+                <FadeInSection key={g.title} direction="up" delay={100 + i * 70}>
+                  <div className="h-full p-6 rounded-xl bg-surface-2 border border-gold-dim hover:border-gold-mid transition-colors text-left space-y-3">
+                    <p className="font-devanagari text-3xl text-gold-bright font-bold">{g.deva}</p>
+                    <h3 className="font-display font-bold text-lg text-text-primary">{g.title}</h3>
+                    <p className="font-sans text-sm text-text-secondary leading-relaxed">{g.text}</p>
+                  </div>
+                </FadeInSection>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── JOURNEY ── */}
+        <section className="px-4 md:px-12">
+          <div className="max-w-7xl mx-auto border border-gold-mid bg-surface-1 p-6 md:p-12 space-y-10">
+            <div className="text-left space-y-3">
+              <Label>One clear path</Label>
+              <h2 className="font-serif font-bold text-[clamp(2.2rem,5vw,3.4rem)] text-text-primary leading-[1]">18 months. <span className="italic font-semibold text-gold-bright">6 levels.</span> 144 live classes.</h2>
+            </div>
+            <ol className="grid grid-cols-3 md:grid-cols-6 gap-3">
+              {Array.from({ length: SP.levels }).map((_, i) => (
+                <li key={i} className={`rounded-xl p-4 text-center border ${i === 0 ? 'bg-gradient-to-br from-gold-base to-gold-bright border-gold-bright text-ground' : 'border-gold-dim text-text-primary'}`}>
+                  <p className="font-mono text-[10px] tracking-[0.18em] uppercase opacity-80">Level</p>
+                  <p className="font-display font-bold text-3xl leading-tight">{i + 1}</p>
+                  <p className={`font-sans text-[11px] mt-1 ${i === 0 ? 'text-ground/80' : 'text-text-tertiary'}`}>{i === 0 ? `Starts ${SP.startShort}` : '24 classes'}</p>
+                </li>
+              ))}
+            </ol>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
+              {SP_HOW.map(h => (
+                <div key={h.title} className="border-l-2 border-gold-base pl-4 space-y-1.5">
+                  <h3 className="font-display font-bold text-sm uppercase tracking-wide text-text-primary">{h.title}</h3>
+                  <p className="font-sans text-sm text-text-secondary leading-relaxed">{h.text}</p>
+                </div>
+              ))}
+            </div>
+            <p className="font-sans text-xs text-text-tertiary text-left">{SP.breakNote}</p>
+          </div>
+        </section>
+
+        {/* ── ACHARYA ── */}
+        <section className="px-4 md:px-12">
+          <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 items-center text-left">
+            <div className="md:col-span-4 relative h-[300px] overflow-hidden rounded-xl max-w-xs w-full">
+              <div className="absolute inset-x-6 top-10 bottom-0 bg-gold-base rounded-t-lg" aria-hidden="true" />
+              <img src="/acharya-portrait.webp" alt="" loading="lazy" width={1024} height={1065} className="absolute bottom-0 left-1/2 -translate-x-1/2 h-full w-auto max-w-none object-contain object-bottom" />
+            </div>
+            <div className="md:col-span-8 space-y-4">
+              <Label>Your child’s teacher</Label>
+              <h2 className="font-serif font-bold text-[clamp(2rem,4.5vw,3rem)] text-text-primary leading-[1]">{ACHARYA_NAME}</h2>
+              <p className="font-sans text-[15px] text-text-secondary leading-relaxed">
+                I studied for seven years, from 2018 to 2025, at Veda Vijnana Gurukulam in Bengaluru: Sanskrit grammar, Krishna Yajurveda and the Bhagavad Gita with its classical commentary.
+                Today I teach children and adults online. With children, my aim is simple: clean pronunciation, real understanding, and the quiet confidence a Gurukula gives.
+              </p>
+              <Link to="/about" className="inline-flex items-center gap-1.5 font-mono text-[11px] tracking-[0.18em] uppercase text-text-gold hover:text-gold-bright">
+                More about the Acharya <ArrowUpRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* ── GURU DAKSHINA ── */}
+        <section className="px-4 md:px-12">
+          <div className="max-w-6xl mx-auto space-y-10">
+            <div className="text-center space-y-3">
+              <Label>Guru Dakshina</Label>
+              <h2 className="font-serif font-bold text-[clamp(2.2rem,5vw,3.4rem)] text-text-primary leading-[1]">Choose what suits your family</h2>
+              <p className="font-sans text-sm text-text-secondary max-w-xl mx-auto">Each live class is valued at about ₹225. The free open class comes first, so you decide only after your child has tried it.</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              {SP_DAKSHINA.map(d => (
+                <div key={d.title} className={`relative p-7 rounded-2xl text-left space-y-3 border ${d.best ? 'border-gold-bright bg-surface-1' : 'border-gold-dim bg-surface-2'}`}>
+                  {d.best && <span className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-gold-bright text-ground font-mono text-[9px] tracking-[0.18em] uppercase font-bold">Most committed</span>}
+                  <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-text-tertiary">{d.title}</p>
+                  <p className="flex items-baseline gap-3 flex-wrap">
+                    <span className="font-display font-bold text-4xl text-gold-bright">{d.amount}</span>
+                    {d.was && <s className="font-sans text-base text-text-tertiary">{d.was}</s>}
+                  </p>
+                  <p className="font-sans text-sm text-text-primary">{d.note}</p>
+                  <p className="font-sans text-sm text-text-secondary leading-relaxed">{d.detail}</p>
+                </div>
+              ))}
+            </div>
+            <a href={WHATSAPP_COMMUNITY_URL} target="_blank" rel="noopener noreferrer"
+              className="max-w-3xl mx-auto p-6 rounded-xl border border-gold-bright bg-surface-1 flex flex-col sm:flex-row gap-4 sm:items-center justify-between text-left hover:bg-surface-2 transition-colors">
+              <div className="flex gap-4 items-start">
+                <WhatsAppIcon className="w-6 h-6 text-gold-bright shrink-0 mt-1" aria-hidden="true" />
+                <div>
+                  <p className="font-sans text-sm text-text-primary font-semibold">{SP_COMMUNITY.note}</p>
+                  <p className="font-sans text-xs text-text-secondary mt-1">Join the community, then ask the Acharya for the community Guru Dakshina link.</p>
+                </div>
+              </div>
+              <span className="font-display font-bold text-3xl text-gold-bright shrink-0">{SP_COMMUNITY.amount}</span>
+            </a>
+            <div className="max-w-3xl mx-auto p-6 rounded-xl border border-gold-mid bg-surface-1 flex gap-4 items-start text-left">
+              <CheckCircle className="w-6 h-6 text-gold-bright shrink-0 mt-0.5" aria-hidden="true" />
+              <p className="font-sans text-sm text-text-secondary leading-relaxed">
+                <strong className="text-text-primary">Founding Shishyas of the {SP.cohort} cohort:</strong> the first {SP.seats} children keep the ₹4,999-per-level Guru Dakshina for all six levels,
+                and receive a Founding Batch certificate at the end of Level 1.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* ── REGISTER ── */}
+        <section id="register" className="scroll-mt-24 px-4 md:px-12">
+          <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+            <div className="lg:col-span-5 text-left space-y-5">
+              <Label>Free open class · 6 PM IST</Label>
+              <h2 className="font-serif font-bold text-[clamp(2.2rem,5vw,3.4rem)] text-text-primary leading-[1]">Let your child <span className="italic font-semibold text-gold-bright">try a real class</span> first.</h2>
+              <p className="font-sans text-sm md:text-base text-text-secondary leading-relaxed">Choose a date, and you’ll get the class link on WhatsApp. Or reserve a Founding seat directly if you’re ready.</p>
+              <ul className="space-y-2">
+                {SP_FREE_CLASSES.map(c => (
+                  <li key={c.id} className="flex items-center gap-3 font-sans text-sm text-text-primary"><CalendarDays className="w-4 h-4 text-gold-bright" aria-hidden="true" />{c.long}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="lg:col-span-7"><RegisterForm /></div>
+          </div>
+        </section>
+
+        {/* ── FAQ ── */}
+        <FAQ data={SP_FAQ.map((f, i) => ({ id: `sp${i}`, ...f }))} />
+        <div className="pb-8" />
+      </div>
+    </div>
+  );
+};

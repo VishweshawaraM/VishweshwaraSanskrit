@@ -29,6 +29,10 @@ export const PAGE_META: Record<string, { title: string; description: string; ima
     title: 'Vishweshwara Sanskrit | Digital Gurukula',
     description: 'A living tradition brought into the digital age. Authentic Sanskrit, Vedas, and Vedanta for the modern seeker.',
   },
+  '/samskara-pravesha': {
+    title: 'Kids’ Sanskrit in Kannada & English | Vishweshwara Sanskrit',
+    description: 'Samskrita Samskara Pravesha: 18-month live Sanskrit for children 8–14, with Gita and value shlokas, in Kannada and English. Free open classes in November.',
+  },
   ...Object.fromEntries(COURSES.map(c => [`/courses/${c.slug}`, c.meta])),
   '/admin': {
     title: 'Admin | Vishweshwara Sanskrit',
