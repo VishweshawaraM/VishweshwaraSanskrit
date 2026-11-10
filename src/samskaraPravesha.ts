@@ -34,16 +34,16 @@ export const SP_GAINS = [
 ];
 
 export const SP_HOW = [
-  { title: 'Live with the Acharya', text: 'Every class is live. Children speak, chant and get corrected in the moment.' },
+  { title: 'Live with the Acharyas', text: 'Every class is live. Children speak, chant and get corrected in the moment.' },
   { title: 'Kannada and English', text: 'Explanations in Kannada and English, so every child understands, whatever their school medium.' },
   { title: 'A small batch', text: 'A small group, so every child is heard and corrected in every class.' },
   { title: 'Twice a week', text: 'Mondays and Fridays, 6 to 7 PM IST. Short, regular classes build a real habit.' },
 ];
 
 export const SP_DAKSHINA = [
-  { title: 'Monthly', amount: '₹1,799', was: '', note: 'per month · 8 live classes', best: false, detail: 'Smaller monthly amounts, for families who prefer that.' },
-  { title: 'Per level', amount: '₹4,999', was: '₹5,399', note: '3 months · 24 live classes', best: false, early: 'Early bird ₹4,749 · first 10 seats', detail: 'Begin with Level 1 and continue level by level.' },
-  { title: 'Full journey', amount: '₹29,134', was: '₹32,371', note: 'all 6 levels · 144 classes · 18 months', best: true, early: 'Early bird ₹27,515 · first 10 seats', detail: '10% less than paying class by class: one Guru Dakshina for the whole path.' },
+  { title: 'Monthly', amount: '₹1,799', was: '', note: 'per month · 8 live classes', best: false, detail: 'Smaller monthly amounts, for families who prefer that. Message the Acharya on WhatsApp to begin.' },
+  { title: 'Per level', amount: '₹4,999', was: '₹5,399', note: '3 months · 24 live classes', best: false, early: 'Level 1 early bird ₹4,749 · first 10 seats', detail: 'Begin with Level 1 and continue level by level.' },
+  { title: 'Full journey', amount: '₹29,134', was: '₹32,371', note: 'all 6 levels · 144 classes · 18 months', best: true, early: 'Early bird ₹27,515 · first 10 seats', detail: '15% off the list price while early-bird seats last (10% off after): one Guru Dakshina for the whole path.' },
 ];
 
 export const SP_COMMUNITY = { amount: '₹27,515', note: 'WhatsApp Community members keep this price for the full journey, even after the early-bird seats are gone' };
@@ -54,6 +54,6 @@ export const SP_FAQ = [
   { question: 'How long is the programme?', answer: 'Six levels of 24 live classes each: 144 classes over about 18 months. Each level takes about three months, and you can decide level by level.' },
   { question: 'What happens in the free open class?', answer: 'Your child joins a real class with the Acharya: sounds, a few words and a short shloka. You see exactly how classes run before deciding anything.' },
   { question: 'What does a child need for class?', answer: 'A laptop or tablet with a stable internet connection, a notebook and a pencil. A quiet corner at home helps a lot.' },
-  { question: 'What are “Founding Shishyas”?', answer: 'The first 15 children to join, the Dhruva cohort. Their Guru Dakshina of ₹4,999 per level stays the same for all six levels, and they receive a Founding Batch certificate at the end of Level 1.' },
+  { question: 'What are “Founding Shishyas”?', answer: 'The first 15 children to join, the Dhruva cohort. Their per-level Guru Dakshina stays fixed for all six levels, with no increase later, and they receive a Founding Batch certificate at the end of Level 1.' },
   { question: 'Why is the first batch called the Dhruva cohort?', answer: 'Every batch is named after a young hero from our tradition and keeps that name for all 18 months. Dhruva was a boy who sat steady until he reached his goal and became the Pole Star, the star that never moves. We hope our first batch learns with the same steadiness.' },
 ];

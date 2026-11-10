@@ -64,7 +64,7 @@ export const SamskaraPraveshaView: React.FC = () => {
   const facts = [
     { icon: CalendarDays, k: 'Starts', v: SP.startShort + ' 2026' },
     { icon: Clock, k: 'Classes', v: 'Mon & Fri · 6–7 PM IST' },
-    { icon: Users, k: `${SP.cohort} cohort`, v: SP.seatsLeft === SP.seats ? `Only ${SP.seats} seats` : `${SP.seatsLeft} seats left` },
+    { icon: Users, k: `${SP.cohort} cohort`, v: SP.seatsLeft === SP.seats ? `${SP.seats} seats · 10 early-bird` : `${SP.seatsLeft} seats left` },
     { icon: Languages, k: 'Taught in', v: 'Kannada & English' },
   ];
 
@@ -79,7 +79,7 @@ export const SamskaraPraveshaView: React.FC = () => {
               <div className="flex flex-wrap items-center gap-2">
                 <span className="inline-flex items-center gap-2 pl-1.5 pr-4 py-1.5 rounded-full bg-gold-bright text-ground font-mono text-[10px] md:text-[11px] tracking-[0.14em] uppercase font-bold">
                   <span className="w-6 h-6 rounded-full bg-ground text-gold-bright grid place-items-center text-xs" aria-hidden="true">★</span>
-                  {SP.cohort} cohort · {SP.seatsLeft === SP.seats ? `Only ${SP.seats} seats` : `${SP.seatsLeft} seats left`}
+                  {SP.cohort} cohort · {SP.seatsLeft === SP.seats ? `${SP.seats} seats · 10 early-bird` : `${SP.seatsLeft} seats left`}
                 </span>
                 <span className="px-3 py-1.5 rounded-full border border-gold-mid font-mono text-[10px] md:text-[11px] tracking-[0.14em] uppercase text-text-primary">Ages {SP.ages} · Live online</span>
               </div>
@@ -95,7 +95,7 @@ export const SamskaraPraveshaView: React.FC = () => {
                 <p className="font-kannada font-bold text-xl md:text-2xl text-text-primary">{SP.kannadaLine}</p>
                 <p className="font-sans text-sm md:text-base text-text-secondary leading-relaxed max-w-xl">
                   <strong className="text-text-primary font-semibold">{SP.name}</strong> is an 18-month Sanskrit programme for children,
-                  with the Bhagavad Gita and value shlokas woven in, taught live by {ACHARYA_NAME}.
+                  with the Bhagavad Gita and value shlokas woven in, led and taught live by {ACHARYA_NAME}, together with fellow Acharyas of the Gurukula.
                 </p>
               </div>
             </FadeInSection>
@@ -192,7 +192,7 @@ export const SamskaraPraveshaView: React.FC = () => {
               <img src="/acharya-portrait.webp" alt="" loading="lazy" width={1024} height={1065} className="absolute bottom-0 left-1/2 -translate-x-1/2 h-full w-auto max-w-none object-contain object-bottom" />
             </div>
             <div className="md:col-span-8 space-y-4">
-              <Label>Your child’s teacher</Label>
+              <Label>Leading the programme</Label>
               <h2 className="font-serif font-bold text-[clamp(2rem,4.5vw,3rem)] text-text-primary leading-[1]">{ACHARYA_NAME}</h2>
               <p className="font-sans text-[15px] text-text-secondary leading-relaxed">
                 I studied for seven years, from 2018 to 2025, at Veda Vijnana Gurukulam in Bengaluru: Sanskrit grammar, Krishna Yajurveda and the Bhagavad Gita with its classical commentary.
@@ -260,7 +260,7 @@ export const SamskaraPraveshaView: React.FC = () => {
             <div className="max-w-3xl mx-auto p-6 rounded-xl border border-gold-mid bg-surface-1 flex gap-4 items-start text-left">
               <CheckCircle className="w-6 h-6 text-gold-bright shrink-0 mt-0.5" aria-hidden="true" />
               <p className="font-sans text-sm text-text-secondary leading-relaxed">
-                <strong className="text-text-primary">Founding Shishyas of the {SP.cohort} cohort:</strong> the first {SP.seats} children keep the ₹4,999-per-level Guru Dakshina for all six levels,
+                <strong className="text-text-primary">Founding Shishyas of the {SP.cohort} cohort:</strong> the first {SP.seats} children keep their per-level Guru Dakshina fixed for all six levels (no increase later),
                 and receive a Founding Batch certificate at the end of Level 1.
               </p>
             </div>
