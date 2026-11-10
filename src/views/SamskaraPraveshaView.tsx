@@ -227,6 +227,13 @@ export const SamskaraPraveshaView: React.FC = () => {
                 </div>
               ))}
             </div>
+            <div className="max-w-3xl mx-auto text-center space-y-3">
+              <a href={SP.razorpay} target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-gradient-to-r from-gold-base to-gold-bright text-ground font-mono text-[11px] tracking-widest uppercase font-semibold hover:brightness-110">
+                Offer Guru Dakshina <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
+              </a>
+              <p className="font-sans text-xs text-text-tertiary">Opens Razorpay’s secure page. Choose Level 1 or the full journey there. You will get the class link on WhatsApp after your payment.</p>
+            </div>
             <a href={WHATSAPP_COMMUNITY_URL} target="_blank" rel="noopener noreferrer"
               className="max-w-3xl mx-auto p-6 rounded-xl border border-gold-bright bg-surface-1 flex flex-col sm:flex-row gap-4 sm:items-center justify-between text-left hover:bg-surface-2 transition-colors">
               <div className="flex gap-4 items-start">
