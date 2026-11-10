@@ -34,6 +34,7 @@ export const PRIVACY_SECTIONS: PrivacySection[] = [
     paragraphs: [
       'When you tap a WhatsApp button, WhatsApp opens on your phone with a ready message. Nothing is sent until you press send. After that, the Acharya can see your WhatsApp number, your profile name and what you write.',
       'We use this only to reply to you, arrange a free class, send class links and schedules, and teach you or your child. We do not sell it, share it for advertising or add you to any group without asking.',
+      'If more than one Acharya teaches your child’s course, the teachers involved can see your child’s first name and class details. They use them only for teaching.',
       'WhatsApp is a service of Meta and has its own privacy policy.',
     ],
   },
@@ -41,7 +42,8 @@ export const PRIVACY_SECTIONS: PrivacySection[] = [
     id: 'payments',
     title: 'Payments',
     paragraphs: [
-      'If you offer Guru Dakshina or pay for a course, payment is made on Razorpay’s secure page. Razorpay collects your payment details. We do not see or store your card, UPI or bank details. We only see that a payment was made.',
+      'If you offer Guru Dakshina or pay for a course, payment is made on Razorpay’s secure page, not on this website. Razorpay collects your payment details. We do not see or store your card, UPI or bank details.',
+      'On that page you also enter your child’s first name and age, and the parent’s email and WhatsApp number. Razorpay passes these to us so we can enrol your child, send the class link and reach you about classes. We see that a payment was made, and the amount.',
     ],
   },
   {
