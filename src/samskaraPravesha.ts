@@ -17,6 +17,7 @@ export const SP = {
   months: 18,
   breakNote: 'Holiday break 25 December – 1 January; classes resume Monday 4 January.',
   razorpay: 'https://rzp.io/rzp/SamskritaSamskaraPravesha-Leve',
+  razorpayFull: 'https://rzp.io/rzp/SamskritaFullJourney',
 };
 
 export const SP_FREE_CLASSES = [
@@ -42,8 +43,8 @@ export const SP_HOW = [
 
 export const SP_DAKSHINA = [
   { title: 'Monthly', amount: '₹1,799', was: '', note: 'per month · 8 live classes', best: false, detail: 'Smaller monthly amounts, for families who prefer that.' },
-  { title: 'Per level', amount: '₹4,999', was: '₹5,399', note: '3 months · 24 live classes', best: false, detail: 'Begin with Level 1 and continue level by level.' },
-  { title: 'Full journey', amount: '₹29,134', was: '₹32,371', note: 'all 6 levels · 144 classes · 18 months', best: true, detail: '10% less than paying class by class: one Guru Dakshina for the whole path.' },
+  { title: 'Per level', amount: '₹4,999', was: '₹5,399', note: '3 months · 24 live classes', best: false, early: 'Early bird ₹4,749 · first 10 seats', detail: 'Begin with Level 1 and continue level by level.' },
+  { title: 'Full journey', amount: '₹29,134', was: '₹32,371', note: 'all 6 levels · 144 classes · 18 months', best: true, early: 'Early bird ₹27,515 · first 10 seats', detail: '10% less than paying class by class: one Guru Dakshina for the whole path.' },
 ];
 
 export const SP_COMMUNITY = { amount: '₹27,515', note: 'Full journey for WhatsApp Community members (15% less)' };

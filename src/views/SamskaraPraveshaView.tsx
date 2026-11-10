@@ -223,18 +223,27 @@ export const SamskaraPraveshaView: React.FC = () => {
                     {d.was && <s className="font-sans text-base text-text-tertiary">{d.was}</s>}
                   </p>
                   <p className="font-sans text-sm text-text-primary">{d.note}</p>
+                  {'early' in d && d.early && (
+                    <p className="inline-block px-3 py-1 rounded-full border border-gold-bright text-gold-bright font-mono text-[10px] tracking-[0.12em] uppercase">{d.early}</p>
+                  )}
                   <p className="font-sans text-sm text-text-secondary leading-relaxed">{d.detail}</p>
                 </div>
               ))}
             </div>
             <div className="max-w-3xl mx-auto text-center space-y-3">
-              <a href={SP.razorpay} target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-gradient-to-r from-gold-base to-gold-bright text-ground font-mono text-[11px] tracking-widest uppercase font-semibold hover:brightness-110">
-                Begin Level 1 · ₹4,999 <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
-              </a>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <a href={SP.razorpay} target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-gradient-to-r from-gold-base to-gold-bright text-ground font-mono text-[11px] tracking-widest uppercase font-semibold hover:brightness-110">
+                  Begin Level 1 · ₹4,749 <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
+                </a>
+                <a href={SP.razorpayFull} target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg border border-gold-bright text-gold-bright font-mono text-[11px] tracking-widest uppercase font-semibold hover:bg-surface-2">
+                  Full journey · ₹27,515 <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
+                </a>
+              </div>
               <p className="font-sans text-xs text-text-tertiary">
-                Opens Razorpay’s secure page for Level 1 Guru Dakshina. You will get the class link on WhatsApp after your payment. For the full journey or the monthly option,{' '}
-                <a href={whatsappLink('Hari Om Acharya ji, I would like to know about the full journey for my child (Samskrita Samskara Pravesha).')} target="_blank" rel="noopener noreferrer" className="underline hover:text-text-gold">message the Acharya on WhatsApp</a>.
+                Early-bird prices for the first 10 seats. Each button opens Razorpay’s secure page. You will get the class link on WhatsApp after your payment. Questions first?{' '}
+                <a href={whatsappLink('Hari Om Acharya ji, I have a question about Samskrita Samskara Pravesha for my child.')} target="_blank" rel="noopener noreferrer" className="underline hover:text-text-gold">Message the Acharya on WhatsApp</a>.
               </p>
             </div>
             <a href={WHATSAPP_COMMUNITY_URL} target="_blank" rel="noopener noreferrer"
