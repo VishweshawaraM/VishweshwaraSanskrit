@@ -4,7 +4,7 @@ import { PageView } from '../types';
 import { FadeInSection } from '../components/FadeInSection';
 import { Button } from '../components/Button';
 import { WhatsAppIcon } from '../components/WhatsAppIcon';
-import { WHATSAPP_COMMUNITY_URL } from '../courses';
+import { WHATSAPP_COMMUNITY_URL, whatsappLink } from '../courses';
 import confetti from 'canvas-confetti';
 import { playChime } from '../lib/audio';
 
@@ -170,189 +170,21 @@ export const BeginView: React.FC<BeginViewProps> = ({ onViewChange }) => {
                 <div className="h-10 w-10 rounded bg-[#C8860A]/10 border border-gold-mid flex items-center justify-center">
                   <MessageSquareCode className="w-5 h-5 text-text-gold" />
                 </div>
-                <h3 className="font-serif text-xl text-text-primary font-semibold">Enrollment Inquiry</h3>
+                <h3 className="font-serif text-xl text-text-primary font-semibold">Message the Acharya</h3>
                 <p className="font-sans text-xs text-text-secondary leading-relaxed">
-                  Submit your details below to express interest in upcoming batches or personalized shastra studies.
+                  Choose what you would like to learn. WhatsApp opens with a ready message, and the Acharya replies personally. This website does not collect your details.
                 </p>
               </div>
 
-              {isSubmitted ? (
-                <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center animate-fade-in z-10 bg-surface-2 rounded-xl">
-                  <div className="w-12 h-12 bg-gold-base/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <CheckCircle className="w-6 h-6 text-gold-base" />
-                  </div>
-                  <h4 className="text-text-gold font-medium mb-2">Inquiry Submitted</h4>
-                  <p className="text-sm text-text-secondary">
-                    Your application was sent successfully. Acharya will reach out to you soon.
-                  </p>
-                </div>
-              ) : (
-                <form 
-                  onSubmit={async (e) => {
-                    e.preventDefault();
-                    setIsSubmitting(true);
-                    const formData = new FormData(e.currentTarget);
-                    const data = {
-                      name: formData.get('name') as string,
-                      email: formData.get('email') as string,
-                      phone: formData.get('phone') as string,
-                      subject: formData.get('subject') as string,
-                      timezone: formData.get('timezone') as string,
-                      background: formData.get('background') as string,
-                      message: formData.get('message') as string,
-                    };
-                    
-                    try {
-                      const { saveLead } = await import('../lib/firebase');
-                      await saveLead(data);
-                      const { sendNotificationEmail } = await import("../lib/emailjs");
-                      await sendNotificationEmail(data);
-
-                      setIsSubmitted(true);
-                      
-                      // Trigger gold confetti burst and meditative chime
-                      confetti({
-                        particleCount: 100,
-                        spread: 70,
-                        origin: { y: 0.6 },
-                        colors: ['#C8860A', '#E0A32E', '#F9C256', '#FFE391', '#F5F5F5']
-                      });
-                      playChime();
-
-                      setFormData({
-                        name: '',
-                        email: '',
-                        phone: '',
-                        subject: '',
-                        timezone: '',
-                        background: '',
-                        message: ''
-                      });
-                      sessionStorage.removeItem('beginViewFormData');
-                    } catch (error: any) {
-                      console.error('Submission error:', error);
-                      alert('Failed to submit inquiry: ' + error.message);
-                    } finally {
-                      setIsSubmitting(false);
-                    }
-                  }}
-                  className="space-y-3"
-                >
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-1">
-                      <label className="text-[10px] font-medium text-text-secondary uppercase tracking-wider block">Full Name *</label>
-                      <input 
-                        type="text" 
-                        name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        placeholder="Your full name" 
-                        required
-                        disabled={isSubmitting}
-                        className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner disabled:opacity-50"
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <label className="text-[10px] font-medium text-text-secondary uppercase tracking-wider block">Email Address *</label>
-                      <input 
-                        type="email" 
-                        name="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        placeholder="email@example.com" 
-                        required
-                        disabled={isSubmitting}
-                        className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner disabled:opacity-50"
-                      />
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-1">
-                      <label className="text-[10px] font-medium text-text-secondary uppercase tracking-wider block">Phone Number (Optional)</label>
-                      <input 
-                        type="tel" 
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleInputChange}
-                        placeholder="+1 (234) 567-8900" 
-                        disabled={isSubmitting}
-                        className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner disabled:opacity-50"
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <label className="text-[10px] font-medium text-text-secondary uppercase tracking-wider block">Subject of Interest *</label>
-                      <select 
-                        name="subject"
-                        required
-                        value={formData.subject}
-                        onChange={handleInputChange}
-                        disabled={isSubmitting}
-                        className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner appearance-none disabled:opacity-50"
-                      >
-                        <option value="" disabled>Select Subject</option>
-                        <option value="Sanskrit Grammar">Sanskrit Grammar</option>
-                        <option value="Bhagavad Gita">Bhagavad Gita</option>
-                        <option value="Advaita Vedanta">Advaita Vedanta</option>
-                        <option value="Vedic Chanting">Vedic Chanting</option>
-                        <option value="Other">Other</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-1">
-                      <label className="text-[10px] font-medium text-text-secondary uppercase tracking-wider block">Your Timezone *</label>
-                      <input 
-                        type="text" 
-                        name="timezone"
-                        value={formData.timezone}
-                        onChange={handleInputChange}
-                        placeholder="e.g. IST, EST" 
-                        required
-                        disabled={isSubmitting}
-                        className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner disabled:opacity-50"
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <label className="text-[10px] font-medium text-text-secondary uppercase tracking-wider block">Current Knowledge Level *</label>
-                      <select 
-                        name="background"
-                        required
-                        value={formData.background}
-                        onChange={handleInputChange}
-                        disabled={isSubmitting}
-                        className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner appearance-none disabled:opacity-50"
-                      >
-                        <option value="" disabled>Select Level</option>
-                        <option value="Complete Beginner">Complete Beginner</option>
-                        <option value="Know Alphabet/Basic Reading">Know Alphabet/Basic Reading</option>
-                        <option value="Intermediate (Studied previously)">Intermediate (Studied previously)</option>
-                        <option value="Advanced (Seeking Shastra study)">Advanced (Seeking Shastra study)</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-[10px] font-medium text-text-secondary uppercase tracking-wider block">Learning Goals *</label>
-                    <textarea 
-                      name="message"
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      placeholder="Tell us about what you want to achieve..." 
-                      required
-                      rows={3}
-                      disabled={isSubmitting}
-                      className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner resize-none disabled:opacity-50"
-                    />
-                  </div>
-                  <Button
-                    type="submit"
-                    variant="primary"
-                    disabled={isSubmitting}
-                    className="w-full mt-2 py-4 shadow-xl disabled:opacity-50"
-                  >
-                    <span>{isSubmitting ? 'Sending...' : 'Submit Inquiry'}</span>
-                  </Button>
-                </form>
-              )}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {[{"label": "Sanskrit", "msg": "Hari Om Acharya ji, I would like to learn Sanskrit."}, {"label": "Bhagavad Gita", "msg": "Hari Om Acharya ji, I would like to learn the Bhagavad Gita."}, {"label": "Krishna Yajurveda chanting", "msg": "Hari Om Acharya ji, I would like to learn Krishna Yajurveda chanting."}, {"label": "Advaita Vedanta", "msg": "Hari Om Acharya ji, I would like to study Advaita Vedanta."}, {"label": "Stotras", "msg": "Hari Om Acharya ji, I would like to learn stotras."}, {"label": "Samskrita Samskara Pravesha (children 8–14)", "msg": "Hari Om Acharya ji, I would like to know about Samskrita Samskara Pravesha for my child."}].map(t => (
+                  <a key={t.label} href={whatsappLink(t.msg)} target="_blank" rel="noopener noreferrer"
+                    className="inline-flex items-center justify-between gap-3 px-4 py-3.5 rounded-lg border border-gold-dim hover:border-gold-bright text-text-primary hover:text-gold-bright font-sans text-sm transition-colors">
+                    <span>{t.label}</span>
+                    <WhatsAppIcon className="w-4 h-4 text-gold-bright shrink-0" aria-hidden="true" />
+                  </a>
+                ))}
+              </div>
             </div>
           </FadeInSection>
         </div>

@@ -8,6 +8,8 @@ import { Button } from '../components/Button';
 import { Motif, DecorativeBorder } from '../components/Motif';
 import confetti from 'canvas-confetti';
 import { playChime } from '../lib/audio';
+import { whatsappLink } from '../courses';
+import { WhatsAppIcon } from '../components/WhatsAppIcon';
 
 const LANDING_TESTIMONIALS = [
   {
@@ -314,144 +316,19 @@ export const LandingView: React.FC<LandingViewProps> = ({ onViewChange }) => {
               Begin The Learning Journey
             </h2>
             <p className="font-sans text-sm md:text-base text-text-secondary leading-relaxed">
-              Every child deserves access to India's timeless knowledge tradition. Fill the form below and begin with a personal consultation.
+              Every child deserves access to India's timeless knowledge tradition. Message the Acharya on WhatsApp and begin with a personal conversation. This website does not collect your details.
             </p>
           </div>
 
           <FadeInSection delay={200}>
-            {isSubmitted ? (
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.95 }} 
-                animate={{ opacity: 1, scale: 1 }} 
-                className="bg-surface-1 border border-gold-mid rounded-xl p-8 md:p-12 shadow-xl text-center space-y-4"
-              >
-                <div className="w-16 h-16 bg-gold-base/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <CheckCircle className="w-8 h-8 text-gold-base" />
-                </div>
-                <h3 className="text-xl font-serif text-text-primary">Application Sent Successfully</h3>
-                <p className="text-text-secondary">
-                  Thank you for your interest! Acharya will reach out to you soon on WhatsApp.
-                </p>
-              </motion.div>
-            ) : (
-              <form 
-                onSubmit={async (e) => {
-                  e.preventDefault();
-                  setIsSubmitting(true);
-                  const formData = new FormData(e.currentTarget);
-                  const email = formData.get('email') as string;
-                  const phone = formData.get('phone') as string;
-                  const name = formData.get('name') as string;
-                  
-                  try {
-                    const { saveLead } = await import('../lib/firebase');
-                    await saveLead({
-                      name: name,
-                      email: email || phone, // Using email, fallback to phone
-                      phone: phone,
-                      subject: 'Landing Page Lead',
-                      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown',
-                      background: `Child Age: ${formData.get('childAge')}, Country: ${formData.get('country')}\nEmail Notifications: ${formData.get('emailNotifications') === 'on' ? 'Yes' : 'No'}`,
-                      message: formData.get('reason') as string,
-                    });
-
-                    setIsSubmitted(true);
-                    setShowSuccessToast(true);
-                    setTimeout(() => setShowSuccessToast(false), 5000);
-                    
-                    // Trigger gold confetti burst and meditative chime
-                    confetti({
-                      particleCount: 100,
-                      spread: 70,
-                      origin: { y: 0.6 },
-                      colors: ['#C8860A', '#E0A32E', '#F9C256', '#FFE391', '#F5F5F5']
-                    });
-                    playChime();
-                  } catch (error: any) {
-                    console.error(error);
-                    alert('Failed to submit form: ' + error.message);
-                  } finally {
-                    setIsSubmitting(false);
-                  }
-                }}
-                className="bg-surface-1 border border-gold-mid rounded-xl p-6 md:p-8 shadow-xl space-y-5 text-left"
-              >
-              <div className="space-y-2">
-                <label className="text-xs font-medium text-text-secondary uppercase tracking-wider block">Name *</label>
-                <input type="text" name="name" required className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner" placeholder="Your name" />
-              </div>
-              
-              <div className="space-y-2">
-                <label className="text-xs font-medium text-text-secondary uppercase tracking-wider block">Child Age *</label>
-                <input type="number" name="childAge" min="6" max="18" required className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner" placeholder="e.g. 8" />
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-xs font-medium text-text-secondary uppercase tracking-wider block">Country *</label>
-                <input type="text" name="country" required className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner" placeholder="e.g. United States" />
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-xs font-medium text-text-secondary uppercase tracking-wider block">Email Address</label>
-                <input 
-                  type="email" 
-                  name="email" 
-                  value={emailValue}
-                  onChange={handleEmailChange}
-                  className={`w-full bg-[#0E0B07] border rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:ring-1 transition-all shadow-inner ${emailError ? 'border-red-500/50 focus:border-red-500 focus:ring-red-500/50' : 'border-gold-dim/50 focus:border-gold-base focus:ring-gold-base/50'}`} 
-                  placeholder="email@example.com" 
-                />
-                {emailError && <p className="text-xs text-red-400 mt-1">{emailError}</p>}
-              </div>
-              
-              <div className="space-y-2">
-                <label className="text-xs font-medium text-text-secondary uppercase tracking-wider block">WhatsApp Number *</label>
-                <input 
-                  type="tel" 
-                  name="phone" 
-                  required 
-                  value={phoneValue}
-                  onChange={handlePhoneChange}
-                  className={`w-full bg-[#0E0B07] border rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:ring-1 transition-all shadow-inner ${phoneError ? 'border-red-500/50 focus:border-red-500 focus:ring-red-500/50' : 'border-gold-dim/50 focus:border-gold-base focus:ring-gold-base/50'}`} 
-                  placeholder="+1 (234) 567-8900" 
-                />
-                {phoneError && <p className="text-xs text-red-400 mt-1">{phoneError}</p>}
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-xs font-medium text-text-secondary uppercase tracking-wider block">Why do you wish your child to learn Sanskrit? *</label>
-                <textarea name="reason" required rows={3} className="w-full bg-[#0E0B07] border border-gold-dim/50 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-base focus:ring-1 focus:ring-gold-base/50 transition-all shadow-inner resize-none" placeholder="Briefly describe your goals..." />
-              </div>
-
-              <div className="flex items-start gap-3 mt-4 mb-2">
-                <div className="flex items-center h-5">
-                  <input
-                    id="emailNotifications"
-                    name="emailNotifications"
-                    type="checkbox"
-                    defaultChecked
-                    className="w-4 h-4 rounded border-gold-dim/50 bg-[#0E0B07] text-gold-base focus:ring-gold-base focus:ring-1 focus:ring-offset-0 cursor-pointer"
-                  />
-                </div>
-                <div className="text-xs text-text-secondary">
-                  <label htmlFor="emailNotifications" className="font-medium text-text-primary cursor-pointer">
-                    Email Notifications
-                  </label>
-                  <p className="mt-0.5 opacity-80">Receive follow-up communications and educational resources via email.</p>
-                </div>
-              </div>
-
-              <Button
-                type="submit"
-                variant="primary"
-                disabled={isSubmitting || !!emailError || !!phoneError}
-                className="w-full mt-4 !py-4 disabled:opacity-50 shadow-xl flex items-center justify-center gap-2"
-              >
-                {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
-                {isSubmitting ? 'Sending...' : 'Request Consultation'}
-              </Button>
-            </form>
-            )}
+            <a
+              href={whatsappLink("Hari Om Acharya ji, I would like to know about Sanskrit classes for my child.")}
+              target="_blank" rel="noopener noreferrer"
+              className="w-full inline-flex items-center justify-center gap-3 px-6 py-4 rounded-lg bg-gradient-to-r from-gold-base to-gold-bright text-ground font-mono text-xs tracking-widest uppercase font-semibold hover:brightness-110 shadow-xl"
+            >
+              <WhatsAppIcon className="w-5 h-5" aria-hidden="true" />
+              Message the Acharya on WhatsApp
+            </a>
           </FadeInSection>
         </div>
       </section>

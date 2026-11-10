@@ -91,6 +91,11 @@ export const Footer: React.FC<FooterProps> = ({ onViewChange }) => {
                 Begin Enquiry
               </Link>
             </li>
+            <li>
+              <Link to="/privacy" onClick={scrollToTop} className="font-sans text-xs text-text-tertiary hover:text-text-gold transition-colors">
+                Privacy Notice
+              </Link>
+            </li>
           </ul>
         </div>
 

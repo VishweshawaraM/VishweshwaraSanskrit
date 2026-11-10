@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { BookOpen, HelpCircle, ArrowRight, Sparkles, CheckCircle, Clock, Globe, ShieldCheck } from 'lucide-react';
 import { SUBJECTS_ITEMS } from '../data';
-import { courseSlugForSubject } from '../courses';
+import { courseSlugForSubject, whatsappLink } from '../courses';
 import { PageView } from '../types';
 import { Motif, DecorativeBorder } from '../components/Motif';
 import { FadeInSection } from '../components/FadeInSection';
@@ -311,75 +311,16 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
             Ready to explore? Get a <span className="font-medium text-text-gold">Free Syllabus Assessment</span>
           </h3>
           <p className="font-sans text-xs text-text-secondary leading-relaxed">
-            Not sure which path fits your background? Connect directly with Acharya Vishweshwara N M. Discuss your background and interest over a free 15-minute diagnostic call.
+            Not sure which path fits your background? Connect directly with Acharya Vishweshwara N M. Discuss your background and interest in a free 15-minute conversation on WhatsApp.
           </p>
           <div className="max-w-md mx-auto pt-4 relative min-h-[50px]">
-            {isSubmitted ? (
-              <motion.div 
-                initial={{ opacity: 0, y: 10 }} 
-                animate={{ opacity: 1, y: 0 }} 
-                className="absolute inset-0 flex items-center justify-center text-sm text-text-gold font-medium bg-surface-2 border border-gold-mid rounded py-3 px-4"
-              >
-                <CheckCircle className="w-4 h-4 mr-2" />
-                Request received! Acharya will reach out soon.
-              </motion.div>
-            ) : (
-              <form 
-                onSubmit={async (e) => {
-                  e.preventDefault();
-                  setIsSubmitting(true);
-                  const formData = new FormData(e.currentTarget);
-                  const email = formData.get('email') as string;
-                  
-                  try {
-                    const { saveLead } = await import('../lib/firebase');
-                    const leadData = {
-                      name: 'Assessment Request',
-                      email: email,
-                      subject: 'Syllabus Assessment',
-                      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown',
-                      background: 'Requested via Teaching View',
-                      message: 'Requested a free syllabus assessment call.'
-                    };
-                    await saveLead(leadData);
-                    const { sendNotificationEmail } = await import("../lib/emailjs");
-                    await sendNotificationEmail(leadData);
-
-                    setIsSubmitted(true);
-                    
-                    // Trigger gold confetti burst and meditative chime
-                    confetti({
-                      particleCount: 100,
-                      spread: 70,
-                      origin: { y: 0.6 },
-                      colors: ['#C8860A', '#E0A32E', '#F9C256', '#FFE391', '#F5F5F5']
-                    });
-                    playChime();
-                  } catch (error: any) {
-                    alert('Failed to send request: ' + error.message);
-                  } finally {
-                    setIsSubmitting(false);
-                  }
-                }}
-                className="flex flex-col sm:flex-row gap-3"
-              >
-                <input 
-                  type="email" 
-                  name="email"
-                  placeholder="Enter your email address" 
-                  required
-                  disabled={isSubmitting}
-                  className="flex-1 bg-surface-2 border border-gold-dim rounded px-4 py-3 text-sm text-text-primary focus:outline-none focus:border-gold-base transition-colors placeholder:text-text-disabled disabled:opacity-50"
-                />
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="px-6 py-3 rounded bg-gradient-to-r from-gold-base to-gold-bright text-ground font-mono text-xs tracking-widest uppercase font-semibold active:scale-95 transition-all shadow-md shrink-0 hover:brightness-110 disabled:opacity-50"
-                >
-                  {isSubmitting ? 'Sending...' : 'Request Call'}
-                </button>
-              </form>
-            )}
+            <a
+              href={whatsappLink("Hari Om Acharya ji, I would like a free syllabus assessment call.")}
+              target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center justify-center px-8 py-3.5 rounded bg-gradient-to-r from-gold-base to-gold-bright text-ground font-mono text-xs tracking-widest uppercase font-semibold hover:brightness-110 shadow-md"
+            >
+              Request a call on WhatsApp
+            </a>
           </div>
         </div>
       </section>

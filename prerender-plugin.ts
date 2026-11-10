@@ -4,6 +4,7 @@ import type { Plugin } from 'vite';
 import { PAGE_META } from './src/utils/seoData';
 import { COURSES, ACHARYA_NAME, whatsappLink } from './src/courses';
 import { SP, SP_FREE_CLASSES, SP_GAINS, SP_HOW, SP_DAKSHINA, SP_COMMUNITY, SP_FAQ } from './src/samskaraPravesha';
+import { PRIVACY_INTRO, PRIVACY_SECTIONS, PRIVACY_UPDATED } from './src/privacy';
 import { ABOUT_STORY, ABOUT_STUDIES, ABOUT_DEGREES, ABOUT_FAQ } from './src/aboutContent';
 import { SUBJECTS_ITEMS, STATS_ITEMS, CREDENTIALS_ITEMS, TESTIMONIALS_ITEMS, TIMELINE_ITEMS, FAQ_ITEMS } from './src/data';
 
@@ -168,9 +169,19 @@ const ROUTES: Route[] = [
     h1: 'Begin your journey: enquire about Sanskrit classes',
     body: () =>
       `<p>${esc(PAGE_META['/begin'].description)}</p>` +
-      '<p>Request a free 15-minute consultation by WhatsApp or the enquiry form on this page.</p>' +
+      '<p>Request a free 15-minute consultation by WhatsApp.</p>' +
       '<p><a href="https://wa.me/919482698612">WhatsApp</a> · <a href="mailto:namaste@vishweshwarasanskrit.com">namaste@vishweshwarasanskrit.com</a></p>' +
       faq(),
+  },
+  {
+    path: '/privacy', file: 'privacy.html',
+    h1: 'Privacy Notice',
+    schema: () => [breadcrumbs([['Home', '/'], ['Privacy Notice', '/privacy']])],
+    body: () =>
+      `<p>Updated ${esc(PRIVACY_UPDATED)}</p><p>${esc(PRIVACY_INTRO)}</p>` +
+      PRIVACY_SECTIONS.map(s =>
+        `<h2>${esc(s.title)}</h2>` + (s.paragraphs ?? []).map(p => `<p>${esc(p)}</p>`).join('') +
+        (s.points ? `<ul>${s.points.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : '')).join(''),
   },
   {
     path: '/samskara-pravesha', file: 'samskara-pravesha.html',

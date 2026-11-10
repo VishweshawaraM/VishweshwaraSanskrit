@@ -14,71 +14,19 @@ const Label: React.FC<{ children: React.ReactNode; className?: string }> = ({ ch
 const field = 'w-full bg-surface-2 border border-gold-dim focus:border-gold-bright outline-none rounded-lg px-4 py-3 font-sans text-sm text-text-primary placeholder:text-text-tertiary transition-colors';
 
 const RegisterForm: React.FC = () => {
-  const [state, setState] = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
   const [choice, setChoice] = useState<string>(SP_FREE_CLASSES[0].id);
+  const enrolling = choice === 'enrol';
+  const freeClass = SP_FREE_CLASSES.find(c => c.id === choice);
 
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const f = new FormData(e.currentTarget);
-    if ((f.get('website') as string)?.trim()) { setState('done'); return; } // quiet spam trap
-
-    const freeClass = SP_FREE_CLASSES.find(c => c.id === choice);
-    const wants = choice === 'enrol' ? 'Enrol directly in Level 1' : `Free open class: ${freeClass?.long ?? choice}`;
-    const data = {
-      name: (f.get('parent') as string).trim(),
-      email: (f.get('email') as string).trim(),
-      phone: (f.get('phone') as string).trim(),
-      subject: `${SP.name} · ${choice === 'enrol' ? 'Enrol' : 'Free class'}`,
-      timezone: ((f.get('city') as string) || '').trim(),
-      background: [
-        `Child: ${(f.get('child') as string).trim()}, age ${f.get('age')}`,
-        `Language: ${f.get('language')}`,
-        `Preferred time: ${f.get('slot')}`,
-      ].join(' · '),
-      message: wants,
-    };
-
-    setState('sending');
-    try {
-      const { saveLead } = await import('../lib/firebase');
-      await saveLead(data);
-      const { sendNotificationEmail } = await import('../lib/emailjs');
-      await sendNotificationEmail(data);
-      setState('done');
-    } catch {
-      setState('error');
-    }
-  };
-
-  if (state === 'done') {
-    const enrolling = choice === 'enrol';
-    return (
-      <div className="p-8 md:p-10 rounded-2xl border border-gold-mid bg-surface-1 text-left space-y-5" role="status">
-        <p className="font-devanagari text-3xl text-gold-bright">धन्यवादः</p>
-        <h3 className="font-serif text-2xl md:text-3xl text-text-primary font-semibold">Thank you. Your request has reached the Acharya.</h3>
-        <p className="font-sans text-sm text-text-secondary leading-relaxed">
-          {enrolling
-            ? 'You will receive a WhatsApp message within a day with the class link and details. You can also offer the Guru Dakshina for Level 1 now to confirm a Founding seat.'
-            : 'You will receive a WhatsApp message within a day with the link for your free open class. Please keep your child’s notebook and pencil ready.'}
-        </p>
-        <div className="flex flex-col sm:flex-row gap-3">
-          {enrolling && (
-            <a href={SP.razorpay} target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg bg-gradient-to-r from-gold-base to-gold-bright text-ground font-mono text-[11px] tracking-widest uppercase font-semibold hover:brightness-110">
-              Offer Guru Dakshina <ArrowUpRight className="w-4 h-4" />
-            </a>
-          )}
-          <a href={WHATSAPP_COMMUNITY_URL} target="_blank" rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg border border-gold-mid text-text-primary hover:text-gold-bright hover:border-gold-bright font-mono text-[11px] tracking-widest uppercase">
-            <WhatsAppIcon className="w-4 h-4 text-gold-bright" aria-hidden="true" /> Join the WhatsApp Community
-          </a>
-        </div>
-      </div>
-    );
-  }
+  // Nothing is collected on this website: the parent sends a WhatsApp message themselves.
+  let ref = '';
+  try { ref = new URLSearchParams(window.location.search).get('utm_source') ?? ''; } catch { /* ignore */ }
+  const message = enrolling
+    ? `Hari Om Acharya ji, I would like to enrol my child in ${SP.name}, Level 1 (${SP.cohort} cohort, starts ${SP.startShort}).`
+    : `Hari Om Acharya ji, I would like to book the free open class on ${freeClass?.long ?? ''} for my child (${SP.name}).`;
 
   return (
-    <form onSubmit={onSubmit} className="p-6 md:p-10 rounded-2xl border border-gold-mid bg-surface-1 text-left space-y-6">
+    <div className="p-6 md:p-10 rounded-2xl border border-gold-mid bg-surface-1 text-left space-y-6">
       <fieldset className="space-y-3">
         <legend className="font-mono text-[10px] tracking-[0.2em] uppercase text-text-gold mb-3">I would like to</legend>
         <div className="grid grid-cols-2 gap-2">
@@ -95,43 +43,20 @@ const RegisterForm: React.FC = () => {
         </label>
       </fieldset>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <label className="space-y-1.5"><span className="font-sans text-xs text-text-secondary">Parent’s name *</span><input name="parent" required maxLength={120} className={field} autoComplete="name" /></label>
-        <label className="space-y-1.5"><span className="font-sans text-xs text-text-secondary">WhatsApp number *</span><input name="phone" required type="tel" maxLength={20} pattern="[0-9+ ()-]{8,20}" placeholder="+91" className={field} autoComplete="tel" /></label>
-        <label className="space-y-1.5 sm:col-span-2"><span className="font-sans text-xs text-text-secondary">Email *</span><input name="email" required type="email" maxLength={200} className={field} autoComplete="email" /></label>
-        <label className="space-y-1.5"><span className="font-sans text-xs text-text-secondary">Child’s name *</span><input name="child" required maxLength={80} className={field} /></label>
-        <label className="space-y-1.5"><span className="font-sans text-xs text-text-secondary">Child’s age *</span>
-          <select name="age" required defaultValue="" className={field}>
-            <option value="" disabled>Select</option>
-            {[8, 9, 10, 11, 12, 13, 14, 15].map(a => <option key={a} value={a}>{a}</option>)}
-          </select>
-        </label>
-        <label className="space-y-1.5"><span className="font-sans text-xs text-text-secondary">Language at home</span>
-          <select name="language" defaultValue="Kannada" className={field}>
-            <option>Kannada</option><option>English</option><option>Kannada and English</option><option>Other</option>
-          </select>
-        </label>
-        <label className="space-y-1.5"><span className="font-sans text-xs text-text-secondary">City</span><input name="city" maxLength={80} className={field} autoComplete="address-level2" /></label>
-        <label className="space-y-1.5 sm:col-span-2"><span className="font-sans text-xs text-text-secondary">Which class time suits your child?</span>
-          <select name="slot" defaultValue="Mon & Fri, 6–7 PM IST" className={field}>
-            <option>Mon & Fri, 6–7 PM IST</option><option>Weekend morning</option><option>Either is fine</option>
-          </select>
-        </label>
-      </div>
-      {/* spam trap: real people never see or fill this */}
-      <input name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
+      <a
+        href={whatsappLink(ref ? `${message} (${ref})` : message)}
+        target="_blank" rel="noopener noreferrer"
+        className="w-full inline-flex items-center justify-center gap-3 px-6 py-4 rounded-lg bg-gradient-to-r from-gold-base to-gold-bright text-ground font-mono text-xs tracking-widest uppercase font-semibold hover:brightness-110"
+      >
+        <WhatsAppIcon className="w-5 h-5" aria-hidden="true" />
+        {enrolling ? 'Reserve a seat' : 'Book on WhatsApp'}
+        <ArrowRight className="w-4 h-4" />
+      </a>
 
-      {state === 'error' && (
-        <p className="font-sans text-sm text-text-primary border border-gold-mid rounded-lg p-3">
-          Sorry, that didn’t go through. Please try again, or message the Acharya directly on WhatsApp at +91 94826 98612.
-        </p>
-      )}
-      <button type="submit" disabled={state === 'sending'}
-        className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-lg bg-gradient-to-r from-gold-base to-gold-bright text-ground font-mono text-xs tracking-widest uppercase font-semibold hover:brightness-110 disabled:opacity-60">
-        {state === 'sending' ? <><Loader2 className="w-4 h-4 animate-spin" /> Sending…</> : <>{choice === 'enrol' ? 'Reserve a Founding seat' : 'Book the free class'} <ArrowRight className="w-4 h-4" /></>}
-      </button>
-      <p className="font-sans text-[11px] text-text-tertiary text-center">Your details are used only to contact you about this programme.</p>
-    </form>
+      <p className="font-sans text-xs text-text-tertiary text-center leading-relaxed">
+        This opens WhatsApp with a ready message to the Acharya. You will get the class link there. This website does not collect your details.
+      </p>
+    </div>
   );
 };
 
@@ -329,7 +254,7 @@ export const SamskaraPraveshaView: React.FC = () => {
             <div className="lg:col-span-5 text-left space-y-5">
               <Label>Free open class · 6 PM IST</Label>
               <h2 className="font-serif font-bold text-[clamp(2.2rem,5vw,3.4rem)] text-text-primary leading-[1]">Let your child <span className="italic font-semibold text-gold-bright">try a real class</span> first.</h2>
-              <p className="font-sans text-sm md:text-base text-text-secondary leading-relaxed">Choose a date, and you’ll get the class link on WhatsApp. Or reserve a Founding seat directly if you’re ready.</p>
+              <p className="font-sans text-sm md:text-base text-text-secondary leading-relaxed">Choose a date and message the Acharya on WhatsApp. You’ll get the class link there. Or reserve a Founding seat directly if you’re ready.</p>
               <ul className="space-y-2">
                 {SP_FREE_CLASSES.map(c => (
                   <li key={c.id} className="flex items-center gap-3 font-sans text-sm text-text-primary"><CalendarDays className="w-4 h-4 text-gold-bright" aria-hidden="true" />{c.long}</li>

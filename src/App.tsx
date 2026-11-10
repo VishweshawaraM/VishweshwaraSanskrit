@@ -22,6 +22,7 @@ const ProtectedAdminRoute = React.lazy(() => import('./components/ProtectedAdmin
 const NotFoundView = React.lazy(() => import('./views/NotFoundView').then(module => ({ default: module.NotFoundView })));
 const BeginView = React.lazy(() => import('./views/BeginView').then(module => ({ default: module.BeginView })));
 const SamskaraPraveshaView = React.lazy(() => import('./views/SamskaraPraveshaView').then(module => ({ default: module.SamskaraPraveshaView })));
+const PrivacyView = React.lazy(() => import('./views/PrivacyView').then(module => ({ default: module.PrivacyView })));
 const CourseView = React.lazy(() => import('./views/CourseView').then(module => ({ default: module.CourseView })));
 const LandingView = React.lazy(() => import('./views/LandingView').then(module => ({ default: module.LandingView })));
 const AdminView = React.lazy(() => import('./views/AdminView').then(module => ({ default: module.AdminView })));
@@ -113,6 +114,7 @@ const AppContent = () => {
                 <Route path="/testimonials" element={<TestimonialsView onViewChange={handleViewChange} />} />
                 <Route path="/courses/:slug" element={<CourseView />} />
                 <Route path="/samskara-pravesha" element={<SamskaraPraveshaView />} />
+                <Route path="/privacy" element={<PrivacyView />} />
                 <Route path="/begin" element={<BeginView onViewChange={handleViewChange} />} />
                 <Route path="/landing" element={<LandingView onViewChange={handleViewChange} />} />
                 <Route path="/admin" element={<ProtectedAdminRoute><AdminView onViewChange={handleViewChange} /></ProtectedAdminRoute>} />

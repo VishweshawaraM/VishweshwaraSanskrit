@@ -33,6 +33,10 @@ export const PAGE_META: Record<string, { title: string; description: string; ima
     title: 'Kids’ Sanskrit in Kannada & English | Vishweshwara Sanskrit',
     description: 'Samskrita Samskara Pravesha: 18-month live Sanskrit for children 8–14, with Gita and value shlokas, in Kannada and English. Free open classes in November.',
   },
+  '/privacy': {
+    title: 'Privacy Notice | Vishweshwara Sanskrit',
+    description: 'This website collects no personal details. How WhatsApp enquiries, payments and children’s information are handled, and how to ask for deletion.',
+  },
   ...Object.fromEntries(COURSES.map(c => [`/courses/${c.slug}`, c.meta])),
   '/admin': {
     title: 'Admin | Vishweshwara Sanskrit',
