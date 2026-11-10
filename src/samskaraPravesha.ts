@@ -16,7 +16,7 @@ export const SP = {
   totalSessions: 144,
   months: 18,
   breakNote: 'Holiday break 25 December – 1 January; classes resume Monday 4 January.',
-  razorpay: 'https://rzp.io/rzp/SamskritasamskaraPravesha',
+  razorpay: 'https://rzp.io/rzp/SamskritaSamskaraPravesha-Leve',
 };
 
 export const SP_FREE_CLASSES = [
