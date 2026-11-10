@@ -24,7 +24,6 @@ export const SP_FREE_CLASSES = [
   { id: 'mon-16-nov', label: 'Mon 16 Nov', long: 'Monday 16 November, 6 PM IST' },
   { id: 'fri-20-nov', label: 'Fri 20 Nov', long: 'Friday 20 November, 6 PM IST' },
   { id: 'mon-23-nov', label: 'Mon 23 Nov', long: 'Monday 23 November, 6 PM IST' },
-  { id: 'fri-27-nov', label: 'Fri 27 Nov', long: 'Friday 27 November, 6 PM IST' },
 ];
 
 export const SP_GAINS = [
