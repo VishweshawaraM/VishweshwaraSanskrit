@@ -252,7 +252,7 @@ export const SamskaraPraveshaView: React.FC = () => {
                 <WhatsAppIcon className="w-6 h-6 text-gold-bright shrink-0 mt-1" aria-hidden="true" />
                 <div>
                   <p className="font-sans text-sm text-text-primary font-semibold">{SP_COMMUNITY.note}</p>
-                  <p className="font-sans text-xs text-text-secondary mt-1">Join the community, then ask the Acharya for the community Guru Dakshina link.</p>
+                  <p className="font-sans text-xs text-text-secondary mt-1">Join the community. The Acharya will send you the link on WhatsApp when the early-bird seats are gone.</p>
                 </div>
               </div>
               <span className="font-display font-bold text-3xl text-gold-bright shrink-0">{SP_COMMUNITY.amount}</span>

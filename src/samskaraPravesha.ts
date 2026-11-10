@@ -46,7 +46,7 @@ export const SP_DAKSHINA = [
   { title: 'Full journey', amount: '₹29,134', was: '₹32,371', note: 'all 6 levels · 144 classes · 18 months', best: true, early: 'Early bird ₹27,515 · first 10 seats', detail: '10% less than paying class by class: one Guru Dakshina for the whole path.' },
 ];
 
-export const SP_COMMUNITY = { amount: '₹27,515', note: 'Full journey for WhatsApp Community members (15% less)' };
+export const SP_COMMUNITY = { amount: '₹27,515', note: 'WhatsApp Community members keep this price for the full journey, even after the early-bird seats are gone' };
 
 export const SP_FAQ = [
   { question: 'Does my child need to know any Sanskrit already?', answer: 'No. Level 1 starts from the very first sounds and letters. Children who already know a few shlokas will simply move a little faster.' },
