@@ -1,6 +1,8 @@
 // Privacy Notice content (India: Digital Personal Data Protection Act, 2023 and Rules, 2025).
 // Shared by the /privacy page and its static shell. Update the date and version when the meaning changes.
 
+import { TRACKING_ENABLED } from './config/tracking';
+
 export const PRIVACY_VERSION = '2026-11-10';
 export const PRIVACY_UPDATED = '10 November 2026';
 export const PRIVACY_EMAIL = 'namaste@vishweshwarasanskrit.com';
@@ -23,7 +25,9 @@ export const PRIVACY_SECTIONS: PrivacySection[] = [
     title: 'This website',
     points: [
       'It has no forms that collect your name, phone number or email.',
-      'It does not use advertising trackers or analytics.',
+      ...(TRACKING_ENABLED
+        ? ['It uses Meta’s measurement tool (the Meta Pixel) only if you tap “Accept” on the message at the bottom of the page. If you tap “No thanks”, or your browser sends a “do not track” signal, it never loads.']
+        : ['It does not use advertising trackers or analytics.']),
       'It remembers only small things in your own browser, such as which page you were on. Nothing is sent to us.',
       'It is hosted on GitHub Pages, which may keep ordinary server logs (such as your IP address) for security.',
     ],
@@ -46,6 +50,17 @@ export const PRIVACY_SECTIONS: PrivacySection[] = [
       'On that page you also enter your child’s first name and age, and the parent’s email and WhatsApp number. Razorpay passes these to us so we can enrol your child, send the class link and reach you about classes. We see that a payment was made, and the amount.',
     ],
   },
+  ...(TRACKING_ENABLED
+    ? [{
+        id: 'ads',
+        title: 'Measuring our ads (only if you accept)',
+        paragraphs: [
+          'We advertise on Facebook and Instagram. If you tap “Accept”, Meta’s measurement tool tells Meta which pages of this website you open and when you tap a WhatsApp or payment button, so we can see which ads bring parents here. Meta also receives technical details such as your IP address and browser, as described in Meta’s own privacy policy.',
+          'We never send your name, phone number, email or anything about your child. The tool does not run on Razorpay’s payment page and is not used to profile children.',
+          'It stays off unless you accept. You can change your mind at any time by clearing this website’s data in your browser, and the message will appear again.',
+        ],
+      } as PrivacySection]
+    : []),
   {
     id: 'children',
     title: 'Children',

@@ -5,7 +5,7 @@ import { FadeInSection } from '../components/FadeInSection';
 import { FAQ } from '../components/FAQ';
 import { WhatsAppIcon } from '../components/WhatsAppIcon';
 import { ACHARYA_NAME, WHATSAPP_COMMUNITY_URL, whatsappLink } from '../courses';
-import { SP, SP_FREE_CLASSES, SP_GAINS, SP_HOW, SP_DAKSHINA, SP_COMMUNITY, SP_FAQ } from '../samskaraPravesha';
+import { SP, SP_FREE_CLASSES, SP_GAINS, SP_HOW, SP_DAKSHINA, SP_COMPARE, SP_COMMUNITY, SP_FAQ } from '../samskaraPravesha';
 
 const Label: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => (
   <span className={`font-mono text-[10px] md:text-xs tracking-[0.22em] uppercase text-text-gold block ${className}`}>{children}</span>
@@ -229,6 +229,49 @@ export const SamskaraPraveshaView: React.FC = () => {
                   <p className="font-sans text-sm text-text-secondary leading-relaxed">{d.detail}</p>
                 </div>
               ))}
+            </div>
+            {/* Side-by-side comparison: every figure is arithmetic on the prices above */}
+            <div className="max-w-4xl mx-auto space-y-5">
+              <div className="text-center space-y-2">
+                <Label>Compare</Label>
+                <h3 className="font-serif font-bold text-[clamp(1.6rem,3.4vw,2.2rem)] text-text-primary leading-[1.05]">The same classes, three ways to pay</h3>
+              </div>
+              <div className="overflow-x-auto rounded-2xl border border-gold-dim bg-surface-1">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr>
+                      <th scope="col" className="py-2 pl-4 pr-2 md:p-4 w-[25%] md:w-[28%]"><span className="sr-only">What you compare</span></th>
+                      {SP_COMPARE.columns.map((c, i) => (
+                        <th key={c} scope="col" className={`p-2 md:p-4 font-mono text-[9px] md:text-[11px] tracking-[0.08em] md:tracking-[0.18em] uppercase align-bottom ${i === 2 ? 'bg-gold-bright text-ground' : 'text-text-tertiary'}`}>
+                          {c}{i === 2 && <span className="block mt-1 text-[9px] tracking-[0.16em] opacity-80">Best value</span>}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {SP_COMPARE.rows.map(r => (
+                      <tr key={r.label} className="border-t border-gold-dim">
+                        <th scope="row" className="py-2 pl-4 pr-2 md:p-4 font-sans text-xs md:text-sm font-normal text-text-secondary align-top">{r.label}</th>
+                        {r.values.map((v, i) => (
+                          <td key={i} className={`p-2 md:p-4 font-sans text-xs md:text-sm align-top ${i === 2 ? 'bg-surface-2 text-gold-bright font-semibold border-x border-gold-bright' : 'text-text-primary'}`}>
+                            {v}
+                            {i === 2 && 'after' in r && r.after && <span className="block mt-1 font-normal text-[10px] md:text-xs text-text-tertiary">{r.after}</span>}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <p className="font-sans text-xs text-text-tertiary text-center">{SP_COMPARE.note}</p>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                {SP_COMPARE.benefits.map(b => (
+                  <li key={b} className="flex gap-3 items-start p-4 rounded-xl border border-gold-dim bg-surface-2">
+                    <CheckCircle className="w-5 h-5 text-gold-bright shrink-0 mt-0.5" aria-hidden="true" />
+                    <span className="font-sans text-sm text-text-primary leading-relaxed">{b}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
             <div className="max-w-3xl mx-auto text-center space-y-3">
               <div className="flex flex-col sm:flex-row gap-3 justify-center">

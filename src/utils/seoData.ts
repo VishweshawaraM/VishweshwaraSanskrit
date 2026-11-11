@@ -6,7 +6,7 @@ export const PAGE_META: Record<string, { title: string; description: string; ima
     description: 'Live one-to-one online Sanskrit classes for kids and adults: Sanskrit grammar, Bhagavad Gita, Vedic chanting and Advaita Vedanta with a Gurukula-trained Acharya.',
   },
   '/about': {
-    title: 'Sanskrit Acharya Vishweshwara N M | Gurukula-Trained Teacher',
+    title: 'Sanskrit Acharya Vishweshwara N M | Gurukula-Trained',
     description: 'Acharya Vishweshwara N M — 7 years residential Gurukula training in Krishna Yajur Veda, Advaita Vedanta, and Sanskrit. Traditional lineage, modern teaching.',
   },
   '/teachings': {

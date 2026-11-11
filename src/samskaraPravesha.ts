@@ -46,7 +46,28 @@ export const SP_DAKSHINA = [
   { title: 'Full journey', amount: '₹29,134', was: '₹32,371', note: 'all 6 levels · 144 classes · 18 months', best: true, early: 'Early bird ₹27,515 · first 10 seats', detail: '15% off the list price while early-bird seats last (10% off after): one Guru Dakshina for the whole path.' },
 ];
 
-export const SP_COMMUNITY = { amount: '₹27,515', note: 'WhatsApp Community members keep this price for the full journey, even after the early-bird seats are gone' };
+// Side-by-side comparison. Every figure is arithmetic on the listed Guru Dakshina:
+// monthly 18 × ₹1,799 = ₹32,382; per level 6 × ₹4,999 = ₹29,994; full ₹29,134 (early bird ₹27,515).
+// Per class: 1,799 ÷ 8 = 225; 4,999 ÷ 24 = 208; 29,134 ÷ 144 = 202; 27,515 ÷ 144 = 191.
+export const SP_COMPARE = {
+  columns: ['Monthly', 'Per level', 'Full journey'],
+  rows: [
+    { label: 'Total for 18 months', values: ['₹32,382', '₹29,994', '₹27,515 early bird'], after: '₹29,134 after the early-bird seats' },
+    { label: 'Cost per live class', values: ['₹225', '₹208', '₹191 early bird'], after: '₹202 after the early-bird seats' },
+    { label: 'You save, against monthly', values: ['–', '₹2,388', '₹4,867 early bird'], after: '₹3,248 after the early-bird seats' },
+    { label: 'Payments', values: ['18', '6', '1'] },
+    { label: 'How you decide', values: ['Month by month', 'Level by level', 'Once, for all 6 levels'] },
+  ],
+  note: 'Per level is shown at ₹4,999 for each of the 6 levels; the early-bird Level 1 price is ₹4,749. Monthly is ₹1,799 per month, arranged on WhatsApp.',
+  benefits: [
+    'One Guru Dakshina, then nothing to remember each month.',
+    'The lowest cost per live class: ₹191 at the early-bird price.',
+    'Your child’s seat is held for all six levels, 18 months.',
+    'You save ₹4,867 compared with paying monthly for 18 months.',
+  ],
+};
+
+export const SP_COMMUNITY ={ amount: '₹27,515', note: 'WhatsApp Community members keep this price for the full journey, even after the early-bird seats are gone' };
 
 export const SP_FAQ = [
   { question: 'Does my child need to know any Sanskrit already?', answer: 'No. Level 1 starts from the very first sounds and letters. Children who already know a few shlokas will simply move a little faster.' },

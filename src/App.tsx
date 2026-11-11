@@ -9,6 +9,7 @@ import { CommonCTA } from './components/CommonCTA';
 import { WhatsAppWidget } from './components/WhatsAppWidget';
 import { FestiveSparks, DeepavaliGreeting, isDeepavaliSeason } from './components/Deepavali';
 import { PageNavigation } from './components/PageNavigation';
+import { ConsentBanner } from './components/ConsentBanner';
 import { PageView } from './types';
 import { MetaTagsManager } from './components/MetaTagsManager';
 import { AmbientParticles } from './components/AmbientParticles';
@@ -145,6 +146,9 @@ const AppContent = () => {
 
       {/* 6. Global WhatsApp Floating Widget */}
       <WhatsAppWidget />
+
+      {/* 6b. Ad-measurement choice (renders nothing unless a Meta Pixel ID is configured) */}
+      <ConsentBanner />
 
       {/* 7. Deepavali 2026 (switches itself off after 15 Nov) */}
       {isDeepavaliSeason() && showStandardChrome && (
