@@ -187,7 +187,7 @@ const ROUTES: Route[] = [
     path: '/samskara-pravesha', file: 'samskara-pravesha.html',
     h1: `${SP.name}: Sanskrit for children aged ${SP.ages}`,
     body: () =>
-      `<p lang="kn">${esc(SP.kannadaLine)}</p><p>${esc(SP.name)} is an 18-month live online Sanskrit programme for children aged 8 to 14, taught in Kannada and English, led by Acharya Vishweshwara N M. The first batch, the Dhruva cohort, starts on Monday 7 December 2026.</p><p>${esc(PAGE_META['/samskara-pravesha'].description)}</p>` +
+      `<p lang="kn">${esc(SP.kannadaLine)}</p><p>${esc(SP.name)} is an 18-month live online Sanskrit programme for children aged 8 to 14, taught in Kannada and English, led by Acharya Vishweshwara N M of Bengaluru. The first batch, the Dhruva cohort, starts on Monday 7 December 2026.</p><p>${esc(PAGE_META['/samskara-pravesha'].description)}</p>` +
       `<p>Starts ${esc(SP.start)} · ${esc(SP.schedule)} · ${SP.levels} levels × ${SP.sessionsPerLevel} classes · ${SP.months} months. ${esc(SP.breakNote)}</p>` +
       '<h2>What will my child gain?</h2>' + SP_GAINS.map(g => `<h3>${esc(g.title)}</h3><p>${esc(g.text)}</p>`).join('') +
       '<h2>How do the live classes run?</h2>' + SP_HOW.map(h => `<h3>${esc(h.title)}</h3><p>${esc(h.text)}</p>`).join('') +

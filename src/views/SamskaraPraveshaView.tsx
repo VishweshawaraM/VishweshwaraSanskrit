@@ -95,7 +95,7 @@ export const SamskaraPraveshaView: React.FC = () => {
                 <p className="font-kannada font-bold text-xl md:text-2xl text-text-primary">{SP.kannadaLine}</p>
                 <p className="font-sans text-sm md:text-base text-text-secondary leading-relaxed max-w-xl">
                   <strong className="text-text-primary font-semibold">{SP.name}</strong> is an 18-month live online Sanskrit programme for children aged 8 to 14, taught in Kannada and English, with the Bhagavad Gita and value shlokas woven in.
-                  It is led and taught live by {ACHARYA_NAME}, together with fellow Acharyas of the Gurukula, and the first batch starts on Monday 7 December 2026.
+                  It is led and taught live by {ACHARYA_NAME} of Bengaluru, together with fellow Acharyas of the Gurukula, and the first batch starts on Monday 7 December 2026.
                 </p>
               </div>
             </FadeInSection>
