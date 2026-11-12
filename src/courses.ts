@@ -199,7 +199,7 @@ export const COURSES: Course[] = [
       { title: 'Varna and svara', text: 'Every letter pronounced exactly, and every syllable given its svara: udatta, anudatta and svarita. In the Veda the pitch is part of the mantra, so it’s corrected every time.' },
       { title: 'Matra and bala', text: 'The right length of each sound (hrasva, dirgha, pluta), and the right effort with which it is spoken.' },
       { title: 'Sama and santana', text: 'An even, steady flow, and the correct joining of sounds where words meet, as Shiksha and Vyakarana teach.' },
-      { title: 'Repetition, the old way', text: 'The teacher says it, the student repeats it, and we go again until it sits right. This is how the Veda has been passed on for thousands of years.' },
+      { title: 'Repetition, the old way', text: 'The Acharya says it, the student repeats it, and we go again until it sits right. This is how the Veda has been passed on for thousands of years.' },
     ],
     pathTitle: 'Five stages of Vedic study',
     path: [

@@ -187,7 +187,7 @@ export const FAQ_ITEMS: FAQItem[] = [
   {
     id: 'faq1',
     question: 'What is Guru Dakshina, and how does it work here?',
-    answer: 'Guru Dakshina is an ancient, sacred tradition. Instead of commercial, upfront fees, students make a self-determined offering (Dakshina) that honors the knowledge received and supports the teacher’s livelihood. We do not turn away earnest seekers due to financial constraints.'
+    answer: 'Guru Dakshina is an ancient, sacred tradition. Instead of commercial, upfront fees, students make a self-determined offering (Dakshina) that honors the knowledge received and supports the Acharya’s livelihood. We do not turn away earnest seekers due to financial constraints.'
   },
   {
     id: 'faq2',

@@ -94,8 +94,8 @@ export const SamskaraPraveshaView: React.FC = () => {
               <div className="space-y-2">
                 <p className="font-kannada font-bold text-xl md:text-2xl text-text-primary">{SP.kannadaLine}</p>
                 <p className="font-sans text-sm md:text-base text-text-secondary leading-relaxed max-w-xl">
-                  <strong className="text-text-primary font-semibold">{SP.name}</strong> is an 18-month Sanskrit programme for children,
-                  with the Bhagavad Gita and value shlokas woven in, led and taught live by {ACHARYA_NAME}, together with fellow Acharyas of the Gurukula.
+                  <strong className="text-text-primary font-semibold">{SP.name}</strong> is an 18-month live online Sanskrit programme for children aged 8 to 14, taught in Kannada and English, with the Bhagavad Gita and value shlokas woven in.
+                  It is led and taught live by {ACHARYA_NAME}, together with fellow Acharyas of the Gurukula, and the first batch starts on Monday 7 December 2026.
                 </p>
               </div>
             </FadeInSection>
@@ -139,7 +139,7 @@ export const SamskaraPraveshaView: React.FC = () => {
           <div className="max-w-7xl mx-auto space-y-10">
             <div className="text-left max-w-2xl space-y-3">
               <Label>What your child gains</Label>
-              <h2 className="font-serif font-bold text-[clamp(2.2rem,5vw,3.4rem)] text-text-primary leading-[1]">Sanskrit, shlokas <span className="italic font-semibold text-gold-bright">and samskara.</span></h2>
+              <h2 className="font-serif font-bold text-[clamp(2.2rem,5vw,3.4rem)] text-text-primary leading-[1]">What will my child gain? <span className="italic font-semibold text-gold-bright">Sanskrit, shlokas and samskara.</span></h2>
               <p className="font-sans text-sm md:text-base text-text-secondary leading-relaxed">After 18 months, your child speaks simple Sanskrit with confidence, chants correctly, and carries shlokas and their meaning for life.</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -161,7 +161,7 @@ export const SamskaraPraveshaView: React.FC = () => {
           <div className="max-w-7xl mx-auto border border-gold-mid bg-surface-1 p-6 md:p-12 space-y-10">
             <div className="text-left space-y-3">
               <Label>One clear path</Label>
-              <h2 className="font-serif font-bold text-[clamp(2.2rem,5vw,3.4rem)] text-text-primary leading-[1]">18 months. <span className="italic font-semibold text-gold-bright">6 levels.</span> 144 live classes.</h2>
+              <h2 className="font-serif font-bold text-[clamp(2.2rem,5vw,3.4rem)] text-text-primary leading-[1]">How long is the programme? <span className="italic font-semibold text-gold-bright">18 months,</span> 6 levels, 144 live classes.</h2>
             </div>
             <ol className="grid grid-cols-3 md:grid-cols-6 gap-3">
               {Array.from({ length: SP.levels }).map((_, i) => (
@@ -210,7 +210,7 @@ export const SamskaraPraveshaView: React.FC = () => {
           <div className="max-w-6xl mx-auto space-y-10">
             <div className="text-center space-y-3">
               <Label>Guru Dakshina</Label>
-              <h2 className="font-serif font-bold text-[clamp(2.2rem,5vw,3.4rem)] text-text-primary leading-[1]">Choose what suits your family</h2>
+              <h2 className="font-serif font-bold text-[clamp(2.2rem,5vw,3.4rem)] text-text-primary leading-[1]">What is the Guru Dakshina? <span className="italic font-semibold text-gold-bright">Choose what suits your family.</span></h2>
               <p className="font-sans text-sm text-text-secondary max-w-xl mx-auto">Each live class is valued at about ₹225. The free open class comes first, so you decide only after your child has tried it.</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">

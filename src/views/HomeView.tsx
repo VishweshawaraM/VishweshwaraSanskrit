@@ -118,7 +118,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
               <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-[#0E0B07] border border-gold-dim">
                 <img 
                   src="/acharya-photo.webp" 
-                  alt="Acharya Vishweshwara N M, Gurukula-trained Sanskrit and Vedic teacher" 
+                  alt="Acharya Vishweshwara N M, Gurukula-trained Sanskrit and Vedic Acharya" 
                   loading="lazy"
                   decoding="async"
                   width={720}
