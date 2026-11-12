@@ -88,7 +88,7 @@ const person = () => ({
   knowsAbout: ['Sanskrit', 'Vyakarana', 'Krishna Yajurveda', 'Vedic chanting', 'Bhagavad Gita', 'Advaita Vedanta', 'Nyaya', 'Mimamsa', 'Shankara Bhashya'],
   knowsLanguage: ['sa', 'en', 'kn', 'hi'],
   homeLocation: { '@type': 'Place', name: 'Bengaluru, Karnataka, India' },
-  sameAs: ['https://www.instagram.com/vishweshwara_sanskrit', 'https://www.facebook.com/share/18inj2iS8o/', 'https://share.google/YJDHCZgoFpiePUgA6'],
+  sameAs: ['https://www.instagram.com/acharya_vishweshwara/', 'https://www.facebook.com/profile.php?id=61596235136897', 'https://share.google/YJDHCZgoFpiePUgA6'],
 });
 
 const faqPage = (items: { question: string; answer: string }[]) => ({

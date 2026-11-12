@@ -356,8 +356,8 @@ export const AboutView: React.FC<AboutViewProps> = () => {
                       <WhatsAppIcon className="w-3.5 h-3.5 text-gold-bright" aria-hidden="true" /> WhatsApp Community
                     </a>
                   </li>
-                  <li><a href="https://www.instagram.com/vishweshwara_sanskrit?igsh=MThoZ255OGlvZnVxcQ==" target="_blank" rel="noopener noreferrer" className="text-text-primary hover:text-gold-bright">Instagram</a></li>
-                  <li><a href="https://www.facebook.com/share/18inj2iS8o/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" className="text-text-primary hover:text-gold-bright">Facebook</a></li>
+                  <li><a href="https://www.instagram.com/acharya_vishweshwara/" target="_blank" rel="noopener noreferrer" className="text-text-primary hover:text-gold-bright">Instagram</a></li>
+                  <li><a href="https://www.facebook.com/profile.php?id=61596235136897" target="_blank" rel="noopener noreferrer" className="text-text-primary hover:text-gold-bright">Facebook</a></li>
                 </ul>
               </div>
             </div>

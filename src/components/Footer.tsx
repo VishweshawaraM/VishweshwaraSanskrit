@@ -124,7 +124,7 @@ export const Footer: React.FC<FooterProps> = ({ onViewChange }) => {
           </ul>
           <div className="flex items-center space-x-3 pt-1">
             <a 
-              href="https://www.instagram.com/vishweshwara_sanskrit?igsh=MThoZ255OGlvZnVxcQ==" 
+              href="https://www.instagram.com/acharya_vishweshwara/" 
               target="_blank" 
               rel="noreferrer" 
               className="text-text-tertiary hover:text-text-gold transition-colors p-1.5 bg-surface-2 rounded border border-gold-dim/40 hover:border-text-gold"
@@ -133,7 +133,7 @@ export const Footer: React.FC<FooterProps> = ({ onViewChange }) => {
               <Instagram className="w-4 h-4" />
             </a>
             <a 
-              href="https://www.facebook.com/share/18inj2iS8o/?mibextid=wwXIfr" 
+              href="https://www.facebook.com/profile.php?id=61596235136897" 
               target="_blank" 
               rel="noreferrer" 
               className="text-text-tertiary hover:text-text-gold transition-colors p-1.5 bg-surface-2 rounded border border-gold-dim/40 hover:border-text-gold"
