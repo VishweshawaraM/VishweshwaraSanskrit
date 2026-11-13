@@ -1,0 +1,96 @@
+{
+  "id": "sanskrit-devanagari",
+  "name": "Sanskrit (Devanagari)",
+  "language": "sa",
+  "script": "Deva",
+  "version": "0.1.0",
+  "virama": "्",
+
+  "vowels": [
+    { "keys": ["a"],              "independent": "अ", "matra": "" },
+    { "keys": ["aa", "A"],        "independent": "आ", "matra": "ा" },
+    { "keys": ["i"],              "independent": "इ", "matra": "ि" },
+    { "keys": ["ii", "I", "ee"],  "independent": "ई", "matra": "ी" },
+    { "keys": ["u"],              "independent": "उ", "matra": "ु" },
+    { "keys": ["uu", "U", "oo"],  "independent": "ऊ", "matra": "ू" },
+    { "keys": ["Ru", "RRi", "R"], "independent": "ऋ", "matra": "ृ" },
+    { "keys": ["RU", "RRI"],      "independent": "ॠ", "matra": "ॄ" },
+    { "keys": ["lRu"],            "independent": "ऌ", "matra": "ॢ" },
+    { "keys": ["lRU"],            "independent": "ॡ", "matra": "ॣ" },
+    { "keys": ["e", "E"],         "independent": "ए", "matra": "े" },
+    { "keys": ["ai"],             "independent": "ऐ", "matra": "ै" },
+    { "keys": ["o", "O"],         "independent": "ओ", "matra": "ो" },
+    { "keys": ["au"],             "independent": "औ", "matra": "ौ" }
+  ],
+
+  "consonants": [
+    { "keys": ["k"],         "text": "क" },
+    { "keys": ["kh"],        "text": "ख" },
+    { "keys": ["g"],         "text": "ग" },
+    { "keys": ["gh"],        "text": "घ" },
+    { "keys": ["G"],         "text": "ङ" },
+
+    { "keys": ["c", "ch"],   "text": "च" },
+    { "keys": ["Ch", "chh"], "text": "छ" },
+    { "keys": ["j"],         "text": "ज" },
+    { "keys": ["jh"],        "text": "झ" },
+    { "keys": ["J"],         "text": "ञ" },
+
+    { "keys": ["T"],         "text": "ट" },
+    { "keys": ["Th"],        "text": "ठ" },
+    { "keys": ["D"],         "text": "ड" },
+    { "keys": ["Dh"],        "text": "ढ" },
+    { "keys": ["N"],         "text": "ण" },
+
+    { "keys": ["t"],         "text": "त" },
+    { "keys": ["th"],        "text": "थ" },
+    { "keys": ["d"],         "text": "द" },
+    { "keys": ["dh"],        "text": "ध" },
+    { "keys": ["n"],         "text": "न" },
+
+    { "keys": ["p"],         "text": "प" },
+    { "keys": ["ph", "f"],   "text": "फ" },
+    { "keys": ["b"],         "text": "ब" },
+    { "keys": ["bh"],        "text": "भ" },
+    { "keys": ["m"],         "text": "म" },
+
+    { "keys": ["y"],         "text": "य" },
+    { "keys": ["r"],         "text": "र" },
+    { "keys": ["l"],         "text": "ल" },
+    { "keys": ["v", "w"],    "text": "व" },
+
+    { "keys": ["S"],         "text": "श" },
+    { "keys": ["sh", "Sh"],  "text": "ष", "note": "Sh as in ITRANS and Baraha" },
+    { "keys": ["s"],         "text": "स" },
+    { "keys": ["h"],         "text": "ह" },
+    { "keys": ["L"],         "text": "ळ" },
+
+    { "keys": ["x"],         "text": "क्ष", "note": "kṣa shortcut; k + Sh and j + J give क्ष and ज्ञ naturally" }
+  ],
+
+  "symbols": [
+    { "keys": ["M"],   "text": "ं", "label": "anusvāra" },
+    { "keys": ["H"],   "text": "ः", "label": "visarga" },
+    { "keys": [".N"],  "text": "ँ", "label": "candrabindu" },
+    { "keys": ["'"],   "text": "ऽ", "label": "avagraha" },
+    { "keys": ["|"],   "text": "।", "label": "daṇḍa" },
+    { "keys": ["||"],  "text": "॥", "label": "double daṇḍa" },
+    { "keys": ["OM"],  "text": "ॐ", "label": "praṇava", "context": "not_after_consonant" },
+
+    { "keys": ["`a"], "text": "॒", "group": "Vedic svaras", "label": "anudātta", "note": "bar below (U+0952)" },
+    { "keys": ["`s"], "text": "॑", "group": "Vedic svaras", "label": "svarita", "note": "stroke above (U+0951)" },
+    { "keys": ["`d"], "text": "᳚", "group": "Vedic svaras", "label": "dīrgha svarita", "note": "double stroke above (U+1CDA)" },
+
+    { "keys": ["0"], "text": "०", "group": "Digits" }, { "keys": ["1"], "text": "१", "group": "Digits" },
+    { "keys": ["2"], "text": "२", "group": "Digits" }, { "keys": ["3"], "text": "३", "group": "Digits" },
+    { "keys": ["4"], "text": "४", "group": "Digits" }, { "keys": ["5"], "text": "५", "group": "Digits" },
+    { "keys": ["6"], "text": "६", "group": "Digits" }, { "keys": ["7"], "text": "७", "group": "Digits" },
+    { "keys": ["8"], "text": "८", "group": "Digits" }, { "keys": ["9"], "text": "९", "group": "Digits" }
+  ],
+
+  "controls": {
+    "separator": ["/"],
+    "zwnj": ["^"],
+    "zwj": ["~"]
+  }
+}

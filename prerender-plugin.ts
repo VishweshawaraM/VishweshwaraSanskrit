@@ -4,6 +4,7 @@ import type { Plugin } from 'vite';
 import { PAGE_META } from './src/utils/seoData';
 import { COURSES, ACHARYA_NAME, whatsappLink } from './src/courses';
 import { SP, SP_FREE_CLASSES, SP_GAINS, SP_HOW, SP_DAKSHINA, SP_COMMUNITY, SP_FAQ } from './src/samskaraPravesha';
+import { AK, AK_FEATURES, AK_STEPS, AK_FAQ } from './src/aksharam';
 import { PRIVACY_INTRO, PRIVACY_SECTIONS, PRIVACY_UPDATED } from './src/privacy';
 import { ABOUT_STORY, ABOUT_STUDIES, ABOUT_DEGREES, ABOUT_FAQ } from './src/aboutContent';
 import { SUBJECTS_ITEMS, STATS_ITEMS, CREDENTIALS_ITEMS, TESTIMONIALS_ITEMS, TIMELINE_ITEMS, FAQ_ITEMS } from './src/data';
@@ -205,6 +206,26 @@ const ROUTES: Route[] = [
       person(),
       faqPage(SP_FAQ),
       breadcrumbs([['Home', '/'], ['Samskrita Samskara Pravesha', '/samskara-pravesha']]),
+    ],
+  },
+  {
+    path: '/aksharam', file: 'aksharam.html',
+    h1: 'Aksharam IME: type Sanskrit on your Mac the way you say it',
+    body: () =>
+      `<p>${esc(PAGE_META['/aksharam'].description)}</p><p>Built by ${esc(ACHARYA_NAME)}. ${esc(AK.requirements)}. One-time Guru Dakshina of ₹${AK.price}: <a href="${AK.buyUrl}">get Aksharam IME</a>.</p>` +
+      '<h2>Why Aksharam IME</h2>' + AK_FEATURES.map(f => `<h3>${esc(f.title)}</h3><p>${esc(f.body)}</p>`).join('') +
+      '<h2>How to install</h2><ol>' + AK_STEPS.map(s => `<li>${esc(s)}</li>`).join('') + '</ol>' +
+      '<h2>Questions</h2>' + AK_FAQ.map(f => `<h3>${esc(f.question)}</h3><p>${esc(f.answer)}</p>`).join(''),
+    schema: () => [
+      {
+        '@type': 'SoftwareApplication', '@id': SITE + '/aksharam#app', name: AK.name, url: SITE + '/aksharam',
+        applicationCategory: 'UtilitiesApplication', operatingSystem: 'macOS 12 or later', softwareVersion: AK.version,
+        description: PAGE_META['/aksharam'].description, image: SITE + '/aksharam-ime/aksharam-icon.png', inLanguage: ['sa', 'en'],
+        offers: { '@type': 'Offer', price: String(AK.price), priceCurrency: 'INR', url: AK.buyUrl, availability: 'https://schema.org/InStock' },
+        author: { '@id': PERSON_ID }, publisher: { '@id': ORG_ID },
+      },
+      faqPage(AK_FAQ),
+      breadcrumbs([['Home', '/'], ['Aksharam IME', '/aksharam']]),
     ],
   },
   ...COURSES.map((c): Route => ({

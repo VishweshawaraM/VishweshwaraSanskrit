@@ -34,7 +34,7 @@ const BREADCRUMBS: Record<string, Array<{ name: string; item: string }>> = {
   ]])),
 };
 
-const NOINDEX_PATHS = new Set(['/admin', '/landing']);
+const NOINDEX_PATHS = new Set(['/admin', '/landing', '/aksharam/download-e21259fdf0']);
 const INDEX_ROBOTS = 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
 
 export function MetaTagsManager() {

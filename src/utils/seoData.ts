@@ -33,6 +33,15 @@ export const PAGE_META: Record<string, { title: string; description: string; ima
     title: 'Kids’ Sanskrit in Kannada & English | Vishweshwara Sanskrit',
     description: 'Samskrita Samskara Pravesha: 18-month live Sanskrit for children 8–14, with Gita and value shlokas, in Kannada and English. Free open classes in November.',
   },
+  '/aksharam': {
+    title: 'Aksharam IME: Sanskrit Keyboard for Mac | Vishweshwara Sanskrit',
+    description: 'Type Sanskrit in Devanagari on your Mac the way you say it: saMskRutam becomes संस्कृतम्. Halanta, conjuncts and Vedic svaras. One-time ₹99.',
+    image: '/aksharam-ime/aksharam-icon.png',
+  },
+  '/aksharam/download-e21259fdf0': {
+    title: 'Download Aksharam IME | Vishweshwara Sanskrit',
+    description: 'Your Aksharam IME download.',
+  },
   '/privacy': {
     title: 'Privacy Notice | Vishweshwara Sanskrit',
     description: 'This website collects no personal details. How WhatsApp enquiries, payments and children’s information are handled, and how to ask for deletion.',
