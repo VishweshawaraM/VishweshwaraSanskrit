@@ -3,10 +3,10 @@ export const AK = {
   name: 'Aksharam IME',
   price: 99,
   buyUrl: 'https://rzp.io/rzp/AksharamIME',
-  version: '1.0.2',
+  version: '1.0.3',
   // Private download page and file (not linked from anywhere public; the Razorpay page redirects here).
   downloadPath: '/aksharam/download-e21259fdf0',
-  fileUrl: '/aksharam-ime/dl-e21259fdf0/Aksharam-IME-1.0.2.pkg',
+  fileUrl: '/aksharam-ime/dl-e21259fdf0/Aksharam-IME-1.0.3.pkg',
   requirements: 'macOS 12 Monterey or later · Apple Silicon and Intel Macs',
   video: '/aksharam-ime/aksharam-install-v103.mp4',
   poster: '/aksharam-ime/aksharam-install-v103.jpg',
