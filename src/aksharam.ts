@@ -14,7 +14,7 @@ export const AK_EXAMPLES = [
   'saMskRutam',
   'OM namaH SivAya',
   'satyaM vada | dharmaM chara ||',
-  'kRShNaH',
+  'kRushNaH',
   'agnimILE purOhitam',
 ];
 

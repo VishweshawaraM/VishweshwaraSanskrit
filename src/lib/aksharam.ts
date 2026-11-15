@@ -1,4 +1,5 @@
 // Aksharam IME engine for the web demo: the same scheme file and longest-match rules as the Mac keyboard.
+// src/data/aksharam-scheme.json must be an exact copy of schemes/sanskrit.json from the Aksharam IME source.
 import scheme from '../data/aksharam-scheme.json';
 
 type Ctx = 'any' | 'after_consonant' | 'not_after_consonant';

@@ -13,7 +13,7 @@
     { "keys": ["ii", "I", "ee"],  "independent": "ई", "matra": "ी" },
     { "keys": ["u"],              "independent": "उ", "matra": "ु" },
     { "keys": ["uu", "U", "oo"],  "independent": "ऊ", "matra": "ू" },
-    { "keys": ["Ru", "RRi", "R"], "independent": "ऋ", "matra": "ृ" },
+    { "keys": ["Ru", "RRi"],      "independent": "ऋ", "matra": "ृ" },
     { "keys": ["RU", "RRI"],      "independent": "ॠ", "matra": "ॄ" },
     { "keys": ["lRu"],            "independent": "ऌ", "matra": "ॢ" },
     { "keys": ["lRU"],            "independent": "ॡ", "matra": "ॣ" },
@@ -60,12 +60,12 @@
     { "keys": ["v", "w"],    "text": "व" },
 
     { "keys": ["S"],         "text": "श" },
-    { "keys": ["sh", "Sh"],  "text": "ष", "note": "Sh as in ITRANS and Baraha" },
+    { "keys": ["sh"],        "text": "ष" },
     { "keys": ["s"],         "text": "स" },
     { "keys": ["h"],         "text": "ह" },
     { "keys": ["L"],         "text": "ळ" },
 
-    { "keys": ["x"],         "text": "क्ष", "note": "kṣa shortcut; k + Sh and j + J give क्ष and ज्ञ naturally" }
+    { "keys": ["x", "Sh"],   "text": "क्ष", "note": "kṣa shortcut; j + J gives ज्ञ naturally" }
   ],
 
   "symbols": [
