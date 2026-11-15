@@ -39,6 +39,7 @@ export const AK_STEPS = [
 
 export const AK_FAQ = [
   { id: 'ak1', question: 'Why does my Mac warn me the first time?', answer: 'Aksharam IME is sold directly from this website, not through the App Store, so macOS asks you to confirm once in System Settings → Privacy & Security → Open Anyway. After that it opens like any other app. The install video on this page shows every click.' },
+  { id: 'ak0', question: 'I installed it but it still types English. What do I do?', answer: 'Restart your Mac once after installing. Apps that were already open keep an old connection to the keyboard; a restart clears it. Then choose Aksharam (अ) from the input menu and type rAmaH followed by a space: you get रामः.' },
   { id: 'ak2', question: 'Does it need the internet?', answer: 'No. Aksharam IME works fully offline on your Mac and does not send anything you type anywhere.' },
   { id: 'ak3', question: 'Which Macs does it work on?', answer: 'macOS 12 Monterey or later, on both Apple Silicon (M1 and newer) and Intel Macs.' },
   { id: 'ak4', question: 'Is there a version for Windows, iPhone or iPad?', answer: 'Not yet. The Mac keyboard comes first. Windows and other Indian scripts such as Kannada are planned.' },
