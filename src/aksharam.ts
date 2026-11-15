@@ -8,8 +8,8 @@ export const AK = {
   downloadPath: '/aksharam/download-e21259fdf0',
   fileUrl: '/aksharam-ime/dl-e21259fdf0/Aksharam-IME-1.0.2.pkg',
   requirements: 'macOS 12 Monterey or later · Apple Silicon and Intel Macs',
-  video: '/aksharam-ime/aksharam-install-v102.mp4',
-  poster: '/aksharam-ime/aksharam-install-v102.jpg',
+  video: '/aksharam-ime/aksharam-install-v103.mp4',
+  poster: '/aksharam-ime/aksharam-install-v103.jpg',
 };
 
 export const AK_EXAMPLES = [
