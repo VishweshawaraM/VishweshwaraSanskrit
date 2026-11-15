@@ -7,6 +7,9 @@ export const AK = {
   // Private download page and file (not linked from anywhere public; the Razorpay page redirects here).
   downloadPath: '/aksharam/download-e21259fdf0',
   fileUrl: '/aksharam-ime/dl-e21259fdf0/Aksharam-IME-1.0.3.pkg',
+  // Download gatekeeper (Cloudflare Worker). When set, the download page verifies the Razorpay payment
+  // and the installer is no longer published on this website.
+  downloadApi: '',
   requirements: 'macOS 12 Monterey or later · Apple Silicon and Intel Macs',
   video: '/aksharam-ime/aksharam-install-v103.mp4',
   poster: '/aksharam-ime/aksharam-install-v103.jpg',

@@ -348,6 +348,44 @@ export const AksharamView: React.FC = () => {
   );
 };
 
+const paymentIdFromUrl = (): string => {
+  if (typeof window === 'undefined') return '';
+  const q = new URLSearchParams(window.location.search);
+  return q.get('razorpay_payment_id') || q.get('payment_id') || '';
+};
+
+const GatedDownload: React.FC = () => {
+  const [pid, setPid] = useState(paymentIdFromUrl());
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
+  const download = async (e?: React.FormEvent) => {
+    e?.preventDefault();
+    setBusy(true); setError('');
+    try {
+      const r = await fetch(`${AK.downloadApi}/verify?payment_id=${encodeURIComponent(pid.trim())}`);
+      const j = await r.json();
+      if (j.ok && j.url) window.location.href = j.url;
+      else setError(j.error || 'Could not verify the payment. Please try again.');
+    } catch {
+      setError('Could not reach the download server. Please check your internet and try again.');
+    } finally { setBusy(false); }
+  };
+  useEffect(() => { if (paymentIdFromUrl()) void download(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  return (
+    <form onSubmit={download} className="max-w-md mx-auto space-y-3 text-left">
+      <label htmlFor="ak-pid" className="font-mono text-[10px] tracking-[0.2em] uppercase text-text-gold block">Your payment ID</label>
+      <input id="ak-pid" value={pid} onChange={e => setPid(e.target.value)} placeholder="pay_XXXXXXXXXXXXXX" spellCheck={false} autoCapitalize="off" autoCorrect="off"
+        className="w-full bg-surface-2 border border-gold-dim focus:border-gold-bright outline-none rounded-xl px-4 py-3.5 font-mono text-base text-text-primary" />
+      <p className="font-sans text-xs text-text-tertiary">It starts with <span className="font-mono">pay_</span> and is in the receipt email from Razorpay.</p>
+      <button type="submit" disabled={busy || !pid.trim()}
+        className="w-full inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-gradient-to-r from-gold-base via-gold-bright to-gold-glow text-ground font-mono text-xs tracking-widest uppercase font-semibold shadow-[0_12px_40px_rgba(232,168,32,0.35)] hover:brightness-110 disabled:opacity-60">
+        <Download className="w-4 h-4" aria-hidden="true" /> {busy ? 'Checking payment…' : `Download Aksharam-IME-${AK.version}.pkg`}
+      </button>
+      {error && <p role="alert" className="font-sans text-sm text-[#ff9b8a]">{error}</p>}
+    </form>
+  );
+};
+
 export const AksharamDownloadView: React.FC = () => (
   <div className="overflow-x-clip">
     <section className="pt-28 md:pt-32 pb-16 px-4 md:px-12 bg-ground">
@@ -360,10 +398,12 @@ export const AksharamDownloadView: React.FC = () => (
         <p className="font-sans text-base text-text-secondary max-w-xl mx-auto leading-relaxed">
           Thank you for your Guru Dakshina. Download the installer below, then follow the short video. Please keep this file for your own Macs and do not share it publicly.
         </p>
-        <a href={AK.fileUrl} download
-          className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-gradient-to-r from-gold-base via-gold-bright to-gold-glow text-ground font-mono text-xs tracking-widest uppercase font-semibold shadow-[0_12px_40px_rgba(232,168,32,0.35)] hover:brightness-110">
-          <Download className="w-4 h-4" aria-hidden="true" /> Download Aksharam-IME-{AK.version}.pkg
-        </a>
+        {AK.downloadApi ? <GatedDownload /> : (
+          <a href={AK.fileUrl} download
+            className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-gradient-to-r from-gold-base via-gold-bright to-gold-glow text-ground font-mono text-xs tracking-widest uppercase font-semibold shadow-[0_12px_40px_rgba(232,168,32,0.35)] hover:brightness-110">
+            <Download className="w-4 h-4" aria-hidden="true" /> Download Aksharam-IME-{AK.version}.pkg
+          </a>
+        )}
         <p className="font-sans text-xs text-text-tertiary">{AK.requirements}</p>
       </div>
     </section>
