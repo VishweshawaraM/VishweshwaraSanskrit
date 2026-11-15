@@ -3,11 +3,13 @@ export const AK = {
   name: 'Aksharam IME',
   price: 99,
   buyUrl: 'https://rzp.io/rzp/AksharamIME',
-  version: '1.0.1',
+  version: '1.0.2',
   // Private download page and file (not linked from anywhere public; the Razorpay page redirects here).
   downloadPath: '/aksharam/download-e21259fdf0',
-  fileUrl: '/aksharam-ime/dl-e21259fdf0/Aksharam-IME-1.0.1.pkg',
+  fileUrl: '/aksharam-ime/dl-e21259fdf0/Aksharam-IME-1.0.2.pkg',
   requirements: 'macOS 12 Monterey or later · Apple Silicon and Intel Macs',
+  video: '/aksharam-ime/aksharam-install-v102.mp4',
+  poster: '/aksharam-ime/aksharam-install-v102.jpg',
 };
 
 export const AK_EXAMPLES = [
@@ -30,7 +32,7 @@ export const AK_STEPS = [
   'Pay the Guru Dakshina of ₹99. You come straight to the download page.',
   'Download Aksharam-IME.pkg and double-click it. The first time, macOS stops it: click Done.',
   'Open System Settings → Privacy & Security, click Open Anyway and type your Mac password.',
-  'In the installer, click Continue, Agree, then Install. Any older Aksharam or SansIME keyboard is replaced automatically.',
+  'In the installer, click Continue, Agree, then Install. Updates and older Aksharam or SansIME keyboards are handled automatically.',
   'Aksharam is switched on for you. Choose Aksharam (अ) from the input menu at the top right of your screen.',
   'Type in any app. Space finishes the word; Control + Space switches back to English.',
 ];

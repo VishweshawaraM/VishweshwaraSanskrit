@@ -163,3 +163,14 @@ body {
     radial-gradient(ellipse at 50% 110%, rgba(40,26,6,0.55), transparent 60%),
     linear-gradient(180deg, rgba(2,2,6,0.9) 0%, rgba(5,4,10,0.86) 60%, rgba(10,8,5,0.84) 100%);
 }
+
+/* Aksharam IME page */
+@keyframes ak-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes ak-float { 0%, 100% { transform: translateY(0) rotate(var(--ak-r, 0deg)); } 50% { transform: translateY(-16px) rotate(var(--ak-r, 0deg)); } }
+@keyframes ak-caret { 50% { opacity: 0; } }
+@keyframes ak-glow { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
+.ak-marquee { animation: ak-marquee 38s linear infinite; }
+.ak-float { animation: ak-float 7s ease-in-out infinite; }
+.ak-caret { animation: ak-caret 1s steps(1) infinite; }
+.ak-glow { animation: ak-glow 5s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .ak-marquee, .ak-float, .ak-caret, .ak-glow { animation: none; } }
