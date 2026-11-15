@@ -73,7 +73,7 @@ export const AksharamView: React.FC = () => (
           </FadeInSection>
           <FadeInSection direction="up" delay={180}>
             <p className="font-sans text-base md:text-lg text-text-secondary max-w-xl leading-relaxed">
-              Type <span className="font-mono text-text-primary">saMskRutam</span> and get <span lang="sa" className="font-devanagari text-text-primary">संस्कृतम्</span>. {AK.name} was built by {ACHARYA_NAME} for students, teachers and anyone who writes Sanskrit, with halanta, conjuncts and Vedic svaras done right.
+              Type <span className="font-mono text-text-primary">saMskRitam</span> and get <span lang="sa" className="font-devanagari text-text-primary">संस्कृतम्</span>. {AK.name} was built by {ACHARYA_NAME} for students, teachers and anyone who writes Sanskrit, with halanta, conjuncts and Vedic svaras done right.
             </p>
           </FadeInSection>
           <FadeInSection direction="up" delay={240}>

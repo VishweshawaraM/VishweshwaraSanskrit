@@ -35,7 +35,7 @@ export const PAGE_META: Record<string, { title: string; description: string; ima
   },
   '/aksharam': {
     title: 'Aksharam IME: Sanskrit Keyboard for Mac | Vishweshwara Sanskrit',
-    description: 'Type Sanskrit in Devanagari on your Mac the way you say it: saMskRutam becomes संस्कृतम्. Halanta, conjuncts and Vedic svaras. One-time ₹99.',
+    description: 'Type Sanskrit in Devanagari on your Mac the way you say it: saMskRitam becomes संस्कृतम्. Halanta, conjuncts and Vedic svaras. One-time ₹99.',
     image: '/aksharam-ime/aksharam-icon.png',
   },
   '/aksharam/download-e21259fdf0': {

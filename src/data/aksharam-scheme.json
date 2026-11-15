@@ -1,96 +1,100 @@
 {
-  "id": "sanskrit-devanagari",
-  "name": "Sanskrit (Devanagari)",
-  "language": "sa",
-  "script": "Deva",
-  "version": "0.1.0",
+  "id": "sanskrit",
+  "name": "Sanskrit",
+  "script": "Devanagari",
+  "version": 1,
+
   "virama": "्",
+  "breakKey": "_",
+  "escapeKey": "\\",
 
   "vowels": [
-    { "keys": ["a"],              "independent": "अ", "matra": "" },
-    { "keys": ["aa", "A"],        "independent": "आ", "matra": "ा" },
-    { "keys": ["i"],              "independent": "इ", "matra": "ि" },
-    { "keys": ["ii", "I", "ee"],  "independent": "ई", "matra": "ी" },
-    { "keys": ["u"],              "independent": "उ", "matra": "ु" },
-    { "keys": ["uu", "U", "oo"],  "independent": "ऊ", "matra": "ू" },
-    { "keys": ["Ru", "RRi"],      "independent": "ऋ", "matra": "ृ" },
-    { "keys": ["RU", "RRI"],      "independent": "ॠ", "matra": "ॄ" },
-    { "keys": ["lRu"],            "independent": "ऌ", "matra": "ॢ" },
-    { "keys": ["lRU"],            "independent": "ॡ", "matra": "ॣ" },
-    { "keys": ["e", "E"],         "independent": "ए", "matra": "े" },
-    { "keys": ["ai"],             "independent": "ऐ", "matra": "ै" },
-    { "keys": ["o", "O"],         "independent": "ओ", "matra": "ो" },
-    { "keys": ["au"],             "independent": "औ", "matra": "ौ" }
+    { "keys": ["a"],          "letter": "अ", "sign": "",  "name": "a" },
+    { "keys": ["aa", "A"],    "letter": "आ", "sign": "ा", "name": "ā" },
+    { "keys": ["i"],          "letter": "इ", "sign": "ि", "name": "i" },
+    { "keys": ["I", "ee"],    "letter": "ई", "sign": "ी", "name": "ī" },
+    { "keys": ["u"],          "letter": "उ", "sign": "ु", "name": "u" },
+    { "keys": ["U"],          "letter": "ऊ", "sign": "ू", "name": "ū" },
+    { "keys": ["Ri"],         "letter": "ऋ", "sign": "ृ", "name": "ṛ" },
+    { "keys": ["RI"],         "letter": "ॠ", "sign": "ॄ", "name": "ṝ" },
+    { "keys": ["LRi"],        "letter": "ऌ", "sign": "ॢ", "name": "ḷ" },
+    { "keys": ["LRI"],        "letter": "ॡ", "sign": "ॣ", "name": "ḹ" },
+    { "keys": ["e"],          "letter": "ए", "sign": "े", "name": "e" },
+    { "keys": ["ai"],         "letter": "ऐ", "sign": "ै", "name": "ai" },
+    { "keys": ["o"],          "letter": "ओ", "sign": "ो", "name": "o" },
+    { "keys": ["ou", "au"],   "letter": "औ", "sign": "ौ", "name": "au" }
+  ],
+
+  "marks": [
+    { "keys": ["M"],          "text": "ं", "name": "anusvāra" },
+    { "keys": ["H"],          "text": "ः", "name": "visarga" },
+    { "keys": ["GM", "F"],    "text": "ँ", "name": "candrabindu" }
   ],
 
   "consonants": [
-    { "keys": ["k"],         "text": "क" },
-    { "keys": ["kh"],        "text": "ख" },
-    { "keys": ["g"],         "text": "ग" },
-    { "keys": ["gh"],        "text": "घ" },
-    { "keys": ["G"],         "text": "ङ" },
+    { "keys": ["k"],          "letter": "क", "name": "ka" },
+    { "keys": ["kh", "K"],    "letter": "ख", "name": "kha" },
+    { "keys": ["g"],          "letter": "ग", "name": "ga" },
+    { "keys": ["G", "gh"],    "letter": "घ", "name": "gha" },
+    { "keys": ["q"],          "letter": "ङ", "name": "ṅa" },
 
-    { "keys": ["c", "ch"],   "text": "च" },
-    { "keys": ["Ch", "chh"], "text": "छ" },
-    { "keys": ["j"],         "text": "ज" },
-    { "keys": ["jh"],        "text": "झ" },
-    { "keys": ["J"],         "text": "ञ" },
+    { "keys": ["c"],          "letter": "च", "name": "ca" },
+    { "keys": ["C", "ch"],    "letter": "छ", "name": "cha" },
+    { "keys": ["j"],          "letter": "ज", "name": "ja" },
+    { "keys": ["J", "jh"],    "letter": "झ", "name": "jha" },
+    { "keys": ["Q"],          "letter": "ञ", "name": "ña" },
 
-    { "keys": ["T"],         "text": "ट" },
-    { "keys": ["Th"],        "text": "ठ" },
-    { "keys": ["D"],         "text": "ड" },
-    { "keys": ["Dh"],        "text": "ढ" },
-    { "keys": ["N"],         "text": "ण" },
+    { "keys": ["T"],          "letter": "ट", "name": "ṭa" },
+    { "keys": ["Th"],         "letter": "ठ", "name": "ṭha" },
+    { "keys": ["D"],          "letter": "ड", "name": "ḍa" },
+    { "keys": ["Dh"],         "letter": "ढ", "name": "ḍha" },
+    { "keys": ["N"],          "letter": "ण", "name": "ṇa" },
 
-    { "keys": ["t"],         "text": "त" },
-    { "keys": ["th"],        "text": "थ" },
-    { "keys": ["d"],         "text": "द" },
-    { "keys": ["dh"],        "text": "ध" },
-    { "keys": ["n"],         "text": "न" },
+    { "keys": ["t"],          "letter": "त", "name": "ta" },
+    { "keys": ["th"],         "letter": "थ", "name": "tha" },
+    { "keys": ["d"],          "letter": "द", "name": "da" },
+    { "keys": ["dh"],         "letter": "ध", "name": "dha" },
+    { "keys": ["n"],          "letter": "न", "name": "na" },
 
-    { "keys": ["p"],         "text": "प" },
-    { "keys": ["ph", "f"],   "text": "फ" },
-    { "keys": ["b"],         "text": "ब" },
-    { "keys": ["bh"],        "text": "भ" },
-    { "keys": ["m"],         "text": "म" },
+    { "keys": ["p"],          "letter": "प", "name": "pa" },
+    { "keys": ["ph", "P"],    "letter": "फ", "name": "pha" },
+    { "keys": ["b"],          "letter": "ब", "name": "ba" },
+    { "keys": ["bh", "B"],    "letter": "भ", "name": "bha" },
+    { "keys": ["m"],          "letter": "म", "name": "ma" },
 
-    { "keys": ["y"],         "text": "य" },
-    { "keys": ["r"],         "text": "र" },
-    { "keys": ["l"],         "text": "ल" },
-    { "keys": ["v", "w"],    "text": "व" },
+    { "keys": ["y"],          "letter": "य", "name": "ya" },
+    { "keys": ["r"],          "letter": "र", "name": "ra" },
+    { "keys": ["l"],          "letter": "ल", "name": "la" },
+    { "keys": ["v", "w"],     "letter": "व", "name": "va" },
+    { "keys": ["sh", "S"],    "letter": "श", "name": "śa" },
 
-    { "keys": ["S"],         "text": "श" },
-    { "keys": ["sh"],        "text": "ष" },
-    { "keys": ["s"],         "text": "स" },
-    { "keys": ["h"],         "text": "ह" },
-    { "keys": ["L"],         "text": "ळ" },
+    { "keys": ["Sh"],         "letter": "ष", "name": "ṣa" },
+    { "keys": ["s"],          "letter": "स", "name": "sa" },
+    { "keys": ["h"],          "letter": "ह", "name": "ha" },
+    { "keys": ["L"],          "letter": "ळ", "name": "ḻa" },
 
-    { "keys": ["x", "Sh"],   "text": "क्ष", "note": "kṣa shortcut; j + J gives ज्ञ naturally" }
+    { "keys": ["x"],          "letter": "क्ष", "name": "kṣa" },
+    { "keys": ["z"],          "letter": "ज्ञ", "name": "jña" }
   ],
+
+  "svaras": {
+    "prefix": "`",
+    "marks": [
+      { "keys": ["a"], "text": "॒", "name": "anudātta" },
+      { "keys": ["s"], "text": "॑", "name": "svarita" },
+      { "keys": ["d"], "text": "᳚", "name": "dīrgha svarita" }
+    ]
+  },
 
   "symbols": [
-    { "keys": ["M"],   "text": "ं", "label": "anusvāra" },
-    { "keys": ["H"],   "text": "ः", "label": "visarga" },
-    { "keys": [".N"],  "text": "ँ", "label": "candrabindu" },
-    { "keys": ["'"],   "text": "ऽ", "label": "avagraha" },
-    { "keys": ["|"],   "text": "।", "label": "daṇḍa" },
-    { "keys": ["||"],  "text": "॥", "label": "double daṇḍa" },
-    { "keys": ["OM"],  "text": "ॐ", "label": "praṇava", "context": "not_after_consonant" },
-
-    { "keys": ["`a"], "text": "॒", "group": "Vedic svaras", "label": "anudātta", "note": "bar below (U+0952)" },
-    { "keys": ["`s"], "text": "॑", "group": "Vedic svaras", "label": "svarita", "note": "stroke above (U+0951)" },
-    { "keys": ["`d"], "text": "᳚", "group": "Vedic svaras", "label": "dīrgha svarita", "note": "double stroke above (U+1CDA)" },
-
-    { "keys": ["0"], "text": "०", "group": "Digits" }, { "keys": ["1"], "text": "१", "group": "Digits" },
-    { "keys": ["2"], "text": "२", "group": "Digits" }, { "keys": ["3"], "text": "३", "group": "Digits" },
-    { "keys": ["4"], "text": "४", "group": "Digits" }, { "keys": ["5"], "text": "५", "group": "Digits" },
-    { "keys": ["6"], "text": "६", "group": "Digits" }, { "keys": ["7"], "text": "७", "group": "Digits" },
-    { "keys": ["8"], "text": "८", "group": "Digits" }, { "keys": ["9"], "text": "९", "group": "Digits" }
+    { "keys": ["|"],  "text": "।", "name": "daṇḍa" },
+    { "keys": ["||"], "text": "॥", "name": "double daṇḍa" },
+    { "keys": ["'"],  "text": "ऽ", "name": "avagraha" },
+    { "keys": ["OM"], "text": "ॐ", "name": "Om" }
   ],
 
-  "controls": {
-    "separator": ["/"],
-    "zwnj": ["^"],
-    "zwj": ["~"]
+  "digits": {
+    "0": "०", "1": "१", "2": "२", "3": "३", "4": "४",
+    "5": "५", "6": "६", "7": "७", "8": "८", "9": "९"
   }
 }

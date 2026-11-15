@@ -1,66 +1,60 @@
-// Aksharam IME engine for the web demo: the same scheme file and longest-match rules as the Mac keyboard.
-// src/data/aksharam-scheme.json must be an exact copy of schemes/sanskrit.json from the Aksharam IME source.
+// Aksharam IME engine for the web demo: the same scheme file and rules as the Mac keyboard.
+// src/data/aksharam-scheme.json must be an exact copy of schemes/sanskrit.json from the Aksharam IME source,
+// and this file follows Sources/CAksharam/aksharam.c there (checked against the same official test words).
 import scheme from '../data/aksharam-scheme.json';
 
-type Ctx = 'any' | 'after_consonant' | 'not_after_consonant';
-type Tok =
-  | { kind: 'consonant'; text: string; ctx: Ctx }
-  | { kind: 'vowel'; independent: string; matra: string; ctx: Ctx }
-  | { kind: 'symbol'; text: string; ctx: Ctx }
-  | { kind: 'separator'; ctx: Ctx };
+type Entry =
+  | { type: 'vowel'; letter: string; sign: string }
+  | { type: 'consonant'; letter: string }
+  | { type: 'append'; text: string }
+  | { type: 'digit'; native: string };
 
-const byKey = new Map<string, Tok[]>();
-const add = (keys: string[], t: Tok) => keys.forEach(k => byKey.set(k, [...(byKey.get(k) ?? []), t]));
-const ctxOf = (e: { context?: string }) => (e.context ?? 'any') as Ctx;
+const table = new Map<string, Entry>();
+let maxKey = 1;
+const add = (key: string, e: Entry) => { table.set(key, e); maxKey = Math.max(maxKey, [...key].length); };
 
-for (const v of scheme.vowels as { keys: string[]; independent: string; matra: string; context?: string }[])
-  add(v.keys, { kind: 'vowel', independent: v.independent, matra: v.matra, ctx: ctxOf(v) });
-for (const c of scheme.consonants as { keys: string[]; text: string; context?: string }[])
-  add(c.keys, { kind: 'consonant', text: c.text, ctx: ctxOf(c) });
-for (const s of scheme.symbols as { keys: string[]; text: string; context?: string }[])
-  add(s.keys, { kind: 'symbol', text: s.text, ctx: ctxOf(s) });
-add(scheme.controls.separator, { kind: 'separator', ctx: 'any' });
-add(scheme.controls.zwnj, { kind: 'symbol', text: '‌', ctx: 'any' });
-add(scheme.controls.zwj, { kind: 'symbol', text: '‍', ctx: 'any' });
+for (const v of scheme.vowels) for (const k of v.keys) add(k, { type: 'vowel', letter: v.letter, sign: v.sign });
+for (const c of scheme.consonants) for (const k of c.keys) add(k, { type: 'consonant', letter: c.letter });
+for (const m of [...scheme.marks, ...scheme.symbols]) for (const k of m.keys) add(k, { type: 'append', text: m.text });
+for (const [d, native] of Object.entries(scheme.digits as Record<string, string>)) add(d, { type: 'digit', native });
 
-const maxLen = Math.max(...[...byKey.keys()].map(k => [...k].length));
-const alphabet = new Set([...byKey.keys()].flatMap(k => [...k]));
-const VIRAMA = scheme.virama;
+const svaras = new Map<string, string>();
+for (const m of scheme.svaras.marks) for (const k of m.keys) svaras.set(k, m.text);
+const VIRAMA = [...scheme.virama];
+const BREAK = scheme.breakKey, ESCAPE = scheme.escapeKey, SVARA = scheme.svaras.prefix;
 
-/** Render one word of roman keys as Devanagari, exactly as the keyboard shows it. */
-export function render(raw: string): string {
-  const ch = [...raw];
-  let out = '';
-  let afterC = false;
+/** Turn typed English keys into Devanagari, exactly as the Mac keyboard does. */
+export function transliterate(input: string): string {
+  const ch = [...input];
+  const out: string[] = [];
+  let consonantOpen = false;   // output ends in consonant + virama that a vowel may complete
   let i = 0;
+  const push = (s: string) => { out.push(...s); };
   while (i < ch.length) {
-    let hit: [number, Tok] | null = null;
-    for (let len = Math.min(maxLen, ch.length - i); len >= 1 && !hit; len--) {
-      const t = (byKey.get(ch.slice(i, i + len).join('')) ?? []).find(x =>
-        x.ctx === 'any' || (x.ctx === 'after_consonant' ? afterC : !afterC));
-      if (t) hit = [len, t];
+    const c = ch[i];
+    if (c === ESCAPE) { consonantOpen = false; push(i + 1 < ch.length ? ch[i + 1] : c); i += i + 1 < ch.length ? 2 : 1; continue; }
+    if (c === SVARA) {
+      consonantOpen = false;
+      const mark = i + 1 < ch.length ? svaras.get(ch[i + 1]) : undefined;
+      if (mark) { push(mark); i += 2; } else { push(c); i += 1; }
+      continue;
     }
-    if (!hit) { out += ch[i]; afterC = false; i++; continue; }
-    const [len, t] = hit;
-    i += len;
-    if (t.kind === 'consonant') { out += t.text + VIRAMA; afterC = true; }
-    else if (t.kind === 'vowel') {
-      if (afterC) out = out.slice(0, out.length - VIRAMA.length) + t.matra;
-      else out += t.independent;
-      afterC = false;
-    } else if (t.kind === 'symbol') { out += t.text; afterC = false; }
+    if (c === BREAK) { consonantOpen = false; i += 1; continue; }
+    let matched = false;
+    for (let len = Math.min(maxKey, ch.length - i); len > 0; len--) {
+      const e = table.get(ch.slice(i, i + len).join(''));
+      if (!e) continue;
+      if (e.type === 'vowel') {
+        if (consonantOpen) { out.length -= VIRAMA.length; push(e.sign); } else push(e.letter);
+        consonantOpen = false;
+      } else if (e.type === 'consonant') { push(e.letter); push(scheme.virama); consonantOpen = true; }
+      else if (e.type === 'append') { push(e.text); consonantOpen = false; }
+      else { push(e.native); consonantOpen = false; }
+      i += len;
+      matched = true;
+      break;
+    }
+    if (!matched) { push(c); consonantOpen = false; i += 1; }
   }
-  return out;
-}
-
-/** Transliterate a whole line: characters outside the key alphabet (space, punctuation) end a word. */
-export function transliterate(text: string): string {
-  let doc = '';
-  let word = '';
-  for (const c of text) {
-    if (alphabet.has(c)) { word += c; continue; }
-    doc += render(word) + c;
-    word = '';
-  }
-  return doc + render(word);
+  return out.join('');
 }
