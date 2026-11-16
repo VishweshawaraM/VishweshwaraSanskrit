@@ -3,7 +3,9 @@ import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import { ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react';
 import { WhatsAppIcon } from './WhatsAppIcon';
 import { HeroLampLine, HeroFireworks, isDeepavaliSeason } from './Deepavali';
+import { Link } from 'react-router-dom';
 import { WHATSAPP_COMMUNITY_URL } from '../courses';
+import { nextFreeClassText } from '../samskaraPravesha';
 
 interface Slide {
   image: string;
@@ -21,6 +23,7 @@ interface HeroSlideshowProps {
 
 export function HeroSlideshow({ slides, interval = 5000, onBeginClick, onExploreClick }: HeroSlideshowProps) {
   const festive = isDeepavaliSeason();
+  const freeClass = nextFreeClassText();
   const lampsRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(1);
@@ -113,7 +116,17 @@ export function HeroSlideshow({ slides, interval = 5000, onBeginClick, onExplore
                   Explore Teachings
                 </button>
               </div>
-              <div className="flex justify-center md:justify-end mt-5 px-4 md:px-0">
+              {freeClass && (
+                <div className="flex justify-center md:justify-end mt-5 px-4 md:px-0">
+                  <Link
+                    to="/samskara-pravesha"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-base/90 hover:bg-gold-bright text-ground font-mono text-[11px] tracking-widest uppercase font-semibold transition-colors"
+                  >
+                    <span>Free Sanskrit class for children (8–14) · {freeClass} →</span>
+                  </Link>
+                </div>
+              )}
+              <div className="flex justify-center md:justify-end mt-3 px-4 md:px-0">
                 <a
                   href={WHATSAPP_COMMUNITY_URL}
                   target="_blank"
