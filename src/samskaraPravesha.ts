@@ -20,10 +20,11 @@ export const SP = {
   razorpayFull: 'https://rzp.io/rzp/SamskritaFullJourney',
 };
 
+// zoom: the class's Zoom registration page (name + email, Zoom then emails the join link). Empty = not created yet; the page falls back to WhatsApp.
 export const SP_FREE_CLASSES = [
-  { id: 'mon-16-nov', label: 'Mon 16 Nov', long: 'Monday 16 November, 6 PM IST', at: '2026-11-16T18:00:00+05:30' },
-  { id: 'fri-20-nov', label: 'Fri 20 Nov', long: 'Friday 20 November, 6 PM IST', at: '2026-11-20T18:00:00+05:30' },
-  { id: 'mon-23-nov', label: 'Mon 23 Nov', long: 'Monday 23 November, 6 PM IST', at: '2026-11-23T18:00:00+05:30' },
+  { id: 'mon-16-nov', label: 'Mon 16 Nov', long: 'Monday 16 November, 6 PM IST', at: '2026-11-16T18:00:00+05:30', zoom: 'https://us06web.zoom.us/meeting/register/Z9RZde4GQUS6jEyOVhtW3w' },
+  { id: 'fri-20-nov', label: 'Fri 20 Nov', long: 'Friday 20 November, 6 PM IST', at: '2026-11-20T18:00:00+05:30', zoom: '' },
+  { id: 'mon-23-nov', label: 'Mon 23 Nov', long: 'Monday 23 November, 6 PM IST', at: '2026-11-23T18:00:00+05:30', zoom: '' },
 ];
 
 // Free classes still open for booking. A class drops off the page 15 minutes before it starts,
