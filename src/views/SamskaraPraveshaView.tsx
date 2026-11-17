@@ -330,6 +330,7 @@ export const SamskaraPraveshaView: React.FC = () => {
 
         {/* ── FAQ ── */}
         <FAQ data={SP_FAQ.map((f, i) => ({ id: `sp${i}`, ...f }))} />
+        <p className="text-center font-sans text-sm text-text-secondary">Would you prefer classes just for your child? <Link to="/one-on-one" className="text-gold-bright underline">See the one-to-one pathway</Link>.</p>
         <div className="pb-8" />
       </div>
     </div>
