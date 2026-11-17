@@ -2,7 +2,7 @@
 // No fee is shown on purpose: the Acharya has not approved a price. Set ONE_ON_ONE_FEE_NOTE when he does.
 
 export const OO = {
-  title: 'One-to-one Sanskrit',
+  title: 'Samskrita Samskara Pravesha · One-to-One',
   devanagari: 'संस्कृताध्ययनपरम्परा',
   months: '18 to 24 months',
   stagesCount: 6,
@@ -35,7 +35,7 @@ export const OO_HOW = [
 ];
 
 export const OO_FAQ = [
-  { question: 'Who is this for?', answer: 'Adults and older children who want to learn Sanskrit properly, from the first sound. No earlier Sanskrit is needed. Younger children (ages 8 to 14) can also join the Samskrita Samskara Pravesha batch.' },
+  { question: 'Who is this for?', answer: 'Children aged 8 to 14 whose parents want the full 18-month pathway with the Acharya\'s whole attention on their child, and older learners on request. No earlier Sanskrit is needed.' },
   { question: 'How long does it take?', answer: 'Eighteen months at the quickest, up to twenty-four. It depends on your pace and how much you practise between classes.' },
   { question: 'What is the fee?', answer: 'It is shared personally after a short conversation. Payment can be monthly or stage by stage.' },
   { question: 'Can I begin with a trial?', answer: 'Yes. Write to the Acharya on WhatsApp and we will fix a first conversation. There is no obligation.' },
