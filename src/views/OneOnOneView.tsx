@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { motion, useReducedMotion, type Variants } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, BookOpenCheck, CheckCircle2, GraduationCap, Mic2, UserRound, Globe2 } from 'lucide-react';
 import { WhatsAppIcon } from '../components/WhatsAppIcon';
@@ -8,6 +9,49 @@ import { OO, OO_STAGES, OO_OUTCOMES, OO_HOW, OO_FAQ } from '../oneOnOne';
 const Label: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <span className="font-mono text-[10px] md:text-xs tracking-[0.22em] uppercase text-text-gold block">{children}</span>
 );
+
+
+const ease = [0.22, 1, 0.36, 1] as const;
+
+/** Reveals its children as they scroll into view; a plain block when the visitor prefers reduced motion. */
+const Reveal: React.FC<{ children: React.ReactNode; className?: string; delay?: number; as?: 'div' | 'section' | 'li' }> = ({ children, className, delay = 0, as = 'div' }) => {
+  const reduce = useReducedMotion();
+  const Tag = (motion as any)[as] as typeof motion.div;
+  if (reduce) { const Plain = as as 'div'; return <Plain className={className}>{children}</Plain>; }
+  return (
+    <Tag className={className} initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.7, ease, delay }}>
+      {children}
+    </Tag>
+  );
+};
+
+const heroItem: Variants = { hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.7, ease } } };
+const heroList: Variants = { hidden: {}, show: { transition: { staggerChildren: 0.11, delayChildren: 0.05 } } };
+
+/** The pathway card steps slowly through the six stages. Static on Stage I for reduced motion. */
+const PathwayCard: React.FC = () => {
+  const reduce = useReducedMotion();
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    if (reduce) return;
+    const t = window.setInterval(() => setI(v => (v + 1) % OO_STAGES.length), 2600);
+    return () => window.clearInterval(t);
+  }, [reduce]);
+  const st = OO_STAGES[i];
+  return (
+    <motion.div
+      className="absolute -bottom-5 left-3 md:-left-6 right-3 md:right-auto md:w-80 rounded-2xl border border-gold-mid bg-ground/90 backdrop-blur-md p-4 shadow-2xl space-y-2"
+      initial={reduce ? false : { opacity: 0, y: 30, scale: 0.96 }} animate={reduce ? undefined : { opacity: 1, y: [0, -6, 0], scale: 1 }}
+      transition={reduce ? undefined : { opacity: { duration: 0.8, delay: 0.7 }, scale: { duration: 0.8, delay: 0.7 }, y: { duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1.5 } }}
+    >
+      <p className="font-sans text-sm text-text-primary font-semibold">Your child's pathway</p>
+      <p className="font-sans text-xs text-text-secondary min-h-[1rem]" aria-live="off">Stage {st.n} · {st.title}</p>
+      <div className="h-2 rounded-full bg-surface-2 overflow-hidden" role="img" aria-label={`Stage ${i + 1} of 6`}>
+        <motion.div className="h-full rounded-full bg-gradient-to-r from-gold-base to-gold-bright" animate={{ width: `${((i + 1) / OO_STAGES.length) * 100}%` }} transition={{ duration: 0.9, ease }} />
+      </div>
+    </motion.div>
+  );
+};
 
 const STATS = [
   { v: '1 : 1', l: 'Live, just your child' },
@@ -24,11 +68,12 @@ const STRIP = [
 
 /** One-to-one Samskrita Samskara Pravesha. The CTA is a WhatsApp conversation; the site collects nothing. */
 export const OneOnOneView: React.FC = () => {
+  const reduce = useReducedMotion();
   const wa = whatsappLink('Hari Om Acharya ji, I would like to know about the one-to-one Samskrita Samskara Pravesha (18 months). Could we talk?');
   const Cta: React.FC<{ className?: string; ghost?: boolean }> = ({ className = '', ghost }) => (
     <a
       href={wa} target="_blank" rel="noopener noreferrer"
-      className={`inline-flex items-center justify-center gap-3 px-6 py-4 rounded-xl font-mono text-xs tracking-widest uppercase font-semibold transition ${ghost ? 'bg-ground text-gold-bright border border-gold-mid hover:bg-surface-1' : 'bg-gradient-to-r from-gold-base to-gold-bright text-ground hover:brightness-110'} ${className}`}
+      className={`inline-flex items-center justify-center gap-3 px-6 py-4 rounded-xl font-mono text-xs tracking-widest uppercase font-semibold transition duration-300 hover:-translate-y-0.5 active:translate-y-0 motion-reduce:transition-none ${ghost ? 'bg-ground text-gold-bright border border-gold-mid hover:bg-surface-1' : 'bg-gradient-to-r from-gold-base to-gold-bright text-ground hover:brightness-110'} ${className}`}
     >
       <WhatsAppIcon className="w-5 h-5" aria-hidden="true" /> Talk to the Acharya <ArrowRight className="w-4 h-4" aria-hidden="true" />
     </a>
@@ -40,41 +85,44 @@ export const OneOnOneView: React.FC = () => {
 
         {/* Hero */}
         <header className="grid md:grid-cols-2 gap-10 md:gap-14 items-center">
-          <div className="space-y-6">
-            <span className="inline-block rounded-full border border-gold-dim bg-surface-1 px-4 py-1.5 font-mono text-[10px] tracking-[0.22em] uppercase text-text-gold">One-to-one · Live online · Ages 8–14</span>
-            <h1 className="font-serif font-bold text-[clamp(2.4rem,6vw,4.4rem)] text-text-primary leading-[1.02]">
+          <motion.div className="space-y-6" variants={heroList} initial="hidden" animate="show">
+            <motion.span variants={heroItem} className="inline-block rounded-full border border-gold-dim bg-surface-1 px-4 py-1.5 font-mono text-[10px] tracking-[0.22em] uppercase text-text-gold">One-to-one · Live online · Ages 8–14</motion.span>
+            <motion.h1 variants={heroItem} className="font-serif font-bold text-[clamp(2.4rem,6vw,4.4rem)] text-text-primary leading-[1.02]">
               Sanskrit for your child, <span className="italic font-semibold text-gold-bright">one to one.</span>
-            </h1>
-            <p className="font-sans text-base md:text-lg text-text-secondary leading-relaxed max-w-xl">
+            </motion.h1>
+            <motion.p variants={heroItem} className="font-sans text-base md:text-lg text-text-secondary leading-relaxed max-w-xl">
               The full 18-month Samskrita Samskara Pravesha, taught live with the Acharya's whole attention on your child. From the first sound to reading Sanskrit independently.
-            </p>
-            <div className="flex flex-wrap gap-3">
+            </motion.p>
+            <motion.div variants={heroItem} className="flex flex-wrap gap-3">
               <Cta />
               <a href="#stages" className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl border border-gold-dim text-text-primary font-mono text-xs tracking-widest uppercase hover:border-gold-mid transition">See the six stages</a>
-            </div>
-            <dl className="flex flex-wrap gap-x-8 gap-y-4 pt-4">
+            </motion.div>
+            <motion.dl variants={heroItem} className="flex flex-wrap gap-x-8 gap-y-4 pt-4">
               {STATS.map(s => (
                 <div key={s.l}>
                   <dt className="font-serif font-bold text-2xl md:text-3xl text-gold-bright whitespace-nowrap">{s.v}</dt>
                   <dd className="font-sans text-xs text-text-secondary leading-snug mt-1">{s.l}</dd>
                 </div>
               ))}
-            </dl>
-          </div>
+            </motion.dl>
+          </motion.div>
 
           <div className="relative">
-            <div className="rounded-[2rem] overflow-hidden border border-gold-dim bg-surface-1 aspect-[4/5] md:aspect-[5/6]">
-              <img src="/acharya-portrait.webp" alt="Acharya Vishweshwara N M" className="w-full h-full object-cover" loading="eager" />
-            </div>
-            <div className="absolute -bottom-5 left-3 md:-left-6 right-3 md:right-auto md:w-72 rounded-2xl border border-gold-mid bg-ground/95 backdrop-blur p-4 shadow-xl space-y-2">
-              <p className="font-sans text-sm text-text-primary font-semibold">Your child's pathway</p>
-              <p className="font-sans text-xs text-text-secondary">Stage I · Foundation and phonetics</p>
-              <div className="h-2 rounded-full bg-surface-2 overflow-hidden" role="img" aria-label="Stage 1 of 6"><div className="h-full w-1/6 bg-gradient-to-r from-gold-base to-gold-bright" /></div>
-            </div>
+            <motion.div
+              className="rounded-[2rem] overflow-hidden border border-gold-dim bg-surface-1 aspect-[4/5] md:aspect-[5/6]"
+              initial={reduce ? false : { opacity: 0, scale: 0.94, clipPath: 'inset(8% 8% 8% 8% round 2rem)' }}
+              animate={reduce ? undefined : { opacity: 1, scale: 1, clipPath: 'inset(0% 0% 0% 0% round 2rem)' }}
+              transition={{ duration: 1, ease }}
+            >
+              <motion.img src="/acharya-portrait.webp" alt="Acharya Vishweshwara N M" className="w-full h-full object-cover" loading="eager"
+                initial={reduce ? false : { scale: 1.12 }} animate={reduce ? undefined : { scale: 1 }} transition={{ duration: 1.6, ease }} />
+            </motion.div>
+            <PathwayCard />
           </div>
         </header>
 
         {/* Trust strip */}
+        <Reveal>
         <section aria-label="What you get" className="rounded-2xl border border-gold-dim bg-surface-1 p-5 md:p-6 grid grid-cols-2 md:grid-cols-4 gap-5">
           {STRIP.map(i => (
             <div key={i.title} className="flex items-start gap-3">
@@ -86,8 +134,10 @@ export const OneOnOneView: React.FC = () => {
             </div>
           ))}
         </section>
+        </Reveal>
 
         {/* Stages as cards */}
+        <Reveal>
         <section id="stages" className="space-y-6 scroll-mt-28" aria-labelledby="stages-h">
           <div className="flex items-end justify-between gap-4">
             <div className="space-y-2">
@@ -96,20 +146,22 @@ export const OneOnOneView: React.FC = () => {
             </div>
           </div>
           <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {OO_STAGES.map(s => (
-              <li key={s.n} className="rounded-2xl border border-gold-dim bg-surface-1 p-5 space-y-3 hover:border-gold-mid transition">
+            {OO_STAGES.map((s, idx) => (
+              <Reveal as="li" key={s.n} delay={(idx % 3) * 0.1} className="rounded-2xl border border-gold-dim bg-surface-1 p-5 space-y-3 hover:border-gold-mid hover:-translate-y-1 hover:shadow-[0_18px_40px_-18px_rgba(200,134,10,0.35)] transition duration-300 motion-reduce:transition-none motion-reduce:hover:translate-y-0">
                 <div className="flex items-center justify-between">
                   <span className="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-gradient-to-br from-gold-base to-gold-bright text-ground font-serif font-bold text-base">{s.n}</span>
                   <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-text-gold">{s.duration}</span>
                 </div>
                 <h3 className="font-serif font-bold text-lg text-text-primary leading-snug">{s.title}</h3>
                 <p className="font-sans text-sm text-text-secondary leading-relaxed">{s.text}</p>
-              </li>
+              </Reveal>
             ))}
           </ol>
         </section>
+        </Reveal>
 
         {/* Featured: the destination */}
+        <Reveal>
         <section className="grid md:grid-cols-2 gap-8 items-center rounded-3xl border border-gold-dim bg-surface-1 p-6 md:p-10" aria-labelledby="out-h">
           <div className="space-y-3">
             <Label>Where your child arrives</Label>
@@ -123,8 +175,10 @@ export const OneOnOneView: React.FC = () => {
             ))}
           </ul>
         </section>
+        </Reveal>
 
         {/* CTA banner */}
+        <Reveal>
         <section className="rounded-3xl bg-gradient-to-r from-gold-base to-gold-bright text-ground p-7 md:p-10 grid md:grid-cols-[1fr_auto] gap-6 items-center" aria-labelledby="fee">
           <div className="space-y-2">
             <h2 id="fee" className="font-serif font-bold text-3xl md:text-4xl leading-tight">Begin with a conversation</h2>
@@ -132,22 +186,26 @@ export const OneOnOneView: React.FC = () => {
           </div>
           <Cta ghost />
         </section>
+        </Reveal>
 
         {/* How it works */}
+        <Reveal>
         <section className="space-y-6" aria-labelledby="how">
           <Label>How it works</Label>
           <h2 id="how" className="font-serif font-bold text-3xl md:text-4xl text-text-primary">Personal, not casual tutoring</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {OO_HOW.map(h => (
-              <div key={h.title} className="rounded-2xl border border-gold-dim bg-surface-1 p-5 space-y-2">
+              <div key={h.title} className="rounded-2xl border border-gold-dim bg-surface-1 p-5 space-y-2 hover:border-gold-mid hover:-translate-y-1 transition duration-300 motion-reduce:transition-none motion-reduce:hover:translate-y-0">
                 <h3 className="font-serif font-bold text-lg text-text-primary">{h.title}</h3>
                 <p className="font-sans text-sm text-text-secondary leading-relaxed">{h.text}</p>
               </div>
             ))}
           </div>
         </section>
+        </Reveal>
 
         {/* FAQ */}
+        <Reveal>
         <section className="space-y-4 max-w-3xl" aria-labelledby="faq">
           <h2 id="faq" className="font-serif font-bold text-3xl text-text-primary">Questions parents ask</h2>
           {OO_FAQ.map(f => (
@@ -160,6 +218,7 @@ export const OneOnOneView: React.FC = () => {
             Prefer a small group? <Link to="/samskara-pravesha" className="text-gold-bright underline">See the Dhruva group batch</Link>.
           </p>
         </section>
+        </Reveal>
       </div>
     </div>
   );
