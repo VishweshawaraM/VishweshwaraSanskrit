@@ -9,10 +9,10 @@ export const AK = {
   fileUrl: '/aksharam-ime/dl-e21259fdf0/Aksharam-IME-1.1.0.pkg',
   // Download gatekeeper (Cloudflare Worker). When set, the download page verifies the Razorpay payment
   // and the installer is no longer published on this website.
-  downloadApi: '',
+  downloadApi: 'https://aksharam-download.vishweshwarasanskrit.workers.dev',
   requirements: 'macOS 12 Monterey or later · Apple Silicon and Intel Macs',
-  video: '/aksharam-ime/aksharam-install-v103.mp4',
-  poster: '/aksharam-ime/aksharam-install-v103.jpg',
+  video: '/aksharam-ime/aksharam-install-v110.mp4',
+  poster: '/aksharam-ime/aksharam-install-v110.jpg',
 };
 
 export const AK_EXAMPLES = [
