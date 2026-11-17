@@ -3,8 +3,8 @@
 
 import { TRACKING_ENABLED } from './config/tracking';
 
-export const PRIVACY_VERSION = '2026-11-10';
-export const PRIVACY_UPDATED = '10 November 2026';
+export const PRIVACY_VERSION = '2026-11-17';
+export const PRIVACY_UPDATED = '17 November 2026';
 export const PRIVACY_EMAIL = 'namaste@vishweshwarasanskrit.com';
 
 export interface PrivacySection { id: string; title: string; paragraphs?: string[]; points?: string[] }
@@ -46,8 +46,18 @@ export const PRIVACY_SECTIONS: PrivacySection[] = [
     id: 'payments',
     title: 'Payments',
     paragraphs: [
-      'If you offer Guru Dakshina or pay for a course, payment is made on Razorpay’s secure page, not on this website. Razorpay collects your payment details. We do not see or store your card, UPI or bank details.',
+      'If you offer Guru Dakshina, pay for a course or buy Aksharam IME, payment is made on Razorpay’s secure page, not on this website. Razorpay collects your payment details. We do not see or store your card, UPI or bank details.',
       'On that page you also enter your child’s first name and age, and the parent’s email and WhatsApp number. Razorpay passes these to us so we can enrol your child, send the class link and reach you about classes. We see that a payment was made, and the amount.',
+    ],
+  },
+  {
+    id: 'aksharam',
+    title: 'Aksharam IME (the Mac keyboard)',
+    paragraphs: [
+      'The Aksharam keyboard works entirely on your Mac. It never uses the internet and never records, saves or sends anything you type.',
+      'When you buy it, your download page asks Razorpay to confirm the payment. Your personal licence key is then made from your payment ID and the name (or, if no name was given, the email) on that payment, so the app can show “Licensed to …”.',
+      'When you activate the key, the Aksharam IME app sends the key and an anonymous ID for your Mac once to our licence server (run on Cloudflare). The Mac ID is a one-way code made from your Mac: it is not your name, serial number or Apple ID, and it cannot be turned back into them. We store, for each payment, how many times the installer was downloaded and the anonymous IDs of at most 2 Macs, so a key cannot be shared widely.',
+      'We use this only to deliver Aksharam, prevent misuse and help you move your licence to a new Mac. It is kept while your licence is in use. Ask us and we will delete it; the key then stops working on new Macs.',
     ],
   },
   ...(TRACKING_ENABLED

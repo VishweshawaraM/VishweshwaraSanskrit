@@ -46,6 +46,10 @@ export const PAGE_META: Record<string, { title: string; description: string; ima
     title: 'Download Aksharam IME | Vishweshwara Sanskrit',
     description: 'Your Aksharam IME download.',
   },
+  '/aksharam/terms': {
+    title: 'Aksharam IME: Terms, Licence & Refunds | Vishweshwara Sanskrit',
+    description: 'What you get for ₹99, the personal licence for up to 2 Macs, the 7-day free trial and the 7-day refund if Aksharam does not work on your Mac.',
+  },
   '/privacy': {
     title: 'Privacy Notice | Vishweshwara Sanskrit',
     description: 'This website collects no personal details. How WhatsApp enquiries, payments and children’s information are handled, and how to ask for deletion.',

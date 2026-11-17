@@ -320,6 +320,7 @@ export const AksharamView: React.FC = () => {
             </ul>
             <BuyButton className="w-full" />
             <p className="flex items-center justify-center gap-2 font-sans text-xs text-text-tertiary"><ShieldCheck className="w-4 h-4" aria-hidden="true" />UPI · Cards · Net banking · Secured by Razorpay</p>
+            <p className="font-sans text-xs text-text-tertiary">7-day free trial · Full refund within 7 days if it does not work on your Mac · <a href="/aksharam/terms" className="underline hover:text-text-gold">Terms, licence &amp; refunds</a></p>
           </div>
         </div>
       </section>
@@ -429,6 +430,7 @@ export const AksharamDownloadView: React.FC = () => (
           </a>
         )}
         <p className="font-sans text-xs text-text-tertiary">{AK.requirements}</p>
+        <p className="font-sans text-xs text-text-tertiary">Not working on your Mac? Message us within 7 days for help or a full refund. <a href="/aksharam/terms" className="underline hover:text-text-gold">Terms, licence &amp; refunds</a></p>
       </div>
     </section>
     <section className="pb-16 px-4 md:px-12 bg-ground">

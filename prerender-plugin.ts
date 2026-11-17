@@ -6,6 +6,7 @@ import { COURSES, ACHARYA_NAME, whatsappLink } from './src/courses';
 import { SP, SP_FREE_CLASSES, SP_GAINS, SP_HOW, SP_DAKSHINA, SP_COMMUNITY, SP_FAQ } from './src/samskaraPravesha';
 import { AK, AK_FEATURES, AK_STEPS, AK_FAQ } from './src/aksharam';
 import { PRIVACY_INTRO, PRIVACY_SECTIONS, PRIVACY_UPDATED } from './src/privacy';
+import { TERMS_INTRO, TERMS_SECTIONS, TERMS_UPDATED } from './src/aksharamTerms';
 import { ABOUT_STORY, ABOUT_STUDIES, ABOUT_DEGREES, ABOUT_FAQ } from './src/aboutContent';
 import { SUBJECTS_ITEMS, STATS_ITEMS, CREDENTIALS_ITEMS, TESTIMONIALS_ITEMS, TIMELINE_ITEMS, FAQ_ITEMS } from './src/data';
 
@@ -185,6 +186,16 @@ const ROUTES: Route[] = [
         (s.points ? `<ul>${s.points.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : '')).join(''),
   },
   {
+    path: '/aksharam/terms', file: 'aksharam/terms.html',
+    h1: 'Aksharam IME: Terms, Licence & Refunds',
+    schema: () => [breadcrumbs([['Home', '/'], ['Aksharam IME', '/aksharam'], ['Terms', '/aksharam/terms']])],
+    body: () =>
+      `<p>Updated ${esc(TERMS_UPDATED)}</p><p>${esc(TERMS_INTRO)}</p>` +
+      TERMS_SECTIONS.map(s =>
+        `<h2>${esc(s.title)}</h2>` + (s.paragraphs ?? []).map(p => `<p>${esc(p)}</p>`).join('') +
+        (s.points ? `<ul>${s.points.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : '')).join(''),
+  },
+  {
     path: '/samskara-pravesha', file: 'samskara-pravesha.html',
     h1: `${SP.name}: Sanskrit for children aged ${SP.ages}`,
     body: () =>
@@ -218,7 +229,7 @@ const ROUTES: Route[] = [
     path: '/aksharam', file: 'aksharam.html',
     h1: 'Aksharam IME: type Sanskrit on your Mac the way you say it',
     body: () =>
-      `<p>${esc(PAGE_META['/aksharam'].description)}</p><p>Built by ${esc(ACHARYA_NAME)}. ${esc(AK.requirements)}. One-time Guru Dakshina of ₹${AK.price}: <a href="${AK.buyUrl}">get Aksharam IME</a>.</p>` +
+      `<p>${esc(PAGE_META['/aksharam'].description)}</p><p>Built by ${esc(ACHARYA_NAME)}. ${esc(AK.requirements)}. One-time ₹${AK.price}, lifetime licence: <a href="${AK.buyUrl}">get Aksharam IME</a>. <a href="/aksharam/terms">Terms, licence &amp; refunds</a>.</p>` +
       '<h2>Why Aksharam IME</h2>' + AK_FEATURES.map(f => `<h3>${esc(f.title)}</h3><p>${esc(f.body)}</p>`).join('') +
       '<h2>How to install</h2><ol>' + AK_STEPS.map(s => `<li>${esc(s)}</li>`).join('') + '</ol>' +
       '<h2>Questions</h2>' + AK_FAQ.map(f => `<h3>${esc(f.question)}</h3><p>${esc(f.answer)}</p>`).join(''),

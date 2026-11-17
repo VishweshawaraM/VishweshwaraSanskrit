@@ -47,6 +47,7 @@ export const AK_FAQ = [
   { id: 'ak2', question: 'Does it need the internet?', answer: 'Only once, to activate your licence key: the Aksharam app sends the key and an anonymous ID for your Mac, nothing else. The keyboard itself works fully offline and never sends anything you type anywhere.' },
   { id: 'ak3', question: 'Which Macs does it work on?', answer: 'macOS 12 Monterey or later, on both Apple Silicon (M1 and newer) and Intel Macs.' },
   { id: 'ak4', question: 'Is there a version for Windows, iPhone or iPad?', answer: 'Not yet. The Mac keyboard comes first. Windows and other Indian scripts such as Kannada are planned.' },
+  { id: 'ak7', question: 'Can I get a refund?', answer: 'Yes. If Aksharam IME does not work on your Mac, message us within 7 days of payment with your payment ID. We first try to help you set it up; if it still does not work, you get a full refund. Full terms: vishweshwarasanskrit.com/aksharam/terms' },
   { id: 'ak5', question: 'What if it does not work on my Mac?', answer: 'Message us on WhatsApp from this website with a screenshot. The Acharya’s team will help you set it up.' },
   { id: 'ak6', question: 'Can I use it on more than one Mac?', answer: 'Yes. Your personal licence key works on 2 of your own Macs. It carries your name, so please keep it private. Changed your Mac? Message us on WhatsApp and we will move it for you.' },
 ];
