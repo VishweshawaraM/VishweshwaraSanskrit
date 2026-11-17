@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { motion, useReducedMotion, type Variants } from 'motion/react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, BookOpenCheck, CheckCircle2, GraduationCap, Mic2, UserRound, Globe2 } from 'lucide-react';
+import { ArrowRight, BookOpenCheck, CheckCircle2, GraduationCap, Mic2, UserRound, Globe2, Quote, ScrollText } from 'lucide-react';
 import { WhatsAppIcon } from '../components/WhatsAppIcon';
 import { whatsappLink } from '../courses';
+import { CREDENTIALS_ITEMS } from '../data';
 import { OO, OO_STAGES, OO_OUTCOMES, OO_HOW, OO_FAQ, OO_PRICES, OO_PRICE_NOTE } from '../oneOnOne';
 
 const Label: React.FC<{ children: React.ReactNode }> = ({ children }) => (
@@ -57,6 +58,19 @@ const STATS = [
   { v: '1 : 1', l: 'Live, just your child' },
   { v: '6', l: 'Stages, step by step' },
   { v: '18–24', l: 'Months to independence' },
+];
+
+// Real words from the Acharya's students and parents, taken from his Google reviews and testimonials page (src/data.ts).
+const VOICES = [
+  { quote: 'He is exceptionally dedicated, patient, and genuinely cares about sharing cultural and traditional values.', who: 'Manohar', meta: 'Parent of two children, Florida, USA' },
+  { quote: 'Your ability to break down complex mantras and shlokas into accessible yet deeply insightful explanations has fostered a sense of discipline and spiritual connection.', who: 'Nagaraj', meta: 'Parent, Abu Dhabi, UAE' },
+  { quote: 'He is very kind, patient, and always willing to help. I always feel comfortable asking questions or asking him to explain something again.', who: 'Marlene', meta: 'Sanskrit student, Google review' },
+];
+
+const PROOF = [
+  { v: '7', l: 'years of residential Gurukula training' },
+  { v: 'M.A.', l: 'Acharya, in Advaita Vedanta and Shastra' },
+  { v: '500+', l: 'live sessions taught' },
 ];
 
 const STRIP = [
@@ -185,6 +199,55 @@ export const OneOnOneView: React.FC = () => {
             <p className="font-sans text-sm md:text-base opacity-90 max-w-xl">{OO.feeNote}</p>
           </div>
           <Cta ghost />
+        </section>
+        </Reveal>
+
+        <Reveal>
+        <section className="space-y-8" aria-labelledby="who-h">
+          <div className="space-y-3 max-w-3xl">
+            <Label>Who will teach your child</Label>
+            <h2 id="who-h" className="font-serif font-bold text-3xl md:text-[2.6rem] text-text-primary leading-[1.1]">Seven years in a Gurukula, <span className="italic text-gold-bright">before the first class.</span></h2>
+            <p className="font-sans text-text-secondary leading-relaxed">Acharya Vishweshwara N M did not learn Sanskrit from videos. He lived and studied in a traditional Gurukulam from 2018 to 2025, under revered Acharyas, and passes on exactly what he received.</p>
+          </div>
+
+          <dl className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {PROOF.map(x => (
+              <div key={x.l} className="rounded-2xl border border-gold-dim bg-surface-1 p-5">
+                <dt className="font-serif font-bold text-4xl text-gold-bright">{x.v}</dt>
+                <dd className="font-sans text-sm text-text-secondary mt-1">{x.l}</dd>
+              </div>
+            ))}
+          </dl>
+
+          <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {CREDENTIALS_ITEMS.map(c => (
+              <li key={c.id} className="rounded-2xl border border-gold-dim bg-surface-1 p-5 flex gap-4">
+                <ScrollText className="w-7 h-7 text-gold-bright shrink-0 mt-1" aria-hidden="true" />
+                <div className="space-y-1">
+                  <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-text-gold">{c.year}</p>
+                  <h3 className="font-serif font-bold text-lg text-text-primary leading-snug">{c.title}</h3>
+                  <p className="font-sans text-xs text-text-tertiary">{c.institution}</p>
+                  <p className="font-sans text-sm text-text-secondary leading-relaxed">{c.description}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+
+          <div className="space-y-4">
+            <h3 className="font-serif font-bold text-2xl text-text-primary">What parents and students say</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {VOICES.map(v => (
+                <figure key={v.who} className="rounded-2xl border border-gold-dim bg-surface-1 p-5 flex flex-col gap-3 hover:border-gold-mid transition duration-300">
+                  <Quote className="w-6 h-6 text-gold-bright" aria-hidden="true" />
+                  <blockquote className="font-sans text-sm text-text-primary leading-relaxed flex-1">{v.quote}</blockquote>
+                  <figcaption className="font-sans text-xs text-text-secondary"><span className="font-semibold text-text-primary">{v.who}</span> · {v.meta}</figcaption>
+                </figure>
+              ))}
+            </div>
+            <p className="font-sans text-sm text-text-secondary">
+              <Link to="/testimonials" className="text-gold-bright underline">Read more from students</Link> · <Link to="/about" className="text-gold-bright underline">The Acharya's full story</Link>
+            </p>
+          </div>
         </section>
         </Reveal>
 

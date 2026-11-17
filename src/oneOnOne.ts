@@ -1,5 +1,5 @@
 // One-to-one Sanskrit pathway: 18 to 24 months, six stages. Source: Vishweshwara_Sanskrit_Curriculum.pdf.
-// Fees: DRAFT figures proposed on 18 Nov 2026, NOT yet approved by the Acharya. Do not publish to main until he confirms the numbers.
+// Fees: three tiers approved by the Acharya on 18 Nov 2026 ("Yes, great").
 
 export const OO = {
   title: 'Samskrita Samskara Pravesha · One-to-One',
@@ -41,7 +41,7 @@ export const OO_FAQ = [
   { question: 'Can I begin with a trial?', answer: 'Yes. Write to the Acharya on WhatsApp and we will fix a first conversation. There is no obligation.' },
 ];
 
-// Guru Dakshina for the one-to-one pathway (DRAFT, awaiting approval). Three tiers, middle one is the target.
+// Guru Dakshina for the one-to-one pathway (approved 18 Nov 2026). Three tiers, middle one is the target.
 // Monthly: 8 classes. Stage: 3 months, 24 classes. Full: 18 months, 144 classes.
 // Per class: 8,500 / 8 = 1,063; 22,500 / 24 = 938; 120,000 / 144 = 833.   USD: 229 / 8 = 29; 599 / 24 = 25; 3,200 / 144 = 22.
 // Against monthly x 3 = 25,500: a stage saves 3,000. Against monthly x 18 = 153,000: full saves 33,000. Against 6 stages = 135,000: full saves 15,000.
