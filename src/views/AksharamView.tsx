@@ -288,7 +288,7 @@ export const AksharamView: React.FC = () => {
               <div className="h-full rounded-3xl border border-gold-dim bg-ground p-7 md:p-9 space-y-3">
                 <Lock className="w-7 h-7 text-gold-bright" aria-hidden="true" />
                 <h3 className="font-serif font-semibold text-2xl md:text-3xl text-text-primary">Completely private</h3>
-                <p className="font-sans text-sm md:text-base text-text-secondary leading-relaxed">No internet, ever. Nothing you type is recorded, saved or sent.</p>
+                <p className="font-sans text-sm md:text-base text-text-secondary leading-relaxed">The keyboard never uses the internet. Nothing you type is recorded, saved or sent.</p>
               </div>
             </FadeInSection>
             <FadeInSection direction="up" delay={320}>
@@ -358,31 +358,55 @@ const GatedDownload: React.FC = () => {
   const [pid, setPid] = useState(paymentIdFromUrl());
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+  const [key, setKey] = useState('');
+  const [copied, setCopied] = useState(false);
   const download = async (e?: React.FormEvent) => {
     e?.preventDefault();
     setBusy(true); setError('');
     try {
       const r = await fetch(`${AK.downloadApi}/verify?payment_id=${encodeURIComponent(pid.trim())}`);
       const j = await r.json();
-      if (j.ok && j.url) window.location.href = j.url;
+      if (j.key) setKey(j.key);
+      if (j.ok && j.url) window.location.href = j.url;   // the installer downloads; this page stays open
       else setError(j.error || 'Could not verify the payment. Please try again.');
     } catch {
       setError('Could not reach the download server. Please check your internet and try again.');
     } finally { setBusy(false); }
   };
+  const copyKey = async () => {
+    try { await navigator.clipboard.writeText(key); setCopied(true); setTimeout(() => setCopied(false), 2500); } catch { /* select it instead */ }
+  };
   useEffect(() => { if (paymentIdFromUrl()) void download(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
   return (
-    <form onSubmit={download} className="max-w-md mx-auto space-y-3 text-left">
-      <label htmlFor="ak-pid" className="font-mono text-[10px] tracking-[0.2em] uppercase text-text-gold block">Your payment ID</label>
-      <input id="ak-pid" value={pid} onChange={e => setPid(e.target.value)} placeholder="pay_XXXXXXXXXXXXXX" spellCheck={false} autoCapitalize="off" autoCorrect="off"
-        className="w-full bg-surface-2 border border-gold-dim focus:border-gold-bright outline-none rounded-xl px-4 py-3.5 font-mono text-base text-text-primary" />
-      <p className="font-sans text-xs text-text-tertiary">It starts with <span className="font-mono">pay_</span> and is in the receipt email from Razorpay.</p>
-      <button type="submit" disabled={busy || !pid.trim()}
-        className="w-full inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-gradient-to-r from-gold-base via-gold-bright to-gold-glow text-ground font-mono text-xs tracking-widest uppercase font-semibold shadow-[0_12px_40px_rgba(232,168,32,0.35)] hover:brightness-110 disabled:opacity-60">
-        <Download className="w-4 h-4" aria-hidden="true" /> {busy ? 'Checking payment…' : `Download Aksharam-IME-${AK.version}.pkg`}
-      </button>
-      {error && <p role="alert" className="font-sans text-sm text-[#ff9b8a]">{error}</p>}
-    </form>
+    <div className="max-w-xl mx-auto space-y-6 text-left">
+      <form onSubmit={download} className="space-y-3">
+        <label htmlFor="ak-pid" className="font-mono text-[10px] tracking-[0.2em] uppercase text-text-gold block">Your payment ID</label>
+        <input id="ak-pid" value={pid} onChange={e => setPid(e.target.value)} placeholder="pay_XXXXXXXXXXXXXX" spellCheck={false} autoCapitalize="off" autoCorrect="off"
+          className="w-full bg-surface-2 border border-gold-dim focus:border-gold-bright outline-none rounded-xl px-4 py-3.5 font-mono text-base text-text-primary" />
+        <p className="font-sans text-xs text-text-tertiary">It starts with <span className="font-mono">pay_</span> and is in the receipt email from Razorpay.</p>
+        <button type="submit" disabled={busy || !pid.trim()}
+          className="w-full inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-gradient-to-r from-gold-base via-gold-bright to-gold-glow text-ground font-mono text-xs tracking-widest uppercase font-semibold shadow-[0_12px_40px_rgba(232,168,32,0.35)] hover:brightness-110 disabled:opacity-60">
+          <Download className="w-4 h-4" aria-hidden="true" /> {busy ? 'Checking payment…' : `Download Aksharam-IME-${AK.version}.pkg`}
+        </button>
+        {error && <p role="alert" className="font-sans text-sm text-[#ff9b8a]">{error}</p>}
+      </form>
+      {key && (
+        <div className="rounded-2xl border border-gold-mid bg-surface-2 p-5 md:p-6 space-y-3">
+          <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-text-gold">Your personal licence key</p>
+          <textarea readOnly value={key} rows={4} onFocus={e => e.currentTarget.select()} spellCheck={false}
+            className="w-full bg-ground border border-gold-dim rounded-xl px-4 py-3 font-mono text-xs text-text-primary break-all resize-none" />
+          <button type="button" onClick={copyKey}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-gold-bright font-mono text-xs tracking-widest uppercase text-text-primary hover:bg-gold-dim">
+            <Check className="w-4 h-4" aria-hidden="true" /> {copied ? 'Copied' : 'Copy key'}
+          </button>
+          <p className="font-sans text-sm text-text-secondary leading-relaxed">
+            After installing, open the <b>Aksharam IME</b> app, click <b>Licence</b>, paste this key and click <b>Activate</b>.
+            It works on 2 of your own Macs and carries your name, so please keep it private. Save it somewhere safe;
+            you can always get it again here with your payment ID.
+          </p>
+        </div>
+      )}
+    </div>
   );
 };
 
@@ -396,7 +420,7 @@ export const AksharamDownloadView: React.FC = () => (
         </span>
         <h1 className="font-serif font-bold text-4xl md:text-6xl text-text-primary">Your {AK.name} is ready</h1>
         <p className="font-sans text-base text-text-secondary max-w-xl mx-auto leading-relaxed">
-          Thank you for your Guru Dakshina. Download the installer below, then follow the short video. Please keep this file for your own Macs and do not share it publicly.
+          Thank you for your Guru Dakshina. Download the installer below and keep your personal licence key safe, then follow the short video.
         </p>
         {AK.downloadApi ? <GatedDownload /> : (
           <a href={AK.fileUrl} download
