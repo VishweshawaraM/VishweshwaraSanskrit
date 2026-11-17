@@ -1,12 +1,12 @@
 // One-to-one Sanskrit pathway: 18 to 24 months, six stages. Source: Vishweshwara_Sanskrit_Curriculum.pdf.
-// No fee is shown on purpose: the Acharya has not approved a price. Set ONE_ON_ONE_FEE_NOTE when he does.
+// Fees: DRAFT figures proposed on 18 Nov 2026, NOT yet approved by the Acharya. Do not publish to main until he confirms the numbers.
 
 export const OO = {
   title: 'Samskrita Samskara Pravesha · One-to-One',
   devanagari: 'संस्कृताध्ययनपरम्परा',
   months: '18 to 24 months',
   stagesCount: 6,
-  feeNote: 'The fee is shared personally after a short conversation, so it fits where you are starting from. Payment can be monthly or stage by stage.',
+  feeNote: 'Every class is live and one-to-one with the Acharya. Begin with a short, free conversation, and decide only when you are sure.',
 };
 
 export const OO_STAGES = [
@@ -37,6 +37,14 @@ export const OO_HOW = [
 export const OO_FAQ = [
   { question: 'Who is this for?', answer: 'Children aged 8 to 14 whose parents want the full 18-month pathway with the Acharya\'s whole attention on their child, and older learners on request. No earlier Sanskrit is needed.' },
   { question: 'How long does it take?', answer: 'Eighteen months at the quickest, up to twenty-four. It depends on your pace and how much you practise between classes.' },
-  { question: 'What is the fee?', answer: 'It is shared personally after a short conversation. Payment can be monthly or stage by stage.' },
+  { question: 'What is the fee?', answer: 'Monthly, 8 live one-to-one classes cost ₹7,500 in India or $199 abroad. Paying once for the full 18-month journey saves ₹15,000 (or $282). A short first conversation is free.' },
   { question: 'Can I begin with a trial?', answer: 'Yes. Write to the Acharya on WhatsApp and we will fix a first conversation. There is no obligation.' },
 ];
+
+// Guru Dakshina for the one-to-one pathway. Per class: 7,500 / 8 = 938; 199 / 8 = 25.
+// Full journey: 18 x 7,500 = 135,000 vs 120,000 (saves 15,000); 18 x 199 = 3,582 vs 3,300 (saves 282).
+export const OO_PRICES = [
+  { id: 'monthly', title: 'Monthly', inr: '₹7,500', usd: '$199', note: 'per month · 8 live one-to-one classes', points: ['Pay month by month', 'Stop or pause with notice', 'Class timings fixed together'], best: false },
+  { id: 'full', title: 'Full journey', inr: '₹1,20,000', usd: '$3,300', note: 'all six stages · 18 months, paid once', points: ['Saves ₹15,000 (or $282) against monthly', 'Your hours are held for the whole pathway', 'One payment, nothing to remember'], best: true },
+];
+export const OO_PRICE_NOTE = 'Fees are a Guru Dakshina for the Acharya\'s time and teaching. Indian students pay in rupees, students abroad in US dollars. Every payment is arranged personally on WhatsApp.';
