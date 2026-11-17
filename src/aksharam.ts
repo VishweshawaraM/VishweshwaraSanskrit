@@ -3,10 +3,10 @@ export const AK = {
   name: 'Aksharam IME',
   price: 99,
   buyUrl: 'https://rzp.io/rzp/AksharamIME',
-  version: '1.1.0',
+  version: '1.1.2',
   // Private download page and file (not linked from anywhere public; the Razorpay page redirects here).
   downloadPath: '/aksharam/download-e21259fdf0',
-  fileUrl: '/aksharam-ime/dl-e21259fdf0/Aksharam-IME-1.1.0.pkg',
+  fileUrl: '/aksharam-ime/dl-e21259fdf0/Aksharam-IME-1.1.2.pkg',
   // Download gatekeeper (Cloudflare Worker). When set, the download page verifies the Razorpay payment
   // and the installer is no longer published on this website.
   downloadApi: 'https://aksharam-download.vishweshwarasanskrit.workers.dev',
