@@ -13,13 +13,26 @@ const Label: React.FC<{ children: React.ReactNode; className?: string }> = ({ ch
   <span className={`font-mono text-[10px] md:text-xs tracking-[0.22em] uppercase text-text-gold block ${className}`}>{children}</span>
 );
 
-export const BuyButton: React.FC<{ className?: string; label?: string }> = ({ className = '', label }) => (
+const FILLED = 'bg-gradient-to-r from-gold-base via-gold-bright to-gold-glow text-ground shadow-[0_12px_40px_rgba(232,168,32,0.35)] hover:shadow-[0_16px_50px_rgba(232,168,32,0.5)]';
+const OUTLINE = 'border border-gold-bright text-text-primary hover:bg-gold-dim';
+
+export const BuyButton: React.FC<{ className?: string; label?: string; outline?: boolean }> = ({ className = '', label, outline }) => (
   <a
     href={AK.buyUrl} target="_blank" rel="noopener noreferrer"
-    className={`group inline-flex items-center justify-center gap-3 px-7 py-4 rounded-xl bg-gradient-to-r from-gold-base via-gold-bright to-gold-glow text-ground font-mono text-xs tracking-widest uppercase font-semibold shadow-[0_12px_40px_rgba(232,168,32,0.35)] hover:shadow-[0_16px_50px_rgba(232,168,32,0.5)] hover:-translate-y-0.5 transition ${className}`}
+    className={`group inline-flex items-center justify-center gap-3 px-7 py-4 rounded-xl font-mono text-xs tracking-widest uppercase font-semibold hover:-translate-y-0.5 transition ${outline ? OUTLINE : FILLED} ${className}`}
   >
-    {label ?? `Get ${AK.name} · ₹${AK.price}`}
+    {label ?? `Buy licence · ₹${AK.price}`}
     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+  </a>
+);
+
+/* The free 7-day trial: anyone can download and use Aksharam; the ₹99 licence key keeps it working. */
+export const TrialButton: React.FC<{ className?: string; outline?: boolean }> = ({ className = '', outline }) => (
+  <a
+    href={AK.trialUrl} download
+    className={`group inline-flex items-center justify-center gap-3 px-7 py-4 rounded-xl font-mono text-xs tracking-widest uppercase font-semibold hover:-translate-y-0.5 transition ${outline ? OUTLINE : FILLED} ${className}`}
+  >
+    <Download className="w-4 h-4" aria-hidden="true" /> Download free · 7-day trial
   </a>
 );
 
@@ -131,10 +144,10 @@ const TryIt: React.FC = () => {
 const APPS = ['Pages', 'Microsoft Word', 'Google Docs', 'Gmail', 'WhatsApp', 'Notes', 'Keynote', 'Mail', 'Safari', 'Chrome', 'TextEdit', 'Spotlight'];
 
 const JOURNEY = [
-  { icon: CreditCard, title: 'Pay ₹99', body: 'One-time payment by UPI, card or net banking. Secured by Razorpay. Lifetime licence, no subscription.' },
-  { icon: Download, title: 'Download', body: 'Your private download page opens the moment the payment succeeds.' },
+  { icon: Download, title: 'Download free', body: 'Get the installer on your Mac. No payment, no sign-up.' },
   { icon: PackageCheck, title: 'Install', body: 'Open the installer. The first time, click Open Anyway in Privacy & Security.' },
-  { icon: Keyboard, title: 'Type', body: 'Choose Aksharam (अ) from the input menu and type Sanskrit in any app.' },
+  { icon: Keyboard, title: 'Try 7 days', body: 'Choose Aksharam (अ) from the input menu and type Sanskrit in any app.' },
+  { icon: CreditCard, title: 'Keep it · ₹99', body: 'Buy the lifetime licence by UPI or card and paste your key in the app. No reinstall.' },
 ];
 
 const SHOWCASE = [
@@ -173,13 +186,14 @@ export const AksharamView: React.FC = () => {
             </FadeInSection>
             <FadeInSection direction="up" delay={230}>
               <div className="flex flex-wrap items-center gap-4">
-                <BuyButton />
+                <TrialButton />
+                <BuyButton outline />
                 <a href="#demo" className="inline-flex items-center gap-2 px-5 py-4 rounded-xl border border-gold-mid hover:border-gold-bright font-mono text-xs tracking-widest uppercase text-text-primary transition">
                   <Play className="w-4 h-4 text-gold-bright" aria-hidden="true" /> Watch the demo
                 </a>
               </div>
               <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2 font-sans text-xs md:text-sm text-text-tertiary">
-                {['One-time ₹99 · no subscription', 'Apple Silicon & Intel', 'macOS 12+', 'Works offline'].map(t => (
+                {['Free 7-day trial', 'Then ₹99 once · lifetime licence', 'Apple Silicon & Intel · macOS 12+', 'On a phone? Open this page on your Mac'].map(t => (
                   <li key={t} className="flex items-center gap-2"><Check className="w-4 h-4 text-gold-bright" aria-hidden="true" />{t}</li>
                 ))}
               </ul>
@@ -230,7 +244,7 @@ export const AksharamView: React.FC = () => {
         <div className="max-w-6xl mx-auto space-y-12">
           <div className="space-y-3 text-center">
             <Label>How you get it</Label>
-            <h2 className="font-serif font-bold text-4xl md:text-6xl text-text-primary">Four steps. About two minutes.</h2>
+            <h2 className="font-serif font-bold text-4xl md:text-6xl text-text-primary">Try it free. Keep it for ₹99.</h2>
           </div>
           <ol className="relative grid grid-cols-1 md:grid-cols-4 gap-6">
             <span className="hidden md:block absolute top-9 left-[12%] right-[12%] h-px bg-gradient-to-r from-transparent via-gold-mid to-transparent" aria-hidden="true" />
@@ -250,7 +264,7 @@ export const AksharamView: React.FC = () => {
               );
             })}
           </ol>
-          <div className="text-center"><BuyButton label={`Start with step 1 · ₹${AK.price}`} /></div>
+          <div className="text-center"><TrialButton /></div>
         </div>
       </section>
 
@@ -319,8 +333,9 @@ export const AksharamView: React.FC = () => {
               ))}
             </ul>
             <BuyButton className="w-full" />
+            <TrialButton className="w-full" outline />
             <p className="flex items-center justify-center gap-2 font-sans text-xs text-text-tertiary"><ShieldCheck className="w-4 h-4" aria-hidden="true" />UPI · Cards · Net banking · Secured by Razorpay</p>
-            <p className="font-sans text-xs text-text-tertiary">7-day free trial · Full refund within 7 days if it does not work on your Mac · <a href="/aksharam/terms" className="underline hover:text-text-gold">Terms, licence &amp; refunds</a></p>
+            <p className="font-sans text-xs text-text-tertiary">Try free for 7 days first · Full refund within 7 days if it does not work on your Mac · <a href="/aksharam/terms" className="underline hover:text-text-gold">Terms, licence &amp; refunds</a></p>
           </div>
         </div>
       </section>
@@ -342,7 +357,7 @@ export const AksharamView: React.FC = () => {
         <div className="relative max-w-3xl mx-auto text-center space-y-6">
           <p lang="sa" className="font-devanagari text-5xl md:text-7xl text-gold-bright">संस्कृतम्</p>
           <h2 className="font-serif font-bold text-3xl md:text-5xl text-text-primary">Begin typing Sanskrit today.</h2>
-          <BuyButton />
+          <div className="flex flex-wrap justify-center gap-4"><TrialButton /><BuyButton outline /></div>
         </div>
       </section>
     </div>
@@ -439,7 +454,7 @@ export const AksharamDownloadView: React.FC = () => (
           <source src={AK.video} type="video/mp4" />
         </video>
         <ol className="lg:col-span-5 space-y-4">
-          {AK_STEPS.slice(1).map((s, i) => (
+          {[...AK_STEPS.slice(1, -1), 'Open the Aksharam IME app, click Licence, paste your licence key from above and click Activate.'].map((s, i) => (
             <li key={i} className="flex gap-4">
               <span className="shrink-0 w-8 h-8 rounded-full border border-gold-mid grid place-items-center font-mono text-xs text-text-gold">{i + 1}</span>
               <p className="font-sans text-sm text-text-secondary leading-relaxed pt-1">{s}</p>

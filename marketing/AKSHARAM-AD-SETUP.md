@@ -36,11 +36,11 @@ Open **adsmanager.facebook.com** → account **Vishweshwara Sanskrit - Main Ads*
   ```
   Still copy-pasting Sanskrit from Google? 🙏
   Aksharam IME — type in English, get perfect Devanagari in every app on your Mac: halant, conjuncts, even Vedic svaras.
-  ₹99 one-time · lifetime licence · Apple Silicon & Intel.
+  Try it FREE for 7 days on your Mac. Then ₹99 once · lifetime licence.
   ```
 - Headline: `Type Sanskrit on your Mac`
-- Description: `₹99 one-time · lifetime licence`
-- Call to action: **Learn more**
+- Description: `Free 7-day trial · then ₹99 once`
+- Call to action: **Download** (or Learn more)
 - Website URL: `https://vishweshwarasanskrit.com/aksharam`
 - Turn OFF "Advantage+ creative" enhancements (keeps the video and text exactly as made)
 

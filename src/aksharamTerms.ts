@@ -43,7 +43,7 @@ export const TERMS_SECTIONS: TermsSection[] = [
     id: 'trial',
     title: 'Free trial',
     paragraphs: [
-      `${AK.name} works for 7 days without a licence key, so you can check that it suits your Mac. After that, it types plain English until a licence key is activated.`,
+      `You can download ${AK.name} free from our website and use it fully for 7 days without a licence key, so you can check that it suits your Mac. After that, it types plain English until a licence key is activated.`,
     ],
   },
   {

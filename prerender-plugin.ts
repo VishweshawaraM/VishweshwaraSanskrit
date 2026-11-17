@@ -229,7 +229,7 @@ const ROUTES: Route[] = [
     path: '/aksharam', file: 'aksharam.html',
     h1: 'Aksharam IME: type Sanskrit on your Mac the way you say it',
     body: () =>
-      `<p>${esc(PAGE_META['/aksharam'].description)}</p><p>Built by ${esc(ACHARYA_NAME)}. ${esc(AK.requirements)}. One-time ₹${AK.price}, lifetime licence: <a href="${AK.buyUrl}">get Aksharam IME</a>. <a href="/aksharam/terms">Terms, licence &amp; refunds</a>.</p>` +
+      `<p>${esc(PAGE_META['/aksharam'].description)}</p><p>Built by ${esc(ACHARYA_NAME)}. ${esc(AK.requirements)}. <a href="${AK.trialUrl}">Download free: 7-day trial</a>. Then ₹${AK.price} once, lifetime licence: <a href="${AK.buyUrl}">buy the licence</a>. <a href="/aksharam/terms">Terms, licence &amp; refunds</a>.</p>` +
       '<h2>Why Aksharam IME</h2>' + AK_FEATURES.map(f => `<h3>${esc(f.title)}</h3><p>${esc(f.body)}</p>`).join('') +
       '<h2>How to install</h2><ol>' + AK_STEPS.map(s => `<li>${esc(s)}</li>`).join('') + '</ol>' +
       '<h2>Questions</h2>' + AK_FAQ.map(f => `<h3>${esc(f.question)}</h3><p>${esc(f.answer)}</p>`).join(''),
