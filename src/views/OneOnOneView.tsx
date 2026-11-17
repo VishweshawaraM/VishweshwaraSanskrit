@@ -42,7 +42,7 @@ export const OneOnOneView: React.FC = () => {
           <ol className="space-y-4">
             {OO_STAGES.map(s => (
               <li key={s.n} className="rounded-2xl border border-gold-dim bg-surface-1 p-5 md:p-6 flex gap-5">
-                <span className="font-serif text-3xl text-gold-bright w-10 shrink-0" aria-hidden="true">{s.n}</span>
+                <span className="font-serif text-2xl md:text-3xl text-gold-bright w-12 md:w-16 shrink-0" aria-hidden="true">{s.n}</span>
                 <div className="space-y-1">
                   <h3 className="font-serif font-bold text-xl text-text-primary">Stage {s.n}: {s.title}</h3>
                   <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-text-gold">{s.duration}</p>
