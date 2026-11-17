@@ -192,22 +192,26 @@ export const OneOnOneView: React.FC = () => {
         <section className="space-y-6" aria-labelledby="price-h">
           <Label>Guru Dakshina</Label>
           <h2 id="price-h" className="font-serif font-bold text-3xl md:text-4xl text-text-primary">Simple, clear fees</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-4xl">
-            {OO_PRICES.map(p => (
-              <div key={p.id} className={`relative rounded-3xl p-6 md:p-8 space-y-4 border transition duration-300 hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:translate-y-0 ${p.best ? 'border-gold-bright bg-surface-2 shadow-[0_24px_60px_-28px_rgba(200,134,10,0.55)]' : 'border-gold-dim bg-surface-1'}`}>
-                {p.best && <span className="absolute -top-3 left-6 rounded-full bg-gradient-to-r from-gold-base to-gold-bright text-ground font-mono text-[10px] tracking-[0.2em] uppercase font-semibold px-3 py-1">Best value</span>}
-                <h3 className="font-serif font-bold text-xl text-text-primary">{p.title}</h3>
-                <div>
-                  <p className="font-serif font-bold text-[2rem] sm:text-4xl text-gold-bright whitespace-nowrap">{p.inr}</p>
-                  <p className="font-sans text-sm text-text-secondary mt-1">or {p.usd} for students abroad</p>
-                  <p className="font-sans text-xs text-text-tertiary mt-1">{p.note}</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-stretch pt-3">
+            {OO_PRICES.map(p => {
+              const hero = p.emphasis === 'popular';
+              return (
+                <div key={p.id} className={`relative flex flex-col rounded-3xl p-6 md:p-7 space-y-4 border transition duration-300 hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:translate-y-0 ${hero ? 'border-gold-bright bg-surface-2 md:-my-3 md:py-10 shadow-[0_28px_70px_-26px_rgba(200,134,10,0.6)]' : 'border-gold-dim bg-surface-1'}`}>
+                  {p.tag && <span className={`absolute -top-3 left-6 rounded-full font-mono text-[10px] tracking-[0.2em] uppercase font-semibold px-3 py-1 ${hero ? 'bg-gradient-to-r from-gold-base to-gold-bright text-ground' : 'bg-surface-3 border border-gold-mid text-gold-bright'}`}>{p.tag}</span>}
+                  <h3 className="font-serif font-bold text-xl text-text-primary">{p.title}</h3>
+                  <div>
+                    <p className="font-serif font-bold text-[2rem] sm:text-4xl md:text-3xl text-gold-bright whitespace-nowrap">{p.inr}</p>
+                    <p className="font-sans text-sm text-text-secondary mt-1">or {p.usd} for students abroad</p>
+                    <p className="font-sans text-xs text-text-tertiary mt-1">{p.note}</p>
+                    <p className="font-sans text-xs text-text-gold mt-1">{p.perClass}</p>
+                  </div>
+                  <ul className="space-y-2 flex-1">
+                    {p.points.map(x => <li key={x} className="flex items-start gap-2 font-sans text-sm text-text-primary"><CheckCircle2 className="w-4 h-4 text-gold-bright shrink-0 mt-0.5" aria-hidden="true" />{x}</li>)}
+                  </ul>
+                  <Cta className="w-full" ghost={!hero} />
                 </div>
-                <ul className="space-y-2">
-                  {p.points.map(x => <li key={x} className="flex items-start gap-2 font-sans text-sm text-text-primary"><CheckCircle2 className="w-4 h-4 text-gold-bright shrink-0 mt-0.5" aria-hidden="true" />{x}</li>)}
-                </ul>
-                <Cta className="w-full" ghost={!p.best} />
-              </div>
-            ))}
+              );
+            })}
           </div>
           <p className="font-sans text-xs text-text-tertiary max-w-3xl leading-relaxed">{OO_PRICE_NOTE}</p>
         </section>

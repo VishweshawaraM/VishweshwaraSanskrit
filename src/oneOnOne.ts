@@ -37,14 +37,18 @@ export const OO_HOW = [
 export const OO_FAQ = [
   { question: 'Who is this for?', answer: 'Children aged 8 to 14 whose parents want the full 18-month pathway with the Acharya\'s whole attention on their child, and older learners on request. No earlier Sanskrit is needed.' },
   { question: 'How long does it take?', answer: 'Eighteen months at the quickest, up to twenty-four. It depends on your pace and how much you practise between classes.' },
-  { question: 'What is the fee?', answer: 'Monthly, 8 live one-to-one classes cost ₹7,500 in India or $199 abroad. Paying once for the full 18-month journey saves ₹15,000 (or $282). A short first conversation is free.' },
+  { question: 'What is the fee?', answer: 'There are three ways to pay. Monthly is ₹8,500 ($229 abroad) for 8 live classes. A single stage of 3 months is ₹22,500 ($599). The full 18-month journey is ₹1,20,000 ($3,200). A short first conversation is free.' },
   { question: 'Can I begin with a trial?', answer: 'Yes. Write to the Acharya on WhatsApp and we will fix a first conversation. There is no obligation.' },
 ];
 
-// Guru Dakshina for the one-to-one pathway. Per class: 7,500 / 8 = 938; 199 / 8 = 25.
-// Full journey: 18 x 7,500 = 135,000 vs 120,000 (saves 15,000); 18 x 199 = 3,582 vs 3,300 (saves 282).
+// Guru Dakshina for the one-to-one pathway (DRAFT, awaiting approval). Three tiers, middle one is the target.
+// Monthly: 8 classes. Stage: 3 months, 24 classes. Full: 18 months, 144 classes.
+// Per class: 8,500 / 8 = 1,063; 22,500 / 24 = 938; 120,000 / 144 = 833.   USD: 229 / 8 = 29; 599 / 24 = 25; 3,200 / 144 = 22.
+// Against monthly x 3 = 25,500: a stage saves 3,000. Against monthly x 18 = 153,000: full saves 33,000. Against 6 stages = 135,000: full saves 15,000.
+// USD: monthly x 3 = 687, stage saves 88. Monthly x 18 = 4,122, full saves 922. 6 stages = 3,594, full saves 394.
 export const OO_PRICES = [
-  { id: 'monthly', title: 'Monthly', inr: '₹7,500', usd: '$199', note: 'per month · 8 live one-to-one classes', points: ['Pay month by month', 'Stop or pause with notice', 'Class timings fixed together'], best: false },
-  { id: 'full', title: 'Full journey', inr: '₹1,20,000', usd: '$3,300', note: 'all six stages · 18 months, paid once', points: ['Saves ₹15,000 (or $282) against monthly', 'Your hours are held for the whole pathway', 'One payment, nothing to remember'], best: true },
+  { id: 'monthly', title: 'Monthly', inr: '₹8,500', usd: '$229', note: 'per month · 8 live classes', perClass: '₹1,063 per class', tag: '', points: ['Start with one month', 'Stop or pause with notice', 'Class timings fixed together'], emphasis: 'plain' },
+  { id: 'stage', title: 'Per stage', inr: '₹22,500', usd: '$599', note: '3 months · 24 live classes', perClass: '₹938 per class · save ₹3,000', tag: 'Most popular', points: ['One stage at a time, with a clear goal', 'Decide again after every stage', 'Lower cost per class than monthly'], emphasis: 'popular' },
+  { id: 'full', title: 'Full journey', inr: '₹1,20,000', usd: '$3,200', note: 'all six stages · 144 classes · 18 months', perClass: '₹833 per class · save ₹33,000', tag: 'Best value', points: ['Your hours held for the whole pathway', 'Lowest cost per class', 'One payment, nothing to remember'], emphasis: 'value' },
 ];
-export const OO_PRICE_NOTE = 'Fees are a Guru Dakshina for the Acharya\'s time and teaching. Indian students pay in rupees, students abroad in US dollars. Every payment is arranged personally on WhatsApp.';
+export const OO_PRICE_NOTE = 'Fees are a Guru Dakshina for the Acharya\'s time and teaching. Indian students pay in rupees, students abroad in US dollars. Savings are shown against paying monthly. Every payment is arranged personally on WhatsApp.';
