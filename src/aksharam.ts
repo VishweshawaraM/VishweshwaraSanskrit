@@ -32,7 +32,7 @@ export const AK_FEATURES = [
 ];
 
 export const AK_STEPS = [
-  'Pay the Guru Dakshina of ₹99. You come straight to the download page.',
+  'Buy Aksharam IME for ₹99 (one time). You land straight on your download page with your personal licence key.',
   'Download Aksharam-IME.pkg and double-click it. The first time, macOS stops it: click Done.',
   'Open System Settings → Privacy & Security, click Open Anyway and type your Mac password.',
   'In the installer, click Continue, Agree, then Install. Updates and older Aksharam or SansIME keyboards are handled automatically.',

@@ -131,7 +131,7 @@ const TryIt: React.FC = () => {
 const APPS = ['Pages', 'Microsoft Word', 'Google Docs', 'Gmail', 'WhatsApp', 'Notes', 'Keynote', 'Mail', 'Safari', 'Chrome', 'TextEdit', 'Spotlight'];
 
 const JOURNEY = [
-  { icon: CreditCard, title: 'Pay ₹99', body: 'One-time Guru Dakshina by UPI, card or net banking. Secured by Razorpay.' },
+  { icon: CreditCard, title: 'Pay ₹99', body: 'One-time payment by UPI, card or net banking. Secured by Razorpay. Lifetime licence, no subscription.' },
   { icon: Download, title: 'Download', body: 'Your private download page opens the moment the payment succeeds.' },
   { icon: PackageCheck, title: 'Install', body: 'Open the installer. The first time, click Open Anyway in Privacy & Security.' },
   { icon: Keyboard, title: 'Type', body: 'Choose Aksharam (अ) from the input menu and type Sanskrit in any app.' },
@@ -311,7 +311,7 @@ export const AksharamView: React.FC = () => {
             <h2 className="font-serif font-bold text-3xl md:text-4xl text-text-primary">{AK.name} for Mac</h2>
             <div>
               <p className="font-serif text-7xl text-gold-bright leading-none">₹{AK.price}</p>
-              <p className="mt-2 font-mono text-[11px] tracking-[0.2em] uppercase text-text-tertiary">Guru Dakshina · one-time</p>
+              <p className="mt-2 font-mono text-[11px] tracking-[0.2em] uppercase text-text-tertiary">One-time · lifetime licence</p>
             </div>
             <ul className="text-left space-y-2.5 max-w-sm mx-auto">
               {['The Mac keyboard and its companion app', 'Key chart and a live Practice box in the app', 'Free updates to version 1', 'Help on WhatsApp if you get stuck'].map(t => (
@@ -420,7 +420,7 @@ export const AksharamDownloadView: React.FC = () => (
         </span>
         <h1 className="font-serif font-bold text-4xl md:text-6xl text-text-primary">Your {AK.name} is ready</h1>
         <p className="font-sans text-base text-text-secondary max-w-xl mx-auto leading-relaxed">
-          Thank you for your Guru Dakshina. Download the installer below and keep your personal licence key safe, then follow the short video.
+          Thank you for your purchase! Download the installer, copy your personal licence key, then follow the short video.
         </p>
         {AK.downloadApi ? <GatedDownload /> : (
           <a href={AK.fileUrl} download
