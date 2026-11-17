@@ -1,6 +1,6 @@
 # Aksharam IME — Meta ad: step-by-step (Ads Manager)
 
-Budget ₹200/day × 10 days = ₹2,000 · Video: Aksharam-Ad-v2.mp4 (sent in chat)
+Budget ₹200/day × 10 days = ₹2,000 · Video: Aksharam-Ad-v3.mp4 (sent in chat)
 
 Open **adsmanager.facebook.com** → account **Vishweshwara Sanskrit - Main Ads** → green **+ Create**.
 
@@ -31,7 +31,7 @@ Open **adsmanager.facebook.com** → account **Vishweshwara Sanskrit - Main Ads*
 ## 3. Ad
 - Name: `Aksharam — real people video`
 - Identity: Facebook Page **Vishweshwara Sanskrit** + Instagram account **@vishweshwarasanskrit** (your page/IG)
-- Format: **Single image or video** → Add media → **Add video** → upload **Aksharam-Ad-v2.mp4**
+- Format: **Single image or video** → Add media → **Add video** → upload **Aksharam-Ad-v3.mp4**
 - Primary text:
   ```
   Still copy-pasting Sanskrit from Google? 🙏
