@@ -4,6 +4,7 @@ import type { Plugin } from 'vite';
 import { PAGE_META } from './src/utils/seoData';
 import { COURSES, ACHARYA_NAME, whatsappLink } from './src/courses';
 import { SP, SP_FREE_CLASSES, SP_GAINS, SP_HOW, SP_DAKSHINA, SP_COMMUNITY, SP_FAQ } from './src/samskaraPravesha';
+import { OO, OO_STAGES, OO_OUTCOMES, OO_HOW, OO_FAQ } from './src/oneOnOne';
 import { AK, AK_FEATURES, AK_STEPS, AK_FAQ } from './src/aksharam';
 import { PRIVACY_INTRO, PRIVACY_SECTIONS, PRIVACY_UPDATED } from './src/privacy';
 import { TERMS_INTRO, TERMS_SECTIONS, TERMS_UPDATED } from './src/aksharamTerms';
@@ -218,6 +219,17 @@ const ROUTES: Route[] = [
       faqPage(SP_FAQ),
       breadcrumbs([['Home', '/'], ['Samskrita Samskara Pravesha', '/samskara-pravesha']]),
     ],
+  },
+  {
+    path: '/one-on-one', file: 'one-on-one.html',
+    h1: 'One-to-one Sanskrit: learn properly, live online',
+    body: () =>
+      `<p>${esc(PAGE_META['/one-on-one'].description)}</p><p>${esc(OO.feeNote)}</p>` +
+      '<h2>Six stages</h2>' + OO_STAGES.map(s => `<h3>Stage ${s.n}: ${esc(s.title)} (${esc(s.duration)})</h3><p>${esc(s.text)}</p>`).join('') +
+      '<h2>How it works</h2>' + OO_HOW.map(h => `<h3>${esc(h.title)}</h3><p>${esc(h.text)}</p>`).join('') +
+      '<h2>After the journey, you can</h2><ul>' + OO_OUTCOMES.map(o => `<li>${esc(o)}</li>`).join('') + '</ul>' +
+      '<h2>Questions</h2>' + OO_FAQ.map(f => `<h3>${esc(f.question)}</h3><p>${esc(f.answer)}</p>`).join(''),
+    schema: () => [person(), faqPage(OO_FAQ), breadcrumbs([['Home', '/'], ['One-to-one Sanskrit', '/one-on-one']])],
   },
   {
     path: '/free-class', file: 'free-class.html',
