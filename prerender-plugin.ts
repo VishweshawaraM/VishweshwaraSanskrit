@@ -209,6 +209,12 @@ const ROUTES: Route[] = [
     ],
   },
   {
+    path: '/free-class', file: 'free-class.html',
+    h1: 'A free Sanskrit class for your child',
+    body: () => `<p>${esc(PAGE_META['/free-class'].description)}</p><p>Live online, ages 8 to 14, Kannada and English. Register on Zoom: your name and email, then the class link arrives by email. <a href="/samskara-pravesha">See the full programme</a>.</p>`,
+    schema: () => [person(), breadcrumbs([['Home', '/'], ['Free class', '/free-class']])],
+  },
+  {
     path: '/aksharam', file: 'aksharam.html',
     h1: 'Aksharam IME: type Sanskrit on your Mac the way you say it',
     body: () =>

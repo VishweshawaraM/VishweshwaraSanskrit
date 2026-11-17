@@ -22,6 +22,7 @@ const TestimonialsView = React.lazy(() => import('./views/TestimonialsView').the
 const ProtectedAdminRoute = React.lazy(() => import('./components/ProtectedAdminRoute').then(module => ({ default: module.ProtectedAdminRoute })));
 const NotFoundView = React.lazy(() => import('./views/NotFoundView').then(module => ({ default: module.NotFoundView })));
 const BeginView = React.lazy(() => import('./views/BeginView').then(module => ({ default: module.BeginView })));
+const FreeClassView = React.lazy(() => import('./views/FreeClassView').then(module => ({ default: module.FreeClassView })));
 const SamskaraPraveshaView = React.lazy(() => import('./views/SamskaraPraveshaView').then(module => ({ default: module.SamskaraPraveshaView })));
 const AksharamView = React.lazy(() => import('./views/AksharamView').then(module => ({ default: module.AksharamView })));
 const AksharamDownloadView = React.lazy(() => import('./views/AksharamView').then(module => ({ default: module.AksharamDownloadView })));
@@ -117,6 +118,7 @@ const AppContent = () => {
                 <Route path="/testimonials" element={<TestimonialsView onViewChange={handleViewChange} />} />
                 <Route path="/courses/:slug" element={<CourseView />} />
                 <Route path="/samskara-pravesha" element={<SamskaraPraveshaView />} />
+                <Route path="/free-class" element={<FreeClassView />} />
                 <Route path="/aksharam" element={<AksharamView />} />
                 <Route path="/aksharam/download-e21259fdf0" element={<AksharamDownloadView />} />
                 <Route path="/privacy" element={<PrivacyView />} />

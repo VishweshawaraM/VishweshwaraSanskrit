@@ -20,11 +20,25 @@ export const SP = {
   razorpayFull: 'https://rzp.io/rzp/SamskritaFullJourney',
 };
 
+// zoom: the class's Zoom registration page (name + email, Zoom then emails the join link). Empty = not created yet; the page falls back to WhatsApp.
 export const SP_FREE_CLASSES = [
-  { id: 'mon-16-nov', label: 'Mon 16 Nov', long: 'Monday 16 November, 6 PM IST' },
-  { id: 'fri-20-nov', label: 'Fri 20 Nov', long: 'Friday 20 November, 6 PM IST' },
-  { id: 'mon-23-nov', label: 'Mon 23 Nov', long: 'Monday 23 November, 6 PM IST' },
+  { id: 'mon-16-nov', label: 'Mon 16 Nov', long: 'Monday 16 November, 6 PM IST', at: '2026-11-16T18:00:00+05:30', zoom: 'https://us06web.zoom.us/meeting/register/Z9RZde4GQUS6jEyOVhtW3w' },
+  { id: 'fri-20-nov', label: 'Fri 20 Nov', long: 'Friday 20 November, 6 PM IST', at: '2026-11-20T18:00:00+05:30', zoom: '' },
+  { id: 'mon-23-nov', label: 'Mon 23 Nov', long: 'Monday 23 November, 6 PM IST', at: '2026-11-23T18:00:00+05:30', zoom: '' },
 ];
+
+// Free classes still open for booking. A class drops off the page 15 minutes before it starts,
+// so a past date is never offered. Evaluated in the visitor's browser, so no redeploy is needed.
+export const upcomingFreeClasses = (now: number = Date.now()) =>
+  SP_FREE_CLASSES.filter(c => Date.parse(c.at) - 15 * 60 * 1000 > now);
+
+// Short wording for the next free class, for banners: "today, 6 PM" or "Fri 20 Nov, 6 PM". Empty when none is left.
+export const nextFreeClassText = (now: number = Date.now()): string => {
+  const next = upcomingFreeClasses(now)[0];
+  if (!next) return '';
+  const ist = (t: number) => new Date(t).toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
+  return ist(Date.parse(next.at)) === ist(now) ? 'today, 6 PM' : `${next.label}, 6 PM`;
+};
 
 export const SP_GAINS = [
   { deva: 'वदति', title: 'Speaks with confidence', text: 'Simple, everyday Sanskrit, spoken clearly and without fear.' },

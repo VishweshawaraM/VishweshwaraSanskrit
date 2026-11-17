@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ArrowUpRight, CalendarDays, CheckCircle, Clock, Users, Languages, Loader2 } from 'lucide-react';
 import { FadeInSection } from '../components/FadeInSection';
 import { FAQ } from '../components/FAQ';
 import { WhatsAppIcon } from '../components/WhatsAppIcon';
 import { ACHARYA_NAME, WHATSAPP_COMMUNITY_URL, whatsappLink } from '../courses';
-import { SP, SP_FREE_CLASSES, SP_GAINS, SP_HOW, SP_DAKSHINA, SP_COMPARE, SP_COMMUNITY, SP_FAQ } from '../samskaraPravesha';
+import { SP, upcomingFreeClasses, SP_GAINS, SP_HOW, SP_DAKSHINA, SP_COMPARE, SP_COMMUNITY, SP_FAQ } from '../samskaraPravesha';
 
 const Label: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => (
   <span className={`font-mono text-[10px] md:text-xs tracking-[0.22em] uppercase text-text-gold block ${className}`}>{children}</span>
@@ -14,9 +14,10 @@ const Label: React.FC<{ children: React.ReactNode; className?: string }> = ({ ch
 const field = 'w-full bg-surface-2 border border-gold-dim focus:border-gold-bright outline-none rounded-lg px-4 py-3 font-sans text-sm text-text-primary placeholder:text-text-tertiary transition-colors';
 
 const RegisterForm: React.FC = () => {
-  const [choice, setChoice] = useState<string>(SP_FREE_CLASSES[0].id);
+  const classes = useMemo(() => upcomingFreeClasses(), []);
+  const [choice, setChoice] = useState<string>(classes[0]?.id ?? 'enrol');
   const enrolling = choice === 'enrol';
-  const freeClass = SP_FREE_CLASSES.find(c => c.id === choice);
+  const freeClass = classes.find(c => c.id === choice);
 
   // Nothing is collected on this website: the parent sends a WhatsApp message themselves.
   let ref = '';
@@ -30,7 +31,7 @@ const RegisterForm: React.FC = () => {
       <fieldset className="space-y-3">
         <legend className="font-mono text-[10px] tracking-[0.2em] uppercase text-text-gold mb-3">I would like to</legend>
         <div className="grid grid-cols-2 gap-2">
-          {SP_FREE_CLASSES.map(c => (
+          {classes.map(c => (
             <label key={c.id} className={`cursor-pointer rounded-lg border px-3 py-3 text-center font-sans text-sm transition-colors ${choice === c.id ? 'border-gold-bright bg-gold-base/15 text-text-primary' : 'border-gold-dim text-text-secondary hover:border-gold-mid'}`}>
               <input type="radio" name="choice" value={c.id} checked={choice === c.id} onChange={() => setChoice(c.id)} className="sr-only" />
               Free class · {c.label}
@@ -318,7 +319,7 @@ export const SamskaraPraveshaView: React.FC = () => {
               <h2 className="font-serif font-bold text-[clamp(2.2rem,5vw,3.4rem)] text-text-primary leading-[1]">Let your child <span className="italic font-semibold text-gold-bright">try a real class</span> first.</h2>
               <p className="font-sans text-sm md:text-base text-text-secondary leading-relaxed">Choose a date and message the Acharya on WhatsApp. You’ll get the class link there. Or reserve a Founding seat directly if you’re ready.</p>
               <ul className="space-y-2">
-                {SP_FREE_CLASSES.map(c => (
+                {upcomingFreeClasses().map(c => (
                   <li key={c.id} className="flex items-center gap-3 font-sans text-sm text-text-primary"><CalendarDays className="w-4 h-4 text-gold-bright" aria-hidden="true" />{c.long}</li>
                 ))}
               </ul>
