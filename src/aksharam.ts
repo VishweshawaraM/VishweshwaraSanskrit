@@ -3,14 +3,14 @@ export const AK = {
   name: 'Aksharam IME',
   price: 99,
   buyUrl: 'https://rzp.io/rzp/AksharamIME',
-  version: '1.2.0',
+  version: '1.2.1',
   // Private download page and file (not linked from anywhere public; the Razorpay page redirects here).
   downloadPath: '/aksharam/download-e21259fdf0',
-  fileUrl: '/aksharam-ime/dl-e21259fdf0/Aksharam-IME-1.2.0.pkg',
+  fileUrl: '/aksharam-ime/dl-e21259fdf0/Aksharam-IME-1.2.1.pkg',
   // Download gatekeeper (Cloudflare Worker). When set, the download page verifies the Razorpay payment
   // and the installer is no longer published on this website.
   // Free 7-day trial download (public). The ₹99 licence key unlocks it for good.
-  trialUrl: '/aksharam-ime/Aksharam-IME-1.2.0.pkg',
+  trialUrl: '/aksharam-ime/Aksharam-IME-1.2.1.pkg',
   downloadApi: 'https://aksharam-download.vishweshwarasanskrit.workers.dev',
   requirements: 'macOS 12 Monterey or later · Apple Silicon and Intel Macs',
   video: '/aksharam-ime/aksharam-install-v110.mp4',
