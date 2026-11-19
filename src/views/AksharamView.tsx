@@ -7,7 +7,7 @@ import { FAQ } from '../components/FAQ';
 import { WhatsAppIcon } from '../components/WhatsAppIcon';
 import { ACHARYA_NAME, whatsappLink } from '../courses';
 import { AK, AK_EXAMPLES, AK_STEPS, AK_FAQ } from '../aksharam';
-import { transliterate } from '../lib/aksharam';
+import { transliterate, transliterateKannada, type NasalRule } from '../lib/aksharam';
 
 const Label: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => (
   <span className={`font-mono text-[10px] md:text-xs tracking-[0.22em] uppercase text-text-gold block ${className}`}>{children}</span>
@@ -141,12 +141,66 @@ const TryIt: React.FC = () => {
   );
 };
 
+/* ---------------------------------------------------------------------------------------------
+ * Kannada: the second keyboard (v1.2). Same engine and rules as the Mac keyboard.
+ * ------------------------------------------------------------------------------------------- */
+const KN_EXAMPLES = ['kannaDa', 'namaskaara', 'nanna hesaru raama', 'munjaane', 'beLLi', 'Gyaana', 'vishvEshvara', 'mun-jaane'];
+const KN_FEATURES = [
+  { keys: 'kShEtra', title: 'The keys you already know', body: 'Same keys as Baraha and Nudi: ch ಚ, chh ಛ, z ಝ, Gy ಜ್ಞ, x ಕ್ಷ. Nothing new to learn.' },
+  { keys: 'e E o O', title: 'Short and long vowels, right', body: 'e ಎ and E ಏ, o ಒ and O ಓ — the two vowels Sanskrit does not have, built in.' },
+  { keys: 'munjaane', title: 'Anusvara or Panchamakshar', body: 'ಮುಂಜಾನೆ or ಮುಞ್ಜಾನೆ — choose your style with one click in the menu. A - keeps the plain ನ್.' },
+  { keys: 'i`aShe', title: 'Veda in Kannada script', body: 'The same svara keys as Sanskrit: ಇ॒ಷೆ, ಹರಿ॑ — for Kannada-script Veda books.' },
+];
+
+const KannadaTryIt: React.FC = () => {
+  const [text, setText] = useState(KN_EXAMPLES[0]);
+  const [rule, setRule] = useState<NasalRule>('anusvara');
+  const [copied, setCopied] = useState(false);
+  const out = transliterateKannada(text, rule);
+  const copy = async () => {
+    try { await navigator.clipboard.writeText(out); setCopied(true); setTimeout(() => setCopied(false), 1500); } catch { /* clipboard blocked */ }
+  };
+  return (
+    <div className="rounded-3xl border border-gold-mid bg-surface-1 p-5 md:p-8 space-y-5 text-left shadow-[0_30px_80px_rgba(0,0,0,0.45)]">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <label htmlFor="kn-input" className="font-mono text-[10px] tracking-[0.2em] uppercase text-text-gold">Type Kannada in English letters</label>
+        <div className="inline-flex rounded-full border border-gold-dim p-1" role="group" aria-label="Nasal rule">
+          {(['anusvara', 'panchama'] as NasalRule[]).map(r => (
+            <button key={r} type="button" onClick={() => setRule(r)}
+              className={`px-3 py-1 rounded-full font-mono text-[10px] tracking-wider uppercase transition ${rule === r ? 'bg-gold-mid text-text-primary' : 'text-text-tertiary hover:text-text-secondary'}`}>
+              {r === 'anusvara' ? 'Anusvara' : 'Panchamakshar'}
+            </button>
+          ))}
+        </div>
+      </div>
+      <input
+        id="kn-input" value={text} onChange={e => setText(e.target.value)} spellCheck={false} autoCapitalize="off" autoCorrect="off" autoComplete="off"
+        className="w-full bg-surface-2 border border-gold-dim focus:border-gold-bright outline-none rounded-xl px-4 py-3.5 font-mono text-base md:text-lg text-text-primary"
+      />
+      <div className="flex flex-wrap gap-2">
+        {KN_EXAMPLES.map(ex => (
+          <button key={ex} type="button" onClick={() => setText(ex)}
+            className="px-3 py-1.5 rounded-full border border-gold-dim hover:border-gold-bright hover:bg-gold-dim font-mono text-[11px] text-text-secondary transition-colors">{ex}</button>
+        ))}
+      </div>
+      <div className="rounded-2xl bg-ground border border-gold-dim p-5 md:p-6 min-h-[110px] flex items-center justify-between gap-4">
+        <p lang="kn" className="font-kannada text-3xl md:text-5xl leading-snug text-text-primary break-words min-w-0">{out || '\u00a0'}</p>
+        <button type="button" onClick={copy} aria-label="Copy the Kannada text"
+          className="shrink-0 w-11 h-11 rounded-lg border border-gold-dim hover:border-gold-bright grid place-items-center text-text-gold">
+          {copied ? <Check className="w-4 h-4" aria-hidden="true" /> : <Copy className="w-4 h-4" aria-hidden="true" />}
+        </button>
+      </div>
+      <p className="font-sans text-xs text-text-tertiary">Same rules as the Aksharam Kannada keyboard. Real Unicode Kannada: paste it anywhere.</p>
+    </div>
+  );
+};
+
 const APPS = ['Pages', 'Microsoft Word', 'Google Docs', 'Gmail', 'WhatsApp', 'Notes', 'Keynote', 'Mail', 'Safari', 'Chrome', 'TextEdit', 'Spotlight'];
 
 const JOURNEY = [
   { icon: Download, title: 'Download free', body: 'Get the installer on your Mac. No payment, no sign-up.' },
   { icon: PackageCheck, title: 'Install', body: 'Open the installer. The first time, click Open Anyway in Privacy & Security.' },
-  { icon: Keyboard, title: 'Try 7 days', body: 'Choose Aksharam (अ) from the input menu and type Sanskrit in any app.' },
+  { icon: Keyboard, title: 'Try 7 days', body: 'Choose Aksharam (अ) or Aksharam Kannada (ಅ) from the input menu and type in any app.' },
   { icon: CreditCard, title: 'Keep it · ₹99', body: 'Buy the lifetime licence by UPI or card and paste your key in the app. No reinstall.' },
 ];
 
@@ -169,19 +223,20 @@ export const AksharamView: React.FC = () => {
           <div className="lg:col-span-6 text-left space-y-7">
             <FadeInSection direction="up" delay={40}>
               <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-gold-mid bg-gold-dim font-mono text-[10px] md:text-[11px] tracking-[0.14em] uppercase text-text-primary">
-                <Sparkles className="w-3.5 h-3.5 text-gold-bright" aria-hidden="true" /> New · v{AK.version} · for Mac
+                <Sparkles className="w-3.5 h-3.5 text-gold-bright" aria-hidden="true" /> New in v{AK.version} · Kannada <span lang="kn" className="font-kannada normal-case tracking-normal">ಕನ್ನಡ</span> · for Mac
               </span>
             </FadeInSection>
             <FadeInSection direction="up" delay={110}>
               <h1 className="space-y-1">
-                <span className="block font-serif font-bold text-text-primary text-[clamp(2.7rem,7vw,5.4rem)] leading-[0.95]">Sanskrit, typed perfectly.</span>
+                <span className="block font-serif font-bold text-text-primary text-[clamp(2.7rem,7vw,5.4rem)] leading-[0.95]">Sanskrit &amp; Kannada, typed perfectly.</span>
                 <span className="block font-serif italic font-semibold text-transparent bg-clip-text bg-gradient-to-r from-gold-bright via-gold-glow to-gold-base text-[clamp(2.2rem,5.6vw,4.4rem)] leading-[1.05]">In every app on your Mac.</span>
               </h1>
             </FadeInSection>
             <FadeInSection direction="up" delay={170}>
               <p className="font-sans text-base md:text-lg text-text-secondary max-w-xl leading-relaxed">
                 Type <span className="font-mono text-text-primary">saMskRitam</span>, get <span lang="sa" className="font-devanagari text-text-primary">संस्कृतम्</span>.
-                Built by {ACHARYA_NAME} for students, teachers and everyone who writes Sanskrit — with halanta, conjuncts and Vedic svaras exactly right.
+                Type <span className="font-mono text-text-primary">kannaDa</span>, get <span lang="kn" className="font-kannada text-text-primary">ಕನ್ನಡ</span>.
+                Built by {ACHARYA_NAME} for everyone who writes Sanskrit or Kannada — with halanta, conjuncts and Vedic svaras exactly right.
               </p>
             </FadeInSection>
             <FadeInSection direction="up" delay={230}>
@@ -274,6 +329,44 @@ export const AksharamView: React.FC = () => {
           <Label>Try it before you buy</Label>
           <h2 className="font-serif font-bold text-4xl md:text-6xl text-text-primary">See how it types</h2>
           <TryIt />
+        </div>
+      </section>
+
+      {/* KANNADA */}
+      <section id="kannada" className="py-20 md:py-28 px-4 md:px-12 bg-surface-1 border-y border-gold-dim scroll-mt-24">
+        <div className="max-w-6xl mx-auto space-y-12">
+          <div className="space-y-4 max-w-3xl">
+            <Label>New in version {AK.version}</Label>
+            <h2 className="font-serif font-bold text-4xl md:text-6xl text-text-primary">Now types <span lang="kn" className="font-kannada text-gold-bright">ಕನ್ನಡ</span> too.</h2>
+            <p className="font-sans text-base md:text-lg text-text-secondary leading-relaxed">
+              Aksharam Kannada is a second keyboard in the same app, included in the same ₹{AK.price} licence. Switch between
+              Sanskrit, Kannada and English with Control + Space, even inside one document.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <div className="lg:col-span-7"><KannadaTryIt /></div>
+            <div className="lg:col-span-5">
+              <video controls preload="metadata" playsInline poster={AK.kannadaPoster} className="w-full rounded-2xl border border-gold-dim bg-black">
+                <source src={AK.kannadaVideo} type="video/mp4" />
+              </video>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {KN_FEATURES.map((f, i) => (
+              <FadeInSection key={f.title} direction="up" delay={60 * i}>
+                <div className="h-full rounded-3xl border border-gold-dim bg-ground p-7 md:p-9 space-y-4 hover:border-gold-mid transition">
+                  <div className="flex flex-wrap items-baseline gap-4">
+                    <span className="font-mono text-sm md:text-base px-3 py-1 rounded-lg bg-gold-dim border border-gold-mid text-gold-bright">{f.keys}</span>
+                    <ArrowRight className="w-5 h-5 text-text-tertiary self-center" aria-hidden="true" />
+                    <span lang="kn" className="font-kannada text-3xl md:text-4xl text-text-primary">{transliterateKannada(f.keys)}</span>
+                  </div>
+                  <h3 className="font-serif font-semibold text-2xl md:text-3xl text-text-primary">{f.title}</h3>
+                  <p className="font-sans text-sm md:text-base text-text-secondary leading-relaxed">{f.body}</p>
+                </div>
+              </FadeInSection>
+            ))}
+          </div>
+          <div className="flex flex-wrap gap-4"><TrialButton /><BuyButton outline /></div>
         </div>
       </section>
 

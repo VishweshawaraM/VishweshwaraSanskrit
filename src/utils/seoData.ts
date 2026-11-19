@@ -42,8 +42,8 @@ export const PAGE_META: Record<string, { title: string; description: string; ima
     description: 'Register for a free live online Sanskrit class for children aged 8 to 14, in Kannada and English, with Acharya Vishweshwara N M.',
   },
   '/aksharam': {
-    title: 'Aksharam IME: Sanskrit Keyboard for Mac | Vishweshwara Sanskrit',
-    description: 'Type Sanskrit in Devanagari on your Mac the way you say it: saMskRitam becomes संस्कृतम्. Halanta, conjuncts and Vedic svaras. One-time ₹99.',
+    title: 'Aksharam IME: Sanskrit & Kannada Keyboard for Mac | Vishweshwara Sanskrit',
+    description: 'Type Sanskrit and Kannada on your Mac the way you say it: saMskRitam → संस्कृतम्, kannaDa → ಕನ್ನಡ. Baraha-style keys, Vedic svaras. Free 7-day trial, then ₹99 once.',
     image: '/aksharam-ime/aksharam-icon.png',
   },
   '/aksharam/download-e21259fdf0': {

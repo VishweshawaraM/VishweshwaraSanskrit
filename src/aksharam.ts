@@ -3,17 +3,19 @@ export const AK = {
   name: 'Aksharam IME',
   price: 99,
   buyUrl: 'https://rzp.io/rzp/AksharamIME',
-  version: '1.1.3',
+  version: '1.2.0',
   // Private download page and file (not linked from anywhere public; the Razorpay page redirects here).
   downloadPath: '/aksharam/download-e21259fdf0',
-  fileUrl: '/aksharam-ime/dl-e21259fdf0/Aksharam-IME-1.1.3.pkg',
+  fileUrl: '/aksharam-ime/dl-e21259fdf0/Aksharam-IME-1.2.0.pkg',
   // Download gatekeeper (Cloudflare Worker). When set, the download page verifies the Razorpay payment
   // and the installer is no longer published on this website.
   // Free 7-day trial download (public). The ₹99 licence key unlocks it for good.
-  trialUrl: '/aksharam-ime/Aksharam-IME-1.1.3.pkg',
+  trialUrl: '/aksharam-ime/Aksharam-IME-1.2.0.pkg',
   downloadApi: 'https://aksharam-download.vishweshwarasanskrit.workers.dev',
   requirements: 'macOS 12 Monterey or later · Apple Silicon and Intel Macs',
   video: '/aksharam-ime/aksharam-install-v110.mp4',
+  kannadaVideo: '/aksharam-ime/aksharam-kannada-promo.mp4',
+  kannadaPoster: '/aksharam-ime/aksharam-kannada-promo.jpg',
   poster: '/aksharam-ime/aksharam-install-v110.jpg',
 };
 
@@ -48,6 +50,7 @@ export const AK_FAQ = [
   { id: 'ak2', question: 'Does it need the internet?', answer: 'Only once, to activate your licence key: the Aksharam app sends the key and an anonymous ID for your Mac, nothing else. The keyboard itself works fully offline and never sends anything you type anywhere.' },
   { id: 'ak3', question: 'Which Macs does it work on?', answer: 'macOS 12 Monterey or later, on both Apple Silicon (M1 and newer) and Intel Macs.' },
   { id: 'ak4', question: 'Is there a version for Windows, iPhone or iPad?', answer: 'Not yet. The Mac keyboard comes first. Windows and other Indian scripts such as Kannada are planned.' },
+  { id: 'ak9', question: 'Does Aksharam type Kannada?', answer: 'Yes. Version 1.2 adds Aksharam Kannada, a second keyboard in the same app, with the familiar Baraha / Nudi keys (ch ಚ, z ಝ, Gy ಜ್ಞ), short and long e/o, and both nasal styles: Anusvara (ಮುಂಜಾನೆ) or Panchamakshar (ಮುಞ್ಜಾನೆ). It types standard Unicode Kannada and is included in the same ₹99 lifetime licence.' },
   { id: 'ak8', question: 'Can I try it before I buy?', answer: 'Yes. Download Aksharam IME free and use it fully for 7 days. If you like it, buy the ₹99 lifetime licence and activate your key in the app; nothing needs to be reinstalled. Without a key, after 7 days it types plain English.' },
   { id: 'ak7', question: 'Can I get a refund?', answer: 'Yes. If Aksharam IME does not work on your Mac, message us within 7 days of payment with your payment ID. We first try to help you set it up; if it still does not work, you get a full refund. Full terms: vishweshwarasanskrit.com/aksharam/terms' },
   { id: 'ak5', question: 'What if it does not work on my Mac?', answer: 'Message us on WhatsApp from this website with a screenshot. The Acharya’s team will help you set it up.' },

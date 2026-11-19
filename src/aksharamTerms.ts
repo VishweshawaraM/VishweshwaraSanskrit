@@ -24,7 +24,7 @@ export const TERMS_SECTIONS: TermsSection[] = [
     id: 'product',
     title: 'What you buy',
     points: [
-      `A licence to use ${AK.name}, a Sanskrit (Devanagari) keyboard for Mac. It needs ${AK.requirements}.`,
+      `A licence to use ${AK.name}: the Sanskrit (Devanagari) and Kannada keyboards for Mac. It needs ${AK.requirements}.`,
       `Price: ₹${AK.price}, paid once. There is no subscription and no renewal.`,
       'Payment is made on Razorpay’s secure page (UPI, card or net banking). We never see your card, UPI or bank details.',
       'The price shown at checkout is the final price you pay.',

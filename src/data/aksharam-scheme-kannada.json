@@ -1,0 +1,604 @@
+{
+ "id": "kannada",
+ "name": "Kannada",
+ "script": "Kannada",
+ "version": 1,
+ "virama": "್",
+ "breakKey": "_",
+ "escapeKey": "\\",
+ "vowels": [
+  {
+   "keys": [
+    "a"
+   ],
+   "letter": "ಅ",
+   "sign": "",
+   "name": "a"
+  },
+  {
+   "keys": [
+    "aa",
+    "A"
+   ],
+   "letter": "ಆ",
+   "sign": "ಾ",
+   "name": "ā"
+  },
+  {
+   "keys": [
+    "i"
+   ],
+   "letter": "ಇ",
+   "sign": "ಿ",
+   "name": "i"
+  },
+  {
+   "keys": [
+    "I",
+    "ee"
+   ],
+   "letter": "ಈ",
+   "sign": "ೀ",
+   "name": "ī"
+  },
+  {
+   "keys": [
+    "u"
+   ],
+   "letter": "ಉ",
+   "sign": "ು",
+   "name": "u"
+  },
+  {
+   "keys": [
+    "U",
+    "oo"
+   ],
+   "letter": "ಊ",
+   "sign": "ೂ",
+   "name": "ū"
+  },
+  {
+   "keys": [
+    "Ri"
+   ],
+   "letter": "ಋ",
+   "sign": "ೃ",
+   "name": "ṛ"
+  },
+  {
+   "keys": [
+    "RI"
+   ],
+   "letter": "ೠ",
+   "sign": "ೄ",
+   "name": "ṝ"
+  },
+  {
+   "keys": [
+    "LRi"
+   ],
+   "letter": "ಌ",
+   "sign": "ೢ",
+   "name": "ḷ"
+  },
+  {
+   "keys": [
+    "LRI"
+   ],
+   "letter": "ೡ",
+   "sign": "ೣ",
+   "name": "ḹ"
+  },
+  {
+   "keys": [
+    "e"
+   ],
+   "letter": "ಎ",
+   "sign": "ೆ",
+   "name": "e (short)"
+  },
+  {
+   "keys": [
+    "E"
+   ],
+   "letter": "ಏ",
+   "sign": "ೇ",
+   "name": "ē (long)"
+  },
+  {
+   "keys": [
+    "ai"
+   ],
+   "letter": "ಐ",
+   "sign": "ೈ",
+   "name": "ai"
+  },
+  {
+   "keys": [
+    "o"
+   ],
+   "letter": "ಒ",
+   "sign": "ೊ",
+   "name": "o (short)"
+  },
+  {
+   "keys": [
+    "O"
+   ],
+   "letter": "ಓ",
+   "sign": "ೋ",
+   "name": "ō (long)"
+  },
+  {
+   "keys": [
+    "ou",
+    "au"
+   ],
+   "letter": "ಔ",
+   "sign": "ೌ",
+   "name": "au"
+  }
+ ],
+ "marks": [
+  {
+   "keys": [
+    "M"
+   ],
+   "text": "ಂ",
+   "name": "anusvāra"
+  },
+  {
+   "keys": [
+    "H"
+   ],
+   "text": "ಃ",
+   "name": "visarga"
+  },
+  {
+   "keys": [
+    "GM"
+   ],
+   "text": "ಁ",
+   "name": "candrabindu"
+  }
+ ],
+ "consonants": [
+  {
+   "keys": [
+    "k"
+   ],
+   "letter": "ಕ",
+   "name": "ka"
+  },
+  {
+   "keys": [
+    "kh",
+    "K"
+   ],
+   "letter": "ಖ",
+   "name": "kha"
+  },
+  {
+   "keys": [
+    "g"
+   ],
+   "letter": "ಗ",
+   "name": "ga"
+  },
+  {
+   "keys": [
+    "gh",
+    "G"
+   ],
+   "letter": "ಘ",
+   "name": "gha"
+  },
+  {
+   "keys": [
+    "NG",
+    "q"
+   ],
+   "letter": "ಙ",
+   "name": "ṅa"
+  },
+  {
+   "keys": [
+    "c",
+    "ch",
+    "C"
+   ],
+   "letter": "ಚ",
+   "name": "ca"
+  },
+  {
+   "keys": [
+    "chh",
+    "Ch"
+   ],
+   "letter": "ಛ",
+   "name": "cha"
+  },
+  {
+   "keys": [
+    "j"
+   ],
+   "letter": "ಜ",
+   "name": "ja"
+  },
+  {
+   "keys": [
+    "jh",
+    "z",
+    "J"
+   ],
+   "letter": "ಝ",
+   "name": "jha"
+  },
+  {
+   "keys": [
+    "NY",
+    "Q"
+   ],
+   "letter": "ಞ",
+   "name": "ña"
+  },
+  {
+   "keys": [
+    "T"
+   ],
+   "letter": "ಟ",
+   "name": "ṭa"
+  },
+  {
+   "keys": [
+    "Th"
+   ],
+   "letter": "ಠ",
+   "name": "ṭha"
+  },
+  {
+   "keys": [
+    "D"
+   ],
+   "letter": "ಡ",
+   "name": "ḍa"
+  },
+  {
+   "keys": [
+    "Dh"
+   ],
+   "letter": "ಢ",
+   "name": "ḍha"
+  },
+  {
+   "keys": [
+    "N"
+   ],
+   "letter": "ಣ",
+   "name": "ṇa"
+  },
+  {
+   "keys": [
+    "t"
+   ],
+   "letter": "ತ",
+   "name": "ta"
+  },
+  {
+   "keys": [
+    "th"
+   ],
+   "letter": "ಥ",
+   "name": "tha"
+  },
+  {
+   "keys": [
+    "d"
+   ],
+   "letter": "ದ",
+   "name": "da"
+  },
+  {
+   "keys": [
+    "dh"
+   ],
+   "letter": "ಧ",
+   "name": "dha"
+  },
+  {
+   "keys": [
+    "n"
+   ],
+   "letter": "ನ",
+   "name": "na"
+  },
+  {
+   "keys": [
+    "p"
+   ],
+   "letter": "ಪ",
+   "name": "pa"
+  },
+  {
+   "keys": [
+    "ph",
+    "f",
+    "P"
+   ],
+   "letter": "ಫ",
+   "name": "pha"
+  },
+  {
+   "keys": [
+    "b"
+   ],
+   "letter": "ಬ",
+   "name": "ba"
+  },
+  {
+   "keys": [
+    "bh",
+    "B"
+   ],
+   "letter": "ಭ",
+   "name": "bha"
+  },
+  {
+   "keys": [
+    "m"
+   ],
+   "letter": "ಮ",
+   "name": "ma"
+  },
+  {
+   "keys": [
+    "y"
+   ],
+   "letter": "ಯ",
+   "name": "ya"
+  },
+  {
+   "keys": [
+    "r",
+    "R"
+   ],
+   "letter": "ರ",
+   "name": "ra"
+  },
+  {
+   "keys": [
+    "l"
+   ],
+   "letter": "ಲ",
+   "name": "la"
+  },
+  {
+   "keys": [
+    "v",
+    "w"
+   ],
+   "letter": "ವ",
+   "name": "va"
+  },
+  {
+   "keys": [
+    "sh",
+    "S"
+   ],
+   "letter": "ಶ",
+   "name": "śa"
+  },
+  {
+   "keys": [
+    "Sh"
+   ],
+   "letter": "ಷ",
+   "name": "ṣa"
+  },
+  {
+   "keys": [
+    "s"
+   ],
+   "letter": "ಸ",
+   "name": "sa"
+  },
+  {
+   "keys": [
+    "h"
+   ],
+   "letter": "ಹ",
+   "name": "ha"
+  },
+  {
+   "keys": [
+    "L"
+   ],
+   "letter": "ಳ",
+   "name": "ḷa"
+  },
+  {
+   "keys": [
+    "kSh",
+    "x"
+   ],
+   "letter": "ಕ್ಷ",
+   "name": "kṣa"
+  },
+  {
+   "keys": [
+    "Gy"
+   ],
+   "letter": "ಜ್ಞ",
+   "name": "jña"
+  },
+  {
+   "keys": [
+    "~r"
+   ],
+   "letter": "ಱ",
+   "name": "old ra (rare)"
+  },
+  {
+   "keys": [
+    "~L"
+   ],
+   "letter": "ೞ",
+   "name": "old ḷa (rare)"
+  }
+ ],
+ "svaras": {
+  "prefix": "`",
+  "marks": [
+   {
+    "keys": [
+     "a"
+    ],
+    "text": "॒",
+    "name": "anudātta"
+   },
+   {
+    "keys": [
+     "s"
+    ],
+    "text": "॑",
+    "name": "svarita"
+   },
+   {
+    "keys": [
+     "d"
+    ],
+    "text": "᳚",
+    "name": "dīrgha svarita"
+   }
+  ]
+ },
+ "symbols": [
+  {
+   "keys": [
+    "|"
+   ],
+   "text": "।",
+   "name": "daṇḍa"
+  },
+  {
+   "keys": [
+    "||"
+   ],
+   "text": "॥",
+   "name": "double daṇḍa"
+  },
+  {
+   "keys": [
+    ".a"
+   ],
+   "text": "ಽ",
+   "name": "avagraha"
+  },
+  {
+   "keys": [
+    "Rs"
+   ],
+   "text": "₹",
+   "name": "rupee"
+  },
+  {
+   "keys": [
+    "+-"
+   ],
+   "text": "卐",
+   "name": "svastika"
+  },
+  {
+   "keys": [
+    "--"
+   ],
+   "text": "‍",
+   "name": "joiner (ZWJ)"
+  },
+  {
+   "keys": [
+    "---"
+   ],
+   "text": "‌",
+   "name": "non-joiner (ZWNJ)"
+  }
+ ],
+ "digits": {
+  "0": "೦",
+  "1": "೧",
+  "2": "೨",
+  "3": "೩",
+  "4": "೪",
+  "5": "೫",
+  "6": "೬",
+  "7": "೭",
+  "8": "೮",
+  "9": "೯"
+ },
+ "nasalRule": {
+  "triggers": [
+   "n",
+   "m"
+  ],
+  "anusvara": "ಂ",
+  "blocker": "-",
+  "classes": [
+   {
+    "nasal": "ಙ",
+    "before": [
+     "k",
+     "kh",
+     "K",
+     "g",
+     "gh",
+     "G"
+    ]
+   },
+   {
+    "nasal": "ಞ",
+    "before": [
+     "c",
+     "ch",
+     "C",
+     "chh",
+     "Ch",
+     "j",
+     "jh",
+     "z",
+     "J"
+    ]
+   },
+   {
+    "nasal": "ಣ",
+    "before": [
+     "T",
+     "Th",
+     "D",
+     "Dh"
+    ]
+   },
+   {
+    "nasal": "ನ",
+    "before": [
+     "t",
+     "th",
+     "d",
+     "dh"
+    ]
+   },
+   {
+    "nasal": "ಮ",
+    "before": [
+     "p",
+     "ph",
+     "f",
+     "P",
+     "b",
+     "bh",
+     "B"
+    ]
+   }
+  ]
+ }
+}
