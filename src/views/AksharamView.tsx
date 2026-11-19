@@ -37,15 +37,24 @@ export const TrialButton: React.FC<{ className?: string; outline?: boolean }> = 
 );
 
 /* ---------------------------------------------------------------------------------------------
- * Live typing demo: English keys appear on key caps, the word being typed is underlined,
- * and finished words turn into Devanagari — exactly what the keyboard does on a Mac.
+ * The hero: a 3D MacBook (pure CSS). On its screen Sanskrit and Kannada are typed live; the key
+ * being pressed lights up on its keyboard. It follows the mouse a little and sways by itself.
  * ------------------------------------------------------------------------------------------- */
-const DEMOS = ['OM namaH shivAya |', 'dharmakShetre kurukShetre |', 'i`aShe tvo`arje tvA`s', 'saMskRitam', "so'ham"];
+type Demo = { lang: 'sa' | 'kn'; keys: string };
+const DEMOS: Demo[] = [
+  { lang: 'sa', keys: 'OM namaH shivAya |' },
+  { lang: 'kn', keys: 'namaskaara amma' },
+  { lang: 'sa', keys: 'dharmakShetre kurukShetre |' },
+  { lang: 'kn', keys: 'kannaDa nADu' },
+  { lang: 'sa', keys: 'i`aShe tvo`arje tvA`s' },
+  { lang: 'kn', keys: 'nanna hesaru raama' },
+];
+const toScript = (lang: Demo['lang'], keys: string) => (lang === 'kn' ? transliterateKannada(keys) : transliterate(keys));
 
 const useTyping = () => {
   const [demo, setDemo] = useState(0);
   const [n, setN] = useState(0);
-  const text = DEMOS[demo];
+  const { keys: text, lang } = DEMOS[demo];
   useEffect(() => {
     const reduce = typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
     if (reduce) { setN(text.length); return; }
@@ -55,40 +64,78 @@ const useTyping = () => {
     }, done ? 2200 : text[n] === ' ' ? 170 : 115);
     return () => window.clearTimeout(id);
   }, [n, demo, text]);
-  return { keys: text.slice(0, n), done: n >= text.length };
+  return { keys: text.slice(0, n), done: n >= text.length, lang };
 };
 
-const LiveTyper: React.FC = () => {
-  const { keys, done } = useTyping();
+const KEY_ROWS = ['qwertyuiop', 'asdfghjkl', 'zxcvbnm'];
+
+const MacBook3D: React.FC = () => {
+  const { keys, done, lang } = useTyping();
   const cut = Math.max(keys.lastIndexOf(' '), -1);
-  const committed = transliterate(keys.slice(0, cut + 1));
-  const word = transliterate(keys.slice(cut + 1));
-  const recent = keys.slice(-7).split('');
+  const committed = toScript(lang, keys.slice(0, cut + 1));
+  const word = toScript(lang, keys.slice(cut + 1));
+  const last = done ? '' : keys.slice(-1);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [t, setT] = useState(0);
+  useEffect(() => {
+    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return;
+    let raf = 0; const start = performance.now();
+    const loop = (now: number) => { setT((now - start) / 1000); raf = requestAnimationFrame(loop); };
+    raf = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+  const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    setTilt({ x: ((e.clientY - r.top) / r.height - 0.5) * -10, y: ((e.clientX - r.left) / r.width - 0.5) * 16 });
+  };
+  const rx = 8 + tilt.x + Math.sin(t * 0.7) * 1.5, ry = -14 + tilt.y + Math.sin(t * 0.45) * 4;
+  const lit = (k: string) => !!last && last.toLowerCase() === k;
   return (
-    <div className="relative">
-      <div className="absolute -inset-6 rounded-[2rem] bg-[radial-gradient(closest-side,rgba(232,168,32,0.28),transparent)] blur-2xl ak-glow pointer-events-none" />
-      <div className="relative rounded-2xl border border-gold-mid bg-surface-1/95 shadow-[0_40px_100px_rgba(0,0,0,0.65)] overflow-hidden">
-        <div className="flex items-center gap-2 px-4 py-3 border-b border-gold-dim bg-surface-2">
-          <span className="w-3 h-3 rounded-full bg-[#ff5f57]" /><span className="w-3 h-3 rounded-full bg-[#febc2e]" /><span className="w-3 h-3 rounded-full bg-[#28c840]" />
-          <span className="ml-3 font-mono text-[11px] text-text-tertiary">Pages — Untitled</span>
-          <span className="ml-auto inline-flex items-center gap-1.5 rounded-md bg-text-primary/90 px-1.5 py-0.5 font-devanagari text-[13px] leading-none text-ground" title="Aksharam input menu">अ</span>
+    <div className="ak-scene relative select-none" onMouseMove={onMove} onMouseLeave={() => setTilt({ x: 0, y: 0 })} aria-hidden="true">
+      <div className="absolute -inset-10 rounded-[3rem] bg-[radial-gradient(closest-side,rgba(232,168,32,0.25),transparent)] blur-2xl ak-glow pointer-events-none" />
+      <div className="ak-laptop" style={{ transform: `rotateX(${rx}deg) rotateY(${ry}deg) translateY(${Math.sin(t * 1.1) * 4}px)` }}>
+        <div className="ak-floor" />
+        <div className="ak-base">
+          <div className="ak-keys">
+            {KEY_ROWS.map((row, i) => (
+              <div key={row} className="ak-row" style={{ paddingLeft: `${i * 3}%`, paddingRight: `${i * 3}%` }}>
+                {row.split('').map(k => <span key={k} className={`ak-key ${lit(k) ? 'on' : ''}`} />)}
+              </div>
+            ))}
+            <div className="ak-row">
+              <span className="ak-key mid" /><span className="ak-key" /><span className={`ak-key wide ${last === ' ' ? 'on' : ''}`} /><span className="ak-key" /><span className="ak-key mid" />
+            </div>
+          </div>
+          <div className="ak-pad" />
+          <div className="ak-lip" />
         </div>
-        <div className="bg-[#fbf8f2] text-[#1b1510] px-6 md:px-8 py-8 min-h-[190px] md:min-h-[220px]">
-          <p lang="sa" className="font-devanagari text-[30px] md:text-[40px] leading-[1.6] break-words">
-            {committed}
-            {done ? word : <span className="underline decoration-[#2f7bf6] decoration-[3px] underline-offset-[10px]">{word}</span>}
-            <span className="inline-block w-[3px] h-[0.9em] -mb-[0.12em] ml-0.5 bg-[#1b1510] ak-caret" />
-          </p>
-        </div>
-        <div className="flex justify-center gap-2 px-4 py-4 bg-surface-2 border-t border-gold-dim min-h-[72px]">
-          {recent.map((k, i) => (
-            <span key={`${keys.length}-${i}`}
-              className={`min-w-10 h-10 px-2 rounded-lg grid place-items-center font-mono text-sm md:text-base ${i === recent.length - 1 && !done
-                ? 'bg-gradient-to-b from-gold-bright to-gold-base text-ground translate-y-0.5 shadow-[0_2px_0_#5a3a04]'
-                : 'bg-surface-3 text-text-primary shadow-[0_4px_0_#0c0906] border border-gold-dim'}`}>
-              {k === ' ' ? 'space' : k}
-            </span>
-          ))}
+        <div className="ak-lid">
+          <div className="ak-notch" />
+          <div className="ak-screen">
+            <div className="flex items-center gap-3 px-3 h-[7%] min-h-[18px] bg-black/40 text-[9px] md:text-[11px] text-white/80 font-sans">
+              <span className="font-semibold">Pages</span><span>File</span><span>Edit</span><span className="hidden sm:inline">Format</span>
+              <span className="ml-auto inline-flex items-center rounded bg-white/90 px-1.5 leading-[1.4] text-[#111]">
+                {lang === 'kn' ? <span lang="kn" className="font-kannada">ಅ</span> : <span lang="sa" className="font-devanagari">अ</span>}
+              </span>
+              <span className="hidden sm:inline">9:41</span>
+            </div>
+            <div className="absolute left-[7%] right-[7%] top-[15%] bottom-[9%] rounded-lg overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
+              <div className="flex items-center gap-1.5 px-3 h-[13%] min-h-[16px] bg-[#e9e4da]">
+                <span className="w-2 h-2 rounded-full bg-[#ff5f57]" /><span className="w-2 h-2 rounded-full bg-[#febc2e]" /><span className="w-2 h-2 rounded-full bg-[#28c840]" />
+                <span className="ml-auto mr-auto font-mono text-[8px] md:text-[10px] text-[#6b5a45]">{lang === 'kn' ? 'Kannada — ಕನ್ನಡ' : 'Sanskrit — संस्कृतम्'}</span>
+              </div>
+              <div className="h-[87%] bg-[#fbf8f2] text-[#1b1510] px-[6%] py-[5%]">
+                <p lang={lang} className={`${lang === 'kn' ? 'font-kannada' : 'font-devanagari'} text-[clamp(18px,2.6vw,34px)] leading-[1.6] break-words`}>
+                  {committed}
+                  {done ? word : <span className="underline decoration-[#2f7bf6] decoration-[3px] underline-offset-[8px]">{word}</span>}
+                  <span className="inline-block w-[2px] h-[0.9em] -mb-[0.12em] ml-0.5 bg-[#1b1510] ak-caret" />
+                </p>
+                <p className="mt-3 font-mono text-[9px] md:text-[11px] text-[#8a7a66]">you type: <span className="text-[#c8860a]">{keys || '…'}</span></p>
+              </div>
+            </div>
+          </div>
+          <div className="ak-chin" />
         </div>
       </div>
     </div>
@@ -234,9 +281,10 @@ export const AksharamView: React.FC = () => {
             </FadeInSection>
             <FadeInSection direction="up" delay={170}>
               <p className="font-sans text-base md:text-lg text-text-secondary max-w-xl leading-relaxed">
-                Type <span className="font-mono text-text-primary">saMskRitam</span>, get <span lang="sa" className="font-devanagari text-text-primary">संस्कृतम्</span>.
-                Type <span className="font-mono text-text-primary">kannaDa</span>, get <span lang="kn" className="font-kannada text-text-primary">ಕನ್ನಡ</span>.
-                Built by {ACHARYA_NAME} for everyone who writes Sanskrit or Kannada — with halanta, conjuncts and Vedic svaras exactly right.
+                Type the way you speak: <span className="font-mono text-text-primary">saMskRitam</span> becomes <span lang="sa" className="font-devanagari text-text-primary">संस्कृतम्</span>,
+                <span className="font-mono text-text-primary"> kannaDa</span> becomes <span lang="kn" className="font-kannada text-text-primary">ಕನ್ನಡ</span>.
+                No layouts to memorise, no copy-paste from Google, no broken halanta. Crafted by {ACHARYA_NAME} for students,
+                teachers, writers and Veda chanters.
               </p>
             </FadeInSection>
             <FadeInSection direction="up" delay={230}>
@@ -248,7 +296,7 @@ export const AksharamView: React.FC = () => {
                 </a>
               </div>
               <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2 font-sans text-xs md:text-sm text-text-tertiary">
-                {['Free 7-day trial', 'Then ₹99 once · lifetime licence', 'Apple Silicon & Intel · macOS 12+', 'On a phone? Open this page on your Mac'].map(t => (
+                {['Free 7-day trial', 'Then ₹99 once · yours for life', 'Sanskrit + Kannada in one app', 'Apple Silicon & Intel · macOS 12+', 'On a phone? Open this page on your Mac'].map(t => (
                   <li key={t} className="flex items-center gap-2"><Check className="w-4 h-4 text-gold-bright" aria-hidden="true" />{t}</li>
                 ))}
               </ul>
@@ -259,7 +307,7 @@ export const AksharamView: React.FC = () => {
               <div className="relative">
                 <img src="/aksharam-ime/aksharam-icon.webp" alt="" width={120} height={120}
                   className="hidden md:block absolute -top-20 -right-4 w-24 h-24 rotate-[8deg] drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)] z-10 ak-float" />
-                <LiveTyper />
+                <MacBook3D />
               </div>
             </FadeInSection>
           </div>
@@ -282,7 +330,7 @@ export const AksharamView: React.FC = () => {
         <div className="max-w-6xl mx-auto space-y-10 text-center">
           <div className="space-y-3">
             <Label>See it in action</Label>
-            <h2 className="font-serif font-bold text-4xl md:text-6xl text-text-primary">From payment to typing, in 80 seconds</h2>
+            <h2 className="font-serif font-bold text-4xl md:text-6xl text-text-primary">From download to your first <span lang="sa" className="font-devanagari text-gold-bright">संस्कृतम्</span>, in 90 seconds</h2>
           </div>
           <FadeInSection direction="up">
             <div className="relative rounded-[1.75rem] p-[1.5px] bg-gradient-to-br from-gold-bright via-gold-mid to-transparent shadow-[0_50px_120px_rgba(0,0,0,0.7)]">
@@ -326,8 +374,8 @@ export const AksharamView: React.FC = () => {
       {/* TRY IT */}
       <section id="try" className="py-20 md:py-24 px-4 md:px-12 bg-ground scroll-mt-24">
         <div className="max-w-3xl mx-auto space-y-6">
-          <Label>Try it before you buy</Label>
-          <h2 className="font-serif font-bold text-4xl md:text-6xl text-text-primary">See how it types</h2>
+          <Label>Try it right here</Label>
+          <h2 className="font-serif font-bold text-4xl md:text-6xl text-text-primary">Type a word. Watch it become Sanskrit.</h2>
           <TryIt />
         </div>
       </section>
@@ -449,7 +497,8 @@ export const AksharamView: React.FC = () => {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_70%_at_50%_100%,rgba(232,168,32,0.15),transparent_70%)] pointer-events-none" />
         <div className="relative max-w-3xl mx-auto text-center space-y-6">
           <p lang="sa" className="font-devanagari text-5xl md:text-7xl text-gold-bright">संस्कृतम्</p>
-          <h2 className="font-serif font-bold text-3xl md:text-5xl text-text-primary">Begin typing Sanskrit today.</h2>
+          <h2 className="font-serif font-bold text-3xl md:text-5xl text-text-primary">Your Mac, now fluent in <span lang="sa" className="font-devanagari text-gold-bright">संस्कृतम्</span> and <span lang="kn" className="font-kannada text-gold-bright">ಕನ್ನಡ</span>.</h2>
+          <p className="font-sans text-base md:text-lg text-text-secondary">Download free, type for 7 days, keep it for ₹{AK.price}. No subscription, ever.</p>
           <div className="flex flex-wrap justify-center gap-4"><TrialButton /><BuyButton outline /></div>
         </div>
       </section>
