@@ -67,76 +67,54 @@ const useTyping = () => {
   return { keys: text.slice(0, n), done: n >= text.length, lang };
 };
 
-const KEY_ROWS = ['qwertyuiop', 'asdfghjkl', 'zxcvbnm'];
-
 const MacBook3D: React.FC = () => {
   const { keys, done, lang } = useTyping();
   const cut = Math.max(keys.lastIndexOf(' '), -1);
   const committed = toScript(lang, keys.slice(0, cut + 1));
   const word = toScript(lang, keys.slice(cut + 1));
-  const last = done ? '' : keys.slice(-1);
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  const [t, setT] = useState(0);
-  useEffect(() => {
-    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-    if (reduce) return;
-    let raf = 0; const start = performance.now();
-    const loop = (now: number) => { setT((now - start) / 1000); raf = requestAnimationFrame(loop); };
-    raf = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(raf);
-  }, []);
-  const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const r = e.currentTarget.getBoundingClientRect();
-    setTilt({ x: ((e.clientY - r.top) / r.height - 0.5) * -10, y: ((e.clientX - r.left) / r.width - 0.5) * 16 });
-  };
-  const rx = 8 + tilt.x + Math.sin(t * 0.7) * 1.5, ry = -14 + tilt.y + Math.sin(t * 0.45) * 4;
-  const lit = (k: string) => !!last && last.toLowerCase() === k;
+  const recent = keys.slice(-6).split('');
   return (
-    <div className="ak-scene relative select-none" onMouseMove={onMove} onMouseLeave={() => setTilt({ x: 0, y: 0 })} aria-hidden="true">
-      <div className="absolute -inset-10 rounded-[3rem] bg-[radial-gradient(closest-side,rgba(232,168,32,0.25),transparent)] blur-2xl ak-glow pointer-events-none" />
-      <div className="ak-laptop" style={{ transform: `rotateX(${rx}deg) rotateY(${ry}deg) translateY(${Math.sin(t * 1.1) * 4}px)` }}>
-        <div className="ak-floor" />
-        <div className="ak-base">
-          <div className="ak-keys">
-            {KEY_ROWS.map((row, i) => (
-              <div key={row} className="ak-row" style={{ paddingLeft: `${i * 3}%`, paddingRight: `${i * 3}%` }}>
-                {row.split('').map(k => <span key={k} className={`ak-key ${lit(k) ? 'on' : ''}`} />)}
-              </div>
-            ))}
-            <div className="ak-row">
-              <span className="ak-key mid" /><span className="ak-key" /><span className={`ak-key wide ${last === ' ' ? 'on' : ''}`} /><span className="ak-key" /><span className="ak-key mid" />
-            </div>
-          </div>
-          <div className="ak-pad" />
-          <div className="ak-lip" />
-        </div>
-        <div className="ak-lid">
-          <div className="ak-notch" />
-          <div className="ak-screen">
-            <div className="flex items-center gap-3 px-3 h-[7%] min-h-[18px] bg-black/40 text-[9px] md:text-[11px] text-white/80 font-sans">
+    <div className="relative select-none" aria-hidden="true">
+      <div className="absolute -inset-10 rounded-[3rem] bg-[radial-gradient(closest-side,rgba(232,168,32,0.22),transparent)] blur-2xl ak-glow pointer-events-none" />
+      <div className="mb mb-float">
+        <div className="mb-lid">
+          <div className="mb-notch" />
+          <div className="mb-screen">
+            <div className="flex items-center gap-3 px-3 h-[7.5%] min-h-[18px] bg-black/45 text-[9px] md:text-[11px] text-white/85 font-sans">
               <span className="font-semibold">Pages</span><span>File</span><span>Edit</span><span className="hidden sm:inline">Format</span>
-              <span className="ml-auto inline-flex items-center rounded bg-white/90 px-1.5 leading-[1.4] text-[#111]">
+              <span className="ml-auto inline-flex items-center rounded bg-white/90 px-1.5 leading-[1.45] text-[#111]">
                 {lang === 'kn' ? <span lang="kn" className="font-kannada">ಅ</span> : <span lang="sa" className="font-devanagari">अ</span>}
               </span>
               <span className="hidden sm:inline">9:41</span>
             </div>
-            <div className="absolute left-[7%] right-[7%] top-[15%] bottom-[9%] rounded-lg overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
-              <div className="flex items-center gap-1.5 px-3 h-[13%] min-h-[16px] bg-[#e9e4da]">
-                <span className="w-2 h-2 rounded-full bg-[#ff5f57]" /><span className="w-2 h-2 rounded-full bg-[#febc2e]" /><span className="w-2 h-2 rounded-full bg-[#28c840]" />
-                <span className="ml-auto mr-auto font-mono text-[8px] md:text-[10px] text-[#6b5a45]">{lang === 'kn' ? 'Kannada — ಕನ್ನಡ' : 'Sanskrit — संस्कृतम्'}</span>
+            <div className="absolute left-[8%] right-[8%] top-[15%] bottom-[10%] rounded-lg overflow-hidden shadow-[0_24px_60px_rgba(0,0,0,0.65)]">
+              <div className="flex items-center gap-1.5 px-3 h-[12%] min-h-[18px] bg-[#ebe6dc]">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" /><span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" /><span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
+                <span className="ml-auto mr-auto font-sans text-[9px] md:text-[11px] text-[#6b5a45]">{lang === 'kn' ? 'Kannada — ಕನ್ನಡ' : 'Sanskrit — संस्कृतम्'}</span>
               </div>
-              <div className="h-[87%] bg-[#fbf8f2] text-[#1b1510] px-[6%] py-[5%]">
-                <p lang={lang} className={`${lang === 'kn' ? 'font-kannada' : 'font-devanagari'} text-[clamp(18px,2.6vw,34px)] leading-[1.6] break-words`}>
+              <div className="h-[88%] bg-[#fbf8f2] text-[#1b1510] px-[7%] py-[6%]">
+                <p lang={lang} className={`${lang === 'kn' ? 'font-kannada' : 'font-devanagari'} text-[clamp(20px,2.7vw,38px)] leading-[1.55] break-words`}>
                   {committed}
                   {done ? word : <span className="underline decoration-[#2f7bf6] decoration-[3px] underline-offset-[8px]">{word}</span>}
                   <span className="inline-block w-[2px] h-[0.9em] -mb-[0.12em] ml-0.5 bg-[#1b1510] ak-caret" />
                 </p>
-                <p className="mt-3 font-mono text-[9px] md:text-[11px] text-[#8a7a66]">you type: <span className="text-[#c8860a]">{keys || '…'}</span></p>
               </div>
             </div>
           </div>
-          <div className="ak-chin" />
         </div>
+        <div className="mb-base"><div /></div>
+        <div className="mb-glow" />
+      </div>
+      {/* the keys being typed, as real keycaps */}
+      <div className="relative mt-10 flex justify-center gap-2 min-h-[48px]">
+        {recent.map((k, i) => (
+          <span key={`${keys.length}-${i}`}
+            className={`min-w-11 h-11 px-2.5 rounded-xl grid place-items-center font-mono text-sm md:text-base transition ${i === recent.length - 1 && !done
+              ? 'bg-gradient-to-b from-gold-glow to-gold-base text-ground translate-y-0.5 shadow-[0_2px_0_#5a3a04,0_0_24px_rgba(232,168,32,0.6)]'
+              : 'bg-gradient-to-b from-surface-4 to-surface-2 text-text-primary shadow-[0_5px_0_#0a0805] border border-gold-dim'}`}>
+            {k === ' ' ? 'space' : k}
+          </span>
+        ))}
       </div>
     </div>
   );
