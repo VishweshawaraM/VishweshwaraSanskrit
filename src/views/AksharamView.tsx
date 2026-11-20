@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import {
-  ArrowRight, Check, Copy, CreditCard, Download, PackageCheck, Keyboard, ShieldCheck, Cpu, Play, Lock, Sparkles,
+  ArrowRight, Check, Copy, CreditCard, Download, PackageCheck, Keyboard, ShieldCheck, Cpu, Play, Lock, Sparkles, Laptop,
 } from 'lucide-react';
 import { FadeInSection } from '../components/FadeInSection';
 import { FAQ } from '../components/FAQ';
@@ -236,6 +236,24 @@ const SHOWCASE = [
   { keys: "so'ham ||", title: 'Every Sanskrit symbol', body: 'Avagraha, daṇḍa, ॐ, anusvāra, visarga, candrabindu, Devanagari numerals.' },
 ];
 
+// Shown on phones only: the keyboard is a Mac app, so a phone visitor is handed a way to open this page on the Mac.
+const PhoneNotice: React.FC = () => {
+  const url = 'https://vishweshwarasanskrit.com/aksharam';
+  const msg = encodeURIComponent('Open this on my Mac to download Aksharam, the Sanskrit & Kannada keyboard: ' + url);
+  return (
+    <div className="md:hidden rounded-2xl border border-gold-mid bg-gold-dim p-4 space-y-3">
+      <p className="flex items-start gap-3 font-sans text-sm text-text-primary leading-relaxed">
+        <Laptop className="w-5 h-5 mt-0.5 shrink-0 text-gold-bright" aria-hidden="true" />
+        <span><strong>Aksharam is a keyboard for Mac.</strong> You are on a phone, so open this page on your Mac to download it.</span>
+      </p>
+      <a href={`https://wa.me/?text=${msg}`} target="_blank" rel="noopener noreferrer"
+        className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-gold-bright text-ground font-mono text-xs tracking-widest uppercase">
+        <WhatsAppIcon className="w-4 h-4" /> Send this link to my Mac
+      </a>
+    </div>
+  );
+};
+
 export const AksharamView: React.FC = () => {
   const showcase = useMemo(() => SHOWCASE.map(s => ({ ...s, out: transliterate(s.keys) })), []);
   return (
@@ -246,6 +264,7 @@ export const AksharamView: React.FC = () => {
         <Floaters />
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative">
           <div className="lg:col-span-6 text-left space-y-7">
+            <PhoneNotice />
             <FadeInSection direction="up" delay={40}>
               <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-gold-mid bg-gold-dim font-mono text-[10px] md:text-[11px] tracking-[0.14em] uppercase text-text-primary">
                 <Sparkles className="w-3.5 h-3.5 text-gold-bright" aria-hidden="true" /> New in v{AK.version} · Kannada <span lang="kn" className="font-kannada normal-case tracking-normal">ಕನ್ನಡ</span> · for Mac
@@ -274,7 +293,7 @@ export const AksharamView: React.FC = () => {
                 </a>
               </div>
               <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2 font-sans text-xs md:text-sm text-text-tertiary">
-                {['Free 7-day trial', 'Then ₹99 once · yours for life', 'Sanskrit + Kannada in one app', 'Apple Silicon & Intel · macOS 12+', 'On a phone? Open this page on your Mac'].map(t => (
+                {['Free 7-day trial', 'Then ₹99 once · yours for life', 'Sanskrit + Kannada in one app', 'Apple Silicon & Intel · macOS 12+'].map(t => (
                   <li key={t} className="flex items-center gap-2"><Check className="w-4 h-4 text-gold-bright" aria-hidden="true" />{t}</li>
                 ))}
               </ul>
