@@ -52,3 +52,25 @@ export const OO_PRICES = [
   { id: 'full', title: 'Full journey', inr: '₹1,20,000', usd: '$3,200', note: 'all six stages · 144 classes · 18 months', perClass: '₹833 per class · save ₹33,000', tag: 'Best value', points: ['Your hours held for the whole pathway', 'Lowest cost per class', 'One payment, nothing to remember'], emphasis: 'value' },
 ];
 export const OO_PRICE_NOTE = 'Fees are a Guru Dakshina for the Acharya\'s time and teaching. Indian students pay in rupees, students abroad in US dollars. Savings are shown against paying monthly. Every payment is arranged personally on WhatsApp.';
+
+// Shlokas taught alongside the Sanskrit stages. Source: Vishweshwara_Gita_Curriculum.pdf (Stage I and II).
+// Chapters chosen by the Acharya's delegation on 20 Nov 2026: Chapters 12 and 15 in full, key verses of Chapter 2.
+export const OO_SHLOKAS = {
+  title: 'Sanskrit and shlokas, side by side',
+  intro: 'Most classes teach Sanskrit grammar, or chant shlokas by heart without knowing the words. Here your child learns both together, so every shloka is understood while it is being learnt.',
+  items: [
+    { title: 'From the first classes', text: 'Dhyana shlokas, the Guru Stotram and simple daily prayers, with clean pronunciation and rhythm.' },
+    { title: 'Bhagavad Gita, Chapters 12 and 15', text: 'Bhakti Yoga and Purushottama Yoga, chanted accurately and learnt word by word as the grammar grows.' },
+    { title: 'Key verses of Chapter 2', text: 'Selected verses on right action and steady wisdom, with their meaning.' },
+  ],
+};
+
+// What a child can do and by when (cumulative months from the stage durations in the Sanskrit curriculum).
+export const OO_MILESTONES = [
+  { by: 'Month 2 to 3', stage: 'I', can: 'Pronounces every Sanskrit sound correctly, writes Devanagari, says their name, age and family, and names common things.' },
+  { by: 'Month 5 to 7', stage: 'II', can: 'Builds simple sentences, asks questions, and uses pronouns, gender and plural forms.' },
+  { by: 'Month 8 to 11', stage: 'III', can: 'Changes words correctly across the seven cases and writes applied sentences.' },
+  { by: 'Month 11 to 15', stage: 'IV', can: 'Uses verbs in present, past, future and command forms.' },
+  { by: 'Month 14 to 19', stage: 'V', can: 'Understands sandhi, compounds and the case roles, the formal grammar.' },
+  { by: 'Month 18 to 24', stage: 'VI', can: 'Reads original texts, beginning with the Laghu Siddhanta Kaumudi.' },
+];

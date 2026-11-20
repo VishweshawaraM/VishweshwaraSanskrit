@@ -5,7 +5,7 @@ import { ArrowRight, BookOpenCheck, CheckCircle2, GraduationCap, Mic2, UserRound
 import { WhatsAppIcon } from '../components/WhatsAppIcon';
 import { whatsappLink } from '../courses';
 import { CREDENTIALS_ITEMS } from '../data';
-import { OO, OO_STAGES, OO_OUTCOMES, OO_HOW, OO_FAQ, OO_PRICES, OO_PRICE_NOTE } from '../oneOnOne';
+import { OO, OO_STAGES, OO_OUTCOMES, OO_HOW, OO_FAQ, OO_PRICES, OO_PRICE_NOTE, OO_SHLOKAS, OO_MILESTONES } from '../oneOnOne';
 
 const Label: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <span className="font-mono text-[10px] md:text-xs tracking-[0.22em] uppercase text-text-gold block">{children}</span>
@@ -150,6 +150,25 @@ export const OneOnOneView: React.FC = () => {
         </section>
         </Reveal>
 
+        {/* Sanskrit and shlokas together */}
+        <Reveal>
+        <section className="space-y-6" aria-labelledby="shl-h">
+          <div className="space-y-2 max-w-3xl">
+            <Label>What makes this different</Label>
+            <h2 id="shl-h" className="font-serif font-bold text-3xl md:text-4xl text-text-primary">{OO_SHLOKAS.title}</h2>
+            <p className="font-sans text-text-secondary leading-relaxed">{OO_SHLOKAS.intro}</p>
+          </div>
+          <ul className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {OO_SHLOKAS.items.map(it => (
+              <li key={it.title} className="rounded-2xl border border-gold-dim bg-surface-1 p-5 space-y-2">
+                <h3 className="font-serif font-bold text-lg text-text-primary">{it.title}</h3>
+                <p className="font-sans text-sm text-text-secondary leading-relaxed">{it.text}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+        </Reveal>
+
         {/* Stages as cards */}
         <Reveal>
         <section id="stages" className="space-y-6 scroll-mt-28" aria-labelledby="stages-h">
@@ -169,6 +188,25 @@ export const OneOnOneView: React.FC = () => {
                 <h3 className="font-serif font-bold text-lg text-text-primary leading-snug">{s.title}</h3>
                 <p className="font-sans text-sm text-text-secondary leading-relaxed">{s.text}</p>
               </Reveal>
+            ))}
+          </ol>
+        </section>
+        </Reveal>
+
+        {/* What your child can do, and by when */}
+        <Reveal>
+        <section className="space-y-6" aria-labelledby="ms-h">
+          <div className="space-y-2">
+            <Label>The result</Label>
+            <h2 id="ms-h" className="font-serif font-bold text-3xl md:text-4xl text-text-primary">What your child can do, and by when</h2>
+            <p className="font-sans text-sm text-text-tertiary">Months are a guide. Every child moves at their own pace, and moves on only when the last stage is theirs.</p>
+          </div>
+          <ol className="space-y-3">
+            {OO_MILESTONES.map(m => (
+              <li key={m.stage} className="grid grid-cols-[auto_1fr] sm:grid-cols-[9rem_1fr] gap-x-4 gap-y-1 rounded-2xl border border-gold-dim bg-surface-1 p-4">
+                <span className="font-mono text-[11px] tracking-[0.14em] uppercase text-text-gold pt-0.5">{m.by}</span>
+                <span className="font-sans text-text-primary leading-relaxed"><strong className="font-serif text-gold-bright mr-2">Stage {m.stage}</strong>{m.can}</span>
+              </li>
             ))}
           </ol>
         </section>
