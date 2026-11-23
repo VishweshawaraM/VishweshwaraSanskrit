@@ -5,7 +5,7 @@ import { TRACKING_ENABLED } from './config/tracking';
 
 export const PRIVACY_VERSION = '2026-11-17';
 export const PRIVACY_UPDATED = '17 November 2026';
-export const PRIVACY_EMAIL = 'namaste@vishweshwarasanskrit.com';
+export const PRIVACY_EMAIL = 'acharya@vishweshwarasanskrit.com';
 
 export interface PrivacySection { id: string; title: string; paragraphs?: string[]; points?: string[] }
 

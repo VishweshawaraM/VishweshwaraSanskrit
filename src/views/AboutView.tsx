@@ -344,7 +344,7 @@ export const AboutView: React.FC<AboutViewProps> = () => {
             <div className="lg:col-span-5 bg-surface-1 p-8 md:p-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-[1.4fr_1fr] gap-8 text-left">
               <div className="space-y-3">
                 <Label>Get in touch</Label>
-                <p className="font-sans text-[13px] text-text-primary break-words select-all">namaste@<wbr />vishweshwarasanskrit.com</p>
+                <p className="font-sans text-[13px] text-text-primary break-words select-all">acharya@<wbr />vishweshwarasanskrit.com</p>
                 <p className="font-sans text-sm text-text-primary select-all">+91 94826 98612</p>
                 <p className="font-sans text-sm text-text-tertiary">Bengaluru, India</p>
               </div>

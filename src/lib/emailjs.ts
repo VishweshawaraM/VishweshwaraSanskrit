@@ -4,7 +4,7 @@ export const sendNotificationEmail = async (data: any) => {
   const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
   const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
   const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
-  const adminEmail = import.meta.env.VITE_ADMIN_EMAIL || 'namaste@vishweshwarasanskrit.com';
+  const adminEmail = import.meta.env.VITE_ADMIN_EMAIL || 'acharya@vishweshwarasanskrit.com';
 
   if (!serviceId || !templateId || !publicKey) {
     console.warn('EmailJS environment variables are missing. Skipping email notification.');

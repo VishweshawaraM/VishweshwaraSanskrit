@@ -300,7 +300,7 @@ export const DakshinaView: React.FC<DakshinaViewProps> = ({ onViewChange }) => {
               Share via WhatsApp
             </Button>
             <Button
-              href="mailto:namaste@vishweshwarasanskrit.com?subject=Guru%20Dakshina%20Offering%20Receipt"
+              href="mailto:acharya@vishweshwarasanskrit.com?subject=Guru%20Dakshina%20Offering%20Receipt"
               variant="outline"
               className="w-full"
             >

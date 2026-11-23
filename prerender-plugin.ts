@@ -173,7 +173,7 @@ const ROUTES: Route[] = [
     body: () =>
       `<p>${esc(PAGE_META['/begin'].description)}</p>` +
       '<p>Request a free 15-minute consultation by WhatsApp.</p>' +
-      '<p><a href="https://wa.me/919482698612">WhatsApp</a> · <a href="mailto:namaste@vishweshwarasanskrit.com">namaste@vishweshwarasanskrit.com</a></p>' +
+      '<p><a href="https://wa.me/919482698612">WhatsApp</a> · <a href="mailto:acharya@vishweshwarasanskrit.com">acharya@vishweshwarasanskrit.com</a></p>' +
       faq(),
   },
   {
