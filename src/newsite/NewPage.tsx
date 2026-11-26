@@ -38,6 +38,17 @@ export const NewPage: React.FC<{ name: string; pageId: string }> = ({ name, page
     root.innerHTML = html;
     const prevBg = document.body.style.background;
     document.body.style.background = '#F5F0E6';
+    // overflow:hidden on any ancestor breaks position:sticky (used by the review deck);
+    // 'clip' keeps the no-sideways-scroll behaviour without that side effect
+    const clipped: [HTMLElement, string, string][] = [];
+    for (let el: HTMLElement | null = root.parentElement; el; el = el.parentElement) {
+      const cs = getComputedStyle(el);
+      if (cs.overflowX === 'hidden' || cs.overflowY === 'hidden') {
+        clipped.push([el, el.style.overflowX, el.style.overflowY]);
+        el.style.overflowX = 'clip';
+        el.style.overflowY = 'visible';
+      }
+    }
     const destroy = initSite(root);
 
     // Razorpay payment button slots
@@ -73,6 +84,7 @@ export const NewPage: React.FC<{ name: string; pageId: string }> = ({ name, page
       root.removeEventListener('click', onClick);
       destroy();
       document.body.style.background = prevBg;
+      clipped.forEach(([el, x, y]) => { el.style.overflowX = x; el.style.overflowY = y; });
     };
   }, [html]);
 

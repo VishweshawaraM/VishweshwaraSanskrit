@@ -43,6 +43,23 @@ $$('.tilt').forEach(c=>{
 $$('[data-copy]').forEach(b=>b.addEventListener('click',()=>{const t=b.dataset.copy,lab=b.textContent;const done=()=>{b.textContent='Copied';setTimeout(()=>b.textContent=lab,1600)};
   try{navigator.clipboard.writeText(t).then(done,()=>{})}catch(e){}}));
 
+
+/* review deck: cards come to the front from the right and leave to the left while scrolling */
+const decks=[];
+if(!reduce){$$('.rv-grid').forEach(g=>{const cards=[...g.children];if(cards.length<3)return;
+  const deck=document.createElement('div');deck.className='deck';deck.style.height=`calc(${cards.length*62+100}svh)`;
+  const pin=document.createElement('div');pin.className='deck-pin';const stage=document.createElement('div');stage.className='deck-stage';
+  const count=document.createElement('div');count.className='deck-count';
+  cards.forEach(c=>{c.classList.add('in');stage.appendChild(c)});pin.appendChild(stage);pin.appendChild(count);deck.appendChild(pin);g.replaceWith(deck);
+  decks.push({deck,cards,count});});}
+function deckFrame(vh){decks.forEach(({deck,cards,count})=>{const r=deck.getBoundingClientRect();const n=cards.length;
+  const t=Math.min(1,Math.max(0,-r.top/(r.height-vh)));const f=t*(n-1);
+  cards.forEach((c,i)=>{const d=i-f;let x,sc,op,rot,z;
+    if(d>=0){x=d*14;sc=1-d*.06;op=d<2?1:Math.max(0,3-d);rot=d*2.5;z=50-Math.round(d*10);}
+    else{x=d*115;sc=1+d*.04;op=Math.min(1,Math.max(0,1+(d+.25)*1.5));rot=d*9;z=60;}
+    c.style.transform=`translate3d(${x}%,${Math.abs(d)<1?0:0}px,0) scale(${sc}) rotate(${rot}deg)`;c.style.opacity=op;c.style.zIndex=z;});
+  const a=Math.min(n,Math.round(f)+1);count.innerHTML=`<b>${String(a).padStart(2,'0')}</b> / ${String(n).padStart(2,'0')}`;});}
+
 /* scroll */
 const method=$('#method'),steps=method?$$('.step',method):[],bars=$$('#bar i'),pimg=$('#pimg');
 let heroVis=true,scrollP=0,ticking=false;
@@ -54,6 +71,7 @@ function onScroll(){
   if(wEl){const r=wEl.getBoundingClientRect();const p=Math.min(1,Math.max(0,(vh*.85-r.top)/(r.height+vh*.35)));const n=Math.round(p*words.length);words.forEach((w,i)=>w.classList.toggle('on',i<n));}
   if(method){let idx=-1;if(innerWidth>900){const m=method.getBoundingClientRect();const p=(vh*.6-m.top)/(vh*.9);idx=Math.min(steps.length-1,Math.floor(p*steps.length));}else{steps.forEach((s,i)=>{if(s.getBoundingClientRect().top<vh*.62)idx=i});}steps.forEach((s,i)=>s.classList.toggle('on',i<=idx));bars.forEach((b,i)=>b.style.setProperty('--p',i<=idx?1:0));}
   if(pimg&&!reduce){const pr=pimg.parentElement.getBoundingClientRect();if(pr.top<vh&&pr.bottom>0)pimg.style.transform=`translateY(${((pr.top+pr.height/2-vh/2)/vh)*-8}%)`;}
+  if(decks.length)deckFrame(vh);
   heroVis=y<vh*1.1;scrollP=Math.min(1,y/vh);
   if(mbar){const fr=finalSec?finalSec.getBoundingClientRect().top:1e9;mbar.classList.toggle('show',y>vh*.7&&fr>vh*.85);}
 }
