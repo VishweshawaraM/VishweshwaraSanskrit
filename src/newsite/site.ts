@@ -62,8 +62,8 @@ function deckFrame(vh){decks.forEach(({deck,cards,count})=>{const r=deck.getBoun
 
 
 /* stats count up when they come into view */
-const sio=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;sio.unobserve(e.target);const b=e.target.querySelector('b');const m=b&&b.textContent.trim().match(/^(\d+)(\+?)$/);if(!m||reduce)return;const end=+m[1],suf=m[2],t0=performance.now(),dur=1100;
-  const tick=(t:number)=>{const k=Math.min(1,(t-t0)/dur);const v=Math.round(end*(1-Math.pow(1-k,3)));b.textContent=v+suf;if(k<1&&!dead)requestAnimationFrame(tick)};b.textContent='0'+suf;requestAnimationFrame(tick);}),{threshold:.4});
+const sio=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;sio.unobserve(e.target);const b=e.target.querySelector('b');const m=b&&b.textContent.trim().match(/^([\d,]+)(\+?)$/);if(!m||reduce)return;const end=+m[1].replace(/,/g,''),suf=m[2],t0=performance.now(),dur=1100;
+  const tick=(t:number)=>{const k=Math.min(1,(t-t0)/dur);const v=Math.round(end*(1-Math.pow(1-k,3)));b.textContent=v.toLocaleString('en-IN')+suf;if(k<1&&!dead)requestAnimationFrame(tick)};b.textContent='0'+suf;requestAnimationFrame(tick);}),{threshold:.4});
 $$('.stat').forEach(el=>sio.observe(el));
 
 /* scroll */
