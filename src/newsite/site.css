@@ -435,6 +435,18 @@ td small{display:block;color:var(--stone);font-size:13px}
 .deck-count b{color:var(--kesari);font-weight:700}
 @media (max-width:700px){.deck-stage{height:min(460px,64svh)}.deck-stage .review{padding:30px}.deck-pin{gap:20px}}
 
+
+/* v6: stats rise and count */
+.stat{position:relative}
+.stat::before{content:"";position:absolute;left:0;top:-1px;height:2px;width:100%;background:var(--kesari);transform:scaleX(0);transform-origin:left;transition:transform 1.1s var(--ease) .15s}
+.stat.in::before{transform:scaleX(1)}
+.stat.rv{transform:translateY(64px) scale(.96)}
+.stat.rv.in{transform:none}
+.stat b{display:block;font-variant-numeric:tabular-nums}
+.stat.in b{animation:statpop .9s var(--ease) both}
+@keyframes statpop{0%{letter-spacing:.06em;opacity:.2}100%{letter-spacing:-.04em;opacity:1}}
+@media (max-width:700px){.stat.rv{transform:translateY(40px)}}
+
 /* footer */
 footer .wrap.foot-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1.6fr 1fr;gap:40px;padding-top:80px;padding-bottom:40px}
 .foot-grid h4{font-family:var(--head);color:var(--ivory);font-size:15px;margin:0 0 16px;letter-spacing:.02em}

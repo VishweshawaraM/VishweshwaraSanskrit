@@ -60,6 +60,12 @@ function deckFrame(vh){decks.forEach(({deck,cards,count})=>{const r=deck.getBoun
     c.style.transform=`translate3d(${x}%,${Math.abs(d)<1?0:0}px,0) scale(${sc}) rotate(${rot}deg)`;c.style.opacity=op;c.style.zIndex=z;});
   const a=Math.min(n,Math.round(f)+1);count.innerHTML=`<b>${String(a).padStart(2,'0')}</b> / ${String(n).padStart(2,'0')}`;});}
 
+
+/* stats count up when they come into view */
+const sio=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;sio.unobserve(e.target);const b=e.target.querySelector('b');const m=b&&b.textContent.trim().match(/^(\d+)(\+?)$/);if(!m||reduce)return;const end=+m[1],suf=m[2],t0=performance.now(),dur=1100;
+  const tick=(t:number)=>{const k=Math.min(1,(t-t0)/dur);const v=Math.round(end*(1-Math.pow(1-k,3)));b.textContent=v+suf;if(k<1&&!dead)requestAnimationFrame(tick)};b.textContent='0'+suf;requestAnimationFrame(tick);}),{threshold:.4});
+$$('.stat').forEach(el=>sio.observe(el));
+
 /* scroll */
 const method=$('#method'),steps=method?$$('.step',method):[],bars=$$('#bar i'),pimg=$('#pimg');
 let heroVis=true,scrollP=0,ticking=false;
