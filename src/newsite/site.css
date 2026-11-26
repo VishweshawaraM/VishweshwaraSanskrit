@@ -460,6 +460,19 @@ td small{display:block;color:var(--stone);font-size:13px}
 .island.on-light .menu-btn{background:rgba(22,20,17,.08);color:var(--ink2)}
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.island{background:rgba(20,18,15,.92)}.island.on-light{background:rgba(251,248,241,.96)}}
 
+
+/* v8: aksharam */
+.seg{display:inline-flex;padding:4px;border-radius:999px;background:rgba(245,240,230,.08)}
+.seg button{font:500 15px var(--deva);color:var(--mist);background:none;border:0;border-radius:999px;padding:8px 14px;cursor:pointer;min-height:38px}
+.seg button.on{background:var(--kesari);color:#fff}
+#ak-ex span{cursor:pointer;transition:background .3s}
+#ak-ex span:hover{background:var(--paper)}
+.plans{align-items:stretch}
+.plan .price{margin-top:4px}
+.plan .per{font-size:18px;font-weight:500;color:var(--stone);letter-spacing:0;margin-left:6px}
+.fcard.dk .per{color:#9A9183}
+.plan .btn{margin-top:auto}
+
 /* footer */
 footer .wrap.foot-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1.6fr 1fr;gap:40px;padding-top:80px;padding-bottom:40px}
 .foot-grid h4{font-family:var(--head);color:var(--ivory);font-size:15px;margin:0 0 16px;letter-spacing:.02em}

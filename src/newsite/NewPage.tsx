@@ -2,6 +2,7 @@ import React, { useLayoutEffect as useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import siteCssUrl from './site.css?url';
 import { initSite } from './site';
+import { transliterate, transliterateKannada } from '../lib/aksharam';
 
 // Page bodies generated from the approved design (scratchpad gen.py), one file per page.
 const pages = import.meta.glob('./pages/*.html', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
@@ -66,7 +67,7 @@ export const NewPage: React.FC<{ name: string; pageId: string }> = ({ name, page
       const a = (e.target as HTMLElement).closest('a');
       if (!a || a.target === '_blank' || e.metaKey || e.ctrlKey || e.shiftKey) return;
       const href = a.getAttribute('href') || '';
-      if (!href.startsWith('/') || href.startsWith('//')) return;
+      if (!href.startsWith('/') || href.startsWith('//') || /\.[a-z0-9]{2,4}(#|$)/i.test(href)) return;
       e.preventDefault();
       const [path, hash] = href.split('#');
       if (path === window.location.pathname && hash) {
@@ -76,6 +77,27 @@ export const NewPage: React.FC<{ name: string; pageId: string }> = ({ name, page
       navRef.current(href);
     };
     root.addEventListener('click', onClick);
+
+    // Aksharam live typing demo (real keyboard rules)
+    const tin = root.querySelector<HTMLInputElement>('#tin');
+    const tout = root.querySelector<HTMLElement>('#tout');
+    if (tin && tout) {
+      let script: 'sa' | 'kn' = 'sa';
+      const render = () => { tout.textContent = script === 'sa' ? transliterate(tin.value) : transliterateKannada(tin.value); };
+      tin.addEventListener('input', render);
+      root.querySelectorAll<HTMLElement>('[data-ex]').forEach(el => el.addEventListener('click', () => { tin.value = el.dataset.ex || ''; render(); }));
+      root.querySelectorAll<HTMLButtonElement>('[data-script]').forEach(b => b.addEventListener('click', () => {
+        script = b.dataset.script === 'kn' ? 'kn' : 'sa';
+        root.querySelectorAll('[data-script]').forEach(x => x.classList.toggle('on', x === b));
+        if (script === 'kn' && tin.value === 'saMskRitam') tin.value = 'kannaDa';
+        render();
+      }));
+      root.querySelector('#tcopy')?.addEventListener('click', e => {
+        const b = e.currentTarget as HTMLButtonElement;
+        navigator.clipboard?.writeText(tout.textContent || '').then(() => { b.textContent = 'Copied'; setTimeout(() => (b.textContent = 'Copy text'), 1500); }, () => {});
+      });
+      render();
+    }
 
     if (window.location.hash) {
       setTimeout(() => document.getElementById(window.location.hash.slice(1))?.scrollIntoView(), 300);

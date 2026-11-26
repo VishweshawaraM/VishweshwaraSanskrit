@@ -17,7 +17,7 @@ import { NewPage } from './newsite/NewPage';
 import { useParams } from 'react-router-dom';
 
 // Pages that use the new light design (they carry their own header and footer).
-const NEW_DESIGN_PATHS = ['/', '/about', '/courses', '/samskara-pravesha', '/one-on-one', '/testimonials', '/dakshina', '/begin'];
+const NEW_DESIGN_PATHS = ['/', '/about', '/courses', '/samskara-pravesha', '/one-on-one', '/testimonials', '/dakshina', '/begin', '/aksharam'];
 const NEW_COURSES = ['sanskrit', 'bhagavad-gita', 'krishna-yajurveda', 'advaita-vedanta', 'stotras'];
 const isNewDesign = (p: string) => NEW_DESIGN_PATHS.includes(p.replace(/\/$/, '') || '/') || NEW_COURSES.some(c => p.replace(/\/$/, '') === `/courses/${c}`);
 const NewCoursePage = () => {
@@ -135,7 +135,7 @@ const AppContent = () => {
                 <Route path="/samskara-pravesha" element={<NewPage name="samskara-pravesha" pageId="courses" />} />
                 <Route path="/free-class" element={<FreeClassView />} />
                 <Route path="/one-on-one" element={<NewPage name="one-on-one" pageId="courses" />} />
-                <Route path="/aksharam" element={<AksharamView />} />
+                <Route path="/aksharam" element={<NewPage name="aksharam" pageId="aksharam" />} />
                 <Route path="/aksharam/download-e21259fdf0" element={<AksharamDownloadView />} />
                 <Route path="/aksharam/terms" element={<AksharamTermsView />} />
                 <Route path="/privacy" element={<PrivacyView />} />
