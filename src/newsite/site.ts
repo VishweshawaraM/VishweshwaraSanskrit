@@ -74,6 +74,10 @@ $$('img').forEach(img=>{const done=()=>img.classList.add('ld');if(img.complete&&
 function onScroll(){
   ticking=false;const vh=innerHeight,y=scrollY;
   island.classList.toggle('small',y>40);
+  { const ir=island.getBoundingClientRect();const pts=document.elementsFromPoint(innerWidth/2,ir.bottom+6);
+    const under=pts.find(e=>!island.contains(e)&&!e.closest('.island-wrap')&&!e.closest('#boot-skel'));
+    const dark=under&&under.closest('.hero,.phero,.dark-sec,.method,.final,.marq,footer,.fcard.dk,.card.dk,.who.dark');
+    island.classList.toggle('on-light',!!under&&!dark); }
   if(wEl){const r=wEl.getBoundingClientRect();const p=Math.min(1,Math.max(0,(vh*.85-r.top)/(r.height+vh*.35)));const n=Math.round(p*words.length);words.forEach((w,i)=>w.classList.toggle('on',i<n));}
   if(method){let idx=-1;if(innerWidth>900){const m=method.getBoundingClientRect();const p=(vh*.6-m.top)/(vh*.9);idx=Math.min(steps.length-1,Math.floor(p*steps.length));}else{steps.forEach((s,i)=>{if(s.getBoundingClientRect().top<vh*.62)idx=i});}steps.forEach((s,i)=>s.classList.toggle('on',i<=idx));bars.forEach((b,i)=>b.style.setProperty('--p',i<=idx?1:0));}
   if(pimg&&!reduce){const pr=pimg.parentElement.getBoundingClientRect();if(pr.top<vh&&pr.bottom>0)pimg.style.transform=`translateY(${((pr.top+pr.height/2-vh/2)/vh)*-8}%)`;}
@@ -82,7 +86,7 @@ function onScroll(){
   if(mbar){const fr=finalSec?finalSec.getBoundingClientRect().top:1e9;mbar.classList.toggle('show',y>vh*.7&&fr>vh*.85);}
 }
 on(window,'scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(onScroll)}},{passive:true});
-on(window,'resize',onScroll);onScroll();
+on(window,'resize',onScroll);onScroll();const _t1=setTimeout(onScroll,700),_t2=setTimeout(onScroll,1600);offs.push(()=>{clearTimeout(_t1);clearTimeout(_t2)});
 
 /* 3D */
 const canvas=$('#gl');
