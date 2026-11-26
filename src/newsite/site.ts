@@ -52,7 +52,7 @@ function onScroll(){
   ticking=false;const vh=innerHeight,y=scrollY;
   island.classList.toggle('small',y>40);
   if(wEl){const r=wEl.getBoundingClientRect();const p=Math.min(1,Math.max(0,(vh*.85-r.top)/(r.height+vh*.35)));const n=Math.round(p*words.length);words.forEach((w,i)=>w.classList.toggle('on',i<n));}
-  if(method){const m=method.getBoundingClientRect();const mp=Math.min(.9999,Math.max(0,-m.top/(m.height-vh)));const idx=Math.floor(mp*steps.length);steps.forEach((s,i)=>s.classList.toggle('on',i===idx));bars.forEach((b,i)=>b.style.setProperty('--p',Math.min(1,Math.max(0,mp*steps.length-i))));}
+  if(method){let idx=-1;if(innerWidth>900){const m=method.getBoundingClientRect();const p=(vh*.6-m.top)/(vh*.9);idx=Math.min(steps.length-1,Math.floor(p*steps.length));}else{steps.forEach((s,i)=>{if(s.getBoundingClientRect().top<vh*.62)idx=i});}steps.forEach((s,i)=>s.classList.toggle('on',i<=idx));bars.forEach((b,i)=>b.style.setProperty('--p',i<=idx?1:0));}
   if(pimg&&!reduce){const pr=pimg.parentElement.getBoundingClientRect();if(pr.top<vh&&pr.bottom>0)pimg.style.transform=`translateY(${((pr.top+pr.height/2-vh/2)/vh)*-8}%)`;}
   heroVis=y<vh*1.1;scrollP=Math.min(1,y/vh);
   if(mbar){const fr=finalSec?finalSec.getBoundingClientRect().top:1e9;mbar.classList.toggle('show',y>vh*.7&&fr>vh*.85);}
