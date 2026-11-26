@@ -13,6 +13,17 @@ import { ConsentBanner } from './components/ConsentBanner';
 import { PageView } from './types';
 import { MetaTagsManager } from './components/MetaTagsManager';
 import { AmbientParticles } from './components/AmbientParticles';
+import { NewPage } from './newsite/NewPage';
+import { useParams } from 'react-router-dom';
+
+// Pages that use the new light design (they carry their own header and footer).
+const NEW_DESIGN_PATHS = ['/', '/about', '/courses', '/samskara-pravesha', '/one-on-one', '/testimonials', '/dakshina', '/begin'];
+const NEW_COURSES = ['sanskrit', 'bhagavad-gita', 'krishna-yajurveda', 'advaita-vedanta', 'stotras'];
+const isNewDesign = (p: string) => NEW_DESIGN_PATHS.includes(p.replace(/\/$/, '') || '/') || NEW_COURSES.some(c => p.replace(/\/$/, '') === `/courses/${c}`);
+const NewCoursePage = () => {
+  const { slug = '' } = useParams();
+  return NEW_COURSES.includes(slug) ? <NewPage key={slug} name={`course-${slug}`} pageId="courses" /> : <CourseView />;
+};
 
 const HomeView = React.lazy(() => import('./views/HomeView').then(module => ({ default: module.HomeView })));
 const AboutView = React.lazy(() => import('./views/AboutView').then(module => ({ default: module.AboutView })));
@@ -72,11 +83,12 @@ const AppContent = () => {
   const isLandingView = currentView === 'landing';
   const isBeginView = currentView === 'begin';
   const isAdminView = currentView === 'admin';
-  const showStandardChrome = !isLandingView && !isBeginView && !isAdminView;
+  const newDesign = isNewDesign(location.pathname);
+  const showStandardChrome = !isLandingView && !isBeginView && !isAdminView && !newDesign;
 
   return (
     <div className="bg-ground min-h-screen text-text-primary selection:bg-gold-base selection:text-ground flex flex-col justify-between overflow-x-hidden w-full">
-      <AmbientParticles />
+      {!newDesign && <AmbientParticles />}
       <ScrollToTop />
       <MetaTagsManager />
       
@@ -113,20 +125,21 @@ const AppContent = () => {
           >
             <Suspense fallback={<div className="flex items-center justify-center min-h-[50vh]"><Loader2 className="w-8 h-8 text-gold-base animate-spin" /></div>}>
               <Routes location={location}>
-                <Route path="/" element={<HomeView onViewChange={handleViewChange} />} />
-                <Route path="/about" element={<AboutView onViewChange={handleViewChange} />} />
+                <Route path="/" element={<NewPage name="index" pageId="home" />} />
+                <Route path="/about" element={<NewPage name="about" pageId="about" />} />
                 <Route path="/teachings" element={<TeachingsView onViewChange={handleViewChange} />} />
-                <Route path="/dakshina" element={<DakshinaView onViewChange={handleViewChange} />} />
-                <Route path="/testimonials" element={<TestimonialsView onViewChange={handleViewChange} />} />
-                <Route path="/courses/:slug" element={<CourseView />} />
-                <Route path="/samskara-pravesha" element={<SamskaraPraveshaView />} />
+                <Route path="/dakshina" element={<NewPage name="dakshina" pageId="dakshina" />} />
+                <Route path="/testimonials" element={<NewPage name="testimonials" pageId="testimonials" />} />
+                <Route path="/courses" element={<NewPage name="courses" pageId="courses" />} />
+                <Route path="/courses/:slug" element={<NewCoursePage />} />
+                <Route path="/samskara-pravesha" element={<NewPage name="samskara-pravesha" pageId="courses" />} />
                 <Route path="/free-class" element={<FreeClassView />} />
-                <Route path="/one-on-one" element={<OneOnOneView />} />
+                <Route path="/one-on-one" element={<NewPage name="one-on-one" pageId="courses" />} />
                 <Route path="/aksharam" element={<AksharamView />} />
                 <Route path="/aksharam/download-e21259fdf0" element={<AksharamDownloadView />} />
                 <Route path="/aksharam/terms" element={<AksharamTermsView />} />
                 <Route path="/privacy" element={<PrivacyView />} />
-                <Route path="/begin" element={<BeginView onViewChange={handleViewChange} />} />
+                <Route path="/begin" element={<NewPage name="begin" pageId="begin" />} />
                 <Route path="/landing" element={<LandingView onViewChange={handleViewChange} />} />
                 <Route path="/admin" element={<ProtectedAdminRoute><AdminView onViewChange={handleViewChange} /></ProtectedAdminRoute>} />
                 <Route path="*" element={<NotFoundView />} />
@@ -150,12 +163,12 @@ const AppContent = () => {
       )}
 
       {/* 5. Mobile Bottom Sticky bar */}
-      {!isLandingView && !isAdminView && (
+      {!isLandingView && !isAdminView && !newDesign && (
         <MobileBottomBar onViewChange={handleViewChange} />
       )}
 
       {/* 6. Global WhatsApp Floating Widget */}
-      <WhatsAppWidget />
+      {!newDesign && <WhatsAppWidget />}
 
       {/* 6b. Ad-measurement choice (renders nothing unless a Meta Pixel ID is configured) */}
       <ConsentBanner />
