@@ -11,3 +11,11 @@ createRoot(document.getElementById('root')!).render(
     </MotionConfig>
   </StrictMode>,
 );
+
+// Fade out the loading skeleton once the first page has painted.
+requestAnimationFrame(() => requestAnimationFrame(() => {
+  const sk = document.getElementById('boot-skel');
+  if (!sk) return;
+  sk.style.opacity = '0';
+  setTimeout(() => sk.remove(), 400);
+}));

@@ -94,7 +94,7 @@ const AppContent = () => {
       
       {/* Preloader Overlay */}
       <AnimatePresence>
-        {isNavigating && (
+        {isNavigating && !newDesign && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

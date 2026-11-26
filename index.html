@@ -296,6 +296,24 @@
     </script>
   </head>
   <body>
+    <!-- Loading skeleton: shown while the app downloads on slow phones, removed once the page renders -->
+    <style>
+      #boot-skel{position:fixed;inset:0;z-index:2147483000;background:#F5F0E6;overflow:hidden;transition:opacity .35s ease}
+      #boot-skel .bs-hero{height:78svh;background:#0E0C0A;padding:16px 24px;display:flex;flex-direction:column}
+      #boot-skel .bs-pill{align-self:center;width:min(560px,92vw);height:52px;border-radius:999px;background:#1d1a17}
+      #boot-skel .bs-b{border-radius:14px;background:linear-gradient(100deg,#1d1a17 40%,#2a2622 50%,#1d1a17 60%) 0 0/200% 100%;animation:bs 1.3s linear infinite}
+      #boot-skel .bs-l{border-radius:10px;background:linear-gradient(100deg,#E9E1D3 40%,#F6F0E6 50%,#E9E1D3 60%) 0 0/200% 100%;animation:bs 1.3s linear infinite;margin-bottom:14px}
+      #boot-skel .bs-in{max-width:1320px;width:100%;margin:auto auto 0;padding-bottom:7vh}
+      #boot-skel .bs-body{max-width:1320px;margin:0 auto;padding:56px 24px}
+      @keyframes bs{to{background-position:-200% 0}}
+      @media (prefers-reduced-motion:reduce){#boot-skel .bs-b,#boot-skel .bs-l{animation:none}}
+    </style>
+    <div id="boot-skel" aria-hidden="true">
+      <div class="bs-hero"><div class="bs-pill"></div>
+        <div class="bs-in"><div class="bs-b" style="width:min(780px,86%);height:clamp(48px,9vw,120px);margin-bottom:16px"></div><div class="bs-b" style="width:min(560px,64%);height:clamp(48px,9vw,120px);margin-bottom:32px"></div><div class="bs-b" style="width:min(440px,80%);height:16px;margin-bottom:10px"></div><div class="bs-b" style="width:min(360px,64%);height:16px;margin-bottom:28px"></div><div class="bs-b" style="width:220px;height:54px;border-radius:999px"></div></div>
+      </div>
+      <div class="bs-body"><div class="bs-l" style="width:120px;height:12px"></div><div class="bs-l" style="width:min(720px,90%);height:40px"></div><div class="bs-l" style="width:min(560px,70%);height:40px"></div></div>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

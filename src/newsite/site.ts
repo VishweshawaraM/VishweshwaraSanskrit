@@ -46,6 +46,8 @@ $$('[data-copy]').forEach(b=>b.addEventListener('click',()=>{const t=b.dataset.c
 /* scroll */
 const method=$('#method'),steps=method?$$('.step',method):[],bars=$$('#bar i'),pimg=$('#pimg');
 let heroVis=true,scrollP=0,ticking=false;
+const mbar=$('#mbar'),finalSec=$('.final');
+$$('img').forEach(img=>{const done=()=>img.classList.add('ld');if(img.complete&&img.naturalWidth)done();else{img.addEventListener('load',done);img.addEventListener('error',done);}});
 function onScroll(){
   ticking=false;const vh=innerHeight,y=scrollY;
   island.classList.toggle('small',y>40);
@@ -53,6 +55,7 @@ function onScroll(){
   if(method){const m=method.getBoundingClientRect();const mp=Math.min(.9999,Math.max(0,-m.top/(m.height-vh)));const idx=Math.floor(mp*steps.length);steps.forEach((s,i)=>s.classList.toggle('on',i===idx));bars.forEach((b,i)=>b.style.setProperty('--p',Math.min(1,Math.max(0,mp*steps.length-i))));}
   if(pimg&&!reduce){const pr=pimg.parentElement.getBoundingClientRect();if(pr.top<vh&&pr.bottom>0)pimg.style.transform=`translateY(${((pr.top+pr.height/2-vh/2)/vh)*-8}%)`;}
   heroVis=y<vh*1.1;scrollP=Math.min(1,y/vh);
+  if(mbar){const fr=finalSec?finalSec.getBoundingClientRect().top:1e9;mbar.classList.toggle('show',y>vh*.7&&fr>vh*.85);}
 }
 on(window,'scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(onScroll)}},{passive:true});
 on(window,'resize',onScroll);onScroll();
