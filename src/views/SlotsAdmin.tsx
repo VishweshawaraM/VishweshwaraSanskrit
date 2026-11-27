@@ -57,7 +57,9 @@ export const SlotsAdmin: React.FC = () => {
     return { text, count, total };
   };
 
-  if (!slots) return <div className="py-16 flex justify-center"><Loader2 className="animate-spin" /></div>;
+  if (!slots) return err
+    ? <div className="p-5 rounded-2xl border border-amber-500/30 bg-amber-500/10 text-amber-100 space-y-2"><p className="font-semibold">The class schedule is locked.</p><p className="text-sm">The database is still using the old rules. Open Firebase Console, go to Firestore Database, then Rules, paste the new firestore.rules file, press Publish, then reload this page.</p></div>
+    : <div className="py-16 flex justify-center"><Loader2 className="animate-spin" /></div>;
 
   const pending = bookings.filter(b => b.status === 'pending');
   const done = bookings.filter(b => b.status !== 'pending').slice(0, 20);
