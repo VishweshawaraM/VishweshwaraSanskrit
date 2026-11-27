@@ -7,6 +7,7 @@ import {prerenderPlugin} from './prerender-plugin';
 export default defineConfig(() => {
   return {
     base: '/',
+    define: { __BUILD_ID__: JSON.stringify(Date.now().toString(36)) },
     plugins: [react(), tailwindcss(), prerenderPlugin()],
     resolve: {
       alias: {

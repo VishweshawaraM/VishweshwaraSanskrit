@@ -11,6 +11,10 @@ const BREADCRUMBS: Record<string, Array<{ name: string; item: string }>> = {
     { name: 'Home', item: APP_URL + '/' },
     { name: 'About the Acharya', item: APP_URL + '/about' },
   ],
+  '/courses': [
+    { name: 'Home', item: APP_URL + '/' },
+    { name: 'Courses', item: APP_URL + '/courses' },
+  ],
   '/teachings': [
     { name: 'Home', item: APP_URL + '/' },
     { name: 'Courses', item: APP_URL + '/teachings' },

@@ -150,6 +150,11 @@ const ROUTES: Route[] = [
     ],
   },
   {
+    path: '/courses', file: 'courses.html',
+    h1: 'Courses: Sanskrit, Bhagavad Gita & Vedic Studies',
+    body: () => `<p>${esc(PAGE_META['/courses'].description)}</p>` + subjects(),
+  },
+  {
     path: '/teachings', file: 'teachings.html',
     h1: 'Courses: Sanskrit, Bhagavad Gita & Vedic Studies',
     body: () => `<p>${esc(PAGE_META['/teachings'].description)}</p>` + subjects(),
@@ -172,7 +177,7 @@ const ROUTES: Route[] = [
     h1: 'Begin your journey: enquire about Sanskrit classes',
     body: () =>
       `<p>${esc(PAGE_META['/begin'].description)}</p>` +
-      '<p>Request a free 15-minute consultation by WhatsApp.</p>' +
+      '<p>Message the Acharya on WhatsApp to begin.</p>' +
       '<p><a href="https://wa.me/919482698612">WhatsApp</a> · <a href="mailto:acharya@vishweshwarasanskrit.com">acharya@vishweshwarasanskrit.com</a></p>' +
       faq(),
   },
@@ -261,10 +266,10 @@ const ROUTES: Route[] = [
   },
   ...COURSES.map((c): Route => ({
     path: `/courses/${c.slug}`, file: `courses/${c.slug}.html`,
-    schema: () => [courseSchema(c), person(), breadcrumbs([['Home', '/'], ['Courses', '/teachings'], [c.title, `/courses/${c.slug}`]])],
+    schema: () => [courseSchema(c), person(), breadcrumbs([['Home', '/'], ['Courses', '/courses'], [c.title, `/courses/${c.slug}`]])],
     h1: `${c.title} (${c.devanagari}) with ${ACHARYA_NAME}`,
     body: () =>
-      `<p><a href="/teachings">All courses</a> › ${esc(c.title)}</p>` +
+      `<p><a href="/courses">All courses</a> › ${esc(c.title)}</p>` +
       `<p><em>${esc(c.tagline)}</em></p>` + c.intro.map(p => `<p>${esc(p)}</p>`).join('') +
       `<h2>${esc(c.methodTitle)}</h2>` +
       (c.verse ? `<blockquote><p lang="sa">${c.verse.devanagari.map(esc).join('<br>')}</p><p><em>${esc(c.verse.iast)}</em></p><p>${esc(c.verse.meaning)}</p><footer>${esc(c.verse.source)}</footer></blockquote>` : '') + c.method.map(m => `<h3>${esc(m.title)}</h3><p>${esc(m.text)}</p>`).join('') +

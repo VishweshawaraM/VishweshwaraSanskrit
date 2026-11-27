@@ -9,6 +9,10 @@ export const PAGE_META: Record<string, { title: string; description: string; ima
     title: 'Sanskrit Acharya Vishweshwara N M | Gurukula-Trained',
     description: 'Acharya Vishweshwara N M — 7 years residential Gurukula training in Krishna Yajur Veda, Advaita Vedanta, and Sanskrit. Traditional lineage, modern teaching.',
   },
+  '/courses': {
+    title: 'Online Sanskrit, Bhagavad Gita & Vedic Chanting Courses',
+    description: 'Sanskrit from scratch, Bhagavad Gita, Krishna Yajurveda chanting, Advaita Vedanta and stotras. Live online classes, one-to-one or in a small cohort, taught the Gurukula way.',
+  },
   '/teachings': {
     title: 'Online Sanskrit, Bhagavad Gita & Vedic Chanting Courses',
     description: 'Sanskrit for beginners, Laghu Siddhanta Kaumudi grammar, Bhagavad Gita classes, Vedic chanting (Sri Suktam, Rudram) and Advaita Vedanta. Live one-to-one online.',

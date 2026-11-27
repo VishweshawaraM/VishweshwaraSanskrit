@@ -1,12 +1,13 @@
 import React, { useLayoutEffect as useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import siteCssUrl from './site.css?url';
 import { initSite } from './site';
 import { transliterate, transliterateKannada } from '../lib/aksharam';
 
 // Page bodies generated from the approved design (scratchpad gen.py), one file per page.
 const pages = import.meta.glob('./pages/*.html', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
 
+declare const __BUILD_ID__: string;
+const RZP_BUTTON = 'pl_TuMHNIL8VVm7oe';
 const FONTS = 'https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800&family=Inter:wght@400;500;600&family=Tiro+Devanagari+Sanskrit&display=swap';
 
 function useHeadLink(href: string, id: string) {
@@ -29,7 +30,7 @@ export const NewPage: React.FC<{ name: string; pageId: string }> = ({ name, page
   const navRef = useRef(navigate);
   navRef.current = navigate;
   const html = pages[`./pages/${name}.html`];
-  useHeadLink(siteCssUrl, 'ns-css');
+  useHeadLink(`/new/site.css?v=${__BUILD_ID__}`, 'ns-css');
   useHeadLink(FONTS, 'ns-fonts');
 
   useEffect(() => {
@@ -37,6 +38,11 @@ export const NewPage: React.FC<{ name: string; pageId: string }> = ({ name, page
     if (!root || !html) return;
     // Set the page markup once, outside React's reconciliation, so re-renders never replace it.
     root.innerHTML = html;
+    // keep the page invisible (the loading skeleton shows) until the stylesheet is in, so it never appears unstyled
+    const css = document.getElementById('ns-css') as HTMLLinkElement | null;
+    root.style.opacity = '0';
+    const show = () => { root.style.transition = 'opacity .3s ease'; root.style.opacity = '1'; };
+    if (!css || css.sheet) show(); else { css.addEventListener('load', show, { once: true }); css.addEventListener('error', show, { once: true }); setTimeout(show, 2500); }
     const prevBg = document.body.style.background;
     document.body.style.background = '#F5F0E6';
     // overflow:hidden on any ancestor breaks position:sticky (used by the review deck);
@@ -51,6 +57,37 @@ export const NewPage: React.FC<{ name: string; pageId: string }> = ({ name, page
       }
     }
     const destroy = initSite(root);
+
+    // Guru Dakshina: our own button opens Razorpay's payment window via a hidden official Razorpay button
+    let rzpForm: HTMLFormElement | null = null;
+    if (root.querySelector('[data-rzp-pay]')) {
+      rzpForm = document.createElement('form');
+      rzpForm.style.cssText = 'position:fixed;left:-9999px;top:0;width:1px;height:1px;overflow:hidden';
+      rzpForm.setAttribute('aria-hidden', 'true');
+      const sc = document.createElement('script');
+      sc.src = 'https://checkout.razorpay.com/v1/payment-button.js';
+      sc.setAttribute('data-payment_button_id', RZP_BUTTON);
+      sc.async = true;
+      rzpForm.appendChild(sc);
+      document.body.appendChild(rzpForm);
+    }
+    const onPay = (e: MouseEvent) => {
+      const t = (e.target as HTMLElement).closest('[data-rzp-pay]');
+      if (!t || !rzpForm) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const label = t.querySelector('span') || t;
+      const old = label.textContent;
+      let tries = 0;
+      const go = () => {
+        const real = rzpForm!.querySelector<HTMLElement>('.razorpay-payment-button a, .razorpay-payment-button button');
+        if (real) { real.click(); if (old) label.textContent = old; return; }
+        if (++tries === 1) label.textContent = 'Opening secure payment…';
+        if (tries < 40) setTimeout(go, 150); else { if (old) label.textContent = old; window.open('https://wa.me/919482698612?text=' + encodeURIComponent('Hari Om Acharya ji, I would like to offer my Guru Dakshina. The payment window did not open for me.'), '_blank'); }
+      };
+      go();
+    };
+    root.addEventListener('click', onPay, true);
 
     // Razorpay payment button slots
     root.querySelectorAll<HTMLFormElement>('form[data-rzp]').forEach(form => {
@@ -104,6 +141,8 @@ export const NewPage: React.FC<{ name: string; pageId: string }> = ({ name, page
     }
     return () => {
       root.removeEventListener('click', onClick);
+      root.removeEventListener('click', onPay, true);
+      rzpForm?.remove();
       destroy();
       document.body.style.background = prevBg;
       clipped.forEach(([el, x, y]) => { el.style.overflowX = x; el.style.overflowY = y; });

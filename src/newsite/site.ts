@@ -67,6 +67,28 @@ const sio=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)retur
   const tick=(t:number)=>{const k=Math.min(1,(t-t0)/dur);const v=Math.round(end*(1-Math.pow(1-k,3)));b.textContent=v.toLocaleString('en-IN')+suf;if(k<1&&!dead)requestAnimationFrame(tick)};b.textContent='0'+suf;requestAnimationFrame(tick);}),{threshold:.4});
 $$('.stat').forEach(el=>sio.observe(el));
 
+
+/* spotlight behind the header links */
+const links=$('.links');
+if(links){const spot=document.createElement('span');spot.className='spot';links.prepend(spot);
+  $$('.links a,.links button').forEach(el=>el.addEventListener('mouseenter',()=>{spot.style.width=el.offsetWidth+'px';spot.style.transform=`translateX(${el.offsetLeft}px)`;spot.style.opacity='1';}));
+  links.addEventListener('mouseleave',()=>{spot.style.opacity='0'});}
+
+/* headings reveal word by word, from a soft blur */
+if(!reduce)$$('h2.ht.rv, h2.ht').forEach(h=>{if(h.closest('.deck-pin,.ill-over'))return;let i=0;
+  const walk=(n)=>{[...n.childNodes].forEach(c=>{if(c.nodeType===3){const parts=c.textContent.split(/(\s+)/);const frag=document.createDocumentFragment();parts.forEach(t=>{if(!t)return;if(/^\s+$/.test(t)){frag.appendChild(document.createTextNode(t));return;}const w=document.createElement('span');w.className='wd';w.style.setProperty('--wi',String(i++));w.textContent=t;frag.appendChild(w);});c.replaceWith(frag);}else if(c.nodeType===1&&c.tagName!=='BR')walk(c);});};
+  walk(h);h.classList.add('split');if(!h.classList.contains('rv')){h.classList.add('rv');io.observe(h);}});
+
+/* course list: a picture follows the cursor */
+const PEEK={'/samskara-pravesha':'il-group','/one-on-one':'il-one','/courses/sanskrit':'il-child','/courses/bhagavad-gita':'il-gita','/courses/krishna-yajurveda':'il-veda'};
+const rows=$$('.course').filter(r=>(r.getAttribute('href')||'').startsWith('/'));
+if(rows.length&&matchMedia('(hover:hover)').matches){const pk=document.createElement('div');pk.className='peek';pk.innerHTML='<img alt="" src="/new/il-gurukula.webp">';host.appendChild(pk);const im=pk.querySelector('img');
+  let px=0,py=0,tx2=0,ty2=0,live=false;const loop=()=>{if(dead||!live)return;px+=(tx2-px)*.18;py+=(ty2-py)*.18;pk.style.left=px+'px';pk.style.top=py+'px';requestAnimationFrame(loop)};
+  rows.forEach(r=>{const key=(r.getAttribute('href')||'').split('#')[0];const src='/new/'+(PEEK[key]||'il-gurukula')+'.webp';
+    r.addEventListener('mouseenter',e=>{im.src=src;tx2=px=e.clientX+150;ty2=py=e.clientY;pk.classList.add('on');if(!live){live=true;loop();}});
+    r.addEventListener('mousemove',e=>{tx2=e.clientX+150;ty2=e.clientY;});
+    r.addEventListener('mouseleave',()=>{pk.classList.remove('on');live=false;});});}
+
 /* scroll */
 const method=$('#method'),steps=method?$$('.step',method):[],bars=$$('#bar i'),pimg=$('#pimg');
 let heroVis=true,scrollP=0,ticking=false;
