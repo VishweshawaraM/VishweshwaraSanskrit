@@ -16,7 +16,8 @@ type View = 'open' | 'held' | 'booked' | 'blocked';
 export const BookingWidget: React.FC = () => {
   const [slots, setSlots] = useState<Slot[] | null>(null);
   const [held, setHeld] = useState<Set<string>>(new Set());
-  const [err, setErr] = useState(false);
+  // offline = the database can't be read yet (or has no times): show the weekly timetable and send requests by email + WhatsApp
+  const [offline, setOffline] = useState(false);
   const [picked, setPicked] = useState<string[]>([]);
   const [startKey, setStartKey] = useState<'now' | 'next'>('now');
   const [form, setForm] = useState({ learner: '', age: '', level: 'Complete beginner', subject: 'Sanskrit', parent: '', whatsapp: '', email: '', note: '' });
@@ -26,7 +27,10 @@ export const BookingWidget: React.FC = () => {
   const demo = typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('demo');
   useEffect(() => {
     if (demo) { const d = demoSlots(); setSlots(d.slots); setHeld(d.held); return; }
-    return watchSlots((s, h) => { setSlots(s); setHeld(h); }, () => setErr(true));
+    const fallback = () => { setOffline(true); setSlots(demoSlots().slots); setHeld(new Set()); };
+    let off = () => {};
+    off = watchSlots((s, h) => { if (!s.length) { fallback(); return; } setOffline(false); setSlots(s); setHeld(h); }, () => { off(); fallback(); });
+    return () => off();
   }, [demo]);
 
   const statusOf = (s: Slot): View => (s.status === 'blocked' ? 'blocked' : s.status === 'booked' ? 'booked' : held.has(s.id) ? 'held' : 'open');
@@ -66,7 +70,7 @@ export const BookingWidget: React.FC = () => {
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown';
     try {
       if (demo) { await new Promise(r => setTimeout(r, 600)); setState('done'); return; }
-      await requestBooking({
+      if (!offline) await requestBooking({
         learner: form.learner.trim().slice(0, 80), age: form.age.trim().slice(0, 20), level: form.level, subject: form.subject,
         parent: form.parent.trim().slice(0, 80), whatsapp: form.whatsapp.trim().slice(0, 30), email: form.email.trim().slice(0, 120),
         note: form.note.trim().slice(0, 600), timezone: tz.slice(0, 60), slotIds: picked, startMonth: startDate.slice(0, 7), startDate,
@@ -84,9 +88,6 @@ export const BookingWidget: React.FC = () => {
     }
   };
 
-  if (err) return (
-    <div className="bk-msg"><h3>Online booking is opening shortly.</h3><p>Until then, message the Acharya and he will share the free class times with you.</p>
-      <a className="btn btn-k" href={WA} target="_blank" rel="noopener">Message on WhatsApp</a></div>);
   if (!slots) return <div className="bk-loading" aria-busy="true"><span /><span /><span /></div>;
   if (!slots.length) return (
     <div className="bk-msg"><h3>Class times will appear here soon.</h3><a className="btn btn-k" href={WA} target="_blank" rel="noopener">Message on WhatsApp</a></div>);
@@ -96,8 +97,8 @@ export const BookingWidget: React.FC = () => {
     const msg = `Hari Om Acharya ji, I have reserved class times on the website for ${form.learner}: ${times} (IST), starting ${prettyDate(startDate)}.`;
     return (
       <div className="bk-msg bk-done">
-        <p className="eb">Reserved</p>
-        <h3>Your class times are held for {form.learner || 'you'}.</h3>
+        <p className="eb">{offline ? 'Request sent' : 'Reserved'}</p>
+        <h3>{offline ? <>Your request for {form.learner || 'you'} is sent. Please also tap below to send it on WhatsApp.</> : <>Your class times are held for {form.learner || 'you'}.</>}</h3>
         <p>{pickedSlots.map(s => `${DAYS[s.day]} · ${fmt12(s.start)}–${fmt12(s.end)} IST`).join('  ·  ')}</p>
         <p>The Acharya will review the learner's age and level, confirm the times and share the Guru Dakshina for {monthName(startDate)} ({count} {count === 1 ? 'class' : 'classes'}) on WhatsApp{form.email ? ' and email' : ''}, usually within a day. You pay only after that.</p>
         <a className="btn btn-k" href={`${WA}?text=${encodeURIComponent(msg)}`} target="_blank" rel="noopener">Tell the Acharya on WhatsApp</a>
