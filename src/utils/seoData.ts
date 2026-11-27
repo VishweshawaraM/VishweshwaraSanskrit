@@ -9,7 +9,7 @@ export const PAGE_META: Record<string, { title: string; description: string; ima
     title: 'Sanskrit Acharya Vishweshwara N M | Gurukula-Trained',
     description: 'Acharya Vishweshwara N M — 7 years residential Gurukula training in Krishna Yajur Veda, Advaita Vedanta, and Sanskrit. Traditional lineage, modern teaching.',
   },
-  '/book': {
+  '/schedule': {
     title: 'Book a Class Time | Vishweshwara Sanskrit',
     description: 'See the free weekly one-to-one class times with Acharya Vishweshwara M, choose yours, and reserve it. The Acharya confirms and shares the Guru Dakshina.',
   },

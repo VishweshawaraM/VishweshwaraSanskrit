@@ -150,9 +150,9 @@ const ROUTES: Route[] = [
     ],
   },
   {
-    path: '/book', file: 'book.html',
+    path: '/schedule', file: 'schedule.html',
     h1: 'Book a one-to-one class time',
-    body: () => `<p>${esc(PAGE_META['/book'].description)}</p>`,
+    body: () => `<p>${esc(PAGE_META['/schedule'].description)}</p>`,
   },
   {
     path: '/courses', file: 'courses.html',
