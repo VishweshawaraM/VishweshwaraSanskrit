@@ -636,6 +636,8 @@ td small{display:block;color:var(--stone);font-size:13px}
 .brand b{font-weight:inherit}
 .brand .mk{width:24px;height:24px;flex:none;margin:-4px 0}
 @media (max-width:640px){.brand .mk{width:20px;height:20px}.brand{gap:6px}}
+/* footer mark */
+.foot-mk{display:block;width:56px;height:56px;margin:0 0 20px -6px;color:var(--ivory)}
 /* footer */
 footer .wrap.foot-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1.6fr 1fr;gap:40px;padding-top:80px;padding-bottom:40px}
 .foot-grid h4{font-family:var(--head);color:var(--ivory);font-size:15px;margin:0 0 16px;letter-spacing:.02em}
