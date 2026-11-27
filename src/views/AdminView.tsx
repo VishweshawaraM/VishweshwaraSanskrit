@@ -1,478 +1,123 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import { ArrowLeft, RefreshCw, FileSpreadsheet, Mail, Calendar, FileText, Loader2, TrendingUp, Download, Trash2, Activity, Shield, Users } from 'lucide-react';
+// Acharya's admin: visitors, schedule, website content, enquiries, activity.
+import React, { useEffect, useState } from 'react';
+import { BarChart3, CalendarClock, Hash, MessageSquareQuote, CalendarDays, Megaphone, Inbox, Activity, LogOut, ExternalLink, Trash2, Loader2, Menu, X } from 'lucide-react';
 import { PageView } from '../types';
 import { SlotsAdmin } from './SlotsAdmin';
-import { Button } from '../components/Button';
+import { ContentAdmin, ContentTab } from './admin/ContentAdmin';
+import { VisitorsAdmin } from './admin/VisitorsAdmin';
 import { getLeads, Lead, deleteLead, getAdminLogs, AdminLog, auth } from '../lib/firebase';
 import { signOut } from 'firebase/auth';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-interface AdminViewProps {
-  onViewChange: (view: PageView) => void;
-}
+interface AdminViewProps { onViewChange: (view: PageView) => void }
+type Tab = 'visitors' | 'schedule' | ContentTab | 'enquiries' | 'activity';
+
+const NAV: { id: Tab; label: string; icon: React.FC<{ size?: number }>; group: string; blurb: string }[] = [
+  { id: 'visitors', label: 'Visitors', icon: BarChart3, group: 'Overview', blurb: 'Who is visiting the website and what they do.' },
+  { id: 'schedule', label: 'Class schedule', icon: CalendarClock, group: 'Overview', blurb: 'Booking requests and your weekly class times.' },
+  { id: 'numbers', label: 'Numbers', icon: Hash, group: 'Website', blurb: 'Years, teaching hours and countries.' },
+  { id: 'reviews', label: 'Reviews', icon: MessageSquareQuote, group: 'Website', blurb: 'Add, edit, hide or reorder reviews.' },
+  { id: 'dates', label: 'Dates & prices', icon: CalendarDays, group: 'Website', blurb: 'Next cohort date and Aksharam prices.' },
+  { id: 'announce', label: 'Announcement', icon: Megaphone, group: 'Website', blurb: 'A short notice on every page.' },
+  { id: 'enquiries', label: 'Enquiries', icon: Inbox, group: 'Records', blurb: 'Messages sent through the website form.' },
+  { id: 'activity', label: 'Activity', icon: Activity, group: 'Records', blurb: 'Sign-ins and changes made in Admin.' },
+];
+
+const toDate = (v: unknown) => v instanceof Date ? v : (v as { toDate?: () => Date })?.toDate?.() || null;
+const when = (v: unknown) => { const d = toDate(v); return d ? d.toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' }) : ''; };
+
+const Enquiries: React.FC = () => {
+  const [leads, setLeads] = useState<Lead[] | null>(null);
+  const [err, setErr] = useState('');
+  const [confirm, setConfirm] = useState<string | null>(null);
+  useEffect(() => { getLeads().then(setLeads).catch(() => setErr('Could not load enquiries.')); }, []);
+  if (err) return <p className="text-red-300">{err}</p>;
+  if (!leads) return <div className="py-16 flex justify-center text-[#F5F0E6]"><Loader2 className="animate-spin" /></div>;
+  if (!leads.length) return <p className="text-[#9A9183]">No enquiries yet.</p>;
+  return (
+    <div className="space-y-4">
+      {leads.map(l => (
+        <div key={l.id} className="rounded-2xl bg-white/[0.04] border border-white/10 p-5">
+          <div className="flex flex-wrap justify-between gap-2">
+            <div className="min-w-0"><p className="font-semibold text-[#F5F0E6]">{l.name}</p><p className="text-sm text-[#9A9183]">{l.subject} · {l.timezone} · {when(l.createdAt)}</p></div>
+            {confirm === l.id
+              ? <button onClick={async () => { await deleteLead(l.id!); setLeads(leads.filter(x => x.id !== l.id)); setConfirm(null); }} className="px-3 py-1.5 h-fit rounded-full bg-red-600 text-white text-xs">Delete for good?</button>
+              : <button title="Delete" onClick={() => setConfirm(l.id!)} className="p-2 h-fit rounded-full hover:bg-white/10 text-[#9A9183]"><Trash2 size={16} /></button>}
+          </div>
+          {l.message && <p className="mt-3 text-[#CFC6B8] whitespace-pre-wrap break-words">{l.message}</p>}
+          {l.background && <p className="mt-2 text-sm text-[#9A9183]">Background: {l.background}</p>}
+          <div className="mt-3 flex flex-wrap gap-2 text-sm">
+            <a href={`mailto:${l.email}`} className="px-3 py-1.5 rounded-full border border-white/15 text-[#F5F0E6] break-all">{l.email}</a>
+            {l.phone && <a href={`https://wa.me/${l.phone.replace(/\D/g, '')}`} target="_blank" rel="noreferrer" className="px-3 py-1.5 rounded-full border border-white/15 text-[#F5F0E6]">WhatsApp {l.phone}</a>}
+          </div>
+        </div>))}
+    </div>);
+};
+
+const ActivityLog: React.FC = () => {
+  const [logs, setLogs] = useState<AdminLog[] | null>(null);
+  useEffect(() => { getAdminLogs(100).then(setLogs).catch(() => setLogs([])); }, []);
+  if (!logs) return <div className="py-16 flex justify-center text-[#F5F0E6]"><Loader2 className="animate-spin" /></div>;
+  if (!logs.length) return <p className="text-[#9A9183]">Nothing recorded yet.</p>;
+  return (
+    <div className="rounded-2xl border border-white/10 divide-y divide-white/5">
+      {logs.map(l => (
+        <div key={l.id} className="p-4 flex flex-wrap items-center justify-between gap-2">
+          <div className="min-w-0"><p className="text-[#F5F0E6] break-words">{l.action}</p>{l.details && <p className="text-sm text-[#9A9183] break-words">{l.details}</p>}</div>
+          <span className="text-sm text-[#9A9183] flex items-center gap-2"><span className={`w-2 h-2 rounded-full ${l.status === 'success' ? 'bg-emerald-400' : 'bg-red-400'}`} />{when(l.createdAt)}</span>
+        </div>))}
+    </div>);
+};
 
 export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
-  const [activeTab, setActiveTab] = useState<'inquiries' | 'activity' | 'slots'>('slots');
-  const [leads, setLeads] = useState<Lead[]>([]);
-  const [adminLogs, setAdminLogs] = useState<AdminLog[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSyncing, setIsSyncing] = useState(false);
-  const [activeActionId, setActiveActionId] = useState<string | null>(null);
-  // ADMIN FIX: surface load failures instead of silently showing "No leads found."
-  const [loadError, setLoadError] = useState<string | null>(null);
+  const [tab, setTab] = useState<Tab>(() => { const h = location.hash.slice(1) as Tab; return NAV.some(n => n.id === h) ? h : 'visitors'; });
+  const [open, setOpen] = useState(false);
+  useEffect(() => { history.replaceState(null, '', `#${tab}`); window.scrollTo(0, 0); }, [tab]);
+  const cur = NAV.find(n => n.id === tab)!;
+  const logout = async () => { await signOut(auth); onViewChange('home'); };
 
-  // Calculate dashboard stats
-  const chartData = useMemo(() => {
-    if (!leads.length) return [];
-    
-    const sortedLeads = [...leads].sort((a, b) => {
-      const dateA = a.createdAt instanceof Date ? a.createdAt.getTime() : (a.createdAt as any)?.toDate?.()?.getTime() || 0;
-      const dateB = b.createdAt instanceof Date ? b.createdAt.getTime() : (b.createdAt as any)?.toDate?.()?.getTime() || 0;
-      return dateA - dateB;
-    });
-
-    const finalGrouped = sortedLeads.reduce((acc: any, lead) => {
-      let dateObj = lead.createdAt instanceof Date ? lead.createdAt : (lead.createdAt as any)?.toDate?.();
-      if (!dateObj) dateObj = new Date();
-      
-      const dateStr = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-      if (!acc[dateStr]) {
-        acc[dateStr] = { date: dateStr, inquiries: 0 };
-      }
-      acc[dateStr].inquiries += 1;
-      return acc;
-    }, {});
-
-    return Object.values(finalGrouped);
-  }, [leads]);
-
-  const [leadToDelete, setLeadToDelete] = useState<string | null>(null);
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    setIsLoading(true);
-    setLoadError(null);
-    try {
-      const [leadsData, logsData] = await Promise.all([
-        getLeads(),
-        getAdminLogs(100)
-      ]);
-      setLeads(leadsData);
-      setAdminLogs(logsData);
-    } catch (err: any) {
-      console.error(err);
-      setLoadError(
-        err?.code === 'permission-denied'
-          ? 'Firestore refused to load inquiries (permission-denied). Publish the updated firestore.rules with your Acharya UID in the Firebase Console.'
-          : `Could not load inquiries: ${err?.message || 'unknown error'}`
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleLogout = async () => {
-    await signOut(auth);
-    onViewChange('home');
-  };
-
-  const handleSyncToSheets = async () => {
-    const confirmed = window.confirm(
-      `Are you sure you want to export ${leads.length} leads as CSV?`
-    );
-    if (!confirmed) return;
-
-    setIsSyncing(true);
-    try {
-      // Simple CSV export for now
-      const headers = ['Date', 'Name', 'Email', 'Phone', 'Subject', 'Timezone', 'Message'];
-      
-      const csvContent = [
-        headers.join(','),
-        ...leads.map(lead => {
-          const date = lead.createdAt instanceof Date 
-            ? lead.createdAt.toLocaleDateString() 
-            : (lead.createdAt as any)?.toDate?.()?.toLocaleDateString() || '';
-          
-          // ADMIN FIX: escape quotes in EVERY column, and stop Excel/Sheets from running
-          // a cell that starts with = + - @ as a formula (a visitor controls these values).
-          const cell = (v: string) => {
-            const safe = /^[=+\-@]/.test(v) ? `'${v}` : v;
-            return `"${safe.replace(/"/g, '""')}"`;
-          };
-          return [
-            cell(date),
-            cell(lead.name || ''),
-            cell(lead.email || ''),
-            cell(lead.phone || ''),
-            cell(lead.subject || ''),
-            cell(lead.timezone || ''),
-            cell(lead.message || '')
-          ].join(',');
-        })
-      ].join('\n');
-
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.setAttribute('href', url);
-      link.setAttribute('download', `leads_export_${new Date().toISOString().split('T')[0]}.csv`);
-      link.style.visibility = 'hidden';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      
-    } catch (err) {
-      console.error('Export failed:', err);
-      alert('Failed to export leads.');
-    } finally {
-      setIsSyncing(false);
-    }
-  };
-
-  // ADMIN FIX: the old button called sendNotificationEmail(), which always mails the
-  // ACHARYA's own inbox (the EmailJS template's recipient), then alerted "Welcome email
-  // sent successfully!". The student received nothing. This now opens a real, pre-written
-  // email to the student in the Acharya's own mail app, so nothing is claimed that didn't happen.
-  const handleSendEmail = (lead: Lead) => {
-    if (!lead.email) return;
-    setActiveActionId(`email-${lead.id}`);
-
-    const subject = encodeURIComponent('Welcome to Vishweshwara Sanskrit');
-    const body = encodeURIComponent(
-      `Hari Om ${lead.name},\n\nThank you for your interest in joining. We have received your inquiry regarding "${lead.subject}".\n\nI will review it and we will schedule a short call to understand your goals.\n\nIn service of the tradition,\nAcharya Vishweshwara N M\nVishweshwara Sanskrit`
-    );
-    window.location.href = `mailto:${lead.email}?subject=${subject}&body=${body}`;
-
-    setTimeout(() => setActiveActionId(null), 1000);
-  };
-
-  const handleSchedule = (lead: Lead) => {
-    if (!lead.email) return;
-    setActiveActionId(`cal-${lead.id}`);
-    
-    // In a real app, this would integrate with Google Calendar API
-    // For now, we open a mailto link with a scheduling template
-    const subject = encodeURIComponent(`Scheduling Diagnostic Call - ${lead.name}`);
-    const body = encodeURIComponent(`Hari Om ${lead.name},\n\nI would like to schedule a brief diagnostic call to discuss your Sanskrit journey.\n\nPlease let me know your availability for this week.\n\nRegards,\nAcharya Vishweshwara`);
-    
-    window.location.href = `mailto:${lead.email}?subject=${subject}&body=${body}`;
-    
-    setTimeout(() => {
-      setActiveActionId(null);
-    }, 1000);
-  };
-
-  const confirmDelete = (leadId: string) => {
-    setLeadToDelete(leadId);
-  };
-
-  const cancelDelete = () => {
-    setLeadToDelete(null);
-  };
-
-  const executeDelete = async () => {
-    if (!leadToDelete) return;
-    
-    setIsDeleting(true);
-    try {
-      await deleteLead(leadToDelete);
-      setLeads(leads.filter(l => l.id !== leadToDelete));
-      setLeadToDelete(null);
-    } catch (err: any) {
-      console.error('Failed to delete lead:', err);
-      alert(
-        err?.code === 'permission-denied'
-          ? 'Delete was refused by Firestore (permission-denied). Publish the updated firestore.rules in the Firebase Console.'
-          : `Failed to delete lead: ${err?.message || 'unknown error'}`
-      );
-    } finally {
-      setIsDeleting(false);
-    }
-  };
+  const Side = (
+    <nav className="flex flex-col h-full">
+      <div className="px-2 pb-6">
+        <p className="font-[Inter_Tight,Inter,sans-serif] font-bold tracking-tight text-xl text-[#F5F0E6]">Vishweshwara Sanskrit</p>
+        <p className="text-sm text-[#9A9183]">Admin</p>
+      </div>
+      {['Overview', 'Website', 'Records'].map(g => (
+        <div key={g} className="mb-5">
+          <p className="px-3 mb-1 text-[11px] uppercase tracking-[.14em] text-[#9A9183]">{g}</p>
+          {NAV.filter(n => n.group === g).map(n => (
+            <button key={n.id} onClick={() => { setTab(n.id); setOpen(false); }}
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-colors ${tab === n.id ? 'bg-[#F5F0E6] text-[#161411] font-semibold' : 'text-[#CFC6B8] hover:bg-white/[0.06]'}`}>
+              <n.icon size={18} />{n.label}
+            </button>))}
+        </div>))}
+      <div className="mt-auto space-y-1">
+        <a href="/" target="_blank" rel="noreferrer" className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[#CFC6B8] hover:bg-white/[0.06]"><ExternalLink size={18} />Open website</a>
+        <button onClick={logout} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[#CFC6B8] hover:bg-white/[0.06]"><LogOut size={18} />Sign out</button>
+      </div>
+    </nav>);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-12 py-24 space-y-12">
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-        <div className="space-y-2">
-          <Button to="/" variant="ghost" className="!px-0 text-text-gold hover:text-gold-bright transition-colors -ml-2 mb-2">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Site
-          </Button>
-          <h1 className="font-serif text-3xl md:text-4xl text-text-primary">Admin Dashboard</h1>
-          <p className="text-text-secondary">Manage inquiries and student applications</p>
-        </div>
-        <div className="flex items-center gap-3 w-full md:w-auto">
-          <Button 
-            onClick={fetchData} 
-            variant="secondary" 
-            disabled={isLoading}
-            className="flex-1 md:flex-none"
-          >
-            <RefreshCw className={`w-4 h-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
-            Refresh
-          </Button>
-          <Button 
-            onClick={handleSyncToSheets} 
-            variant="outline" 
-            disabled={isSyncing || leads.length === 0 || activeTab === 'activity'}
-            className="flex-1 md:flex-none"
-          >
-            {isSyncing ? (
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-            ) : (
-              <Download className="w-4 h-4 mr-2" />
-            )}
-            Export CSV
-          </Button>
-          <Button 
-            onClick={handleLogout} 
-            variant="ghost" 
-            className="text-red-400 hover:text-red-300 hover:bg-red-400/10"
-          >
-            Logout
-          </Button>
-        </div>
-      </div>
-
-      <div className="flex items-center gap-2 border-b border-gold-dim/30 overflow-x-auto">
-        <button
-          onClick={() => setActiveTab('slots')}
-          className={`px-4 py-3 font-mono tracking-widest text-xs uppercase flex items-center gap-2 border-b-2 transition-colors ${activeTab === 'slots' ? 'border-gold-base text-gold-base' : 'border-transparent text-text-secondary hover:text-text-primary'}`}
-        >
-          <Calendar className="w-4 h-4" />
-          Class slots
-        </button>
-        <button
-          onClick={() => setActiveTab('inquiries')}
-          className={`px-4 py-3 font-mono tracking-widest text-xs uppercase flex items-center gap-2 border-b-2 transition-colors ${activeTab === 'inquiries' ? 'border-gold-base text-gold-base' : 'border-transparent text-text-secondary hover:text-text-primary'}`}
-        >
-          <Users className="w-4 h-4" />
-          Inquiries
-        </button>
-        <button
-          onClick={() => setActiveTab('activity')}
-          className={`px-4 py-3 font-mono tracking-widest text-xs uppercase flex items-center gap-2 border-b-2 transition-colors ${activeTab === 'activity' ? 'border-gold-base text-gold-base' : 'border-transparent text-text-secondary hover:text-text-primary'}`}
-        >
-          <Shield className="w-4 h-4" />
-          Activity Log
-        </button>
-      </div>
-
-      {activeTab === 'slots' && <SlotsAdmin />}
-
-      {activeTab === 'inquiries' && (
-        <>
-          {chartData.length > 0 && (
-            <div className="bg-surface-1/50 backdrop-blur-md border border-gold-dim/40 p-6 md:p-8 rounded-2xl shadow-2xl">
-              <div className="flex items-center gap-3 mb-6">
-                <TrendingUp className="w-5 h-5 text-gold-base" />
-                <h2 className="font-serif text-xl text-text-primary">Inquiry Growth Trend</h2>
-              </div>
-              <div className="h-72 w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                    <defs>
-                      <linearGradient id="colorInquiries" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#C8860A" stopOpacity={0.3}/>
-                        <stop offset="95%" stopColor="#C8860A" stopOpacity={0}/>
-                      </linearGradient>
-                    </defs>
-                    <XAxis 
-                      dataKey="date" 
-                      stroke="#8B7B61" 
-                      fontSize={12}
-                      tickLine={false}
-                      axisLine={false}
-                      dy={10}
-                    />
-                    <YAxis 
-                      stroke="#8B7B61" 
-                      fontSize={12}
-                      tickLine={false}
-                      axisLine={false}
-                      allowDecimals={false}
-                    />
-                    <CartesianGrid strokeDasharray="3 3" stroke="#251E13" vertical={false} />
-                    <Tooltip 
-                      contentStyle={{ 
-                        backgroundColor: '#0E0B07', 
-                        border: '1px solid rgba(200, 134, 10, 0.3)',
-                        borderRadius: '8px',
-                        color: '#F5F5F5'
-                      }} 
-                      itemStyle={{ color: '#E0A32E' }}
-                    />
-                    <Area 
-                      type="monotone" 
-                      dataKey="inquiries" 
-                      stroke="#C8860A" 
-                      strokeWidth={2}
-                      fillOpacity={1} 
-                      fill="url(#colorInquiries)" 
-                      name="Inquiries"
-                    />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-          )}
-
-          {/* ADMIN FIX: visible error banner instead of a silent empty list */}
-          {loadError && (
-            <div role="alert" className="text-red-400 text-sm bg-red-400/10 p-4 rounded-xl border border-red-400/20">
-              {loadError}
-            </div>
-          )}
-
-          <div className="bg-surface-1/50 backdrop-blur-md border border-gold-dim/40 rounded-2xl overflow-hidden shadow-2xl">
-            {isLoading && leads.length === 0 ? (
-              <div className="p-20 text-center flex flex-col items-center justify-center space-y-4">
-                <Loader2 className="w-8 h-8 text-gold-base animate-spin opacity-50" />
-                <p className="text-text-secondary font-mono text-sm uppercase tracking-widest">Loading leads...</p>
-              </div>
-            ) : leads.length === 0 ? (
-              <div className="p-20 text-center flex flex-col items-center justify-center space-y-4">
-                <FileText className="w-8 h-8 text-gold-dim opacity-50" />
-                <p className="text-text-secondary font-mono text-sm uppercase tracking-widest">No leads found.</p>
-              </div>
-            ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
-                  <thead>
-                    <tr className="bg-surface-2/80 border-b border-gold-dim/50 backdrop-blur-sm">
-                      <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Date</th>
-                      <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Name</th>
-                      <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Email</th>
-                      <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Phone</th>
-                      <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Subject</th>
-                      <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Timezone</th>
-                      <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest text-right whitespace-nowrap">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gold-dim/20">
-                    {leads.map((lead) => (
-                      <tr key={lead.id} className="hover:bg-surface-2/60 transition-colors group">
-                        <td className="p-5 font-mono text-xs text-text-secondary whitespace-nowrap opacity-70 group-hover:opacity-100 transition-opacity">
-                          {lead.createdAt instanceof Date ? lead.createdAt.toLocaleDateString() : (lead.createdAt as any)?.toDate?.()?.toLocaleDateString()}
-                        </td>
-                        <td className="p-5 font-sans text-sm text-text-primary font-medium whitespace-nowrap">{lead.name}</td>
-                        <td className="p-5 font-sans text-xs text-text-secondary whitespace-nowrap">{lead.email || '-'}</td>
-                        <td className="p-5 font-sans text-xs text-text-secondary whitespace-nowrap">{lead.phone || '-'}</td>
-                        <td className="p-5 font-sans text-xs text-text-secondary whitespace-nowrap">{lead.subject}</td>
-                        <td className="p-5 font-sans text-xs text-text-secondary whitespace-nowrap">
-                          <span className="bg-surface-3/50 px-2 py-1 rounded text-[10px] font-mono tracking-wider">{lead.timezone}</span>
-                        </td>
-                        <td className="p-5 flex items-center justify-end gap-2 opacity-60 group-hover:opacity-100 transition-opacity">
-                          <Button
-                            variant="secondary"
-                            onClick={() => handleSendEmail(lead)}
-                            disabled={!lead.email || activeActionId === `email-${lead.id}`}
-                            className="!p-2 !h-auto hover:text-gold-bright hover:border-gold-bright transition-colors"
-                            title="Email this student"
-                          >
-                            {activeActionId === `email-${lead.id}` ? <Loader2 className="w-4 h-4 animate-spin text-text-secondary" /> : <Mail className="w-4 h-4" />}
-                          </Button>
-                          <Button
-                            variant="secondary"
-                            onClick={() => handleSchedule(lead)}
-                            disabled={!lead.email || activeActionId === `cal-${lead.id}`}
-                            className="!p-2 !h-auto hover:text-gold-bright hover:border-gold-bright transition-colors"
-                            title="Schedule Diagnostic Call"
-                          >
-                            {activeActionId === `cal-${lead.id}` ? <Loader2 className="w-4 h-4 animate-spin text-text-secondary" /> : <Calendar className="w-4 h-4" />}
-                          </Button>
-                          <Button
-                            variant="secondary"
-                            onClick={() => confirmDelete(lead.id!)}
-                            className="!p-2 !h-auto hover:text-red-400 hover:border-red-400/50 transition-colors"
-                            title="Delete Lead"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </Button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
+    <div className="min-h-screen bg-[#161411] text-[#F5F0E6] font-[Inter,system-ui,sans-serif]">
+      <aside className="hidden lg:block fixed inset-y-0 left-0 w-64 p-5 border-r border-white/10 bg-[#110F0D]">{Side}</aside>
+      {open && <div className="lg:hidden fixed inset-0 z-50 flex">
+        <div className="w-72 max-w-[85vw] p-5 bg-[#110F0D] border-r border-white/10 overflow-y-auto">{Side}</div>
+        <button aria-label="Close menu" className="flex-1 bg-black/50" onClick={() => setOpen(false)} />
+      </div>}
+      <main className="lg:pl-64">
+        <header className="sticky top-0 z-40 bg-[#161411]/90 backdrop-blur border-b border-white/10 px-4 sm:px-8 py-4 flex items-center gap-3">
+          <button aria-label="Menu" className="lg:hidden p-2 -ml-2 rounded-full hover:bg-white/10" onClick={() => setOpen(true)}>{open ? <X size={20} /> : <Menu size={20} />}</button>
+          <div className="min-w-0">
+            <h1 className="font-[Inter_Tight,Inter,sans-serif] font-bold tracking-tight text-2xl sm:text-3xl leading-tight">{cur.label}</h1>
+            <p className="text-sm text-[#9A9183] truncate">{cur.blurb}</p>
           </div>
-        </>
-      )}
-
-      {activeTab === 'activity' && (
-        <div className="bg-surface-1/50 backdrop-blur-md border border-gold-dim/40 rounded-2xl overflow-hidden shadow-2xl">
-          {isLoading && adminLogs.length === 0 ? (
-            <div className="p-20 text-center flex flex-col items-center justify-center space-y-4">
-              <Loader2 className="w-8 h-8 text-gold-base animate-spin opacity-50" />
-              <p className="text-text-secondary font-mono text-sm uppercase tracking-widest">Loading logs...</p>
-            </div>
-          ) : adminLogs.length === 0 ? (
-            <div className="p-20 text-center flex flex-col items-center justify-center space-y-4">
-              <Activity className="w-8 h-8 text-gold-dim opacity-50" />
-              <p className="text-text-secondary font-mono text-sm uppercase tracking-widest">No activity found.</p>
-            </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="bg-surface-2/80 border-b border-gold-dim/50 backdrop-blur-sm">
-                    <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Time</th>
-                    <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Action</th>
-                    <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap">Status</th>
-                    <th className="p-5 font-mono text-[10px] uppercase text-text-gold tracking-widest whitespace-nowrap w-full">Details</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gold-dim/20">
-                  {adminLogs.map((log) => (
-                    <tr key={log.id} className="hover:bg-surface-2/60 transition-colors group">
-                      <td className="p-5 font-mono text-xs text-text-secondary whitespace-nowrap opacity-70 group-hover:opacity-100 transition-opacity">
-                        {log.createdAt instanceof Date ? log.createdAt.toLocaleString() : (log.createdAt as any)?.toDate?.()?.toLocaleString()}
-                      </td>
-                      <td className="p-5 font-sans text-sm text-text-primary font-medium whitespace-nowrap uppercase tracking-wider text-xs">
-                        {log.action}
-                      </td>
-                      <td className="p-5 font-sans text-xs whitespace-nowrap">
-                        <span className={`px-2 py-1 rounded text-[10px] font-mono tracking-wider ${
-                          log.status === 'success' 
-                            ? 'bg-green-500/10 text-green-400 border border-green-500/20' 
-                            : 'bg-red-500/10 text-red-400 border border-red-500/20'
-                        }`}>
-                          {log.status}
-                        </span>
-                      </td>
-                      <td className="p-5 font-sans text-xs text-text-secondary">{log.details || '-'}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+        </header>
+        <div className="px-4 sm:px-8 py-6 sm:py-8 max-w-6xl">
+          {tab === 'visitors' && <VisitorsAdmin />}
+          {tab === 'schedule' && <SlotsAdmin />}
+          {(tab === 'numbers' || tab === 'reviews' || tab === 'dates' || tab === 'announce') && <ContentAdmin key={tab} tab={tab} />}
+          {tab === 'enquiries' && <Enquiries />}
+          {tab === 'activity' && <ActivityLog />}
         </div>
-      )}
-
-      {/* Delete Confirmation Modal */}
-      {leadToDelete && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
-          <div className="bg-surface-1 border border-red-500/20 p-6 md:p-8 rounded-2xl max-w-md w-full shadow-2xl space-y-6">
-            <div className="space-y-2">
-              <h3 className="font-serif text-xl text-red-400">Confirm Deletion</h3>
-              <p className="text-sm text-text-secondary">Are you sure you want to delete this inquiry? This action cannot be undone.</p>
-            </div>
-            <div className="flex items-center gap-3 justify-end">
-              <Button onClick={cancelDelete} variant="ghost" disabled={isDeleting}>Cancel</Button>
-              <Button onClick={executeDelete} variant="primary" className="!bg-red-500/10 hover:!bg-red-500/20 !border-red-500/30 !text-red-400" disabled={isDeleting}>
-                {isDeleting ? 'Deleting...' : 'Delete Permanently'}
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
+      </main>
+    </div>);
 };

@@ -82,6 +82,24 @@ service cloud.firestore {
       allow read, update, delete: if isAcharya();
     }
 
+    // Website text the Acharya edits in Admin (numbers, reviews, dates, announcement).
+    match /site/{docId} {
+      allow read: if true;
+      allow write: if isAcharya();
+    }
+
+    // Anonymous visit counter: no names, contacts or IP addresses.
+    match /visits/{visitId} {
+      function str(k, n) { return request.resource.data[k] is string && request.resource.data[k].size() <= n; }
+      allow create: if request.resource.data.keys().hasOnly(['e','p','r','src','dev','tz','lang','s','nv','at'])
+        && request.resource.data.e in ['view','whatsapp','pay','reserve','download','pass']
+        && str('p', 80) && str('r', 40) && str('src', 40) && str('dev', 10) && str('tz', 40) && str('lang', 10) && str('s', 12)
+        && request.resource.data.nv is bool
+        && request.resource.data.at == request.time;
+      allow read, delete: if isAcharya();
+      allow update: if false;
+    }
+
     // Everything else is closed.
     match /{document=**} {
       allow read, write: if false;

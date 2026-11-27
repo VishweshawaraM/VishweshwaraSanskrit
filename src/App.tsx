@@ -14,6 +14,7 @@ import { PageView } from './types';
 import { MetaTagsManager } from './components/MetaTagsManager';
 import { AmbientParticles } from './components/AmbientParticles';
 import { NewPage } from './newsite/NewPage';
+import { track, wireClickTracking } from './lib/track';
 import { useParams } from 'react-router-dom';
 
 // Pages that use the new light design (they carry their own header and footer).
@@ -54,6 +55,9 @@ const ScrollToTop = () => {
 
 const AppContent = () => {
   const location = useLocation();
+  // anonymous visit counter (see src/lib/track.ts)
+  React.useEffect(() => { wireClickTracking(); }, []);
+  React.useEffect(() => { const t = setTimeout(() => track('view', location.pathname), 400); return () => clearTimeout(t); }, [location.pathname]);
   const navigate = useNavigate();
   const [isNavigating, setIsNavigating] = useState(false);
 

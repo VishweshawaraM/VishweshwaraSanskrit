@@ -3,8 +3,8 @@
 
 import { TRACKING_ENABLED } from './config/tracking';
 
-export const PRIVACY_VERSION = '2026-11-17';
-export const PRIVACY_UPDATED = '17 November 2026';
+export const PRIVACY_VERSION = '2026-11-27';
+export const PRIVACY_UPDATED = '27 November 2026';
 export const PRIVACY_EMAIL = 'acharya@vishweshwarasanskrit.com';
 
 export interface PrivacySection { id: string; title: string; paragraphs?: string[]; points?: string[] }
@@ -24,11 +24,12 @@ export const PRIVACY_SECTIONS: PrivacySection[] = [
     id: 'website',
     title: 'This website',
     points: [
-      'It has no forms that collect your name, phone number or email.',
+      'The only form is on the Schedule page, where you reserve class times. It asks for the learner’s name and age, the subject and level, a parent’s name for children, a WhatsApp number, an optional email and note, and the chosen times. We use these only to confirm the classes and tell you the Guru Dakshina, and delete them when classes end or you ask us to.',
       ...(TRACKING_ENABLED
         ? ['It uses Meta’s measurement tool (the Meta Pixel) only if you tap “Accept” on the message at the bottom of the page. If you tap “No thanks”, or your browser sends a “do not track” signal, it never loads.']
         : ['It does not use advertising trackers or analytics.']),
-      'It remembers only small things in your own browser, such as which page you were on. Nothing is sent to us.',
+      'It counts visits anonymously so we know which pages are useful: the page opened, the site or app that sent you there, the type of device, the browser language and time zone, and taps on WhatsApp, payment and download buttons. It records no name, contact, IP address or exact location, and the counts are kept for up to 12 months.',
+      'It remembers a few small things in your own browser, such as a random visit code and whether you have visited before.',
       'It is hosted on GitHub Pages, which may keep ordinary server logs (such as your IP address) for security.',
     ],
   },

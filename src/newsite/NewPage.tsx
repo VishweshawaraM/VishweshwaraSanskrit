@@ -1,6 +1,8 @@
 import React, { useLayoutEffect as useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { initSite } from './site';
+import { applyContent } from './applyContent';
+import { cachedContent, loadContent } from '../lib/content';
 import { createRoot, Root } from 'react-dom/client';
 import { BookingWidget } from './BookingWidget';
 import { transliterate, transliterateKannada } from '../lib/aksharam';
@@ -58,7 +60,20 @@ export const NewPage: React.FC<{ name: string; pageId: string }> = ({ name, page
         el.style.overflowY = 'visible';
       }
     }
-    const destroy = initSite(root);
+    // Admin-edited content: the last saved copy goes in at once; a fresh copy follows
+    const first = cachedContent();
+    applyContent(root, first);
+    let destroy = initSite(root);
+    let alive = true;
+    loadContent().then(fresh => {
+      if (!alive || JSON.stringify(fresh) === JSON.stringify(first)) return;
+      if (window.scrollY < 200 && !root.querySelector('#book-app,#tin')) { // still at the top: rebuild quietly with the new content
+        destroy(); root.innerHTML = html; applyContent(root, fresh); destroy = initSite(root);
+      } else { // already reading: update numbers and dates in place only
+        const tmp = document.createElement('div'); tmp.innerHTML = html; applyContent(tmp, fresh);
+        tmp.querySelectorAll('[data-cms]').forEach(n => { const k = n.getAttribute('data-cms'); root.querySelectorAll(`[data-cms="${k}"]`).forEach(o => { o.textContent = n.textContent; }); });
+      }
+    });
     // interactive React islands inside the static page
     let bookRoot: Root | null = null;
     const bookEl = root.querySelector('#book-app');
@@ -149,6 +164,7 @@ export const NewPage: React.FC<{ name: string; pageId: string }> = ({ name, page
       root.removeEventListener('click', onClick);
       root.removeEventListener('click', onPay, true);
       rzpForm?.remove();
+      alive = false;
       destroy();
       const br = bookRoot; if (br) setTimeout(() => br.unmount(), 0);
       document.body.style.background = prevBg;

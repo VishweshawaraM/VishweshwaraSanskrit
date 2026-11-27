@@ -2,6 +2,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { watchSlots, demoSlots, requestBooking, classesInMonth, fmt12, localLabel, DAYS, DAYS_SHORT, Slot } from '../lib/slots';
 import { sendNotificationEmail } from '../lib/emailjs';
+import { track } from '../lib/track';
 
 const PER_WEEK = 2; // classes are twice a week, on two different days
 const WA = 'https://wa.me/919482698612';
@@ -76,6 +77,7 @@ export const BookingWidget: React.FC = () => {
         background: `Age ${form.age || '—'} · ${form.level}${form.parent ? ' · Parent: ' + form.parent : ''}`,
         message: `Times: ${times}\nStarting: ${prettyDate(startDate)} (${count} classes in ${monthName(startDate)})\n${form.note}\n\nConfirm or decline in Admin → Class slots.`,
       }).catch(() => {});
+      track('reserve');
       setState('done');
     } catch {
       setState('failed');
