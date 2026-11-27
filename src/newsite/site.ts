@@ -54,10 +54,10 @@ if(!reduce){$$('.rv-grid').forEach(g=>{const cards=[...g.children];if(cards.leng
   decks.push({deck,cards,count});});}
 function deckFrame(vh){decks.forEach(({deck,cards,count})=>{const r=deck.getBoundingClientRect();const n=cards.length;
   const t=Math.min(1,Math.max(0,-r.top/(r.height-vh)));const f=t*(n-1);
-  cards.forEach((c,i)=>{const d=i-f;let x,sc,op,rot,z;
-    if(d>=0){x=d*14;sc=1-d*.06;op=d<2?1:Math.max(0,3-d);rot=d*2.5;z=50-Math.round(d*10);}
-    else{x=d*115;sc=1+d*.04;op=Math.min(1,Math.max(0,1+(d+.25)*1.5));rot=d*9;z=60;}
-    c.style.transform=`translate3d(${x}%,${Math.abs(d)<1?0:0}px,0) scale(${sc}) rotate(${rot}deg)`;c.style.opacity=op;c.style.zIndex=z;});
+  cards.forEach((c,i)=>{const d=i-f,ad=Math.abs(d);
+    /* rotating carousel: cards turn on a wheel, the next arrives from the right, the last leaves to the left */
+    const x=d*58,z=-ad*260,ry=-d*32,sc=1-Math.min(ad,2)*.04,op=ad<1.6?1-ad*.25:Math.max(0,1-(ad-1.6)*1.5)*.6;
+    c.style.transform=`translateX(${x}%) translateZ(${z}px) rotateY(${ry}deg) scale(${sc})`;c.style.opacity=String(op);c.style.zIndex=String(100-Math.round(ad*10));c.style.filter=ad>.5?`blur(${Math.min(2,(ad-.5)*1.5)}px)`:'none';});
   const a=Math.min(n,Math.round(f)+1);count.innerHTML=`<b>${String(a).padStart(2,'0')}</b> / ${String(n).padStart(2,'0')}`;});}
 
 
