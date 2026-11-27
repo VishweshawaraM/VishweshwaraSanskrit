@@ -118,7 +118,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
               <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-[#0E0B07] border border-gold-dim">
                 <img 
                   src="/acharya-photo.webp" 
-                  alt="Acharya Vishweshwara N M, Gurukula-trained Sanskrit and Vedic Acharya" 
+                  alt="Acharya Vishweshwara M, Gurukula-trained Sanskrit and Vedic Acharya" 
                   loading="lazy"
                   decoding="async"
                   width={720}
@@ -131,7 +131,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onViewChange }) => {
                 
                 <div className="absolute bottom-0 left-0 right-0 p-6 space-y-1 text-left">
                   <span className="font-mono text-[10px] tracking-widest text-text-gold uppercase block">Academic credentials</span>
-                  <h3 className="font-serif text-2xl text-text-primary font-medium tracking-wide">Acharya Vishweshwara N M</h3>
+                  <h3 className="font-serif text-2xl text-text-primary font-medium tracking-wide">Acharya Vishweshwara M</h3>
                   <div className="flex flex-wrap items-center gap-2 pt-2">
                   </div>
                 </div>

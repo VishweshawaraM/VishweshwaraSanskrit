@@ -311,7 +311,7 @@ export const TeachingsView: React.FC<TeachingsViewProps> = ({ onViewChange }) =>
             Ready to explore? Get a <span className="font-medium text-text-gold">Free Syllabus Assessment</span>
           </h3>
           <p className="font-sans text-xs text-text-secondary leading-relaxed">
-            Not sure which path fits your background? Connect directly with Acharya Vishweshwara N M. Discuss your background and interest in a free 15-minute conversation on WhatsApp.
+            Not sure which path fits your background? Connect directly with Acharya Vishweshwara M. Discuss your background and interest in a free 15-minute conversation on WhatsApp.
           </p>
           <div className="max-w-md mx-auto pt-4 relative min-h-[50px]">
             <a

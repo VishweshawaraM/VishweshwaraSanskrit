@@ -128,7 +128,7 @@ export const OneOnOneView: React.FC = () => {
               animate={reduce ? undefined : { opacity: 1, scale: 1, clipPath: 'inset(0% 0% 0% 0% round 2rem)' }}
               transition={{ duration: 1, ease }}
             >
-              <motion.img src="/acharya-portrait.webp" alt="Acharya Vishweshwara N M" className="w-full h-full object-cover" loading="eager"
+              <motion.img src="/acharya-portrait.webp" alt="Acharya Vishweshwara M" className="w-full h-full object-cover" loading="eager"
                 initial={reduce ? false : { scale: 1.12 }} animate={reduce ? undefined : { scale: 1 }} transition={{ duration: 1.6, ease }} />
             </motion.div>
             <PathwayCard />
@@ -245,7 +245,7 @@ export const OneOnOneView: React.FC = () => {
           <div className="space-y-3 max-w-3xl">
             <Label>Who will teach your child</Label>
             <h2 id="who-h" className="font-serif font-bold text-3xl md:text-[2.6rem] text-text-primary leading-[1.1]">Seven years in a Gurukula, <span className="italic text-gold-bright">before the first class.</span></h2>
-            <p className="font-sans text-text-secondary leading-relaxed">Acharya Vishweshwara N M did not learn Sanskrit from videos. He lived and studied in a traditional Gurukulam from 2018 to 2025, under revered Acharyas, and passes on exactly what he received.</p>
+            <p className="font-sans text-text-secondary leading-relaxed">Acharya Vishweshwara M did not learn Sanskrit from videos. He lived and studied in a traditional Gurukulam from 2018 to 2025, under revered Acharyas, and passes on exactly what he received.</p>
           </div>
 
           <dl className="grid grid-cols-1 sm:grid-cols-3 gap-4">

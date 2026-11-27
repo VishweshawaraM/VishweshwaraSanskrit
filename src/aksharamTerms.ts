@@ -17,7 +17,7 @@ export const TERMS_SECTIONS: TermsSection[] = [
     id: 'seller',
     title: 'Who sells it',
     paragraphs: [
-      `${AK.name} is made and sold by Vishweshwara N M (Vishweshwara Sanskrit), Bengaluru, Karnataka, India. Contact: ${PRIVACY_EMAIL} or WhatsApp ${TERMS_WHATSAPP}.`,
+      `${AK.name} is made and sold by Vishweshwara M (Vishweshwara Sanskrit), Bengaluru, Karnataka, India. Contact: ${PRIVACY_EMAIL} or WhatsApp ${TERMS_WHATSAPP}.`,
     ],
   },
   {
@@ -53,7 +53,7 @@ export const TERMS_SECTIONS: TermsSection[] = [
       'You get a personal licence to use Aksharam IME on up to 2 Macs that you own or use.',
       '“Lifetime licence” means your licence has no expiry date and needs no further payment. It works on your Macs for as long as their macOS version supports it. We will try to keep Aksharam working on new macOS versions, but we cannot promise that every future macOS will support it.',
       'Updates to version 1 of Aksharam IME are free for licence holders.',
-      'The software is licensed to you, not sold. All rights stay with Vishweshwara N M.',
+      'The software is licensed to you, not sold. All rights stay with Vishweshwara M.',
       'Please do not share your licence key or the installer, resell them, or copy, change or take apart the software. A key that is shared publicly may be blocked from activating on more Macs.',
       'Changed your Mac? Message us and we will move your licence.',
     ],
@@ -87,7 +87,7 @@ export const TERMS_SECTIONS: TermsSection[] = [
     id: 'grievance',
     title: 'Complaints (Grievance Officer)',
     paragraphs: [
-      `Grievance Officer: Vishweshwara N M, ${PRIVACY_EMAIL}, WhatsApp ${TERMS_WHATSAPP}. We acknowledge every complaint within 48 hours and resolve it within one month.`,
+      `Grievance Officer: Vishweshwara M, ${PRIVACY_EMAIL}, WhatsApp ${TERMS_WHATSAPP}. We acknowledge every complaint within 48 hours and resolve it within one month.`,
     ],
   },
   {

@@ -30,7 +30,7 @@ export const FreeClassView: React.FC = () => {
             A free Sanskrit class <span className="italic font-semibold text-gold-bright">for your child.</span>
           </h1>
           <p className="font-sans text-base md:text-lg text-text-secondary leading-relaxed">
-            Let your child try a real class with Acharya Vishweshwara N M before you decide anything. Sounds, a few words and a short shloka, in Kannada and English.
+            Let your child try a real class with Acharya Vishweshwara M before you decide anything. Sounds, a few words and a short shloka, in Kannada and English.
           </p>
         </div>
 

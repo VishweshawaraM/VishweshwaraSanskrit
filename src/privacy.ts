@@ -17,14 +17,14 @@ export const PRIVACY_SECTIONS: PrivacySection[] = [
     id: 'who',
     title: 'Who is responsible',
     paragraphs: [
-      'Vishweshwara Sanskrit is run by Acharya Vishweshwara N M from Bengaluru, India. He is the person responsible for any personal information you share with us, and the person you contact about it.',
+      'Vishweshwara Sanskrit is run by Acharya Vishweshwara M from Bengaluru, India. He is the person responsible for any personal information you share with us, and the person you contact about it.',
     ],
   },
   {
     id: 'website',
     title: 'This website',
     points: [
-      'The only form is on the Schedule page, where you reserve class times. It asks for the learner’s name and age, the subject and level, a parent’s name for children, a WhatsApp number, an optional email and note, and the chosen times. We use these only to confirm the classes and tell you the Guru Dakshina, and delete them when classes end or you ask us to.',
+      'The only form is on the Schedule page, where you reserve class times. It asks for the learner’s first name and age, the subject and level, a parent’s name for children, a WhatsApp number, an optional email and note, and the chosen times. We use these only to confirm the classes and tell you the Guru Dakshina, and delete them when classes end or you ask us to.',
       ...(TRACKING_ENABLED
         ? ['It uses Meta’s measurement tool (the Meta Pixel) only if you tap “Accept” on the message at the bottom of the page. If you tap “No thanks”, or your browser sends a “do not track” signal, it never loads.']
         : ['It does not use advertising trackers or analytics.']),
@@ -76,7 +76,7 @@ export const PRIVACY_SECTIONS: PrivacySection[] = [
     id: 'children',
     title: 'Children',
     paragraphs: [
-      'Our children’s programme is for ages 8 to 14. We deal with the parent or guardian, not the child directly. To run a class we need only the child’s first name and age, which the parent or guardian tells us. We do not track children, build profiles of them or show them advertising. If you would like us to remove your child’s details at any time, write to us and we will.',
+      'Our children’s programme is for ages 8 to 14. We deal with the parent or guardian, not the child directly. To run a class we need only the child’s first name and age, which the parent or guardian tells us. When a class time is reserved on the Schedule page for a learner under 18, the parent or guardian gives their name and ticks a consent box before anything is sent; they can withdraw that consent at any time by writing to us, and we then delete the child’s details. We do not track children, build profiles of them or show them advertising. If you would like us to remove your child’s details at any time, write to us and we will.',
     ],
   },
   {
@@ -111,7 +111,7 @@ export const PRIVACY_SECTIONS: PrivacySection[] = [
     id: 'contact',
     title: 'Questions, correction and deletion',
     paragraphs: [
-      `Write to Acharya Vishweshwara N M at ${PRIVACY_EMAIL} or message +91 94826 98612 on WhatsApp. Tell us what you would like us to do. We will confirm and act on your request within 30 days.`,
+      `Write to Acharya Vishweshwara M at ${PRIVACY_EMAIL} or message +91 94826 98612 on WhatsApp. Tell us what you would like us to do. We will confirm and act on your request within 30 days.`,
     ],
   },
   {

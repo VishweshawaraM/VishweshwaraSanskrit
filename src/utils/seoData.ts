@@ -6,8 +6,8 @@ export const PAGE_META: Record<string, { title: string; description: string; ima
     description: 'Live one-to-one online Sanskrit classes for kids and adults: Sanskrit grammar, Bhagavad Gita, Vedic chanting and Advaita Vedanta with a Gurukula-trained Acharya.',
   },
   '/about': {
-    title: 'Sanskrit Acharya Vishweshwara N M | Gurukula-Trained',
-    description: 'Acharya Vishweshwara N M — 7 years residential Gurukula training in Krishna Yajur Veda, Advaita Vedanta, and Sanskrit. Traditional lineage, modern teaching.',
+    title: 'Sanskrit Acharya Vishweshwara M | Gurukula-Trained',
+    description: 'Acharya Vishweshwara M — 7 years residential Gurukula training in Krishna Yajur Veda, Advaita Vedanta, and Sanskrit. Traditional lineage, modern teaching.',
   },
   '/schedule': {
     title: 'Book a Class Time | Vishweshwara Sanskrit',
@@ -27,7 +27,7 @@ export const PAGE_META: Record<string, { title: string; description: string; ima
   },
   '/testimonials': {
     title: 'Student Testimonials | Vishweshwara Sanskrit',
-    description: 'Read what students from India, USA, Australia, UAE, UK and more say about learning Sanskrit and Vedanta with Acharya Vishweshwara N M.',
+    description: 'Read what students from India, USA, Australia, UAE, UK and more say about learning Sanskrit and Vedanta with Acharya Vishweshwara M.',
   },
   '/begin': {
     title: 'Book a Free Sanskrit Class Consultation | Vishweshwara Sanskrit',
@@ -43,11 +43,11 @@ export const PAGE_META: Record<string, { title: string; description: string; ima
   },
   '/one-on-one': {
     title: 'One-to-One Sanskrit Course, 18 Months | Vishweshwara Sanskrit',
-    description: 'Learn Sanskrit properly, one to one and live online: six stages from the first sound to the Laghu Siddhanta Kaumudi, with Gurukula-trained Acharya Vishweshwara N M.',
+    description: 'Learn Sanskrit properly, one to one and live online: six stages from the first sound to the Laghu Siddhanta Kaumudi, with Gurukula-trained Acharya Vishweshwara M.',
   },
   '/free-class': {
     title: 'Free Sanskrit Class for Children | Vishweshwara Sanskrit',
-    description: 'Register for a free live online Sanskrit class for children aged 8 to 14, in Kannada and English, with Acharya Vishweshwara N M.',
+    description: 'Register for a free live online Sanskrit class for children aged 8 to 14, in Kannada and English, with Acharya Vishweshwara M.',
   },
   '/aksharam': {
     title: 'Aksharam IME: Sanskrit & Kannada Keyboard for Mac | Vishweshwara Sanskrit',

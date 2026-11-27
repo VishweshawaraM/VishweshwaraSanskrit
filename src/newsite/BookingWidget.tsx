@@ -59,26 +59,31 @@ export const BookingWidget: React.FC = () => {
     });
   };
   const [agree, setAgree] = useState(false);
+  const [parentOk, setParentOk] = useState(false);
+  // A learner under 18 (or with no age given) is treated as a child: a parent or guardian must give consent (DPDP Act, s.9).
+  const ageNum = parseInt(form.age, 10);
+  const isChild = !/adult/i.test(form.age) && (isNaN(ageNum) || ageNum < 18);
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setForm(f => ({ ...f, [k]: e.target.value }));
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (picked.length !== PER_WEEK) { setNote(`Choose ${PER_WEEK} class times above, on two different days.`); return; }
     if (!agree) { setNote('Please read and accept the class terms.'); return; }
-    if (!form.learner.trim() || !form.whatsapp.trim()) { setNote("Please add the learner's name and a WhatsApp number."); return; }
+    if (!form.learner.trim() || !form.whatsapp.trim() || !form.age.trim()) { setNote("Please add the learner's first name, age and a WhatsApp number."); return; }
+    if (isChild && (!form.parent.trim() || !parentOk)) { setNote('For a learner under 18, please add the parent’s or guardian’s name and tick the consent box.'); return; }
     setNote(''); setState('sending');
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown';
     try {
       if (demo) { await new Promise(r => setTimeout(r, 600)); setState('done'); return; }
       if (!offline) await requestBooking({
-        learner: form.learner.trim().slice(0, 80), age: form.age.trim().slice(0, 20), level: form.level, subject: form.subject,
+        learner: form.learner.trim().slice(0, 40), age: form.age.trim().slice(0, 20), level: form.level, subject: form.subject,
         parent: form.parent.trim().slice(0, 80), whatsapp: form.whatsapp.trim().slice(0, 30), email: form.email.trim().slice(0, 120),
         note: form.note.trim().slice(0, 600), timezone: tz.slice(0, 60), slotIds: picked, startMonth: startDate.slice(0, 7), startDate,
       });
       const times = pickedSlots.map(s => `${DAYS[s.day]} ${fmt12(s.start)}–${fmt12(s.end)} IST`).join(', ');
       sendNotificationEmail({
         name: form.learner, email: form.email, phone: form.whatsapp, subject: `New class booking request: ${form.subject}`, timezone: tz,
-        background: `Age ${form.age || '—'} · ${form.level}${form.parent ? ' · Parent: ' + form.parent : ''}`,
+        background: `Age ${form.age || '—'} · ${form.level}${form.parent ? ' · Parent: ' + form.parent : ''}${isChild ? ' · Parent/guardian consent given' : ''}`,
         message: `Times: ${times}\nStarting: ${prettyDate(startDate)} (${count} classes in ${monthName(startDate)})\n${form.note}\n\nConfirm or decline in Admin → Class slots.`,
       }).catch(() => {});
       track('reserve');
@@ -154,16 +159,18 @@ export const BookingWidget: React.FC = () => {
         <div className="bk-form">
           <p className="eb">Step 3</p><h3>About the learner</h3>
           <div className="bk-fields">
-            <label>Learner's name<input value={form.learner} onChange={set('learner')} required maxLength={80} autoComplete="name" /></label>
-            <label>Age<input value={form.age} onChange={set('age')} inputMode="numeric" maxLength={20} placeholder="e.g. 9 or Adult" /></label>
+            <label>Learner's first name<input value={form.learner} onChange={set('learner')} required maxLength={40} autoComplete="given-name" /></label>
+            <label>Age<input value={form.age} onChange={set('age')} required maxLength={20} placeholder="e.g. 9 or Adult" /></label>
             <label>Subject<select value={form.subject} onChange={set('subject')}>{['Sanskrit', 'Bhagavad Gita', 'Veda chanting', 'Advaita Vedanta', 'Stotras'].map(o => <option key={o}>{o}</option>)}</select></label>
             <label>Level<select value={form.level} onChange={set('level')}>{['Complete beginner', 'Knows some letters', 'Reads Devanagari', 'Advanced'].map(o => <option key={o}>{o}</option>)}</select></label>
-            <label>Parent's name <small>(for children)</small><input value={form.parent} onChange={set('parent')} maxLength={80} /></label>
+            <label>Parent or guardian's name <small>{isChild ? '(required under 18)' : '(for children)'}</small><input value={form.parent} onChange={set('parent')} required={isChild} maxLength={80} autoComplete="name" /></label>
             <label>WhatsApp number<input value={form.whatsapp} onChange={set('whatsapp')} required inputMode="tel" maxLength={30} autoComplete="tel" placeholder="+91 …" /></label>
             <label className="bk-wide">Email <small>(optional)</small><input type="email" value={form.email} onChange={set('email')} maxLength={120} autoComplete="email" /></label>
             <label className="bk-wide">Anything the Acharya should know? <small>(optional)</small><textarea value={form.note} onChange={set('note')} maxLength={600} rows={3} /></label>
           </div>
           {note && <p className="bk-err" role="alert">{note}</p>}
+          <p className="bk-small">Before you send: the <a href="/privacy" target="_blank" rel="noopener">Privacy Notice</a> explains what these details are used for, how long they are kept and how to have them deleted.</p>
+          {isChild && <label className="bk-agree"><input type="checkbox" checked={parentOk} onChange={e => setParentOk(e.target.checked)} /> <span>I am this learner’s parent or legal guardian. I agree to the details above being used to arrange and teach the classes, as described in the <a href="/privacy" target="_blank" rel="noopener">Privacy Notice</a>. I can withdraw this consent at any time.</span></label>}
           <label className="bk-agree"><input type="checkbox" checked={agree} onChange={e => setAgree(e.target.checked)} /> <span>I have read the <a href="#terms">class terms</a>: Guru Dakshina, refunds, missed classes and stopping.</span></label>
           {state === 'failed' && <p className="bk-err" role="alert">One of these times was just taken, or the request did not go through. Please choose again, or <a href={WA} target="_blank" rel="noopener">message the Acharya</a>.</p>}
           <button className="btn btn-k bk-submit" disabled={state === 'sending'}>{state === 'sending' ? 'Reserving…' : picked.length === PER_WEEK ? 'Reserve my 2 class times' : `Choose ${PER_WEEK - picked.length} more ${PER_WEEK - picked.length === 1 ? 'time' : 'times'}`}</button>

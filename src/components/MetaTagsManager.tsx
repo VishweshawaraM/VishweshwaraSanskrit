@@ -52,7 +52,7 @@ export function MetaTagsManager() {
       ? PAGE_META[pathname]
       : {
           title: 'Page not found | Vishweshwara Sanskrit',
-          description: 'This page could not be found. Explore Sanskrit, Bhagavad Gita and Vedic courses with Acharya Vishweshwara N M.',
+          description: 'This page could not be found. Explore Sanskrit, Bhagavad Gita and Vedic courses with Acharya Vishweshwara M.',
         };
     const currentUrl = `${APP_URL}${pathname}`;
     const defaultImage = 'https://vishweshwarasanskrit.com/og-image.jpg';
