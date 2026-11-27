@@ -488,8 +488,11 @@ td small{display:block;color:var(--stone);font-size:13px}
 .stage .step{background:linear-gradient(180deg,rgba(245,240,230,.06),rgba(245,240,230,.02));border-radius:28px;padding:32px 28px 36px;box-shadow:inset 0 0 0 1px rgba(245,240,230,.10),0 24px 60px -30px rgba(0,0,0,.6)}
 .stage .step.on{box-shadow:inset 0 0 0 1px rgba(224,138,74,.45),0 24px 60px -30px rgba(0,0,0,.6)}
 .av{position:relative;color:#fff}
+.av-empty{background:#D9D2C5!important;overflow:visible}
+.av-empty>svg:first-child{border-radius:50%;display:block}
 .gbadge{position:absolute;right:-4px;bottom:-4px;width:20px;height:20px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.25)}
-.review figcaption b svg{vertical-align:-2px;margin-left:6px;border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
+.review figcaption b{display:flex;align-items:center;gap:8px;white-space:nowrap}
+.review figcaption b svg{flex:none;border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
 .deck-stage{perspective:1600px;transform-style:preserve-3d}
 .approach-word{font-size:clamp(64px,8vw,128px);line-height:1.1;color:var(--kesari);margin:8px 0 12px}
 .approach-cap{color:var(--stone);max-width:320px;margin:0}
