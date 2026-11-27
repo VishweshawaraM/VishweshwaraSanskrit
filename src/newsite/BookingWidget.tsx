@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { watchSlots, demoSlots, requestBooking, classesInMonth, fmt12, localLabel, DAYS, DAYS_SHORT, Slot } from '../lib/slots';
 import { sendNotificationEmail } from '../lib/emailjs';
 
-const MAX = 3;
+const PER_WEEK = 2; // classes are twice a week, on two different days
 const WA = 'https://wa.me/919482698612';
 const pad = (n: number) => String(n).padStart(2, '0');
 const isoOf = (d: Date) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
@@ -44,15 +44,22 @@ export const BookingWidget: React.FC = () => {
   const pickedSlots = (slots || []).filter(s => picked.includes(s.id));
   const { count, dates } = classesInMonth(pickedSlots, startDate);
 
+  const dayTaken = (s: Slot) => !picked.includes(s.id) && (slots || []).some(x => picked.includes(x.id) && x.day === s.day);
   const toggle = (s: Slot) => {
     if (statusOf(s) !== 'open') return;
-    setPicked(p => p.includes(s.id) ? p.filter(x => x !== s.id) : p.length >= MAX ? p : [...p, s.id]);
+    setPicked(p => {
+      if (p.includes(s.id)) return p.filter(x => x !== s.id);
+      const rest = p.filter(id => (slots || []).find(x => x.id === id)?.day !== s.day); // one class a day: swap within the same day
+      return rest.length >= PER_WEEK ? rest : [...rest, s.id];
+    });
   };
+  const [agree, setAgree] = useState(false);
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setForm(f => ({ ...f, [k]: e.target.value }));
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!picked.length) { setNote('Choose at least one class time above.'); return; }
+    if (picked.length !== PER_WEEK) { setNote(`Choose ${PER_WEEK} class times above, on two different days.`); return; }
+    if (!agree) { setNote('Please read and accept the class terms.'); return; }
     if (!form.learner.trim() || !form.whatsapp.trim()) { setNote("Please add the learner's name and a WhatsApp number."); return; }
     setNote(''); setState('sending');
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown';
@@ -101,7 +108,7 @@ export const BookingWidget: React.FC = () => {
   return (
     <form className="bk" onSubmit={submit} noValidate>
       <div className="bk-head">
-        <div><p className="eb">Step 1</p><h3>Choose your weekly class times</h3><p className="bk-sub">Times are in India time (IST). Pick up to {MAX} a week. Each class is 60 minutes, live, one to one.</p></div>
+        <div><p className="eb">Step 1</p><h3>Choose your weekly class times</h3><p className="bk-sub">Classes are twice a week: choose 2 times on two different days. Times are in India time (IST); each class is 60 minutes, live, one to one.</p></div>
         <ul className="bk-legend" aria-label="Legend">
           <li><i className="lg-open" />Available</li><li><i className="lg-pick" />Your choice</li><li><i className="lg-held" />Reserved</li><li><i className="lg-booked" />Booked</li>
         </ul>
@@ -115,7 +122,7 @@ export const BookingWidget: React.FC = () => {
             {list.map(s => {
               const v = statusOf(s); const on = picked.includes(s.id); const loc = localLabel(s.day, s.start);
               return (
-                <button type="button" key={s.id} className={`bk-seat is-${v}${on ? ' is-picked' : ''}`} disabled={v !== 'open'} aria-pressed={on} onClick={() => toggle(s)}
+                <button type="button" key={s.id} className={`bk-seat is-${v}${on ? ' is-picked' : ''}${v === 'open' && !on && dayTaken(s) ? ' is-sameday' : ''}`} disabled={v !== 'open'} aria-pressed={on} onClick={() => toggle(s)}
                   aria-label={`${DAYS[s.day]} ${fmt12(s.start)} to ${fmt12(s.end)} IST, ${on ? 'selected' : label[v]}`}>
                   <span className="bk-time">{fmt12(s.start)}</span>
                   <span className="bk-state">{on ? 'Selected' : label[v]}</span>
@@ -124,7 +131,7 @@ export const BookingWidget: React.FC = () => {
             })}
           </div>))}
       </div>
-      {picked.length >= MAX && <p className="bk-hint">You have chosen {MAX} times a week, the most for one learner.</p>}
+      <p className="bk-hint" aria-live="polite">{picked.length === 0 ? 'Choose your first class time.' : picked.length === 1 ? 'Now choose your second class time, on a different day.' : 'Two classes a week chosen. Tap another time to change.'}</p>
 
       <div className="bk-two">
         <div className="bk-sum">
@@ -154,8 +161,9 @@ export const BookingWidget: React.FC = () => {
             <label className="bk-wide">Anything the Acharya should know? <small>(optional)</small><textarea value={form.note} onChange={set('note')} maxLength={600} rows={3} /></label>
           </div>
           {note && <p className="bk-err" role="alert">{note}</p>}
+          <label className="bk-agree"><input type="checkbox" checked={agree} onChange={e => setAgree(e.target.checked)} /> <span>I have read the <a href="#terms">class terms</a>: Guru Dakshina, refunds, missed classes and stopping.</span></label>
           {state === 'failed' && <p className="bk-err" role="alert">One of these times was just taken, or the request did not go through. Please choose again, or <a href={WA} target="_blank" rel="noopener">message the Acharya</a>.</p>}
-          <button className="btn btn-k bk-submit" disabled={state === 'sending'}>{state === 'sending' ? 'Reserving…' : `Reserve ${picked.length || ''} ${picked.length === 1 ? 'time' : 'times'}`.replace('  ', ' ')}</button>
+          <button className="btn btn-k bk-submit" disabled={state === 'sending'}>{state === 'sending' ? 'Reserving…' : picked.length === PER_WEEK ? 'Reserve my 2 class times' : `Choose ${PER_WEEK - picked.length} more ${PER_WEEK - picked.length === 1 ? 'time' : 'times'}`}</button>
           <p className="bk-small">Your details go only to the Acharya. Nothing is charged now.</p>
         </div>
       </div>

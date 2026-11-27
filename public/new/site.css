@@ -613,6 +613,14 @@ td small{display:block;color:var(--stone);font-size:13px}
   .bk-loading{grid-template-columns:1fr 1fr}.bk-loading span{height:120px}
 }
 
+
+.bk-seat.is-sameday{opacity:.55}
+.bk-seat.is-sameday .bk-state::after{content:" · swap"}
+.bk-agree{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--soft);margin:0 0 16px;cursor:pointer}
+.bk-agree input{width:20px;height:20px;accent-color:var(--kesari);flex:none;margin-top:1px}
+.bk-agree a{color:var(--kesari);font-weight:600}
+.bk-hint{margin:-24px 0 0;color:var(--kesari);font-size:14px;font-weight:600}
+
 /* footer */
 footer .wrap.foot-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1.6fr 1fr;gap:40px;padding-top:80px;padding-bottom:40px}
 .foot-grid h4{font-family:var(--head);color:var(--ivory);font-size:15px;margin:0 0 16px;letter-spacing:.02em}
