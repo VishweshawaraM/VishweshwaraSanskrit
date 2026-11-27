@@ -51,8 +51,9 @@ if(!reduce){$$('.rv-grid').forEach(g=>{const cards=[...g.children];if(cards.leng
   const pin=document.createElement('div');pin.className='deck-pin';const stage=document.createElement('div');stage.className='deck-stage';
   const count=document.createElement('div');count.className='deck-count';
   cards.forEach(c=>{c.classList.add('in');stage.appendChild(c)});pin.appendChild(stage);pin.appendChild(count);deck.appendChild(pin);g.replaceWith(deck);
-  decks.push({deck,cards,count});});}
-function deckFrame(vh){decks.forEach(({deck,cards,count})=>{const r=deck.getBoundingClientRect();const n=cards.length;
+  const fit=()=>{stage.style.height='';const h=Math.max(...cards.map(c=>c.scrollHeight));if(h>stage.clientHeight)stage.style.height=h+'px';};fit();on(window,'resize',fit);if(document.fonts)document.fonts.ready.then(fit);
+  decks.push({deck,cards,count,stage});});}
+function deckFrame(vh){decks.forEach(({deck,cards,count,stage})=>{const need=Math.max(...cards.map(c=>c.scrollHeight));if(need>stage.clientHeight+1)stage.style.height=need+'px';const r=deck.getBoundingClientRect();const n=cards.length;
   const t=Math.min(1,Math.max(0,-r.top/(r.height-vh)));const f=t*(n-1);
   cards.forEach((c,i)=>{const d=i-f,ad=Math.abs(d);
     /* rotating carousel: cards turn on a wheel, the next arrives from the right, the last leaves to the left */
