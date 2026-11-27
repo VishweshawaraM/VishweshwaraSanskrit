@@ -628,6 +628,9 @@ td small{display:block;color:var(--stone);font-size:13px}
 .announce span:nth-child(2){overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 @keyframes annIn{from{opacity:0;transform:translate(-50%,-8px)}to{opacity:1;transform:translate(-50%,0)}}
 @media (max-width:640px){.announce{top:80px;font-size:13px;padding:8px 14px}}
+/* method step titles always fit their card */
+.step{container-type:inline-size}
+.step h3{font-size:min(clamp(36px,3.6vw,56px),18cqi);overflow-wrap:anywhere;max-width:100%}
 /* footer */
 footer .wrap.foot-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1.6fr 1fr;gap:40px;padding-top:80px;padding-bottom:40px}
 .foot-grid h4{font-family:var(--head);color:var(--ivory);font-size:15px;margin:0 0 16px;letter-spacing:.02em}
