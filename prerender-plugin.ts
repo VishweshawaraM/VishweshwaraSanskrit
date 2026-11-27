@@ -150,6 +150,11 @@ const ROUTES: Route[] = [
     ],
   },
   {
+    path: '/book', file: 'book.html',
+    h1: 'Book a one-to-one class time',
+    body: () => `<p>${esc(PAGE_META['/book'].description)}</p>`,
+  },
+  {
     path: '/courses', file: 'courses.html',
     h1: 'Courses: Sanskrit, Bhagavad Gita & Vedic Studies',
     body: () => `<p>${esc(PAGE_META['/courses'].description)}</p>` + subjects(),

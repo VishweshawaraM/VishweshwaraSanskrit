@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { ArrowLeft, RefreshCw, FileSpreadsheet, Mail, Calendar, FileText, Loader2, TrendingUp, Download, Trash2, Activity, Shield, Users } from 'lucide-react';
 import { PageView } from '../types';
+import { SlotsAdmin } from './SlotsAdmin';
 import { Button } from '../components/Button';
 import { getLeads, Lead, deleteLead, getAdminLogs, AdminLog, auth } from '../lib/firebase';
 import { signOut } from 'firebase/auth';
@@ -11,7 +12,7 @@ interface AdminViewProps {
 }
 
 export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
-  const [activeTab, setActiveTab] = useState<'inquiries' | 'activity'>('inquiries');
+  const [activeTab, setActiveTab] = useState<'inquiries' | 'activity' | 'slots'>('slots');
   const [leads, setLeads] = useState<Lead[]>([]);
   const [adminLogs, setAdminLogs] = useState<AdminLog[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -238,7 +239,14 @@ export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
         </div>
       </div>
 
-      <div className="flex items-center gap-2 border-b border-gold-dim/30">
+      <div className="flex items-center gap-2 border-b border-gold-dim/30 overflow-x-auto">
+        <button
+          onClick={() => setActiveTab('slots')}
+          className={`px-4 py-3 font-mono tracking-widest text-xs uppercase flex items-center gap-2 border-b-2 transition-colors ${activeTab === 'slots' ? 'border-gold-base text-gold-base' : 'border-transparent text-text-secondary hover:text-text-primary'}`}
+        >
+          <Calendar className="w-4 h-4" />
+          Class slots
+        </button>
         <button
           onClick={() => setActiveTab('inquiries')}
           className={`px-4 py-3 font-mono tracking-widest text-xs uppercase flex items-center gap-2 border-b-2 transition-colors ${activeTab === 'inquiries' ? 'border-gold-base text-gold-base' : 'border-transparent text-text-secondary hover:text-text-primary'}`}
@@ -254,6 +262,8 @@ export const AdminView: React.FC<AdminViewProps> = ({ onViewChange }) => {
           Activity Log
         </button>
       </div>
+
+      {activeTab === 'slots' && <SlotsAdmin />}
 
       {activeTab === 'inquiries' && (
         <>

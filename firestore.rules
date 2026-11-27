@@ -35,6 +35,53 @@ service cloud.firestore {
       allow update, delete: if false;
     }
 
+    // ── Class slots (public booking page) ────────────────────────────
+    // Weekly times: everyone can see day/time/status (no student names here).
+    match /slots/{slotId} {
+      allow read: if true;
+      allow write: if isAcharya();
+    }
+    // Who sits in a booked slot: Acharya only.
+    match /slotNotes/{slotId} {
+      allow read, write: if isAcharya();
+    }
+    // A "Reserved" marker. Anyone may place one on an OPEN slot that is not
+    // already held (a second create on the same id is an update and is refused),
+    // and only together with its booking request in the same batch.
+    match /holds/{slotId} {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasOnly(['booking', 'createdAt'])
+        && request.resource.data.booking is string
+        && request.resource.data.booking.size() < 40
+        && request.resource.data.createdAt == request.time
+        && exists(/databases/$(database)/documents/slots/$(slotId))
+        && get(/databases/$(database)/documents/slots/$(slotId)).data.status == 'open'
+        && existsAfter(/databases/$(database)/documents/bookings/$(request.resource.data.booking));
+      allow update: if false;
+      allow delete: if isAcharya();
+    }
+    // Booking requests: anyone may create a pending request; only the Acharya reads or changes them.
+    match /bookings/{bookingId} {
+      function holdOk(i) {
+        let ids = request.resource.data.slotIds;
+        return ids.size() <= i
+          || (ids[i] is string
+              && getAfter(/databases/$(database)/documents/holds/$(ids[i])).data.booking == bookingId);
+      }
+      allow create: if request.resource.data.keys().hasOnly(['learner','age','level','subject','parent','whatsapp','email','note','timezone','slotIds','startMonth','startDate','status','createdAt'])
+        && request.resource.data.status == 'pending'
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.learner is string && request.resource.data.learner.size() > 0 && request.resource.data.learner.size() <= 80
+        && request.resource.data.whatsapp is string && request.resource.data.whatsapp.size() > 4 && request.resource.data.whatsapp.size() <= 30
+        && okStr('age', 20) && okStr('level', 40) && okStr('subject', 40) && okStr('parent', 80)
+        && okStr('email', 120) && okStr('note', 600) && okStr('timezone', 60)
+        && okStr('startMonth', 7) && okStr('startDate', 10)
+        && request.resource.data.slotIds is list
+        && request.resource.data.slotIds.size() >= 1 && request.resource.data.slotIds.size() <= 3
+        && holdOk(0) && holdOk(1) && holdOk(2);
+      allow read, update, delete: if isAcharya();
+    }
+
     // Everything else is closed.
     match /{document=**} {
       allow read, write: if false;

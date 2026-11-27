@@ -1,6 +1,8 @@
 import React, { useLayoutEffect as useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { initSite } from './site';
+import { createRoot, Root } from 'react-dom/client';
+import { BookingWidget } from './BookingWidget';
 import { transliterate, transliterateKannada } from '../lib/aksharam';
 
 // Page bodies generated from the approved design (scratchpad gen.py), one file per page.
@@ -57,6 +59,10 @@ export const NewPage: React.FC<{ name: string; pageId: string }> = ({ name, page
       }
     }
     const destroy = initSite(root);
+    // interactive React islands inside the static page
+    let bookRoot: Root | null = null;
+    const bookEl = root.querySelector('#book-app');
+    if (bookEl) { bookRoot = createRoot(bookEl); bookRoot.render(<BookingWidget />); }
 
     // Guru Dakshina: our own button opens Razorpay's payment window via a hidden official Razorpay button
     let rzpForm: HTMLFormElement | null = null;
@@ -144,6 +150,7 @@ export const NewPage: React.FC<{ name: string; pageId: string }> = ({ name, page
       root.removeEventListener('click', onPay, true);
       rzpForm?.remove();
       destroy();
+      const br = bookRoot; if (br) setTimeout(() => br.unmount(), 0);
       document.body.style.background = prevBg;
       clipped.forEach(([el, x, y]) => { el.style.overflowX = x; el.style.overflowY = y; });
     };

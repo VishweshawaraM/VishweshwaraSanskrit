@@ -17,7 +17,7 @@ import { NewPage } from './newsite/NewPage';
 import { useParams } from 'react-router-dom';
 
 // Pages that use the new light design (they carry their own header and footer).
-const NEW_DESIGN_PATHS = ['/', '/about', '/courses', '/samskara-pravesha', '/one-on-one', '/testimonials', '/dakshina', '/begin', '/aksharam'];
+const NEW_DESIGN_PATHS = ['/', '/about', '/courses', '/samskara-pravesha', '/one-on-one', '/testimonials', '/dakshina', '/begin', '/aksharam', '/book'];
 const NEW_COURSES = ['sanskrit', 'bhagavad-gita', 'krishna-yajurveda', 'advaita-vedanta', 'stotras'];
 const isNewDesign = (p: string) => NEW_DESIGN_PATHS.includes(p.replace(/\/$/, '') || '/') || NEW_COURSES.some(c => p.replace(/\/$/, '') === `/courses/${c}`);
 const NewCoursePage = () => {
@@ -140,6 +140,7 @@ const AppContent = () => {
                 <Route path="/aksharam/terms" element={<AksharamTermsView />} />
                 <Route path="/privacy" element={<PrivacyView />} />
                 <Route path="/begin" element={<NewPage name="begin" pageId="begin" />} />
+                <Route path="/book" element={<NewPage name="book" pageId="book" />} />
                 <Route path="/landing" element={<LandingView onViewChange={handleViewChange} />} />
                 <Route path="/admin" element={<ProtectedAdminRoute><AdminView onViewChange={handleViewChange} /></ProtectedAdminRoute>} />
                 <Route path="*" element={<NotFoundView />} />
